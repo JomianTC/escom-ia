@@ -1,0 +1,13 @@
+
+# compiled output
+/dist
+/node_modules
+
+# OS
+.DS_Store
+
+# environment variable files
+.env
+
+# api
+api.http

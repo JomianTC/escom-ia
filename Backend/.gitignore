@@ -11,3 +11,9 @@
 
 # api
 api.http
+
+# Testing
+coverage
+
+# Database
+mysql

@@ -1,39 +1,29 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity( "User" )
-export class User {
+@Entity( "Administrator" )
+export class Administrator {
 
 	@PrimaryGeneratedColumn( "uuid" )
 	id: string;
 
 	@Column()
-	nombres: string;
-	
-	@Column()
-	apellidos: string;
-	
-	@Column({ unique: true })
-	boleta: string;
+	nombre: string;
 
-	@Column()
-	contrasena: string;
-	
 	@Column({ unique: true })
-	email_academico: string; 
-	
+	email: string; 
+
 	@Column({ unique: true })
-	email_recuperacion: string;
+	identificador: string;
 	
 	@Column()
-	programa_academico: string;
+	area: string;
 	
 	@Column({ default: "" })
 	foto_perfil: string;
 
 	@BeforeInsert()
 	checkFieldsBeforeInsert() {
-		this.email_academico = this.email_academico.toLowerCase().trim();
-		this.email_recuperacion = this.email_recuperacion.toLowerCase().trim();
+		this.email = this.email.toLowerCase().trim();
 	}
 
 	@BeforeUpdate()

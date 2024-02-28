@@ -16,6 +16,10 @@ export class RegisterUserDto {
 	boleta: string;
 	
 	@IsString()
+	@MinLength( 8 )
+	contrasena: string;
+	
+	@IsString()
 	@IsEmail()
 	email_academico: string; 
 	

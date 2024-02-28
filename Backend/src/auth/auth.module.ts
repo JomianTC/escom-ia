@@ -3,9 +3,10 @@ import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { JwtModule } from "@nestjs/jwt";
 import { Module } from "@nestjs/common";
+import { Administrator } from "./entities/admin.entity";
 import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
 import { User } from "./entities/user.entity";
+import { AuthService } from "./auth.service";
 
 @Module({
 
@@ -18,6 +19,7 @@ import { User } from "./entities/user.entity";
 
 		// ? Importamos las ConfigModules para la BD
 		TypeOrmModule.forFeature([ User ]),
+		TypeOrmModule.forFeature([ Administrator ]),
 
 		// ? Importamos PassportModule para definir la estrategia de autenticación
 		PassportModule.register({ defaultStrategy: "jwt" }),

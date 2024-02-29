@@ -2,6 +2,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
 import { AuthModule } from "./auth/auth.module";
+import { UserModule } from './user/user.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
 	imports: [
@@ -25,6 +27,10 @@ import { AuthModule } from "./auth/auth.module";
 		}),
 
 		AuthModule,
+
+		UserModule,
+
+		CloudinaryModule,
 	],
 	controllers: [],
 	providers: [],

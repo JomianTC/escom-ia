@@ -6,8 +6,8 @@ import { LoginAdminDto } from "./dto/login-admin.dto";
 import { RegisterAdminDto } from "./dto/register-admin.dto";
 
 // ? Librerias para comprobar la vigencia de un Token
-// import { Get, UseGuards } from "@nestjs/common";
-// import { AuthGuard } from "./guards/auth.guard";
+import { Get, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "./guards/auth.guard";
 
 @Controller( "auth" )
 export class AuthController {
@@ -39,9 +39,9 @@ export class AuthController {
 	}
 
 	// ? Metodo para comprobar la vigencia de un Token
-	// @Get( "check-auth" )
-	// @UseGuards( AuthGuard )
-	// checkAuth() {
-	// 	return { message: "Autenticación de token correcta" }
-	// }
+	@Get( "check-auth" )
+	@UseGuards( AuthGuard )
+	checkAuth() {
+		return { message: "Autenticación de token correcta" }
+	}
 }

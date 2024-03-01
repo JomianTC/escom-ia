@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
 
 			request[ "email" ] = payload.email;
 			
-		} catch { throw new UnauthorizedException({ message: "Token expirado" }); }
+		} catch { throw new UnauthorizedException({ message: "Token no valido" }); }
 		
 		return true;
 	}

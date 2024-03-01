@@ -1,9 +1,9 @@
 import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
+import { CloudinaryModule } from "../cloudinary/cloudinary.module";
 import { UserController } from "./user.controller";
-import { AuthModule } from "src/auth/auth.module";
+import { AuthModule } from "../auth/auth.module";
 import { UserService } from "./user.service";
-import { CloudinaryModule } from "src/cloudinary/cloudinary.module";
 
 @Module({
 

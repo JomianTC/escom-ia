@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, Query, ParseUUIDPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Query, ParseUUIDPipe, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { PaginationDto } from "../common/dto/pagination.dto";
 import { CreateTeacherDto } from "./dto/create-teacher.dto";
 import { UpdateTeacherDto } from "./dto/update-teacher.dto";
@@ -36,5 +37,18 @@ export class TeacherController {
 	@UseGuards( AuthGuard )
 	remove( @Param( "id", ParseUUIDPipe ) id: string ) {
 		return this.teacherService.remove( id );
+	}
+
+	@Put( "profile-picture/:id" )
+	@UseGuards( AuthGuard )
+	@UseInterceptors( FileInterceptor( "file" ) )
+	async updateProfilePicture( @Param( "id", ParseUUIDPipe ) id: string, @UploadedFile() file: Express.Multer.File ) {
+		return this.teacherService.updateProfilePicture( id, file );
+	}
+	
+	@Delete( "profile-picture/:id" )
+	@UseGuards( AuthGuard )
+	async removeProfilePicture( @Param( "id", ParseUUIDPipe ) id: string ) {
+		return this.teacherService.removeProfilePicture( id );
 	}
 }

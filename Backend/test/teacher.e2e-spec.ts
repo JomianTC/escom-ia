@@ -9,9 +9,12 @@ describe( "Teacher Endpoints", () => {
 	
 	let app: INestApplication;
 	let token: string;
+	let correctImage: Buffer;
+	let wrongImage: Buffer;
 
 	const teacherID = "8b034d9b-15b9-4450-ae97-60b5aee7e2d5";
 	const noRegisterTeacherID = "8b034d9b-15b9-4450-ae97-60b5aee7e2d1";
+	const superSuFake = "2b87286c-03f8-482f-a5ed-433d6977a16b";
 	let teacherDeleteID: string;
 
 	beforeAll( async () => {
@@ -24,6 +27,9 @@ describe( "Teacher Endpoints", () => {
 
 		const data = fs.readFileSync( "./test/data/sample-jwt.json", "utf-8" );
 		token = await JSON.parse( data ).token;
+
+		correctImage = fs.readFileSync( "./test/data/profile-picture.jpg" );
+		wrongImage = fs.readFileSync( "./test/data/profile-picture-big.png" );
 	});
 
 	// * Success Create Teacher
@@ -76,6 +82,44 @@ describe( "Teacher Endpoints", () => {
 
 		expect( status ).toBe( 401 );
 		expect( body.message ).toBe( "Token no valido" );
+	});
+
+	test( "Should return email already register - Create Teacher", async() => {
+	
+		const newTeacher = {
+			nombre: "Jose Luis",
+			area: "Matematicas",
+			grado_academico: "Doctor",
+			email: "nosupersu@gmail.com",
+			contacto: "5512345678123"
+		}
+
+		const { status, body } = await request( app.getHttpServer() )
+		.post( "/teacher" )
+		.auth( token, { type: "bearer" } )
+		.send( newTeacher );
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "El email ya está registrado" );
+	});
+
+	test( "Should return contacto already register - Create Teacher", async() => {
+	
+		const newTeacher = {
+			nombre: "Jose Luis",
+			area: "Matematicas",
+			grado_academico: "Doctor",
+			email: "lapatata@gmail.com",
+			contacto: "5512345777"
+		}
+
+		const { status, body } = await request( app.getHttpServer() )
+		.post( "/teacher" )
+		.auth( token, { type: "bearer" } )
+		.send( newTeacher );
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "El contacto ya está registrado" );
 	});
 
 	// * Success Get Teachers
@@ -175,6 +219,44 @@ describe( "Teacher Endpoints", () => {
 	});
 
 	// ! Error Update Teacher
+
+	test( "Should return email already register - Update Teacher", async() => {
+	
+		const newTeacher = {
+			nombre: "Adrian Edgardo Franco",
+			area: "Sistemas computacionales",
+			grado_academico: "Doctor",
+			email: "nosupersu@gmail.com",
+			contacto: "55123457771"
+		}
+
+		const { status, body } = await request( app.getHttpServer() )
+			.put( "/teacher/" + teacherID )
+			.auth( token, { type: "bearer" } )
+			.send( newTeacher );
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "El email ya está registrado" );
+	});
+
+	test( "Should return contacto already register - Update Teacher", async() => {
+	
+		const newTeacher = {
+			nombre: "Adrian Edgardo Franco",
+			area: "Sistemas computacionales",
+			grado_academico: "Doctor",
+			email: "eafranco77769@gmail.com",
+			contacto: "6666666666"
+		}
+
+		const { status, body } = await request( app.getHttpServer() )
+			.put( "/teacher/" + teacherID )
+			.auth( token, { type: "bearer" } )
+			.send( newTeacher );
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "El contacto ya está registrado" );
+	});
 
 	test( "Should return a not valid ID error - Update Teacher", async() => {
 	
@@ -277,6 +359,153 @@ describe( "Teacher Endpoints", () => {
 
 		expect( status ).toBe( 401 );
 		expect( body.message ).toBe( "Token no valido" );
+	});
+
+	// * Success File Update & Delete
+
+	test( "Should return a successfull response - Update profile-picture", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.put( "/teacher/profile-picture/" + superSuFake )
+			.auth( token, { type: "bearer" } )
+			.attach( "file", correctImage, {
+				filename: "profile-picture.jpg",
+				contentType: "image/jpg",
+			});
+
+		expect( status ).toBe( 200 );
+		expect( body.message ).toBe( "Foto recibida correctamente" );
+		expect( body.foto_perfil ).toContain( "https://res.cloudinary.com/" );
+	});
+
+	test( "Should return a successfull response - Delete profile-picture", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.delete( "/teacher/profile-picture/" + superSuFake )
+			.auth( token, { type: "bearer" } );
+
+		expect( status ).toBe( 200 );
+		expect( body.message ).toBe( "Foto eliminada correctamente" );
+	});
+
+	// ! Fail File Update & Delete
+
+	test( "Should return a not valid ID error - Update profile-picture", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.delete( "/teacher/profile-picture/123" )
+			.auth( token, { type: "bearer" } )
+			.attach( "file", correctImage, {
+				filename: "profile-picture.jpg",
+				contentType: "image/jpg",
+			});
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "Validation failed (uuid is expected)" );
+	});
+
+	test( "Should return a not register professor error - Update profile-picture", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.put( "/teacher/profile-picture/" + noRegisterTeacherID )
+			.auth( token, { type: "bearer" } )
+			.attach( "file", correctImage, {
+				filename: "profile-picture.jpg",
+				contentType: "image/jpg",
+			});
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "Profesor no registrado" );
+	});
+
+	test( "Should return a not valid ID error - Delete profile-picture", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.delete( "/teacher/profile-picture/123" )
+			.auth( token, { type: "bearer" } )
+			.attach( "file", correctImage, {
+				filename: "profile-picture.jpg",
+				contentType: "image/jpg",
+			});
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "Validation failed (uuid is expected)" );
+	});
+
+	test( "Should return a not register professor error - Delete profile-picture", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.delete( "/teacher/profile-picture/" + noRegisterTeacherID )
+			.auth( token, { type: "bearer" } )
+			.attach( "file", correctImage, {
+				filename: "profile-picture.jpg",
+				contentType: "image/jpg",
+			});
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "Profesor no registrado" );
+	});
+
+	test( "Should return invalid token error - Update profile-picture", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+		.put( "/teacher/profile-picture/" + superSuFake )
+		.auth( "Token", { type: "bearer" } )
+		.attach( "file", correctImage, {
+			filename: "profile-picture.jpg",
+			contentType: "image/jpg",
+		});
+
+		expect( status ).toBe( 401 );
+		expect( body.message ).toBe( "Token no valido" );
+	});
+
+	test( "Should return invalid token error - Delete profile-picture", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+		.delete( "/teacher/profile-picture/" + superSuFake )
+		.auth( "Token", { type: "bearer" } );
+
+		expect( status ).toBe( 401 );
+		expect( body.message ).toBe( "Token no valido" );
+	});
+
+	test( "Should return missing file error", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+		.put( "/teacher/profile-picture/" + superSuFake )
+		.auth( token, { type: "bearer" } );
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "No se subio ningun archivo" );
+	});
+
+	test( "Should return wrong file format error", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+		.put( "/teacher/profile-picture/" + superSuFake )
+		.auth( token, { type: "bearer" } )
+		.attach( "file", correctImage, {
+			filename: "profile-picture.txt",
+			contentType: "text/plain",
+		});
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "Tipo de archivo no permitido" );
+	});
+
+	test( "Should return file size error", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+		.put( "/teacher/profile-picture/" + superSuFake )
+		.auth( token, { type: "bearer" } )
+		.attach( "file", wrongImage, {
+			filename: "profile-picture-big.jpg",
+			contentType: "image/jpg",
+		});
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "El archivo es mayor a 2MB" );
 	});
 
 	afterAll( async () => { await app.close(); });

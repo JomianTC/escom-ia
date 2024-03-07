@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { TeacherModule } from './teacher/teacher.module';
 import { ComentModule } from './coment/coment.module';
+import { TagModule } from './tag/tag.module';
 
 @Module({
 	imports: [
@@ -37,6 +38,8 @@ import { ComentModule } from './coment/coment.module';
 		TeacherModule,
 
 		ComentModule,
+
+		TagModule,
 	],
 	controllers: [],
 	providers: [],

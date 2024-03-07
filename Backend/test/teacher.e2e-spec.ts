@@ -315,8 +315,6 @@ describe( "Teacher Endpoints", () => {
 		expect( body.message ).toBe( "Token no valido" );
 	});
 
-	// TODO: Testing for email or contact duplicated
-
 	// * Success Delete Teacher
 
 	test( "Should delete a teacher", async() => {

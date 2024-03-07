@@ -22,12 +22,12 @@ describe( "Auth User Endpoints", () => {
 	test( "Should return a register User", async() => {
 
 		const registerUser = {
-			nombres: "Josehf Miguel Angel",
-			apellidos: "Torres Carrillo",
-			boleta: "2020630497",
+			nombres: "Miguel Angel",
+			apellidos: "Torres",
+			boleta: "2020630469",
 			contrasena: "Abcd1234+",
-			email_academico: "jtorresc1600@alumno.ipn.mx",
-			email_recuperacion: "jomiantoca2011@gmail.com",
+			email_academico: "jtorresc1669@alumno.ipn.mx",
+			email_recuperacion: "jomiantoca2069@gmail.com",
 			programa_academico: "ISC09"
 		};
 

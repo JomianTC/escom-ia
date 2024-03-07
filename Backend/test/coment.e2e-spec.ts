@@ -113,7 +113,7 @@ describe( "Coments Endpoints", () => {
 		});
 	});
 	
-	test( "Should return an array of Coments teachers with pagination 5", async() => {
+	test( "Should return an array of Coments with pagination 5", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
 			.get( "/coment?page=1&limit=5" );

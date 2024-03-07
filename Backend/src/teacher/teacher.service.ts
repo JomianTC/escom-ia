@@ -62,7 +62,7 @@ export class TeacherService {
 			});
 
 			if ( !teachersFound )
-			throw new BadRequestException({ message: "No hay profesores registrados" });
+				throw new BadRequestException({ message: "No hay profesores registrados" });
 		
 			const totalTeachers = await this.teacherRepository.count();
 				

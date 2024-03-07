@@ -14,6 +14,22 @@ export class UserService {
 		private readonly cloudinaryService: CloudinaryService
 	) {}
 
+	async findByEmail( email: string ) {
+		
+		try {
+
+			const userFound = await this.userRepository.findOne({ 
+				where: { email_academico: email }
+			});
+
+			if ( !userFound )
+				throw new BadRequestException({ message: "Usuario no encontrado" });
+
+			return userFound;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
 	async updateProfilePicture( email: string, file: Express.Multer.File ) {
 
 		try {

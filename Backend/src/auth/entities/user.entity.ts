@@ -1,4 +1,5 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Coment } from "../../coment/entities/coment.entity";
 
 @Entity( "User" )
 export class User {
@@ -29,6 +30,12 @@ export class User {
 	
 	@Column({ default: "" })
 	foto_perfil: string;
+
+	@OneToMany(
+		() => Coment,
+		coment => coment.id_usuario,
+	)
+	coments: Coment[];
 
 	@BeforeInsert()
 	checkFieldsBeforeInsert() {

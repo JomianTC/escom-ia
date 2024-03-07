@@ -1,4 +1,4 @@
-import { Controller, UseGuards, UseInterceptors, UploadedFile, Put, Delete } from "@nestjs/common";
+import { Controller, UseGuards, UseInterceptors, UploadedFile, Put, Delete, Get } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { GetTokenPayload } from "./decorators/get-token-payload.decorator";
 import { AuthGuard } from "../auth/guards/auth.guard";
@@ -10,6 +10,11 @@ export class UserController {
 	constructor( 
 		private readonly userService: UserService,
 	) { }
+
+	@Get()
+	async findByEmail( email: string ){
+		return this.userService.findByEmail( email );
+	}
 
 	@Put( "update/profile-picture" )
 	@UseGuards( AuthGuard )

@@ -5,6 +5,7 @@ import { AuthModule } from "./auth/auth.module";
 import { UserModule } from './user/user.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { TeacherModule } from './teacher/teacher.module';
+import { ComentModule } from './coment/coment.module';
 
 @Module({
 	imports: [
@@ -34,6 +35,8 @@ import { TeacherModule } from './teacher/teacher.module';
 		CloudinaryModule,
 
 		TeacherModule,
+
+		ComentModule,
 	],
 	controllers: [],
 	providers: [],

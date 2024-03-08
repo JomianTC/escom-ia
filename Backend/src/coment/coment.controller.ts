@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards, Query, ParseUUIDPipe, Put } from "@nestjs/common";
 import { GetTokenPayload } from "../user/decorators/get-token-payload.decorator";
+import { TagComentService } from '../tag_coment/tag_coment.service';
 import { PaginationDto } from "../common/dto/pagination.dto";
 import { TeacherService } from "../teacher/teacher.service";
 import { CreateComentDto } from "./dto/create-coment.dto";
@@ -14,7 +15,8 @@ export class ComentController {
 	constructor( 
 		private readonly comentService: ComentService,
 		private readonly userService: UserService,
-		private readonly teacherService: TeacherService
+		private readonly teacherService: TeacherService,
+		private readonly tagComentService: TagComentService,
 	){}
 
 	@Post()
@@ -24,23 +26,62 @@ export class ComentController {
 		const user = await this.userService.findByEmail( email );
 		await this.teacherService.findOne( createComentDto.id_profesor );
 		
-		this.comentService.create( user, createComentDto );
-		
-		// const comentID = this.comentService.create( user, createComentDto );
-		// TODO: Crear Comentario_Tags
+		const coment = await this.comentService.create( user, createComentDto );
+		await this.tagComentService.create({ tags_id: createComentDto.tags, coment });
 
 		return { message: "Comentario creado con éxito" };
 	}
 
-	@Get()
-	async findAll( @Query() paginationDto: PaginationDto ) {
-		
-		const { coments, total } = await this.comentService.findAll( paginationDto );
-		
-		// TODO: Obtener Comentario_Tags
-		// ? Verificar si unicamente con el eager de la entidad Coment es suficiente
+	@Get( ":id" )
+	async findOne( @Param( "id", ParseUUIDPipe ) id: string ) {
 
-		return { coments, total /*, tags */ }
+		const coment = await this.comentService.findOne( id );
+		const tags = await this.tagComentService.findStack( coment );
+
+		return {
+			comentario: {
+				puntuacion: coment.puntuacion,
+				comentario: coment.comentario,
+				fecha: coment.fecha
+			},
+			usuario: {
+				nombres: coment.id_usuario.nombres,
+				apellidos: coment.id_usuario.apellidos,
+				foto_perfil: coment.id_usuario.foto_perfil
+			},
+			tags
+		}
+	}
+
+	@Get( "teacher/:id" )
+	async findAllByTeacher( 
+		@Param( "id", ParseUUIDPipe ) id: string,
+		@Query() paginationDto: PaginationDto
+	){
+
+		await this.teacherService.findOne( id );
+		const { comentsFound, total } = await this.comentService.findAll( id, paginationDto );
+
+		const coments = await Promise.all( comentsFound.map( async coment => {
+			
+			const tags = await this.tagComentService.findStack( coment );
+			
+			return {
+				comentario: {
+					puntuacion: coment.puntuacion,
+					comentario: coment.comentario,
+					fecha: coment.fecha
+				},
+				usuario: {
+					nombres: coment.id_usuario.nombres,
+					apellidos: coment.id_usuario.apellidos,
+					foto_perfil: coment.id_usuario.foto_perfil
+				},
+				tags
+			}
+		}));
+
+		return { comentarios: coments, total }
 	}
 
 	@Put(":id")
@@ -54,13 +95,23 @@ export class ComentController {
 		await this.userService.findByEmail( email );
 		await this.comentService.update( id, updateComentDto );
 
-		// TODO: Actualizar Comentario_Tags
-		// ? Se tendran que eliminar TODOS los tags anteriores y crear los nuevos
+		const coment = await this.comentService.findOne( id );
+		const tags = await this.tagComentService.update({ tags_id: updateComentDto.tags, coment });
 
-		return { 
+		return {
 			message: "Comentario actualizado con éxito",
-			comentario: await this.comentService.findOne( id )
-		};
+			comentario: {
+				puntuacion: coment.puntuacion,
+				comentario: coment.comentario,
+				fecha: coment.fecha
+			},
+			usuario: {
+				nombres: coment.id_usuario.nombres,
+				apellidos: coment.id_usuario.apellidos,
+				foto_perfil: coment.id_usuario.foto_perfil
+			},
+			tags
+		}
 	}
 
 	@Delete( ":id" )
@@ -68,10 +119,6 @@ export class ComentController {
 	async remove( @GetTokenPayload() email: string , @Param( "id", ParseUUIDPipe ) id: string ) {
 
 		const user = await this.userService.findByEmail( email );
-		
-		// TODO: Eliminar Comentario_Tags
-		// ? Verificar si funciona el Delete on cascade desde la entidad
-
 		return this.comentService.remove( id, user );
 	}
 }

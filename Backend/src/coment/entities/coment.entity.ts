@@ -1,5 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../../auth/entities/user.entity";
+import { TagComent } from "../../tag_coment/entities/tag_coment.entity";
+import { on } from "events";
 
 @Entity( "Coment" )
 export class Coment {
@@ -25,4 +27,11 @@ export class Coment {
 		{ eager: true }
 	)
 	id_usuario: User;
+
+	@OneToMany(
+		() => TagComent,
+		tagComent => tagComent.id,
+	)
+	tagComent: TagComent[];
+	
 }

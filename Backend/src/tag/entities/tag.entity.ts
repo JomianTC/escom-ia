@@ -1,4 +1,5 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { TagComent } from "../../tag_coment/entities/tag_coment.entity";
 
 @Entity( "tag" )
 export class Tag {
@@ -8,6 +9,12 @@ export class Tag {
 
 	@Column()
 	nombre: string
+
+	@OneToMany(
+		() => TagComent,
+		tagComent => tagComent.id,
+	)
+	tagComent: TagComent[]
 
 	@BeforeInsert()
 	checkFieldsBeforeInsert() {

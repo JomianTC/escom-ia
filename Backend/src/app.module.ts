@@ -7,6 +7,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { TeacherModule } from './teacher/teacher.module';
 import { ComentModule } from './coment/coment.module';
 import { TagModule } from './tag/tag.module';
+import { TagComentModule } from './tag_coment/tag_coment.module';
 
 @Module({
 	imports: [
@@ -40,6 +41,8 @@ import { TagModule } from './tag/tag.module';
 		ComentModule,
 
 		TagModule,
+
+		TagComentModule,
 	],
 	controllers: [],
 	providers: [],

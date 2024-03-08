@@ -1,4 +1,4 @@
-import { IsNumber, IsString, Max, Min } from "class-validator";
+import { IsNumber, IsString, Max, Min, IsArray } from "class-validator";
 
 export class CreateComentDto {
 
@@ -12,4 +12,7 @@ export class CreateComentDto {
 
 	@IsString()
 	comentario: string;
+
+	@IsArray()
+	tags: string[];
 }

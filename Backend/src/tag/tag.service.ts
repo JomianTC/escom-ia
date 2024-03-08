@@ -52,6 +52,25 @@ export class TagService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
+	async findStack( ids: string[] ) {
+		try {
+
+			const newArrayTags = ids.map( async ( id ) => {
+				
+				const tag = await this.tagRepository.findOneBy({ id });
+	
+				if ( !tag )
+					throw new BadRequestException({ message: "El Tag no existe" });
+
+				return tag;
+			})
+
+			const tags = await Promise.all( newArrayTags );
+
+			return tags;
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
 	async update( id: string, updateTagDto: UpdateTagDto ) {
 
 		const { nombre } = updateTagDto;

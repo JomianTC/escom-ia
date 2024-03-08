@@ -28,45 +28,30 @@ export class ComentService {
 
 			await this.comentRepository.save( coment );
 			
-			return coment.id;
+			return coment;
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
-	async findAll( paginationDto: PaginationDto ) {
+	async findAll( id: string, paginationDto: PaginationDto ) {
 
 		const { limit = 10, page = 1 } = paginationDto;
 
 		try {
 
 			const comentsFound = await this.comentRepository.find({
+				where: { id_profesor: id },
 				skip: ( page - 1 ) * limit,
 				take: limit
 			});
 
 			if ( !comentsFound ) throw new BadRequestException({ message: "No hay comentarios" });
-
-			const coments = comentsFound.map( coment => {
-				const { id, puntuacion, comentario, fecha, id_usuario } = coment;
-				const { nombres, apellidos, foto_perfil } = id_usuario;
-				return {
-					comentario: {
-						id,
-						puntuacion,
-						comentario,
-						fecha
-					},
-					usuario: {
-						nombres,
-						apellidos,
-						foto_perfil
-					}
-				}
-			});
 			
-			const total = await this.comentRepository.count();
+			const total = await this.comentRepository.createQueryBuilder( "coment" )
+			.where( "coment.id_profesor = :id", { id })
+			.getCount();
 
-			return { coments, total };
+			return { comentsFound, total };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -80,25 +65,14 @@ export class ComentService {
 			if ( !comentFound ) 
 				throw new BadRequestException({ message: "El comentario no existe" });
 
-			return {
-				comentario: {
-					puntuacion: comentFound.puntuacion,
-					comentario: comentFound.comentario,
-					fecha: comentFound.fecha
-				},
-				usuario: {
-					nombres: comentFound.id_usuario.nombres,
-					apellidos: comentFound.id_usuario.apellidos,
-					foto_perfil: comentFound.id_usuario.foto_perfil
-				}
-			}
+			return comentFound;
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
 	async update( id: string, updateComentDto: UpdateComentDto ) {
 
-		const { id_profesor = "", ...comentData } = updateComentDto;
+		const { id_profesor = "", tags, ...comentData } = updateComentDto;
 
 		try {
 

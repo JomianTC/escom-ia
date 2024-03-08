@@ -5,7 +5,7 @@ import * as fs from "fs";
 
 import { AppModule } from "../src/app.module";
 
-describe( "Coments Endpoints", () => {
+describe( "Tag Endpoints", () => {
 	
 	let app: INestApplication;
 	let token: string;

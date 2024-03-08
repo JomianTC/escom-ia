@@ -11,19 +11,28 @@ describe( "Coments Endpoints", () => {
 	let token: string;
 	let badToken: string;
 
-	const teacherID = "8b034d9b-15b9-4450-ae97-60b5aee7e2d5";
+	const teacherID = "2b87286c-03f8-482f-a5ed-433d6977a16b";
 	const noRegisterTeacherID = "8b034d9b-15b9-4450-ae97-60b5aee7e2d1";
 
 	const comentID = "aa21da2b-4f08-4f9c-bba8-0e8a12468911";
 	const noRegisteredComentID = "0c844674-e766-407e-b317-aaf2d7d6c1ca";
 
-	let comentDeleteID: string = "";
+	const comentWithTags = "b0d1e548-ce8f-4cc9-8cbd-58d95bbe88e8";
+	const comentWithoutTags = "34b2caf3-26bc-428d-9af4-1807ff17c913";
+
+	let comentDeleteID = "a68ae928-8728-4dc3-8dbd-8166ad6b76ed";
 	let noPermisionComentDelete = "401bec16-bef2-42a7-a1e8-7da21aca3a44";
 
 	const coment ={
 		id_profesor: teacherID,
 		puntuacion: 3,
-		comentario: "Comentario para el profesor SuperSu"
+		comentario: "Comentario para el profesor SuperSu",
+		tags: [
+			"012dc328-86bc-400c-9435-5418edbfe439",
+			"236f7314-cb0b-428f-8311-b6aa940394b0",
+			"e238ca79-39ab-4891-a07d-7b0f0c5ac6e5",
+			"e0f43e5c-8270-49cf-ba75-b5c385e82a9a"
+		]
 	}
 
 	beforeAll( async () => {
@@ -43,7 +52,20 @@ describe( "Coments Endpoints", () => {
 
 	// * Success Create Coment
 
-	test( "Should create a new coment", async() => {
+	test( "Should create a new coment with tags", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.post( "/coment" )
+			.auth( token, { type: "bearer" } )
+			.send( coment );
+
+		expect( status ).toBe( 201 );
+		expect( body.message ).toBe( "Comentario creado con éxito" );
+	});
+
+	test( "Should create a new coment without tags", async() => {
+
+		coment.tags = [];
 
 		const { status, body } = await request( app.getHttpServer() )
 			.post( "/coment" )
@@ -95,32 +117,87 @@ describe( "Coments Endpoints", () => {
 		expect( body.message ).toBe( "Profesor no registrado" );
 	});
 
-	// * Success Get Coments
+	// * Success Get Coment By ID
+	test( "Should return a Coment with tags", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.get( "/coment/" + comentWithTags );
+
+		expect( status ).toBe( 200 );
+
+		expect( body.comentario ).toBeDefined();
+		expect( body.usuario ).toBeDefined();
+		expect( body.tags ).toBeDefined();
+
+		expect( body.comentario.puntuacion ).toBeDefined();
+		expect( body.comentario.comentario ).toBeDefined();
+		expect( body.comentario.fecha ).toBeDefined();
+		
+		expect( body.usuario.nombres ).toBeDefined();
+		expect( body.usuario.apellidos ).toBeDefined();
+		expect( body.usuario.foto_perfil ).toBeDefined();
+
+		expect( body.tags.length ).toBeGreaterThanOrEqual( 1 );
+	});
+
+	test( "Should return a Coment without tags", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.get( "/coment/" + comentWithoutTags );
+
+		expect( status ).toBe( 200 );
+
+		expect( body.comentario ).toBeDefined();
+		expect( body.usuario ).toBeDefined();
+		expect( body.tags ).toBeDefined();
+
+		expect( body.comentario.puntuacion ).toBeDefined();
+		expect( body.comentario.comentario ).toBeDefined();
+		expect( body.comentario.fecha ).toBeDefined();
+		
+		expect( body.usuario.nombres ).toBeDefined();
+		expect( body.usuario.apellidos ).toBeDefined();
+		expect( body.usuario.foto_perfil ).toBeDefined();
+
+		expect( body.tags[0] ).toBe( "Sin tags" );
+	});
+
+	// ! Error Get Coment By ID
+
+	test( "Should return a not valid ID error - Get Coment By Id", async() => {
+	
+		delete coment.id_profesor;
+
+		const { status, body } = await request( app.getHttpServer() )
+			.get( "/coment/123" )
+			.auth( token, { type: "bearer" } )
+			.send( coment );
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "Validation failed (uuid is expected)" );
+	});
+
+	// * Success Get Coments By Teacher
 
 	test( "Should return an array of Coments with no pagination", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
-			.get( "/coment" );
+			.get( "/coment/teacher/" + teacherID );
 
 		expect( status ).toBe( 200 );
 
-		expect( body.coments.length ).toBe( 10 );
+		expect( body.comentarios.length ).toBe( 10 );
 		expect( typeof body.total ).toBe( "number" );
-
-		body.coments.forEach( ( coment ) => {
-			if	( coment.usuario.nombres !== "Josehf Miguel Angel" )
-				comentDeleteID = coment.comentario.id;
-		});
 	});
 	
-	test( "Should return an array of Coments with pagination 5", async() => {
+	test( "Should return an array of Coments with pagination 15", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
-			.get( "/coment?page=1&limit=5" );
+			.get( "/coment/teacher/" + teacherID + "?page=1&limit=15" );
 
 		expect( status ).toBe( 200 );
 
-		expect( body.coments.length ).toBe( 5 );
+		expect( body.comentarios.length ).toBe( 15 );
 		expect( typeof body.total ).toBe( "number" );
 	});
 
@@ -143,16 +220,18 @@ describe( "Coments Endpoints", () => {
 		expect( body.message ).toBe( "Comentario actualizado con éxito" );
 
 		expect( body.comentario ).toBeDefined();
-		expect( body.comentario.comentario ).toBeDefined();
-		expect( body.comentario.usuario ).toBeDefined();
+		expect( body.usuario ).toBeDefined();
+		expect( body.tags ).toBeDefined();
 
-		expect( typeof body.comentario.comentario.puntuacion ).toBe( "number" );
-		expect( typeof body.comentario.comentario.comentario ).toBe( "string" );
-		expect( typeof body.comentario.comentario.fecha ).toBe( "string" );
+		expect( typeof body.comentario.puntuacion ).toBe( "number" );
+		expect( typeof body.comentario.comentario ).toBe( "string" );
+		expect( typeof body.comentario.fecha ).toBe( "string" );
 		
-		expect( typeof body.comentario.usuario.nombres ).toBe( "string" );
-		expect( typeof body.comentario.usuario.apellidos ).toBe( "string" );
-		expect( typeof body.comentario.usuario.foto_perfil ).toBe( "string" );
+		expect( typeof body.usuario.nombres ).toBe( "string" );
+		expect( typeof body.usuario.apellidos ).toBe( "string" );
+		expect( typeof body.usuario.foto_perfil ).toBe( "string" );
+
+		expect( body.tags.length ).toBeGreaterThanOrEqual( 1 );
 	});
 
 	// ! Error Update Coment
@@ -212,6 +291,8 @@ describe( "Coments Endpoints", () => {
 		const { status, body } = await request( app.getHttpServer() )
 			.delete( "/coment/" + comentDeleteID )
 			.auth( token, { type: "bearer" } );
+
+		console.log( body );
 
 		expect( status ).toBe( 200 );
 		expect( body.message ).toBe( "Comentario eliminado con éxito" );

@@ -8,6 +8,7 @@ import { TeacherModule } from './teacher/teacher.module';
 import { ComentModule } from './coment/coment.module';
 import { TagModule } from './tag/tag.module';
 import { TagComentModule } from './tag_coment/tag_coment.module';
+import { ProcedureModule } from './procedure/procedure.module';
 
 @Module({
 	imports: [
@@ -43,6 +44,8 @@ import { TagComentModule } from './tag_coment/tag_coment.module';
 		TagModule,
 
 		TagComentModule,
+
+		ProcedureModule,
 	],
 	controllers: [],
 	providers: [],

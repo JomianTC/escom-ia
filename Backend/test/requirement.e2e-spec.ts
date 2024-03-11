@@ -5,31 +5,23 @@ import * as fs from "fs";
 
 import { AppModule } from "../src/app.module";
 
-describe( "Procedure Endpoints", () => {
+describe( "Requirements Endpoints", () => {
 	
 	let app: INestApplication;
 	let token: string;
 
-	const updateProcedureId = "87ded2a6-7a59-4b05-9dcb-4b5dbbb78790";
-	const falseUpdateProcedureId = "87ded2a6-7a59-4b05-9dcb-4b5dbbb78791";
-	let deleteProcedureId = "";
+	const updateReqId = "57659d91-adc4-491f-b75e-c4493ec96ec5";
+	const falseUpdateReqId = "71227124-58c2-4878-8e28-5eecf578e9f1";
+	let deleteReqId = "";
 
-	const newProcedure = {
-		nombre: "Nueva Credencial 16",
-		descripcion: "Este tramite te ayudara a obtener una nueva creadencial en caso de perdida",
-		fechaInicio: "2024-10-01",
-		fechaTermino: "2024-10-30",
-		estado: true,
-		esInformativo: false
+	const newReq = {
+		nombre: "Credencial",
+		descripcion: "Copia de credencial por ambos lados",
 	}
 
-	const updatedProcedure = {
-		nombre: "Nueva tramite X",
-		descripcion: "Este tramite no hace nada",
-		fechaInicio: "2024-6-11",
-		fechaTermino: "2024-6-12",
-		estado: true,
-		esInformativo: true
+	const updatedReq = {
+		nombre: "Apellido MPaterno",
+		descripcion: "Escribe tu apellido materno",
 	}
 
 	beforeAll( async () => {
@@ -44,98 +36,94 @@ describe( "Procedure Endpoints", () => {
 		token = await JSON.parse( data ).token;
 	});
 
-	// ? User endpoints
+	// * Success Get Requirements
 
-	// * Success Get Procedures
-
-	test( "Should return an array of procedures with no pagination", async() => {
+	test( "Should return an array of requirements with no pagination", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
-			.get( "/procedure" );
+			.get( "/requirements" );
 
 		expect( status ).toBe( 200 );
 
-		expect( body.procedures.length ).toBe( 10 );
+		expect( body.requirements.length ).toBe( 10 );
 		expect( typeof body.total ).toBe( "number" );
 	});
 	
-	test( "Should return an array of Tags with pagination 5", async() => {
+	test( "Should return an array of requirements with pagination 5", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
-			.get( "/procedure?page=1&limit=5" );
+			.get( "/requirements?page=1&limit=5" );
 
 		expect( status ).toBe( 200 );
 
-		expect( body.procedures.length ).toBe( 5 );
+		expect( body.requirements.length ).toBe( 5 );
 		expect( typeof body.total ).toBe( "number" );
 	});
 
 	// ! Error Get Procedures
 	// ? No existen errores para esta ruta incluso si no hay tramites registrados
 
-	// ? Admin endpoints
+	// * Success Create Requirements
 
-	// * Success Create Procedure
-
-	test( "Should create a new Procedure", async() => {
+	test( "Should create a new Requirement", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
-			.post( "/procedure" )
+			.post( "/requirements" )
 			.auth( token, { type: "bearer" } )
-			.send( newProcedure );
+			.send( newReq );
 
 		expect( status ).toBe( 201 );
-		expect( body.message ).toBe( "Trámite creado correctamente" );
+		expect( body.message ).toBe( "Requerimiento creado exitosamente" );
 
-		deleteProcedureId = body.procedure.id;
+		deleteReqId = body.requirement.id;
 	});
 
-	// ! Error Create Procedure
+	// ! Error Create Requirements
 
-	test( "Should return invalid token error - Create Procedure", async() => {
+	test( "Should return invalid token error - Create Requirements", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
-		.post( "/procedure" )
+		.post( "/requirements" )
 		.auth( "Token", { type: "bearer" } )
-		.send( newProcedure );
+		.send( newReq );
 
 		expect( status ).toBe( 401 );
 		expect( body.message ).toBe( "Token no valido" );
 	});
 
-	test( "Should return procedure already exists - Create Procedure", async() => {
+	test( "Should return requirement already exists - Create Requirements", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
-			.post( "/procedure" )
+			.post( "/requirements" )
 			.auth( token, { type: "bearer" } )
-			.send( newProcedure );
+			.send( newReq );
 
 		expect( status ).toBe( 400 );
-		expect( body.message ).toBe( "Ya existe un trámite con ese nombre" );
+		expect( body.message ).toBe( "El requerimiento ya existe" );
 	});	
 	
-	// * Success Update Procedure
+	// * Success Update Requirements
 
-	test( "Should return a updated Procedure", async() => {
+	test( "Should return a updated requirement", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
-			.put( "/procedure/" + updateProcedureId )
+			.put( "/requirements/" + updateReqId )
 			.auth( token, { type: "bearer" } )
-			.send( updatedProcedure );
+			.send( updatedReq );
 
 		expect( status ).toBe( 200 );
 
-		expect( body.message ).toBe( "Trámite actualizado correctamente" );
+		expect( body.message ).toBe( "Requerimiento actualizado exitosamente" );
 	});
 
-	// ! Error Update Procedure
+	// ! Error Update Requirements
 
-	test( "Should return a not valid ID error - Update Procedure", async() => {
+	test( "Should return a not valid ID error - Update Requirements", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
-			.put( "/procedure/123" )
+			.put( "/requirements/123" )
 			.auth( token, { type: "bearer" } )
-			.send( updatedProcedure );
+			.send( updatedReq );
 
 		expect( status ).toBe( 400 );
 		expect( body.message ).toBe( "Validation failed (uuid is expected)" );
@@ -144,67 +132,67 @@ describe( "Procedure Endpoints", () => {
 	test( "Should return invalid token error - Update Procedure", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
-		.put( "/procedure/" + updateProcedureId )
+		.put( "/requirements/" + updateReqId )
 		.auth( "Token", { type: "bearer" } )
-		.send( updatedProcedure );
+		.send( updatedReq );
 
 		expect( status ).toBe( 401 );
 		expect( body.message ).toBe( "Token no valido" );
 	});
 	
-	test( "Should return a not register tag error - Update Procedure", async() => {
+	test( "Should return a not register requirement error - Update Requirements", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
-			.put( "/procedure/" + falseUpdateProcedureId )
+			.put( "/requirements/" + falseUpdateReqId )
 			.auth( token, { type: "bearer" } )
-			.send( updatedProcedure );
+			.send( updatedReq );
 
 		expect( status ).toBe( 400 );
-		expect( body.message ).toBe( "No se encontró el trámite" );
+		expect( body.message ).toBe( "Requerimiento no registrado" );
 	});
 
-	// * Success Delete Procedure
+	// * Success Delete Requirements
 
-	test( "Should delete a Procedure", async() => {
+	test( "Should delete a requirement", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
-			.delete( "/procedure/" + deleteProcedureId )
+			.delete( "/requirements/" + deleteReqId )
 			.auth( token, { type: "bearer" } );
 
 		expect( status ).toBe( 200 );
-		expect( body.message ).toBe( "El Trámite ahora esta inactivo" );
+		expect( body.message ).toBe( "Requerimiento eliminado exitosamente" );
 	});
 
-	// ! Error Delete Procedure
+	// ! Error Delete Requirements
 
-	test( "Should return a not valid ID error - Delete Procedure", async() => {
+	test( "Should return a not valid ID error - Delete Requirements", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
-			.delete( "/procedure/123" )
+			.delete( "/requirements/123" )
 			.auth( token, { type: "bearer" } );
 
 		expect( status ).toBe( 400 );
 		expect( body.message ).toBe( "Validation failed (uuid is expected)" );
 	});
 
-	test( "Should return invalid token error - Delete Procedure", async() => {
+	test( "Should return invalid token error - Delete Requirements", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
-			.delete( "/procedure/" + deleteProcedureId )
+			.delete( "/requirements/" + deleteReqId )
 			.auth( "Token", { type: "bearer" } );
 
 		expect( status ).toBe( 401 );
 		expect( body.message ).toBe( "Token no valido" );
 	});
 
-	test( "Should return a not register tag error - Delete Procedure", async() => {
+	test( "Should return a not register requirement error - Delete Requirements", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
-			.delete( "/procedure/" + falseUpdateProcedureId )
+			.delete( "/requirements/" + falseUpdateReqId )
 			.auth( token, { type: "bearer" } );
 
 		expect( status ).toBe( 400 );
-		expect( body.message ).toBe( "No se encontró el trámite" );
+		expect( body.message ).toBe( "Requerimiento no registrado" );
 	});
 
 	afterAll( async () => { await app.close(); });

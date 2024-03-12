@@ -42,7 +42,19 @@ export class ProcedureService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 	
-	// TODO: findOne -- Tabla requerimientos_tramite
+	async findOne( id: string ) {
+		
+		try {
+			
+			const procedure = await this.procedureRepository.findOneBy({ id });
+
+			if ( !procedure ) 
+				throw new BadRequestException( "No se encontró el trámite" );
+
+			return procedure;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
 
 	// ? Metodos Admin
 
@@ -71,17 +83,14 @@ export class ProcedureService {
 
 			const procedure = await this.procedureRepository.save( newProcedure );
 			
-			return {
-				message: "Trámite creado correctamente",
-				procedure
-			};
+			return procedure;
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
 	async update( id: string, updateProcedureDto: UpdateProcedureDto) {
 
-		const { fechaInicio, fechaTermino, ...procedureData } = updateProcedureDto;
+		const { requerimentos, fechaInicio, fechaTermino, ...procedureData } = updateProcedureDto;
 
 		try {
 
@@ -90,21 +99,20 @@ export class ProcedureService {
 			if ( !procedure ) 
 				throw new BadRequestException( "No se encontró el trámite" );
 
-			const procedureFound = await this.procedureRepository.findOneBy({
-				nombre: procedureData.nombre.toLowerCase()
-			});
-
-			if ( procedureFound ) 
-				throw new BadRequestException( "Ya existe un trámite con ese nombre" );
+			if ( procedureData.nombre ) {
+				const procedureFound = await this.procedureRepository.findOneBy({
+					nombre: procedureData.nombre.toLowerCase()
+				});
+	
+				if ( procedureFound ) 
+					throw new BadRequestException( "Ya existe un trámite con ese nombre" );
+			}
 				
 			await this.procedureRepository.update( id, {
 				...procedureData,
 				fechaInicio: new Date( fechaInicio ),
 				fechaTermino: new Date( fechaTermino )
-			
 			});
-
-			return { message: "Trámite actualizado correctamente" };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}

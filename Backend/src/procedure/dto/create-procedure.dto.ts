@@ -1,4 +1,4 @@
-import { IsBoolean, IsDateString, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsDateString, IsString } from "class-validator";
 
 export class CreateProcedureDto {
 
@@ -19,4 +19,7 @@ export class CreateProcedureDto {
 	
 	@IsBoolean()
 	esInformativo: boolean;
+
+	@IsArray()
+	requerimentos: string[];
 }

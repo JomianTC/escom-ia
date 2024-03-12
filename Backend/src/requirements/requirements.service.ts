@@ -67,6 +67,25 @@ export class RequirementsService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
+	async findStack( ids: string[] ) {
+		try {
+
+			const newArrayReq = ids.map( async ( id ) => {
+				
+				const requirement = await this.requirementRepository.findOneBy({ id });
+	
+				if ( !requirement )
+					throw new BadRequestException({ message: "El Requerimiento no existe" });
+
+				return requirement;
+			})
+
+			const requirements = await Promise.all( newArrayReq );
+
+			return requirements;
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
 	async update( id: string, updateRequirementDto: UpdateRequirementDto ) {
 
 		try {

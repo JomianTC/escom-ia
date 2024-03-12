@@ -13,6 +13,7 @@ import { AuthModule } from "../auth/auth.module";
 		ConfigModule, 
 		TypeOrmModule.forFeature([ Requirement ]),
 		AuthModule
-	]
+	],
+	exports: [ RequirementsService, TypeOrmModule ]
 })
 export class RequirementsModule { }

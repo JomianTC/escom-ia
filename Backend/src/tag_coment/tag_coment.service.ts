@@ -8,10 +8,6 @@ import { TagComent } from "./entities/tag_coment.entity";
 import { HandleErrors } from "../common/handle-errors";
 import { TagService } from "../tag/tag.service";
 
-type TagInfo = {
-	id: string;
-	nombre: string;
-}
 
 @Injectable()
 export class TagComentService {

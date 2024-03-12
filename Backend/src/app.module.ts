@@ -10,6 +10,7 @@ import { TagModule } from './tag/tag.module';
 import { TagComentModule } from './tag_coment/tag_coment.module';
 import { ProcedureModule } from './procedure/procedure.module';
 import { RequirementsModule } from './requirements/requirements.module';
+import { RequirementProcedureModule } from './requirement_procedure/requirement_procedure.module';
 
 @Module({
 	imports: [
@@ -49,6 +50,8 @@ import { RequirementsModule } from './requirements/requirements.module';
 		ProcedureModule,
 
 		RequirementsModule,
+
+		RequirementProcedureModule,
 	],
 	controllers: [],
 	providers: [],

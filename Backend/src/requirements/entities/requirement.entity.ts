@@ -1,4 +1,5 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { RequirementProcedure } from "../../requirement_procedure/entities/requirement_procedure.entity";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity( "Requirement" )
 export class Requirement {
@@ -11,6 +12,12 @@ export class Requirement {
 	
 	@Column()
 	descripcion: string;
+
+	@OneToMany(
+		() => RequirementProcedure,
+		requirement_procedure => requirement_procedure.id,
+	)
+	requirement_procedure: RequirementProcedure[];
 
 	@BeforeInsert()
 	checkFieldsBeforeInsert() {

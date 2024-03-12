@@ -10,26 +10,39 @@ describe( "Procedure Endpoints", () => {
 	let app: INestApplication;
 	let token: string;
 
+	const procedureWithReqId = "87ded2a6-7a59-4b05-9dcb-4b5dbbb78790";
+	const procedureWithoutReqId = "a0ebd616-c323-42ec-8e31-5f3cab44b8ba";
+
 	const updateProcedureId = "87ded2a6-7a59-4b05-9dcb-4b5dbbb78790";
 	const falseUpdateProcedureId = "87ded2a6-7a59-4b05-9dcb-4b5dbbb78791";
-	let deleteProcedureId = "";
+	const deleteProcedureId = "cf03d445-d33d-4b2c-8dd9-1b697c333c9a";
 
 	const newProcedure = {
-		nombre: "Nueva Credencial 16",
+		nombre: "Nueva Credencial 18",
 		descripcion: "Este tramite te ayudara a obtener una nueva creadencial en caso de perdida",
 		fechaInicio: "2024-10-01",
 		fechaTermino: "2024-10-30",
 		estado: true,
-		esInformativo: false
+		esInformativo: false,
+		requerimentos: [
+			"f2e146d3-a444-4313-a635-e71f4302d752",
+			"339e7d04-d86d-4e64-90eb-6c03163b643c",
+			"295bffde-7374-4332-b460-1d314df18d99"
+		]
 	}
 
 	const updatedProcedure = {
-		nombre: "Nueva tramite X",
+		nombre: "Nueva tramite XXX",
 		descripcion: "Este tramite no hace nada",
 		fechaInicio: "2024-6-11",
 		fechaTermino: "2024-6-12",
 		estado: true,
-		esInformativo: true
+		esInformativo: true,
+		requerimentos: [
+			"f2e146d3-a444-4313-a635-e71f4302d752",
+			"339e7d04-d86d-4e64-90eb-6c03163b643c",
+			"295bffde-7374-4332-b460-1d314df18d99"
+		]
 	}
 
 	beforeAll( async () => {
@@ -73,6 +86,52 @@ describe( "Procedure Endpoints", () => {
 	// ! Error Get Procedures
 	// ? No existen errores para esta ruta incluso si no hay tramites registrados
 
+	// * Success Get Procedure By ID
+	test( "Should return a procedure with requirements", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.get( "/procedure/" + procedureWithReqId );
+
+		expect( status ).toBe( 200 );
+		
+		expect( body.procedure ).toBeDefined();
+		expect( body.requirements ).toBeDefined();
+		expect( body.requirements.length ).toBe( 1 );
+		expect( body.requirements[0] ).toBe( "Sin requerimientos" );
+	});
+	
+	test( "Should return a procedure without requirements", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.get( "/procedure/" + procedureWithoutReqId );
+
+		expect( status ).toBe( 200 );
+		
+		expect( body.procedure ).toBeDefined();
+		expect( body.requirements ).toBeDefined();
+		expect( body.requirements.length ).toBe( 1 );
+		expect( body.requirements.length ).toBe( 1 );
+	});
+
+	// ! Error Get Procedure By ID
+	test( "Should return a not valid ID error - Get Procedure By ID", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.get( "/procedure/123" )
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "Validation failed (uuid is expected)" );
+	});
+	
+	test( "Should return a not register tag error - Get Procedure By ID", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.get( "/procedure/" + falseUpdateProcedureId )
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "No se encontró el trámite" );
+	});
+
 	// ? Admin endpoints
 
 	// * Success Create Procedure
@@ -86,8 +145,6 @@ describe( "Procedure Endpoints", () => {
 
 		expect( status ).toBe( 201 );
 		expect( body.message ).toBe( "Trámite creado correctamente" );
-
-		deleteProcedureId = body.procedure.id;
 	});
 
 	// ! Error Create Procedure
@@ -122,6 +179,8 @@ describe( "Procedure Endpoints", () => {
 			.put( "/procedure/" + updateProcedureId )
 			.auth( token, { type: "bearer" } )
 			.send( updatedProcedure );
+
+		console.log( body );
 
 		expect( status ).toBe( 200 );
 

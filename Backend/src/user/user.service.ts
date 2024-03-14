@@ -1,7 +1,8 @@
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { Administrator } from "../auth/entities/admin.entity";
 import { HandleErrors } from "../common/handle-errors";
 import { User } from "../auth/entities/user.entity";
 
@@ -11,6 +12,8 @@ export class UserService {
 	constructor(
 		@InjectRepository( User )
 		private readonly userRepository: Repository<User>,
+		@InjectRepository( Administrator )
+		private readonly adminRepository: Repository<Administrator>,
 		private readonly cloudinaryService: CloudinaryService
 	) {}
 
@@ -26,6 +29,22 @@ export class UserService {
 				throw new BadRequestException({ message: "Usuario no encontrado" });
 
 			return userFound;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async findByEmailAdmin( email: string ) {
+		
+		try {
+
+			const adminFound = await this.adminRepository.findOne({ 
+				where: { email }
+			});
+
+			if ( !adminFound )
+				throw new BadRequestException({ message: "Administrador no encontrado" });
+
+			return adminFound;
 
 		} catch ( error ) { HandleErrors( error ); }
 	}

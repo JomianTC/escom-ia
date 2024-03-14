@@ -1,3 +1,4 @@
+import { AdminProcedure } from "../../admin_procedure/entities/admin_procedure.entity";
 import { RequirementProcedure } from "../../requirement_procedure/entities/requirement_procedure.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -30,6 +31,12 @@ export class Procedure {
 		requirement_procedure => requirement_procedure.id
 	)
 	requirement_procedure: RequirementProcedure[];
+	
+	@OneToMany(
+		() => AdminProcedure,
+		admin_procedure => admin_procedure.id
+	)
+	admin_procedure: AdminProcedure[];
 
 	@BeforeInsert()
 	checkFieldsBeforeInsert() {

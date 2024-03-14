@@ -1,6 +1,7 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
+import { AdminProcedure } from "../admin_procedure/entities/admin_procedure.entity";
 import { CreateProcedureDto } from "./dto/create-procedure.dto";
 import { UpdateProcedureDto } from "./dto/update-procedure.dto";
 import { Procedure } from "./entities/procedure.entity";
@@ -58,8 +59,20 @@ export class ProcedureService {
 
 	// ? Metodos Admin
 
-	// TODO: FindAllWithPermissions  -- Tabla admin_tramites AKA Permisos
-	// TODO: FindOneWithPermissions  -- Tabla admin_tramites AKA Permisos
+	async findStack( adminProccedures: string[] ) {
+		
+		try {
+
+			const proceduresPromise = adminProccedures.map( ( adminProcedure ) => {
+				return this.procedureRepository.findOneBy({ id: adminProcedure });
+			});
+
+			const procedures = await Promise.all( proceduresPromise );
+
+			return procedures;
+						
+		} catch ( error ) { HandleErrors( error ); }
+	}
 
 	async create( createProcedureDto: CreateProcedureDto ) {
 

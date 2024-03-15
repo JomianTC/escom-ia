@@ -5,7 +5,7 @@ export const GetTokenPayload = createParamDecorator(
 		
 		const request = context.switchToHttp().getRequest();
 		const email = request.email;
-
+		
 		if ( !email ){
 			console.log( "Error obteniendo el email - Decorador GetTokenPayload" );
 			throw new InternalServerErrorException( "Internal Server Error" );

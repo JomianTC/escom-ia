@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, Query, ParseUUIDPipe, Put } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Query, ParseUUIDPipe, Put, HttpStatus, HttpCode } from "@nestjs/common";
 import { GetTokenPayload } from "../user/decorators/get-token-payload.decorator";
 import { TagComentService } from '../tag_coment/tag_coment.service';
 import { PaginationDto } from "../common/dto/pagination.dto";
@@ -51,6 +51,37 @@ export class ComentController {
 			},
 			tags
 		}
+	}
+
+	@Post( "user" )
+	@HttpCode( HttpStatus.OK )
+	@UseGuards( AuthGuard )
+	async findAllByUser( @GetTokenPayload() email: string, @Query() paginationDto: PaginationDto ){
+
+		const user = await this.userService.findByEmail( email );
+		const { comentsFound, total } = await this.comentService.findAllByUser( user, paginationDto );
+
+		const coments = await Promise.all( comentsFound.map( async coment => {
+				
+			const tags = await this.tagComentService.findStack( coment );
+				
+			return {
+					comentario: {
+						id: coment.id,
+						puntuacion: coment.puntuacion,
+						comentario: coment.comentario,
+						fecha: coment.fecha
+					},
+					usuario: {
+						nombres: coment.id_usuario.nombres,
+						apellidos: coment.id_usuario.apellidos,
+						foto_perfil: coment.id_usuario.foto_perfil
+					},
+					tags
+			}
+		}));
+
+		return { comentarios: coments, total }
 	}
 
 	@Get( "teacher/:id" )

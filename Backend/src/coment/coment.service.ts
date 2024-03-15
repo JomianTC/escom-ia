@@ -56,6 +56,29 @@ export class ComentService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
+	async findAllByUser( user: User, paginationDto: PaginationDto ) {
+
+		const { limit = 10, page = 1 } = paginationDto;
+
+		try {
+
+			const comentsFound = await this.comentRepository.find({
+				where: { id_usuario: user },
+				skip: ( page - 1 ) * limit,
+				take: limit
+			});
+
+			if ( !comentsFound ) throw new BadRequestException({ message: "No hay comentarios" });
+			
+			const total = await this.comentRepository.createQueryBuilder( "coment" )
+			.where( "coment.id_usuario = :id", { id: user.id })
+			.getCount();
+
+			return { comentsFound, total };
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
 	async findOne( id: string ) {
 
 		try {

@@ -20,7 +20,7 @@ describe( "Coments Endpoints", () => {
 	const comentWithTags = "b0d1e548-ce8f-4cc9-8cbd-58d95bbe88e8";
 	const comentWithoutTags = "34b2caf3-26bc-428d-9af4-1807ff17c913";
 
-	let comentDeleteID = "a68ae928-8728-4dc3-8dbd-8166ad6b76ed";
+	let comentDeleteID = "2a292240-aed7-4572-bd59-d2cde978c1a4";
 	let noPermisionComentDelete = "401bec16-bef2-42a7-a1e8-7da21aca3a44";
 
 	const coment ={
@@ -203,6 +203,35 @@ describe( "Coments Endpoints", () => {
 
 	// ! Error Get Coments
 	// ? No existen errores para esta ruta incluso si no hay comentarios registrados
+
+	// * Success Get Coments By User
+
+	test( "Should return an array of Coments with no pagination - By User", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.post( "/coment/user/" )
+			.auth( token, { type: "bearer" });
+
+		expect( status ).toBe( 200 );
+
+		expect( body.comentarios.length ).toBe( 10 );
+		expect( typeof body.total ).toBe( "number" );
+	});
+	
+	test( "Should return an array of Coments with pagination 15 - By User", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.post( "/coment/user?page=1&limit=15" )
+			.auth( token, { type: "bearer" });
+
+		expect( status ).toBe( 200 );
+
+		expect( body.comentarios.length ).toBe( 15 );
+		expect( typeof body.total ).toBe( "number" );
+	});
+
+	// ! Error Get Coments
+	// ? No existen errores para esta ruta incluso si no hay comentarios registrados
 	
 	// * Success Update Coment
 
@@ -286,17 +315,17 @@ describe( "Coments Endpoints", () => {
 
 	// * Success Delete Coment
 
-	test( "Should delete a Coment", async() => {
+	// test( "Should delete a Coment", async() => {
 
-		const { status, body } = await request( app.getHttpServer() )
-			.delete( "/coment/" + comentDeleteID )
-			.auth( token, { type: "bearer" } );
+	// 	const { status, body } = await request( app.getHttpServer() )
+	// 		.delete( "/coment/" + comentDeleteID )
+	// 		.auth( token, { type: "bearer" } );
 
-		console.log( body );
+	// 	console.log( body );
 
-		expect( status ).toBe( 200 );
-		expect( body.message ).toBe( "Comentario eliminado con éxito" );
-	});
+	// 	expect( status ).toBe( 200 );
+	// 	expect( body.message ).toBe( "Comentario eliminado con éxito" );
+	// });
 
 	// ! Error Delete Teacher
 

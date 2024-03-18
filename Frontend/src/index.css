@@ -4,31 +4,36 @@
 @tailwind components;
 @tailwind utilities;
 :root {
-  --primary_100: #0f68a3;
-  --primary_200: #5596d5;
-  --primary_300: #bff9ff;
-  --accent_100: #3d5a80;
-  --accent_200: #e2f2ff;
-  --text_100: #ffffff;
-  --text_200: #e0e0e0;
-  --bg_300: #2b3444;
-  --bg_200: #1f2b3e;
-  --bg_100: #0f1c2e;
+    --primary_100: #0f68a3;
+    --primary_200: #5596d5;
+    --primary_300: #bff9ff;
+    --accent_100: #3d5a80;
+    --accent_200: #e2f2ff;
+    --text_100: #ffffff;
+    --text_200: #e0e0e0;
+    --bg_300: #2b3444;
+    --bg_200: #1f2b3e;
+    --bg_100: #0f1c2e;
+    --black: #030508;
     font-family: "Glory", sans-serif;
     line-height: 1.5;
     font-weight: 400;
+    --gradiend: linear-gradient(
+        180deg,
+        var(--black) 30%,
+        var(--accent_100) 100%
+    );
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
-    background: var(--bg_100);
+    background: var(--gradiend);
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
-
 }
 * {
     box-sizing: border-box;
@@ -41,7 +46,7 @@ body {
     /* place-items: center; */
     min-width: 320px;
     min-height: 100vh;
-    background-color: var(--bg_100);
+    background: var(--gradiend);
     color: var(--text_100);
 }
 
@@ -50,20 +55,6 @@ h1 {
     line-height: 1.1;
 }
 
-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
-button:hover {
-    border-color: #646cff;
-}
 button:focus,
 button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
@@ -74,10 +65,32 @@ button:focus-visible {
         color: #213547;
         background-color: #ffffff;
     }
-    a:hover {
-        color: #747bff;
-    }
-    button {
-        background-color: var(--bg_300);
-    }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    outline: none;
+    border: 2px solid var(--primary_200);
+    box-shadow: 2px 4px 0px 0px var(--primary_200);
+    color: var(--black);
+    width: 100%;
+    transition: box-shadow 0.25s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: var(--accent_100);
+    box-shadow: 1px 2px 0px 0px var(--accent_100);
+}
+
+.white-border {
+    border: 2px solid var(--accent_200);
+    box-shadow: 2px 4px 0px 0px var(--accent_200);
+    color: var(--text_100);
+    font-weight: 600;
+    transition: box-shadow 0.25s;
+    outline: none;
+    padding: 0.6em 1.2em;
 }

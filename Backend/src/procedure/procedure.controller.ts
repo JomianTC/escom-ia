@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, UseGuards, ParseUUIDPipe, Q
 import { RequirementProcedureService } from "../requirement_procedure/requirement_procedure.service";
 import { AdminProcedureService } from "../admin_procedure/admin_procedure.service";
 import { GetTokenPayload } from "../user/decorators/get-token-payload.decorator";
+import { NotificationService } from "../notification/notification.service";
 import { CreateProcedureDto } from "./dto/create-procedure.dto";
 import { UpdateProcedureDto } from "./dto/update-procedure.dto";
 import { PaginationDto } from "../common/dto/pagination.dto";
@@ -16,7 +17,8 @@ export class ProcedureController {
 		private readonly procedureService: ProcedureService,
 		private readonly reqProService: RequirementProcedureService,
 		private readonly userService: UserService,
-		private readonly adminProService: AdminProcedureService
+		private readonly adminProService: AdminProcedureService,
+		private readonly notificationService: NotificationService,
 	){}
 
 	// ? Metodos Alumno
@@ -66,6 +68,8 @@ export class ProcedureController {
 
 		const admin = await this.userService.findByEmailAdmin( email );
 		await this.adminProService.create({ admin, procedure });
+
+		await this.notificationService.createNotificationKeys( procedure.id );
 
 		return { message: "Trámite creado correctamente" }
 	}
@@ -164,12 +168,16 @@ export class ProcedureController {
 
 	@Delete( ":id" )
 	@UseGuards( AuthGuard )
-	remove( @Param( "id", ParseUUIDPipe ) id: string ) {
-		return this.procedureService.remove( id );
+	async remove( 
+		@Param( "id", ParseUUIDPipe ) id: string,
+		@Body( "estado" ) estado: boolean
+	) {
+
+		// await this.notificationService.sendNotification( id, "El tramite a cambiado de estado" );
+		return await this.procedureService.remove( id, estado );
 	}
 
 	async checkPermission( email: string, id: string ){
-
 		
 		const admin = await this.userService.findByEmailAdmin( email );
 		const procedure = await this.procedureService.findOne( id );

@@ -1,0 +1,141 @@
+import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable } from "@nestjs/common";
+import { Repository } from "typeorm";
+import * as webpush from "web-push";
+import { CreateNotificationDto } from "./dto/create-notification.dto";
+import { NotificationKeys } from "./entities/notification-key.entity";
+import { Notification } from "./entities/notification.entity";
+import { HandleErrors } from "../common/handle-errors";
+
+@Injectable()
+export class NotificationService {
+
+	constructor(
+		@InjectRepository( Notification )
+		private notificationRepository: Repository< Notification >,
+		@InjectRepository( NotificationKeys )
+		private notificationKeyRepository: Repository< NotificationKeys >,
+	){}
+
+	async createNotificationKeys( procedureID: string  ) {
+
+		try {
+			
+			const newKeys = webpush.generateVAPIDKeys();
+
+			const notificationKey = this.notificationKeyRepository.create({
+				procedureID: procedureID,
+				publicKey: newKeys.publicKey,
+				privateKey: newKeys.privateKey,
+			});
+
+			await this.notificationKeyRepository.save( notificationKey );
+
+			return true;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async create( userID: string, procedureID: string, createNotificationDto: CreateNotificationDto ) {
+
+		const { endpoint, expirationTime, keys } = createNotificationDto;
+
+		try {
+
+			const registerNotification = this.notificationRepository.create({
+				userID,
+				procedureID,
+				endpoint,
+				expirationTime,
+				...keys,
+			});
+
+			await this.notificationRepository.save( registerNotification );
+
+			return { message: "Notificaciones activadas correctamente" };
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async findNotification( procedureID: string ) {
+
+		try {
+		
+			const notifications = await this.notificationRepository.find({
+				where: { procedureID }
+			});
+
+			return notifications;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async findProcedureKeys( procedureID: string ) {
+
+		try {
+		
+			const notificationKeys = await this.notificationKeyRepository.findOne({
+				where: { procedureID }
+			});
+
+			return notificationKeys;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async sendNotification( id: string, message: string ) {
+
+		try {
+
+			const notifications = await this.findNotification( id );
+			const procedureKeys = await this.findProcedureKeys( id );
+
+			const notify = notifications.map( async ( notification ) => {
+
+				const subscription: CreateNotificationDto = {
+					endpoint: notification.endpoint,
+					expirationTime: null,
+					keys: {
+						p256dh: notification.p256dh,
+						auth: notification.auth
+					}
+				}
+	
+				const payload = JSON.stringify({
+					title: "Nueva Notificacion",
+					message
+				});
+	
+				webpush.setVapidDetails(
+					"mailto:jomiantoca2011@gmail.com",
+					procedureKeys.publicKey,
+					procedureKeys.privateKey
+				);
+	
+				return await webpush.sendNotification( subscription, payload )
+				.catch( error => { console.log({ message: error.body, fault: error.endpoint }); });
+			});
+
+			await Promise.all( notify );
+			
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async remove( userID: string, procedureID: string ) {
+
+		try {
+			
+			const notification = await this.notificationRepository.findOne({
+				where: { userID, procedureID }
+			});
+
+			if ( !notification ) 
+				return { message: "No se encontro ninguna subscripcion" };
+
+			await this.notificationRepository.remove( notification );
+
+			return { message: "Subscripcion eliminada correctamente" };
+			
+		} catch ( error ) { HandleErrors( error ); }
+	}
+}

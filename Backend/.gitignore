@@ -17,3 +17,6 @@ coverage
 
 # Database
 mysql
+
+# Public
+public

@@ -5,7 +5,9 @@ import { RequirementProcedureService } from "../requirement_procedure/requiremen
 import { RequirementProcedureModule } from "../requirement_procedure/requirement_procedure.module";
 import { AdminProcedureService } from "../admin_procedure/admin_procedure.service";
 import { AdminProcedureModule } from "../admin_procedure/admin_procedure.module";
+import { NotificationService } from "../notification/notification.service";
 import { RequirementsModule } from "../requirements/requirements.module";
+import { NotificationModule } from "../notification/notification.module";
 import { CloudinaryModule } from "../cloudinary/cloudinary.module";
 import { ProcedureController } from "./procedure.controller";
 import { Procedure } from "./entities/procedure.entity";
@@ -19,7 +21,8 @@ import { AuthModule } from "../auth/auth.module";
 		ProcedureService, 
 		RequirementProcedureService, 
 		AdminProcedureService, 
-		UserService
+		UserService,
+		NotificationService
 	],
 	imports: [
 		ConfigModule,
@@ -28,7 +31,8 @@ import { AuthModule } from "../auth/auth.module";
 		RequirementProcedureModule,
 		RequirementsModule,
 		AdminProcedureModule,
-		CloudinaryModule
+		CloudinaryModule,
+		NotificationModule
 	],
 	exports: [ TypeOrmModule ],
 })

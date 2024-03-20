@@ -11,8 +11,13 @@ async function bootstrap() {
 		app.setGlobalPrefix( "api" );
 
 		// ? Habilitar CORS con opciones por defecto
-		app.enableCors();
-	
+		app.enableCors({
+			origin: true,
+			methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+			allowedHeaders: "Content-Type, Authorization",
+			credentials: true,
+		});
+		
 		// ? Utilizar un pipe de validación global
 		/*
 			? Este pipe se aplica a todas las rutas de la aplicación

@@ -25,3 +25,7 @@ docker compose up -d
 ```
 npm run start:dev
 ```
+
+TODO
+
+- Actualizar Testing eliminar tramite

@@ -130,7 +130,7 @@ export class ProcedureService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
-	async remove( id: string ) {
+	async remove( id: string, estado: boolean ) {
 
 		try {
 			
@@ -139,10 +139,14 @@ export class ProcedureService {
 			if ( !procedure ) 
 				throw new BadRequestException( "No se encontró el trámite" );
 
-			await this.procedureRepository.update( id, { estado: false } );
+			if ( procedure.estado === estado )
+				throw new BadRequestException( "El trámite no puede cambiar de estado" );
 
-			return { message: "El Trámite ahora esta inactivo" };
+			await this.procedureRepository.update( id, { estado } );
 
+			if ( estado ) return { message: "El Trámite ahora esta activo" };
+			else return { message: "El Trámite ahora esta inactivo" };
+		
 		} catch ( error ) { HandleErrors( error ); }
 	}
 }

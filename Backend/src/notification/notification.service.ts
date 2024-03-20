@@ -3,7 +3,6 @@ import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import * as webpush from "web-push";
 import { CreateNotificationDto } from "./dto/create-notification.dto";
-import { NotificationKeys } from "./entities/notification-key.entity";
 import { Notification } from "./entities/notification.entity";
 import { HandleErrors } from "../common/handle-errors";
 
@@ -13,28 +12,7 @@ export class NotificationService {
 	constructor(
 		@InjectRepository( Notification )
 		private notificationRepository: Repository< Notification >,
-		@InjectRepository( NotificationKeys )
-		private notificationKeyRepository: Repository< NotificationKeys >,
 	){}
-
-	async createNotificationKeys( procedureID: string  ) {
-
-		try {
-			
-			const newKeys = webpush.generateVAPIDKeys();
-
-			const notificationKey = this.notificationKeyRepository.create({
-				procedureID: procedureID,
-				publicKey: newKeys.publicKey,
-				privateKey: newKeys.privateKey,
-			});
-
-			await this.notificationKeyRepository.save( notificationKey );
-
-			return true;
-
-		} catch ( error ) { HandleErrors( error ); }
-	}
 
 	async create( userID: string, procedureID: string, createNotificationDto: CreateNotificationDto ) {
 
@@ -70,25 +48,11 @@ export class NotificationService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
-	async findProcedureKeys( procedureID: string ) {
-
-		try {
-		
-			const notificationKeys = await this.notificationKeyRepository.findOne({
-				where: { procedureID }
-			});
-
-			return notificationKeys;
-
-		} catch ( error ) { HandleErrors( error ); }
-	}
-
 	async sendNotification( id: string, message: string ) {
 
 		try {
 
 			const notifications = await this.findNotification( id );
-			const procedureKeys = await this.findProcedureKeys( id );
 
 			const notify = notifications.map( async ( notification ) => {
 
@@ -108,12 +72,15 @@ export class NotificationService {
 	
 				webpush.setVapidDetails(
 					"mailto:jomiantoca2011@gmail.com",
-					procedureKeys.publicKey,
-					procedureKeys.privateKey
+					process.env.VAPID_PUBLIC_KEY,
+					process.env.VAPID_PRIVATE_KEY
 				);
 	
 				return await webpush.sendNotification( subscription, payload )
-				.catch( error => { console.log({ message: error.body, fault: error.endpoint }); });
+				.catch( error => { 
+					console.log({ message: error.body, fault: error.endpoint });
+					this.removeAll( error.endpoint );
+				});
 			});
 
 			await Promise.all( notify );
@@ -135,6 +102,28 @@ export class NotificationService {
 			await this.notificationRepository.remove( notification );
 
 			return { message: "Subscripcion eliminada correctamente" };
+			
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async removeAll( endpoint: string ) {
+
+		try {
+			
+			const notification = await this.notificationRepository.find({
+				where: { endpoint }
+			});
+
+			if ( notification.length === 0 ) 
+				return { message: "No se encontraron subscripciones" };
+
+			const deleteNotifications = notification.map( async ( notify ) => {
+				return await this.notificationRepository.remove( notify );
+			});
+
+			await Promise.all( deleteNotifications );
+
+			return { message: "Subscripciones eliminadas correctamente" };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}

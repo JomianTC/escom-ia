@@ -69,8 +69,6 @@ export class ProcedureController {
 		const admin = await this.userService.findByEmailAdmin( email );
 		await this.adminProService.create({ admin, procedure });
 
-		await this.notificationService.createNotificationKeys( procedure.id );
-
 		return { message: "Trámite creado correctamente" }
 	}
 
@@ -173,7 +171,7 @@ export class ProcedureController {
 		@Body( "estado" ) estado: boolean
 	) {
 
-		// await this.notificationService.sendNotification( id, "El tramite a cambiado de estado" );
+		await this.notificationService.sendNotification( id, `El tramite ${ id } a cambiado de estado` );
 		return await this.procedureService.remove( id, estado );
 	}
 

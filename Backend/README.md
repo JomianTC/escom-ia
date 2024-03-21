@@ -33,6 +33,6 @@ npm run start:dev
 
 - Actualizar Testing eliminar tramite
 
-- Si un usuario accede desde otro dispositivo, mandar la suscripción a un endpoint nuevo y si el usuario ya tiene activadas las notificaciones para algunos tramites, registrar la nueva suscripción en la base de datos para enviar las notificaciones a ambos dispositivos
+- Crear Testing para los endpoint de notificaciones
 
-- Crear un endpoint donde recibo la suscripción, el token y el id del tramite para verificar si las notificaciones están activadas para ese tramite 
+- Crear las distintas notificaciones para los diferentes casos

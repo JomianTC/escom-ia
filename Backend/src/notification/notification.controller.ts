@@ -24,6 +24,18 @@ export class NotificationController {
 		}
 	}
 
+	@Get( "subscription/:id" )
+	@UseGuards( AuthGuard )
+	async checkProcedureNotification( 
+		@GetTokenPayload() email: string,
+		@Param( "id", ParseUUIDPipe ) id: string
+	) {
+
+		const user = await this.userService.findByEmail( email );
+		const isActivated = await this.notificationService.checkProcedureNotification( user.id, id );
+		return { isActivated }
+	}
+
 	@Post( "subscription/:id" )
 	@UseGuards( AuthGuard )
 	async create( 
@@ -36,6 +48,17 @@ export class NotificationController {
 
 		await this.notificationService.create( user.id, id, createNotificationDto );
 		return { message: "Suscripcion creada correctamente" }
+	}
+
+	@Post( "checkDevice" )
+	@UseGuards( AuthGuard )
+	async checkNotifications( 
+		@GetTokenPayload() email: string,
+		@Body() createNotificationDto: CreateNotificationDto
+	) {
+
+		const user = await this.userService.findByEmail( email );
+		return await this.notificationService.checkNotifications( user.id, createNotificationDto );
 	}
 
 	@Delete( "subscription/:id" )
@@ -57,8 +80,6 @@ export class NotificationController {
 	) {
 
 		await this.userService.findByEmail( email );
-		await this.notificationService.removeAll( createNotificationDto.endpoint );
-
-		return { message: "Notificaciones eliminadas correctamente" }
+		return await this.notificationService.removeAll( createNotificationDto.endpoint );
 	}
 }

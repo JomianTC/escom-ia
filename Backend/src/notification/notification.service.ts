@@ -48,6 +48,60 @@ export class NotificationService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
+	async checkNotifications( userID: string, createNotificationDto: CreateNotificationDto ) {
+		
+		const { endpoint } = createNotificationDto;
+
+		try {
+
+			const endpointExists = await this.notificationRepository.find({
+				where: { endpoint }
+			});
+
+			if ( endpointExists.length > 0 ) return { message: "El dispositivo ya esta registrado" };
+			
+			const notificationsFound = await this.notificationRepository.find({
+				where: { userID }
+			});
+
+			if ( notificationsFound.length === 0 ) return { message: "No se encontraron notificaciones registradas" };
+
+			const notificationsAux = new Map();
+
+			notificationsFound.forEach( notification => {
+
+				const notifyKey = `${ notification.userID }-${ notification.procedureID }`;
+				
+				if ( !notificationsAux.has( notifyKey ) )
+					notificationsAux.set( notifyKey, notification );
+			});
+
+			const notificationsData = Array.from( notificationsAux.values() );
+
+			notificationsData.forEach( async ( notification ) => {
+				await this.create( notification.userID, notification.procedureID, createNotificationDto );
+			});
+
+			return { message: "Comprobacion exitosa" }
+
+		} catch ( error ) {  HandleErrors( error ); }
+	}
+
+	async checkProcedureNotification( userID: string, procedureID: string ) {
+		
+		try {
+
+			const notification = await this.notificationRepository.findOne({
+				where: { userID, procedureID }
+			});
+
+			if ( notification ) return true;
+
+			return false;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
 	async sendNotification( id: string, message: string ) {
 
 		try {

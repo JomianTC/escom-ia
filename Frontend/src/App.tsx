@@ -9,14 +9,22 @@ import { store } from './store/store'
 import RoutesWithNotFound from './utilities/RoutesWithNotFound'
 import { Register } from './pages/Register/Register'
 import { Home } from './pages/Home/Home'
+
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery
+} from '@tanstack/react-query'
 // LAZYLOADING DE LOGIN Y LAS PARTES PRIVADAS
 
 const Login = lazy(async () => await import('./pages/Login/Login'))
 const Private = lazy(async () => await import('./pages/Private/Private'))
+const queryClient = new QueryClient()
 
 function App () {
   return (
     <>
+          <QueryClientProvider client={queryClient}>
       <Suspense fallback={ <>Loading ...</> }>
         <Provider store={ store }>
           {/* <h3 >Este elemento se visualiza en todas partes</h3> */}
@@ -39,6 +47,7 @@ function App () {
         </Provider >
 
       </Suspense>
+      </QueryClientProvider>
 
     </>
   )

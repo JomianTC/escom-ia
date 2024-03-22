@@ -4,5 +4,5 @@
   min-height: 100vh;
   margin: 0 auto;
   display: grid;
-  place-content: center;
+  /* place-content: center; */
 }

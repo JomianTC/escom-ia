@@ -8,7 +8,8 @@ interface MyTextInputProps {
   [x: string]: any
 }
 export function MyTextInput ({ label, className, ...props }: MyTextInputProps) {
-  const [field] = useField(props)
+  const [field, meta, helpers] = useField(props.name)
+
   return (
 <>
         <label className={` ${className}`}>

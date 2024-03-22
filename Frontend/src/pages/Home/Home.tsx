@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Bubble } from './components/Bubble'
+import { useTeachers } from '@/api/teachers/use-get-teachers'
 
 export function Home () {
   const handleLogin = () => {
@@ -34,6 +35,7 @@ export function Home () {
                 <Bubble index="5" top="110px" left='130px' size="w-48 h-48 " />
                 <Bubble index="6" top="180px" left='120px' size="w-20 h-20 " />
                 <Bubble index="7" top="-50px" left='80px' size="w-16 h-16 " />
+                <Bubble index="8" top="-80px" left='20px' size="w-48 h-48 " />
             </div>
         </div>
   )

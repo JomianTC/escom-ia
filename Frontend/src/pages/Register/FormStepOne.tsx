@@ -28,13 +28,6 @@ export function FormStepOne () {
                     className=" col-span-2"
                 />
             </div>
-                <button
-                    type="submit"
-                    className="white-border"
-                    // disabled={isSubmitting}
-                >
-                    Submit
-                </button>
         </>
   )
 }

@@ -17,14 +17,16 @@ export const InputTypeFile: FunctionComponent<IUploadFile> = ({
         className='hidden'
         type="file"
         name="foto_perfil"
+        required = {false}
         // set supported file types here,
         // could also check again within formik validation or backend
         accept="image/png, .svg"
         onChange={(e) => {
           // Object is possibly null error w/o check
           if (e.currentTarget.files !== null) {
-            console.log(e.currentTarget.files[0])
             void setValue(e.currentTarget.files[0])
+          } else {
+            void setValue({ name: '' })
           }
         }}
       />

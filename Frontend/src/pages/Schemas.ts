@@ -2,19 +2,29 @@ import * as yup from 'yup'
 export const MAX_FILE_SIZE = 2097152 // 500KB
 // export const MAX_FILE_SIZE = 10 // 500KB
 const validateFileSize = (value: any) => {
-  console.log(value)
-  if (value.size !== undefined) {
-    return value.size <= MAX_FILE_SIZE
-  } else {
+  if (value === undefined) {
     return true
+  } else {
+    return value.size <= MAX_FILE_SIZE
   }
 }
+
+const passwordSchema = yup.string()
+  .min(8, 'La contraseña debe tener al menos 8 caracteres')
+  .max(20, 'La contraseña no puede tener más de 20 caracteres')
+  .matches(/[a-zA-Z]/, 'La contraseña debe contener al menos una letra')
+  .matches(/[0-9]/, 'La contraseña debe contener al menos un número')
+  .matches(/[!@#$%^&*(),.?":{}|<>]/, 'La contraseña debe contener al menos un caracter especial')
+  .required('La contraseña es requerida')
+
+const nombresSchema = yup.string().min(2, 'El nombre debe contener mas de 2 carácteres ').required('El nombre es requerido')
+
 export const estudianteEsquemaRegistroFirstStep = yup.object().shape({
-  foto_perfil: yup.mixed().test('fileSize', 'El archivo es muy grande', validateFileSize),
-  nombres: yup.string().min(2).required('El nombre es requerido'),
-  apellidos: yup.string().min(2).required('El apellido es requerido'),
-  boleta: yup.string().min(10).required('La boleta es requerida'),
-  contrasena: yup.string().min(8).required('La contraseña es requerida')
+  foto_perfil: yup.mixed().test('fileSize', 'El archivo es muy grande', validateFileSize).optional().nullable(),
+  nombres: nombresSchema,
+  apellidos: yup.string().min(2, 'El apellido debe contener mas de 2 carácteres ').required('El apellido es requerido'),
+  boleta: yup.string().min(10, 'La boleta contiene al menos 10 números').required('La boleta es requerida').matches(/^[0-9]+$/, 'La boleta solo puede contener numeros'),
+  contrasena: passwordSchema
 })
 
 export const estudianteEsquemaRegistroSecondStep = yup.object().shape({
@@ -24,12 +34,12 @@ export const estudianteEsquemaRegistroSecondStep = yup.object().shape({
 })
 
 export const estudianteEsquemaIngreso = yup.object().shape({
-  nombre: yup.string().min(2).required('El nombre es requerido'),
+  nombres: nombresSchema,
   boleta: yup.string().min(10).required('La boleta es requerida')
 })
 
 export const profesorEsquema = yup.object().shape({
-  nombre: yup.string().min(2).required('El nombre es requerido'),
+  nombre: nombresSchema,
   area: yup.string().min(2).required('El area es requerida'),
   grado_academico: yup.string().min(2).required('El grado academico es requerido'),
   email: yup.string().email().required('El email es requerido'),
@@ -37,7 +47,7 @@ export const profesorEsquema = yup.object().shape({
 })
 
 export const tramiteEsquema = yup.object().shape({
-  nombre: yup.string().min(2).required('El nombre es requerido'),
+  nombre: nombresSchema,
   descripcion: yup.string().min(2).required('La descripcion es requerida'),
   fecha_inicio: yup.string().required('La fecha de inicio es requerida'),
   fecha_termino: yup.string().required('La fecha de termino es requerida'),
@@ -45,7 +55,7 @@ export const tramiteEsquema = yup.object().shape({
 })
 
 export const administradorEsquema = yup.object().shape({
-  nombre: yup.string().min(2).required('El nombre es requerido'),
+  nombre: nombresSchema,
   email: yup.string().email().required('El email es requerido'),
   contacto: yup.string().min(10).required('El contacto es requerido')
 })

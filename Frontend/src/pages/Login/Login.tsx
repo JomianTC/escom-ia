@@ -4,15 +4,21 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '../../models/ROUTES'
-import { getCharachter } from '../../services'
 import { USER_KEY, login, resetUser } from '../../store/slices/userSlice'
 import { clearLocalStorage } from '../../utilities'
 import { MyTextInput } from '../../components/InputText'
 import { estudianteEsquemaIngreso } from '../Schemas'
+import { useGetUser } from '@/api/users/use-get-user'
+import { FormLayout } from '../layouts/FormLayout'
 
+interface LoginData {
+  nombres: string
+  boleta: string
+}
 export default function Login () {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const userQuery = useGetUser()
 
   // Si el usuario accede a la ruta de login y ya esta logueado, hacemos que se desloguee
   useEffect(() => {
@@ -21,9 +27,9 @@ export default function Login () {
     navigate(`/${PUBLIC_ROUTES.LOGIN}`, { replace: true })
   }, [])
 
-  async function startLogin (rol = '') {
+  async function startLogin (rol = '', loginData: LoginData) {
     try {
-      const data = await getCharachter('302')
+      const data = await userQuery.mutateAsync(loginData.boleta)
       const user = {
         name: data?.name,
         id: data?._id,
@@ -37,24 +43,18 @@ export default function Login () {
   }
 
   return (
-        <div className="h-dvh flex flex-col justify-center items-center overflow-hidden">
-            <div
-                className={`w-72 xs:w-80 sm:max-w-lg sm:w-full bg-bg_100 border-4 border-text_100 rounded-xl ${true} flex flex-col content-center items-center py-14 px-6  gap-2`}
-            >
+        <FormLayout>
+            <>
                 <img
-                    src="/icons/logoCompleto.png"
+                    src="/icons/logoCompleto.webp"
                     alt="escom plus"
                     className="w-40"
                 />
                 <Formik
-          initialValues={{ nombre: '', boleta: '' }}
-          validationSchema={estudianteEsquemaIngreso}
+                    initialValues={{ nombres: '', boleta: '' }}
+                    validationSchema={estudianteEsquemaIngreso}
                     onSubmit={async (values, { setSubmitting }) => {
-                      await startLogin()
-                      setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2))
-                        setSubmitting(false)
-                      }, 400)
+                      await startLogin('', values)
                     }}
                 >
                     {({ isSubmitting }) => (
@@ -63,8 +63,8 @@ export default function Login () {
                             noValidate
                         >
                             <MyTextInput
-                                label="Nombre"
-                                name="nombre"
+                                label="Nombres"
+                                name="nombres"
                                 type="email"
                                 className="input-border"
                             />
@@ -89,7 +89,7 @@ export default function Login () {
                 </Link>
                 {/* <button onClick={async () => { await startLogin() }}>Login</button> */}
                 {/* <button onClick={async () => { await startLogin('ADMIN') }}>LoginUsingRole</button> */}
-            </div>
-        </div>
+            </>
+        </FormLayout>
   )
 }

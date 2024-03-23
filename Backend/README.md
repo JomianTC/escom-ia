@@ -31,8 +31,6 @@ npm run start:dev
 
 ## TODO
 
-- Actualizar Testing eliminar tramite
+- Actualizar Testing de tramites
 
 - Crear Testing para los endpoint de notificaciones
-
-- Crear las distintas notificaciones para los diferentes casos

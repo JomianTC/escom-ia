@@ -15,9 +15,6 @@ export class CreateProcedureDto {
 	fechaTermino: Date;
 	
 	@IsBoolean()
-	estado: boolean;
-	
-	@IsBoolean()
 	esInformativo: boolean;
 
 	@IsArray()

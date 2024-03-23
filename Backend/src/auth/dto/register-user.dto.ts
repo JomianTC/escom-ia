@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsIn, IsString, MaxLength, MinLength } from "class-validator";
 
 export class RegisterUserDto {
 
@@ -28,5 +28,6 @@ export class RegisterUserDto {
 	email_recuperacion: string;
 	
 	@IsString()
+	@IsIn([	"ISC-2009", "ISC-2020", "IA-2020", "LCD-2020", "ISISA", "MCSCM" ])
 	programa_academico: string;
 }

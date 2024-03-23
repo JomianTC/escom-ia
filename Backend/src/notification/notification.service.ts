@@ -102,7 +102,7 @@ export class NotificationService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
-	async sendNotification( id: string, message: string ) {
+	async sendNotification( id: string, title: string, message: string ) {
 
 		try {
 
@@ -120,7 +120,7 @@ export class NotificationService {
 				}
 	
 				const payload = JSON.stringify({
-					title: "Nueva Notificacion",
+					title,
 					message
 				});
 	
@@ -138,6 +138,86 @@ export class NotificationService {
 			});
 
 			await Promise.all( notify );
+			
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async sendAllNotification( message: string ) {
+
+		try {
+
+			const notificationsFound = await this.notificationRepository.createQueryBuilder()
+				.select( "notification.endpoint" )
+				.distinct( true )
+				.execute();
+
+			const notificationsAux = notificationsFound.map( async ( notification: any ) => {
+				return await this.notificationRepository.findOneBy({ endpoint: notification.endpoint });
+			});
+			
+			const notifications = await Promise.all( notificationsAux );
+
+			const notify = notifications.map( async ( notification ) => {
+
+				const subscription: CreateNotificationDto = {
+					endpoint: notification.endpoint,
+					expirationTime: null,
+					keys: {
+						p256dh: notification.p256dh,
+						auth: notification.auth
+					}
+				}
+	
+				const payload = JSON.stringify({
+					title: "Nueva Tramite Disponible",
+					message
+				});
+	
+				webpush.setVapidDetails(
+					"mailto:jomiantoca2011@gmail.com",
+					process.env.VAPID_PUBLIC_KEY,
+					process.env.VAPID_PRIVATE_KEY
+				);
+	
+				return await webpush.sendNotification( subscription, payload )
+				.catch( error => { 
+					console.log({ message: error.body, fault: error.endpoint });
+					this.removeAll( error.endpoint );
+				});
+			});
+
+			await Promise.all( notify );
+
+			// const notify = notifications.map( async ( notification ) => {
+
+			// 	const subscription: CreateNotificationDto = {
+			// 		endpoint: notification.endpoint,
+			// 		expirationTime: null,
+			// 		keys: {
+			// 			p256dh: notification.p256dh,
+			// 			auth: notification.auth
+			// 		}
+			// 	}
+	
+			// 	const payload = JSON.stringify({
+			// 		title: "Nueva Notificacion",
+			// 		message
+			// 	});
+	
+			// 	webpush.setVapidDetails(
+			// 		"mailto:jomiantoca2011@gmail.com",
+			// 		process.env.VAPID_PUBLIC_KEY,
+			// 		process.env.VAPID_PRIVATE_KEY
+			// 	);
+	
+			// 	return await webpush.sendNotification( subscription, payload )
+			// 	.catch( error => { 
+			// 		console.log({ message: error.body, fault: error.endpoint });
+			// 		this.removeAll( error.endpoint );
+			// 	});
+			// });
+
+			// await Promise.all( notify );
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}

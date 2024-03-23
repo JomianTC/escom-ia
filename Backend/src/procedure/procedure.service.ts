@@ -1,7 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { AdminProcedure } from "../admin_procedure/entities/admin_procedure.entity";
 import { CreateProcedureDto } from "./dto/create-procedure.dto";
 import { UpdateProcedureDto } from "./dto/update-procedure.dto";
 import { Procedure } from "./entities/procedure.entity";
@@ -87,11 +86,14 @@ export class ProcedureService {
 			if ( procedureFound ) 
 				throw new BadRequestException( "Ya existe un trámite con ese nombre" );
 
+			const newFechaInicio = new Date( fechaInicio ).toISOString().slice(0, 19).replace('T', ' ');
+			const newFechaTermino = new Date( fechaTermino ).toISOString().slice(0, 19).replace('T', ' ');
+
 			const newProcedure = this.procedureRepository.create({ 
 				nombre,
 				...procedureData,
-				fechaInicio: new Date( fechaInicio ),
-				fechaTermino: new Date( fechaTermino )
+				fechaInicio: new Date( newFechaInicio ),
+				fechaTermino: new Date( newFechaTermino ),
 			});
 
 			const procedure = await this.procedureRepository.save( newProcedure );
@@ -101,9 +103,9 @@ export class ProcedureService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
-	async update( id: string, updateProcedureDto: UpdateProcedureDto) {
+	async update( id: string, updateProcedureDto: UpdateProcedureDto ) {
 
-		const { requerimentos, fechaInicio, fechaTermino, ...procedureData } = updateProcedureDto;
+		const { requerimentos, ...procedureData } = updateProcedureDto;
 
 		try {
 
@@ -120,12 +122,51 @@ export class ProcedureService {
 				if ( procedureFound ) 
 					throw new BadRequestException( "Ya existe un trámite con ese nombre" );
 			}
-				
-			await this.procedureRepository.update( id, {
-				...procedureData,
-				fechaInicio: new Date( fechaInicio ),
-				fechaTermino: new Date( fechaTermino )
-			});
+
+			await this.procedureRepository.update( id, { ...procedureData });
+			
+			const { estado } = await this.procedureRepository.findOneBy({ id });
+
+			return estado;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async updateDate( id: string, updateProcedureDto: UpdateProcedureDto ) {
+
+		const { fechaInicio = null, fechaTermino = null } = updateProcedureDto;
+
+		try {
+
+			const procedure = await this.procedureRepository.findOneBy({ id });
+
+			const newFechaInicio = new Date( fechaInicio ).toISOString().slice(0, 19).replace('T', ' ');
+			const newFechaTermino = new Date( fechaTermino ).toISOString().slice(0, 19).replace('T', ' ');
+
+			if ( fechaInicio === null && fechaTermino === null )
+				return { message: "X" };
+
+			if ( fechaInicio && fechaTermino ){
+
+				await this.procedureRepository.update( id, {
+					fechaInicio: new Date( newFechaInicio ),
+					fechaTermino: new Date( newFechaTermino ),
+				});
+
+				return { message: `Se han modificado las fechas para el tramite: ${ procedure.nombre }` };
+			}
+
+			if ( fechaInicio )
+				await this.procedureRepository.update( id, {
+					fechaInicio: new Date( newFechaInicio ),
+				});
+
+			if ( fechaTermino )
+				await this.procedureRepository.update( id, {
+					fechaTermino: new Date( newFechaTermino ),
+				});
+
+			return { message: `Se ha modificado la fecha para el tramite: ${ procedure.nombre }` };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}

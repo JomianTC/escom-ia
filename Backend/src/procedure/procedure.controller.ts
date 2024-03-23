@@ -13,13 +13,18 @@ import { UserService } from '../user/user.service';
 @Controller( "procedure" )
 export class ProcedureController {
 
+	private nonNewProcedures = [];
+
 	constructor( 
 		private readonly procedureService: ProcedureService,
 		private readonly reqProService: RequirementProcedureService,
 		private readonly userService: UserService,
 		private readonly adminProService: AdminProcedureService,
 		private readonly notificationService: NotificationService,
-	){}
+	){ 
+		this.create24HTimer();
+		this.obtainNonNewProcedures();
+	}
 
 	// ? Metodos Alumno
 
@@ -156,7 +161,11 @@ export class ProcedureController {
 		@Body() updateProcedureDto: UpdateProcedureDto
 	){
 		
-		await this.procedureService.update( id, updateProcedureDto );
+		const estado = await this.procedureService.update( id, updateProcedureDto );
+		const { message } = await this.procedureService.updateDate( id, updateProcedureDto );
+
+		if ( estado && message !== "X" )
+			await this.notificationService.sendNotification( id, "Modificacion de Fechas", message );
 
 		const procedure = await this.procedureService.findOne( id );
 		await this.reqProService.update({ id_requirements: updateProcedureDto.requerimentos, procedure });
@@ -171,8 +180,23 @@ export class ProcedureController {
 		@Body( "estado" ) estado: boolean
 	) {
 
-		await this.notificationService.sendNotification( id, `El tramite ${ id } a cambiado de estado` );
-		return await this.procedureService.remove( id, estado );
+		const procedure = await this.procedureService.findOne( id );
+		const msg = await this.procedureService.remove( id, estado );
+
+		if ( !this.nonNewProcedures.includes( id ) ){
+			await this.notificationService.sendAllNotification( `El tramite ${ procedure.nombre } ahora esta disponible` );
+			this.nonNewProcedures.push( id );
+			console.log( "Entre" );
+		}
+		
+		if ( estado )
+			await this.notificationService.sendNotification( 
+				id, "Activacion de Tramite", `El tramite: ${ procedure.nombre } esta activo` );
+		else
+			await this.notificationService.sendNotification( 
+				id, "Activacion de Tramite", `El tramite: ${ procedure.nombre } esta inactivo` );
+
+		return { message: msg };
 	}
 
 	async checkPermission( email: string, id: string ){
@@ -182,5 +206,49 @@ export class ProcedureController {
 		const adminProcedureId = await this.adminProService.findOne( admin, procedure );
 
 		return { admin, procedure, adminProcedureId };
+	}
+
+	async create24HTimer(){
+
+		const todayAtNine = new Date();
+		todayAtNine.setHours( 9 );
+		todayAtNine.setMinutes( 0 );
+		todayAtNine.setSeconds( 0 );
+		todayAtNine.setMilliseconds( 0 );
+
+		let tiempoRestante = todayAtNine.getTime() - Date.now();
+
+		if ( tiempoRestante < 0 )
+			tiempoRestante += 24 * 60 * 60 * 1000;
+
+		setTimeout( async () => { 
+		
+			try { 
+				
+				const { procedures } = await this.procedureService.findAll({ limit: 1000, page: 1 });
+				
+				procedures.forEach( async ( procedure ) => {
+					
+					const today = `${ todayAtNine.getDate() }-${ todayAtNine.getMonth() }`;
+					const procedureDay = `${ procedure.fechaTermino.getDate() }-${ procedure.fechaTermino.getMonth() }`;
+
+					if ( today !== procedureDay ) return;
+
+					if ( !procedure.estado ) return;
+
+					await this.notificationService
+					.sendNotification( procedure.id, "AVISO", `El tramite: ${ procedure.nombre } termina HOY!!!` );
+				});
+
+				console.log( "Notificaciones enviadas 9AM" );
+			
+			} catch ( error ) { console.log( `${ error.message } que terminen el dia de hoy` ); }
+
+		}, tiempoRestante );
+	}
+
+	async obtainNonNewProcedures(){
+		const { procedures } = await this.procedureService.findAll({ limit: 1000, page: 1 });
+		procedures.forEach( procedure => { this.nonNewProcedures.push( procedure.id ) });
 	}
 }

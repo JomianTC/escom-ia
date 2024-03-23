@@ -20,7 +20,7 @@ export class Procedure {
 	@Column()
 	fechaTermino: Date;
 	
-	@Column()
+	@Column({ default: false })
 	estado: boolean;
 	
 	@Column()
@@ -28,13 +28,15 @@ export class Procedure {
 
 	@OneToMany(
 		() => RequirementProcedure,
-		requirement_procedure => requirement_procedure.id
+		requirement_procedure => requirement_procedure.id,
+		{ onDelete: "CASCADE" }
 	)
 	requirement_procedure: RequirementProcedure[];
 	
 	@OneToMany(
 		() => AdminProcedure,
-		admin_procedure => admin_procedure.id
+		admin_procedure => admin_procedure.id,
+		{ onDelete: "CASCADE" }
 	)
 	admin_procedure: AdminProcedure[];
 

@@ -181,12 +181,11 @@ export class ProcedureController {
 	) {
 
 		const procedure = await this.procedureService.findOne( id );
-		const msg = await this.procedureService.remove( id, estado );
+		const { message } = await this.procedureService.remove( id, estado );
 
 		if ( !this.nonNewProcedures.includes( id ) ){
 			await this.notificationService.sendAllNotification( `El tramite ${ procedure.nombre } ahora esta disponible` );
 			this.nonNewProcedures.push( id );
-			console.log( "Entre" );
 		}
 		
 		if ( estado )
@@ -196,7 +195,7 @@ export class ProcedureController {
 			await this.notificationService.sendNotification( 
 				id, "Activacion de Tramite", `El tramite: ${ procedure.nombre } esta inactivo` );
 
-		return { message: msg };
+		return { message };
 	}
 
 	async checkPermission( email: string, id: string ){

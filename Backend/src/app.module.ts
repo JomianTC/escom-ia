@@ -24,9 +24,9 @@ import { TagModule } from "./tag/tag.module";
 
 		// ? Importamos el modulo para servir contenido estatico
 		// ? Solamente lo usaremos para probar las notificaciones push
-		ServeStaticModule.forRoot({
-			rootPath: join( __dirname, "..", "public" ),
-		}),
+		// ServeStaticModule.forRoot({
+		// 	rootPath: join( __dirname, "..", "public" ),
+		// }),
 
 		// ? Importar el módulo de TypeORM para la BD
 		TypeOrmModule.forRoot({

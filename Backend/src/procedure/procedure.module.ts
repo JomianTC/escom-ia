@@ -1,6 +1,6 @@
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { RequirementProcedureService } from "../requirement_procedure/requirement_procedure.service";
 import { RequirementProcedureModule } from "../requirement_procedure/requirement_procedure.module";
 import { AdminProcedureService } from "../admin_procedure/admin_procedure.service";
@@ -32,7 +32,7 @@ import { AuthModule } from "../auth/auth.module";
 		RequirementsModule,
 		AdminProcedureModule,
 		CloudinaryModule,
-		NotificationModule
+		forwardRef( () => NotificationModule )
 	],
 	exports: [ TypeOrmModule ],
 })

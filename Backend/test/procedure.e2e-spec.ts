@@ -35,11 +35,10 @@ describe( "Procedure Endpoints", () => {
 	}
 
 	const updatedProcedure = {
-		nombre: "VOIDDRIFTER2",
+		nombre: "VOIDDRIFTER299",
 		descripcion: "Este tramite no hace nada",
 		fechaInicio: "2024-6-11",
 		fechaTermino: "2024-6-12",
-		estado: true,
 		esInformativo: true,
 		requerimentos: [
 			"f2e146d3-a444-4313-a635-e71f4302d752",
@@ -78,7 +77,7 @@ describe( "Procedure Endpoints", () => {
 		expect( typeof body.total ).toBe( "number" );
 	});
 	
-	test( "Should return an array of Tags with pagination 5", async() => {
+	test( "Should return an array of procedures with pagination 5", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
 			.get( "/procedure?page=1&limit=5" );
@@ -128,7 +127,7 @@ describe( "Procedure Endpoints", () => {
 		expect( body.message ).toBe( "Validation failed (uuid is expected)" );
 	});
 	
-	test( "Should return a not register tag error - Get Procedure By ID", async() => {
+	test( "Should return a not register procedure error - Get Procedure By ID", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
 			.get( "/procedure/" + falseUpdateProcedureId )
@@ -189,6 +188,45 @@ describe( "Procedure Endpoints", () => {
 			expect( status ).toBe( 200 );
 	});
 
+	test( "Should return a updated Procedure with no date", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.put( "/procedure/" + updateProcedureId )
+			.auth( token, { type: "bearer" } )
+			.send({
+				nombre: "VOIDDRIFTER2X",
+				descripcion: "Este tramite no hace nada",
+				esInformativo: true,
+				requerimentos: [
+					"f2e146d3-a444-4313-a635-e71f4302d752",
+					"339e7d04-d86d-4e64-90eb-6c03163b643c",
+					"295bffde-7374-4332-b460-1d314df18d99"
+				]
+			} );
+
+			expect( body.message ).toBe( "Trámite actualizado correctamente" );
+			expect( status ).toBe( 200 );
+	});
+
+	test( "Should return a updated Procedure only dates", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.put( "/procedure/" + updateProcedureId )
+			.auth( token, { type: "bearer" } )
+			.send({
+				fechaInicio: "2024-6-11",
+				fechaTermino: "2024-6-12",
+				requerimentos: [
+					"f2e146d3-a444-4313-a635-e71f4302d752",
+					"339e7d04-d86d-4e64-90eb-6c03163b643c",
+					"295bffde-7374-4332-b460-1d314df18d99"
+				]
+			} );
+
+			expect( body.message ).toBe( "Trámite actualizado correctamente" );
+			expect( status ).toBe( 200 );
+	});
+
 	// ! Error Update Procedure
 
 	test( "Should return a not valid ID error - Update Procedure", async() => {
@@ -213,7 +251,7 @@ describe( "Procedure Endpoints", () => {
 		expect( body.message ).toBe( "Token no valido" );
 	});
 	
-	test( "Should return a not register tag error - Update Procedure", async() => {
+	test( "Should return a not register procedure error - Update Procedure", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
 			.put( "/procedure/" + falseUpdateProcedureId )
@@ -226,10 +264,22 @@ describe( "Procedure Endpoints", () => {
 
 	// * Success Delete Procedure
 
+	test( "Should activate a Procedure", async() => {
+
+		const { status, body } = await request( app.getHttpServer() )
+			.delete( "/procedure/" + deleteProcedureId )
+			.send({ estado: true })
+			.auth( token, { type: "bearer" } );
+
+		expect( status ).toBe( 200 );
+		expect( body.message ).toBe( "El Trámite ahora esta activo" );
+	});
+
 	test( "Should delete a Procedure", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
 			.delete( "/procedure/" + deleteProcedureId )
+			.send({ estado: false })
 			.auth( token, { type: "bearer" } );
 
 		expect( status ).toBe( 200 );
@@ -242,6 +292,7 @@ describe( "Procedure Endpoints", () => {
 	
 		const { status, body } = await request( app.getHttpServer() )
 			.delete( "/procedure/123" )
+			.send({ estado: true })
 			.auth( token, { type: "bearer" } );
 
 		expect( status ).toBe( 400 );
@@ -252,20 +303,33 @@ describe( "Procedure Endpoints", () => {
 
 		const { status, body } = await request( app.getHttpServer() )
 			.delete( "/procedure/" + deleteProcedureId )
+			.send({ estado: true })
 			.auth( "Token", { type: "bearer" } );
 
 		expect( status ).toBe( 401 );
 		expect( body.message ).toBe( "Token no valido" );
 	});
 
-	test( "Should return a not register tag error - Delete Procedure", async() => {
+	test( "Should return a not register procedure error - Delete Procedure", async() => {
 	
 		const { status, body } = await request( app.getHttpServer() )
 			.delete( "/procedure/" + falseUpdateProcedureId )
+			.send({ estado: true })
 			.auth( token, { type: "bearer" } );
 
 		expect( status ).toBe( 400 );
 		expect( body.message ).toBe( "No se encontró el trámite" );
+	});
+
+	test( "Should return procedure cant change status - Delete Procedure", async() => {
+	
+		const { status, body } = await request( app.getHttpServer() )
+			.delete( "/procedure/" + deleteProcedureId )
+			.send({ estado: false })
+			.auth( token, { type: "bearer" } );
+
+		expect( status ).toBe( 400 );
+		expect( body.message ).toBe( "El trámite no puede cambiar de estado" );
 	});
 
 	// * Success Find All With Permissions
@@ -281,7 +345,7 @@ describe( "Procedure Endpoints", () => {
 		expect( typeof body.total ).toBe( "number" );
 	});
 	
-	test( "Should return an array of Tags with pagination 5 - Permission", async() => {
+	test( "Should return an array of procedures with pagination 5 - Permission", async() => {
 
 		const { status, body } = await request( app.getHttpServer() )
 			.get( "/procedure/admin/findAll?page=1&limit=5" )

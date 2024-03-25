@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Param, UseGuards, Delete, Get, ParseUUIDPipe } from "@nestjs/common";
 import { GetTokenPayload } from "../user/decorators/get-token-payload.decorator";
 import { CreateNotificationDto } from "./dto/create-notification.dto";
+import { ProcedureService } from "../procedure/procedure.service";
 import { NotificationService } from "./notification.service";
 import { AuthGuard } from "../auth/guards/auth.guard";
 import { UserService } from "../user/user.service";
@@ -10,7 +11,8 @@ export class NotificationController {
 	
 	constructor( 
 		private readonly notificationService: NotificationService,
-		private readonly userService: UserService
+		private readonly userService: UserService,
+		private readonly procedureService: ProcedureService
 	){}
 
 	@Get( "key" )
@@ -32,6 +34,7 @@ export class NotificationController {
 	) {
 
 		const user = await this.userService.findByEmail( email );
+		await this.procedureService.findOne( id );
 		const isActivated = await this.notificationService.checkProcedureNotification( user.id, id );
 		return { isActivated }
 	}
@@ -45,6 +48,7 @@ export class NotificationController {
 	) {
 
 		const user = await this.userService.findByEmail( email );
+		await this.procedureService.findOne( id );
 
 		await this.notificationService.create( user.id, id, createNotificationDto );
 		return { message: "Suscripcion creada correctamente" }
@@ -69,6 +73,7 @@ export class NotificationController {
 	) {
 
 		const user = await this.userService.findByEmail( email );
+		await this.procedureService.findOne( id );
 		return await this.notificationService.remove( user.id, id );
 	}
 

@@ -1,8 +1,10 @@
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { NotificationController } from "./notification.controller";
 import { CloudinaryModule } from "../cloudinary/cloudinary.module";
+import { ProcedureService } from "../procedure/procedure.service";
+import { ProcedureModule } from "../procedure/procedure.module";
 import { Notification } from "./entities/notification.entity";
 import { NotificationService } from "./notification.service";
 import { UserService } from "../user/user.service";
@@ -11,7 +13,7 @@ import { AuthModule } from "../auth/auth.module";
 
 @Module({
 	controllers: [ NotificationController ],
-	providers: [ NotificationService, UserService ],
+	providers: [ NotificationService, UserService, ProcedureService ],
 	imports: [ 
 
 		ConfigModule,
@@ -20,6 +22,7 @@ import { AuthModule } from "../auth/auth.module";
 
 		UserModule,
 		AuthModule,
+		forwardRef( () => ProcedureModule ),
 		CloudinaryModule,
 	],
 	exports: [ TypeOrmModule ],

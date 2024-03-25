@@ -1,5 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import * as webpush from "web-push";
 import { CreateNotificationDto } from "./dto/create-notification.dto";
@@ -19,6 +19,13 @@ export class NotificationService {
 		const { endpoint, expirationTime, keys } = createNotificationDto;
 
 		try {
+
+			const notificationExists = await this.notificationRepository.findOne({
+				where: { procedureID, endpoint: createNotificationDto.endpoint }
+			});
+
+			if ( notificationExists ) 
+				throw new BadRequestException( { message: "El dispositivo ya esta registrado" } );
 
 			const registerNotification = this.notificationRepository.create({
 				userID,
@@ -231,7 +238,7 @@ export class NotificationService {
 			});
 
 			if ( !notification ) 
-				return { message: "No se encontro ninguna subscripcion" };
+				throw new BadRequestException({ message: "No se encontro ninguna subscripcion" });
 
 			await this.notificationRepository.remove( notification );
 
@@ -249,7 +256,7 @@ export class NotificationService {
 			});
 
 			if ( notification.length === 0 ) 
-				return { message: "No se encontraron subscripciones" };
+				throw new BadRequestException({ message: "No se encontraron subscripciones" });
 
 			const deleteNotifications = notification.map( async ( notify ) => {
 				return await this.notificationRepository.remove( notify );

@@ -1,13 +1,24 @@
+import { PRIVATE_ROUTES_MODEL, PUBLIC_ROUTES_MODEL } from '@models/ROUTES'
 import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
-import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '../models/ROUTES'
 
-export default function AuthGuards ({ privateValidation = false }) {
+export function AuthGuards ({ privateValidation = false }) {
   // Verificamos si el usuario esta logueado
-  const { loggedIn } = useSelector(state => state.user)
+  const { loggedIn } = useSelector((state) => state.user)
+
+  console.log(loggedIn)
+
   return loggedIn
-    ? privateValidation
-      ? <Outlet />
-      : < Navigate replace to={`/${PRIVATE_ROUTES.PRIVATE}`} />
-    : < Navigate replace to={PUBLIC_ROUTES.LOGIN} />
+    ? (
+        privateValidation
+          ? (
+            <Outlet />
+            )
+          : (
+            <Navigate replace to={`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}`} />
+            )
+      )
+    : (
+        <Navigate replace to={PUBLIC_ROUTES_MODEL.LOGIN.path} />
+      )
 }

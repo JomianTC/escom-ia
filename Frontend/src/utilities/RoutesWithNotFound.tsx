@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
-export default function RoutesWithNotFound ({ children }) {
+export default function RoutesWithNotFound ({ children }: { children: React.ReactNode }) {
   return (
         <Routes>
             {children}

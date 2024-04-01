@@ -5,18 +5,20 @@ interface BubbleProps {
   right?: string
   left?: string
   size: string
+  extraStyles?: React.CSSProperties
 }
 
 interface BubbleStyles extends React.CSSProperties {
   '--i': string
 }
 
-export function Bubble ({ index, top, right, left, size }: BubbleProps) {
+export function Bubble ({ index, top, right, left, size, extraStyles }: BubbleProps) {
   const customStyles: BubbleStyles = {
     '--i': `${index}s`,
     top,
     right,
-    left
+    left,
+    ...extraStyles
   }
   return (
       <section className={`-z-10 stage absolute ${size} `} style={customStyles}>

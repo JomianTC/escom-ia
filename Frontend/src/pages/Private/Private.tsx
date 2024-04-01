@@ -1,33 +1,30 @@
-import { lazy } from 'react'
-import { NavLink, Route } from 'react-router-dom'
-import { PRIVATE_ROUTES } from '../../models/ROUTES'
-import RoutesWithNotFound from '../../utilities/RoutesWithNotFound'
-import AuthGuards from '../../guards/auth.guards'
-import NavBar from '../../components/NavBar'
+import { NavBar } from '@/components/NavBar'
+import { PRIVATE_ROUTES } from '@/models'
+import { type IRoute } from '@/types/index'
+import { AuthGuards } from '@guards/index.ts'
+import RoutesWithNotFound from '@utils/RoutesWithNotFound'
+import { Route } from 'react-router-dom'
 
-const style = {
-  backgroundColor: 'lightblue'
-}
-
-const Dashboard = lazy(async () => await import('./Dashboard/Dashboard'))
-const Home = lazy(async () => await import('./Home/Home'))
+// const Home = lazy(async () => await import('./Home/Home'))
 
 export default function Private () {
   return (
     <>
             <NavBar />
-            {/* <h3>Seccion de rutas privadas</h3>
-            <p>Esto se visualiza en todas las rutas privadas </p> */}
-            <NavLink to={PRIVATE_ROUTES.HOME}>Home</NavLink>
-            <NavLink to={PRIVATE_ROUTES.DASHBOARD}>Dashboard</NavLink>
-            <div style={style}>
+            <div className='main-container flex-grow px-4' data-theme="dark">
                 <RoutesWithNotFound>
-                    <Route path="/" element={<Dashboard />} />
+                  {
+                      PRIVATE_ROUTES.map((route: IRoute) => {
+                        if (route.component !== undefined && route.component !== null) {
+                          return <Route key={route.path} path={route.path} element={<route.component />} />
+                        }
+                        return null
+                      }
+                      )
+                    }
                     <Route element={<AuthGuards privateValidation={false} />}>
                         <Route path={'privadaValidada'} element={<h1>RUTA PRIVADA VALIDADA</h1>} />
                     </Route>
-                    <Route path={PRIVATE_ROUTES.HOME} element={<Home />} />
-                    <Route path={PRIVATE_ROUTES.DASHBOARD} element={<Dashboard />} />
                 </RoutesWithNotFound>
             </div >
         </>

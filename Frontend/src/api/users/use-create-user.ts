@@ -4,8 +4,6 @@ import { type TSFixMe, type Student } from '@/types/index'
 
 const createUserFn = async (newUser: Student) => {
   const response = await apiClient.post('register', newUser)
-  console.log(newUser)
-
   return response.data
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates

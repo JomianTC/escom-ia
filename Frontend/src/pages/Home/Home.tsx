@@ -1,29 +1,31 @@
-import { Link } from 'react-router-dom'
-import { Bubble } from './components/Bubble'
-import { useTeachers } from '@/api/teachers/use-get-teachers'
+import { Bubble } from '@/pages/Home/components/Bubble'
+import { useNavigate } from 'react-router-dom'
+
+type VALID_ROUTES = 'login' | 'register' | 'invitado'
 
 export function Home () {
-  const handleLogin = () => {
-    console.log('login')
+  const navigate = useNavigate()
+  const handleRedirect = (route: VALID_ROUTES) => {
+    navigate(`/${route}`)
   }
   return (
-        <div className="w-full h-full relative overflow-hidden flex justify-center content-center items-center ">
+        <div className="w-full h-screen relative overflow-hidden flex justify-center content-center items-center ">
           <div className="relative  z-50 buttons-container flex flex-col gap-6  ">
               <img className='w-56 drop-shadow-2xl shadow-primary_300' src="/icons/logoCompleto.png" alt="" />
                 <button
-                    onClick={handleLogin}
+                    onClick={() => { handleRedirect('login') }}
                     className="login-button bg-primary_100 font-bold  text-text_200 px-8 py-2 rounded-full text-3xl"
                 >
                     Inicia Sesión
                 </button>
                 <button
-                    onClick={handleLogin}
+                    onClick={() => { handleRedirect('register') }}
                     className="login-button bg-primary_100 font-bold  text-text_200 px-8 py-2 rounded-full text-3xl"
                 >
                     Registro
                 </button>
                 <button
-                    onClick={handleLogin}
+                    onClick={() => { handleRedirect('login') }}
                     className="login-button bg-primary_100 font-bold  text-text_200 px-8 py-2 rounded-full text-3xl "
                 >
                     Invitado

@@ -1,0 +1,39 @@
+import { teacherClient } from '@/api'
+import { getLocalStorage } from '@/utilities/localStorage.utlity'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
+import { teacherQueryKeys } from './teachers-query-keys'
+
+// https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
+export function useTeacher () {
+  const { token } = getLocalStorage('token')
+  teacherClient.defaults.headers.common.Authorization = `Bearer ${token}`
+  const { id } = useParams()
+  const getTeacher = async () => {
+    const response = await teacherClient.get('/' + id)
+    return response.data
+  }
+
+  const errorHandling = async () => {
+    const { data } = await teacherClient.get('/renew')
+  }
+
+  return useQuery({
+    queryKey: teacherQueryKeys.detail(Number(id)),
+    queryFn: getTeacher,
+    throwOnError: (error, query) => {
+      if (error.response?.status === 403) {
+        errorHandling()
+      }
+      return false
+    },
+    retry: (count, error) => {
+      if (error.response?.status === 403 && count < 2) {
+        // errorHandling()
+      }
+      return count < 2
+    },
+    refetchOnWindowFocus: false,
+    retryDelay: 1000
+  })
+}

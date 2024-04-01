@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { useGetUser } from '@/api/users/use-get-user'
+import { MyTextInput } from '@/components/InputText'
+import { type LoginData } from '@/types/index'
+import { FormLayout } from '@layouts/FormLayout'
+import { PRIVATE_ROUTES_MODEL, PUBLIC_ROUTES_MODEL } from '@models/ROUTES'
+import { USER_KEY, login, resetUser } from '@store/slices/userSlice'
+import { clearLocalStorage } from '@utils/index'
 import { Form, Formik } from 'formik'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
-import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '../../models/ROUTES'
-import { USER_KEY, login, resetUser } from '../../store/slices/userSlice'
-import { clearLocalStorage } from '../../utilities'
-import { MyTextInput } from '../../components/InputText'
+import { Link, useNavigate } from 'react-router-dom'
 import { estudianteEsquemaIngreso } from '../Schemas'
-import { useGetUser } from '@/api/users/use-get-user'
-import { FormLayout } from '../layouts/FormLayout'
 
-interface LoginData {
-  nombres: string
-  boleta: string
-}
 export default function Login () {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -24,19 +21,15 @@ export default function Login () {
   useEffect(() => {
     clearLocalStorage(USER_KEY)
     dispatch(resetUser())
-    navigate(`/${PUBLIC_ROUTES.LOGIN}`, { replace: true })
+    navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
   }, [])
 
   async function startLogin (rol = '', loginData: LoginData) {
     try {
-      const data = await userQuery.mutateAsync(loginData.boleta)
-      const user = {
-        name: data?.name,
-        id: data?._id,
-        rol
-      }
-      dispatch(login(user))
-      navigate(`/${PRIVATE_ROUTES.PRIVATE}`, { replace: true })
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      const data = await userQuery.mutateAsync(loginData)
+      dispatch(login(data))
+      navigate(`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}`, { replace: true })
     } catch (error) {
       console.log(error)
     }
@@ -51,7 +44,7 @@ export default function Login () {
                     className="w-40"
                 />
                 <Formik
-                    initialValues={{ nombres: '', boleta: '' }}
+                    initialValues={{ contrasena: '', boleta: '' }}
                     validationSchema={estudianteEsquemaIngreso}
                     onSubmit={async (values, { setSubmitting }) => {
                       await startLogin('', values)
@@ -63,21 +56,20 @@ export default function Login () {
                             noValidate
                         >
                             <MyTextInput
-                                label="Nombres"
-                                name="nombres"
-                                type="email"
+                                label="Boleta"
+                                name="boleta"
+                                type="text"
                                 className="input-border"
                             />
                             <MyTextInput
-                                label="Boleta"
-                                name="boleta"
+                                label="Contraseña"
+                                name="contrasena"
                                 type="password"
                                 className="input-border"
                             />
                             <button
                                 type="submit"
                                 className="white-border"
-                                disabled={isSubmitting}
                             >
                                 Submit
                             </button>

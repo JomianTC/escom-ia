@@ -3,7 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root {
+:root, :root[data-theme="light"] {
     --primary_100: #0f68a3;
     --primary_200: #5596d5;
     --primary_300: #bff9ff;
@@ -35,6 +35,49 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
 }
+
+:root[data-theme="dark"]{
+    --primary_100: #0f68a3;
+    --primary_200: #5596d5;
+    --primary_300: #bff9ff;
+    --accent_100: #3d5a80;
+    --accent_200: #e2f2ff;
+    --text_100: #ffffff;
+    --text_200: #e0e0e0;
+    --bg_300: #2b3444;
+    --bg_200: #1f2b3e;
+    --bg_100: #0f1c2e;
+    --black: #030508;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+    --primary_100: #0f68a3;
+    --primary_200: #5596d5;
+    --primary_300: #bff9ff;
+    --accent_100: #3d5a80;
+    --accent_200: #e2f2ff;
+    --text_100: #ffffff;
+    --text_200: #e0e0e0;
+    --bg_300: #2b3444;
+    --bg_200: #1f2b3e;
+    --bg_100: #0f1c2e;
+    --black: #030508;
+    font-family: "Glory", sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    --gradiend: linear-gradient(
+        180deg,
+        var(--black) 30%,
+        var(--accent_100) 100%
+    );
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+    background: var(--gradiend);
+    }
+}
+    
 * {
     box-sizing: border-box;
     margin: 0;
@@ -101,4 +144,18 @@ input[type="password"]:focus {
     transition: box-shadow 0.25s;
     outline: none;
     padding: 0.6em 1.2em;
+}
+
+.form-selector{
+    cursor: pointer;
+}
+.input-form-selector{
+    display: none;
+}
+.radio-checked{
+    border:4px solid var(--primary_300);    
+}
+.input-form-selector:checked + .radio-checked{
+    border:4px solid var(--primary_300);
+    background-color: var(--text_100);
 }

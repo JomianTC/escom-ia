@@ -1,5 +1,5 @@
 import { Field } from 'formik'
-import { MyTextInput } from '../../components/InputText'
+import { MyTextInput } from '../../../components/InputText'
 const PROGRAMAS_ACADEMICOS = [
   'ISC-2009',
   'ISC-2020',
@@ -7,7 +7,6 @@ const PROGRAMAS_ACADEMICOS = [
   'LCD-2020',
   'ISISA',
   'MCSCM'
-
 ]
 export const FormStepTwo = () => {
   return (

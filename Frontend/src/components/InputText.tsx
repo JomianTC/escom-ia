@@ -7,14 +7,14 @@ interface MyTextInputProps {
   placeholder?: string
   [x: string]: any
 }
-export function MyTextInput ({ label, className, ...props }: MyTextInputProps) {
+export function MyTextInput ({ label, className, placeholder = '', ...props }: MyTextInputProps) {
   const [field, meta, helpers] = useField(props.name)
 
   return (
 <>
         <label className={` ${className}`}>
         <span>{label}</span>
-        <input className={'px-2 py-1 input-border mb-2'} {...field} {...props} placeholder='Antonio Mora'/>
+        <input className={'px-2 py-1 input-border mb-2'} {...field} {...props} placeholder={placeholder } />
         <ErrorMessage className={'text-red-400'} name={field.name} component={'span'} />
         </label>
 </>

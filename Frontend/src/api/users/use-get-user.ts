@@ -1,11 +1,9 @@
+import { type LoginData, type TSFixMe } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient, userQueryKeys } from '../index'
-import { type TSFixMe } from '@/types/index'
 
-const LOGIN_PARAM = 'id'
-
-const getUserDetails = async (id: string) => {
-  const response = await apiClient.post(`?${LOGIN_PARAM}=${id}`)
+const getUserDetails = async (data: LoginData) => {
+  const response = await apiClient.post('/login', { ...data })
   return response.data
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates

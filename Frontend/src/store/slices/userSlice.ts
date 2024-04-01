@@ -1,16 +1,24 @@
+import { type StudentLogged } from '@/types'
 import { createSlice } from '@reduxjs/toolkit'
 import { clearLocalStorage, setLocalStorage } from '../../utilities'
 
-const DEFAULT_INITIAL_STATE = {
-  name: null,
+const DEFAULT_INITIAL_STATE: StudentLogged = {
   _id: null,
   loggedIn: false,
-  rol: ''
+  rol: '',
+  nombres: '',
+  boleta: '',
+  foto_perfil: '',
+  apellidos: '',
+  contrasena: '',
+  email_academico: '',
+  email_recuperacion: '',
+  programa_academico: ''
 }
 
 const initialState = (() => {
   const state = localStorage.getItem('user_state')
-  return state ? JSON.parse(state) : DEFAULT_INITIAL_STATE
+  return (state != null) ? JSON.parse(state) : DEFAULT_INITIAL_STATE
 })()
 
 export const USER_KEY = 'user_state'
@@ -25,7 +33,9 @@ export const userSlice = createSlice({
       state._id = action.payload.id
       state.loggedIn = true
       state.rol = action.payload.rol
-      setLocalStorage(USER_KEY, state)
+      const data = { ...state, ...action.payload }
+      // console.log(data)
+      setLocalStorage(USER_KEY, data)
     },
     update: (state, action) => {
       const result = { ...state, ...action.payload }
@@ -37,7 +47,7 @@ export const userSlice = createSlice({
       return DEFAULT_INITIAL_STATE
     },
     showUserInfo: (state, action) => {
-      console.log(action.payload)
+      // console.log(action.payload)
     }
   }
 })

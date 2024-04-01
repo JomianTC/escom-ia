@@ -33,11 +33,10 @@ interface Tramite {
 }
 
 interface Administrador {
-  id: string
+  id?: string
   nombre: string
   email: string
-  contacto: string
-  foto_perfil: string
+  area: string
 }
 
 interface Comentario {

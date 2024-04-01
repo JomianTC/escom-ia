@@ -1,5 +1,5 @@
-import { MyTextInput } from '../../components/InputText'
-import { InputTypeFile } from '../../components/InputTypeFile'
+import { MyTextInput } from '../../../components/InputText'
+import { InputTypeFile } from '../../../components/InputTypeFile'
 
 export function FormStepOne () {
   return (

@@ -28,13 +28,14 @@ export const estudianteEsquemaRegistroFirstStep = yup.object().shape({
 })
 
 export const estudianteEsquemaRegistroSecondStep = yup.object().shape({
-  email_academico: yup.string().email().required('El email academico es requerido'),
+  email_academico: yup.string().email('El correo electrónico no tiene un formato válido')
+    .matches(/@alumno\.ipn\.mx$/, 'El correo electrónico debe tener la terminación @alumno.ipn.mx'),
   email_recuperacion: yup.string().email().required('El email de recuperacion es requerido'),
   programa_academico: yup.string().min(2).required('El programa academico es requerido')
 })
 
 export const estudianteEsquemaIngreso = yup.object().shape({
-  nombres: nombresSchema,
+  contrasena: passwordSchema,
   boleta: yup.string().min(10).required('La boleta es requerida')
 })
 
@@ -57,7 +58,8 @@ export const tramiteEsquema = yup.object().shape({
 export const administradorEsquema = yup.object().shape({
   nombre: nombresSchema,
   email: yup.string().email().required('El email es requerido'),
-  contacto: yup.string().min(10).required('El contacto es requerido')
+  area: yup.string().min(10).required('El contacto es requerido'),
+  identificador: yup.string().min(10).required('El identificador es requerido')
 })
 
 export const comentarioEsquema = yup.object().shape({

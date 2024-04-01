@@ -10,14 +10,19 @@ interface Components extends Array<JSX.Element> {
 
 export const useForm = (initialValues: Student, components: Components) => {
   const [formStep, setFormStep] = useState(0)
+  const [canRedirect, setCanRedirect] = useState(false)
   const dispatch = useDispatch()
   const createUser = useCreateUser()
 
   async function handleSubmit (values: Student) {
-    handleNext()
     if (formStep === components.length - 1) {
-      await createUser.mutateAsync(values)
-      if (createUser.isSuccess) dispatch(showUserInfo(values))
+      createUser.mutate(values)
+      if (createUser.isSuccess) {
+        setCanRedirect(true)
+        return dispatch(showUserInfo(values))
+      }
+    } else {
+      handleNext()
     }
   }
 
@@ -38,6 +43,7 @@ export const useForm = (initialValues: Student, components: Components) => {
     handleBack,
     handleSubmit,
     isLoading: createUser.isPending,
-    isSuccess: createUser.isSuccess
+    isSuccess: createUser.isSuccess,
+    canRedirect
   }
 }

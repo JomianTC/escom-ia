@@ -9,16 +9,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary_100: "#0f68a3",
-        primary_200: "#5596d5",
-        primary_300: "#bff9ff",
-        accent_100: "#3d5a80",
-        accent_200: "#e2f2ff",
-        text_100: "#ffffff",
-        text_200: "#e0e0e0",
-        bg_300: "#2b3444",
-        bg_200: "#1f2b3e",
-        bg_100: "#0f1c2e",
+        primary_100: "var(--primary_100)",
+        primary_200: "var(--primary_200)",
+        primary_300: "var(--primary_300)",
+        accent_100: "var(--accent_100)",
+        accent_200: "var(--accent_200)",
+        text_100: "var(--text_100)",
+        text_200: "var(--text_200)",
+        bg_300: "var(--bg_300)",
+        bg_200: "var(--bg_200)",
+        bg_100: "var(--bg_100)",
+        black : "var(--black)",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

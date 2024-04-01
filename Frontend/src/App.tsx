@@ -9,12 +9,9 @@ import { Provider } from 'react-redux'
 import { Navigate, Route } from 'react-router-dom'
 import './App.css'
 
-import {
-  QueryClient,
-  QueryClientProvider
-} from '@tanstack/react-query'
-import Private from './pages/Private/Private'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Login } from './pages/Login'
+import Private from './pages/Private/Private'
 // LAZYLOADING DE LOGIN Y LAS PARTES PRIVADAS
 
 const queryClient = new QueryClient()
@@ -29,13 +26,11 @@ function App () {
                         <RoutesWithNotFound>
                             <Route
                                 path="/"
-                                element={
-                                    <Navigate to={PRIVATE_ROUTES_MODEL.PRIVATE.path} />
-                                }
+                                element={<Navigate to={PRIVATE_ROUTES_MODEL.PRIVATE.path}/>}
                             />
                             <Route
                                 path={PUBLIC_ROUTES_MODEL.LOGIN.path}
-                                element={<Login/>}
+                                element={<Login />}
                             />
                             <Route
                                 path={PUBLIC_ROUTES_MODEL.REGISTER.path}
@@ -68,7 +63,6 @@ function App () {
                                     }
                                 />
                             </Route>
-
                         </RoutesWithNotFound>
                     </Provider>
                 </Suspense>

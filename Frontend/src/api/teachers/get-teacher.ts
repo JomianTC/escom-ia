@@ -3,6 +3,7 @@ import { getLocalStorage } from '@/utilities/localStorage.utlity'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { teacherQueryKeys } from './teachers-query-keys'
+import { type TeacherDataResponse } from '@/types/index'
 
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 export function useTeacher () {
@@ -10,7 +11,7 @@ export function useTeacher () {
   teacherClient.defaults.headers.common.Authorization = `Bearer ${token}`
   const { id } = useParams()
   const getTeacher = async () => {
-    const response = await teacherClient.get('/' + id)
+    const response: TeacherDataResponse = await teacherClient.get('/' + id)
     return response.data
   }
 
@@ -33,7 +34,7 @@ export function useTeacher () {
       }
       return count < 2
     },
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     retryDelay: 1000
   })
 }

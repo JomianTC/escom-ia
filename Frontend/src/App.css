@@ -8,4 +8,5 @@
   justify-content: center;
   /* display: grid; */
   /* place-content: center; */
+  overflow: hidden;
 }

@@ -1,6 +1,7 @@
-import { Link, Route, Routes } from 'react-router-dom'
-import { Profesor } from './Profesor'
 import { useTeachers } from '@/api/teachers/use-get-teachers'
+import { Route, Routes } from 'react-router-dom'
+import { Profesor } from './Profesor'
+import { ProfesorCard } from './components/ProfesorCard'
 
 export function ProfesoresPage () {
   return (
@@ -18,9 +19,11 @@ function Profesores () {
   if (isError) return <h1>Something happenend</h1>
 
   return (
-    <div className='h-screen bg-pink-400'>
-      <Link to="1">Profesor 1</Link>
-      <Link to="Various">Profesor 2</Link>
-    </div>
+    <section className='profesores__grid container'>
+      <h1 className='grid__title'>Profesores</h1>
+      {data?.teachers?.map((profesor) => (
+        <ProfesorCard key={profesor.email} {...profesor} />
+      ))}
+    </section>
   )
 }

@@ -1,4 +1,4 @@
-import { PRIVATE_ROUTES, PRIVATE_ROUTES_MODEL, PUBLIC_ROUTES_MODEL } from '@models/ROUTES'
+import { NAV_ROUTES, PRIVATE_ROUTES, PRIVATE_ROUTES_MODEL, PUBLIC_ROUTES_MODEL } from '@models/ROUTES'
 import { USER_KEY, resetUser } from '@store/slices/userSlice'
 import { clearLocalStorage } from '@utils/index'
 import { useEffect, useRef } from 'react'
@@ -35,13 +35,13 @@ export function NavBar () {
   // const show = showNav ? 'block' : 'hidden'
 
   return (
-    <nav className={` bg-black border-[1px] border-zinc-100 px-12 py-3 my-0 mx-auto rounded-full ${''} w-fit left-0 right-0 transition-all mt-8 mb-8`} ref={navRef}>
+    <nav className={` bg-black border-[1px] hidden sm:block border-zinc-100 px-4  sm:px-12 sm:py-3 my-0 mx-auto rounded-full ${''} w-fit left-0 right-0 transition-all mt-8 mb-8`} ref={navRef}>
       <ul className='flex gap-6 justify-center items-center'>
         <li >
-          <img className='w-8' src="/icons/robot.png" alt="" />
+          <img className='sm:w-8' src="/icons/robot.png" alt="" />
         </li>
         {
-          PRIVATE_ROUTES.map((route) => (
+          NAV_ROUTES.map((route) => (
             <li key={route.path}>
               <NavLink to={route.navPath} className={({ isActive }: { isActive: boolean }) => `nav__link ${isActive ? 'active' : ''} `} end>
                 {route.name}

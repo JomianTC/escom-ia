@@ -48,7 +48,7 @@ export const PRIVATE_ROUTES_MODEL: Record<string, IRoute> = {
     path: 'dashboard',
     component: Dashboard,
     navPath: 'dashboard',
-    name: 'dashboard'
+    name: 'Dashboard'
   },
   HOME: {
     path: 'home',
@@ -76,4 +76,7 @@ export const PRIVATE_ROUTES_MODEL: Record<string, IRoute> = {
   }
 }
 
+const ROUTES_TO_IGNORE = ['private', 'home']
+
 export const PRIVATE_ROUTES = Object.keys(PRIVATE_ROUTES_MODEL).map(key => PRIVATE_ROUTES_MODEL[key])
+export const NAV_ROUTES = PRIVATE_ROUTES.filter(route => !ROUTES_TO_IGNORE.includes(route.navPath))

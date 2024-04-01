@@ -137,10 +137,9 @@ input[type="password"]:focus {
 }
 
 .white-border {
-    border: 2px solid var(--accent_200);
+    border: 4px solid var(--accent_200);
     box-shadow: 2px 4px 0px 0px var(--accent_200);
     color: var(--text_100);
-    font-weight: 600;
     transition: box-shadow 0.25s;
     outline: none;
     padding: 0.6em 1.2em;
@@ -158,4 +157,73 @@ input[type="password"]:focus {
 .input-form-selector:checked + .radio-checked{
     border:4px solid var(--primary_300);
     background-color: var(--text_100);
+}
+
+.main__container {
+    height: calc(100vh - 8rem);
+    width: 100%;
+    flex-grow: 1;
+    gap: 4rem;
+    overflow-y: scroll;
+}
+
+.main__container::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.container {
+    max-width: 1400px;
+}
+
+.profesores__grid {
+    padding: 2rem;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    /* background-color: var(--bg_200); */
+    gap: 4rem;
+	grid-template-columns: repeat(auto-fill,minmax(20rem,1fr));
+}
+
+.profesor__card{
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profesor__card div a h2 {
+    transition: color 0.25s;
+    text-shadow: 3px 3px 0px var(--black);
+}
+
+.profesor__card div a h2:hover {
+    filter: drop-shadow(1px 1px 2px var(--primary_100));
+}
+
+
+.profesor__card div p  {
+    width: 100%;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profesor__card div p span {
+    font-weight: 400;
+    color: var(--primary_300);
+    font-style: italic;
+
+}
+
+
+.grid__title{
+    grid-column: 1 / -1;
+    text-align: center;
+    font-weight: bolder;
+    font-size: clamp(4rem, 5vw, 5rem);
 }

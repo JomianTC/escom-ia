@@ -28,3 +28,26 @@ export type IRoute = {
   navPath: string
   name: string
 }
+
+export interface TeacherData {
+  id: string
+  nombre: string
+  area: string
+  grado_academico: string
+  email: string
+  contacto: string
+  foto_perfil: string
+}
+
+export interface TeachersDataResponse {
+  data: {
+    teachers: TeacherData[]
+    total?: number
+  }
+}
+
+export interface TeacherDataResponse {
+  data: {
+    profesor: TeacherData
+  }
+}

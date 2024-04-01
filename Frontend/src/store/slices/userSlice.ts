@@ -15,13 +15,12 @@ const DEFAULT_INITIAL_STATE: StudentLogged = {
   email_recuperacion: '',
   programa_academico: ''
 }
+export const USER_KEY = 'user_state'
 
 const initialState = (() => {
   const state = localStorage.getItem('user_state')
   return (state != null) ? JSON.parse(state) : DEFAULT_INITIAL_STATE
 })()
-
-export const USER_KEY = 'user_state'
 
 // Retorna las acciones del objeto como un objeto
 export const userSlice = createSlice({

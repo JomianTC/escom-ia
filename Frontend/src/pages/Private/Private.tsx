@@ -11,7 +11,7 @@ export default function Private () {
   return (
     <>
       <NavBar />
-      <main className='main__container' data-theme="dark">
+      <main className='main__container ' data-theme="dark">
         <RoutesWithNotFound>
           <Route path={'/'} element={<Dashboard />} />
           {

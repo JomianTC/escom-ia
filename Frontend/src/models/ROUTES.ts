@@ -9,7 +9,6 @@ import { lazy } from 'react'
 const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashboard'))
 const Login = lazy(async () => await import('@/pages/Login/Login'))
 const Register = lazy(async () => await import('@/pages/Register/Register'))
-const Private = lazy(async () => await import('@/pages/Private/Private'))
 
 export const PUBLIC_ROUTES_MODEL: Record<string, IRoute> = {
   LOGIN: {
@@ -48,7 +47,8 @@ export const PRIVATE_ROUTES_MODEL: Record<string, IRoute> = {
     path: 'dashboard',
     component: Dashboard,
     navPath: 'dashboard',
-    name: 'Dashboard'
+    name: 'Dashboard',
+    imageUri: '/icons/home.webp'
   },
   HOME: {
     path: 'home',
@@ -60,19 +60,22 @@ export const PRIVATE_ROUTES_MODEL: Record<string, IRoute> = {
     path: 'profesores/*',
     component: ProfesoresPage,
     navPath: 'profesores',
-    name: 'Profesores'
+    name: 'Profesores',
+    imageUri: '/icons/teachers.webp'
   },
   TRAMITES: {
     path: 'tramites',
     component: TramitesPage,
     navPath: 'tramites',
-    name: 'Tramites'
+    name: 'Tramites',
+    imageUri: '/icons/document.webp'
   },
   IA: {
     path: 'ia',
     component: ChatbotPage,
     navPath: 'ia',
-    name: 'Chatbot'
+    name: 'Chatbot',
+    imageUri: '/icons/robot.webp'
   }
 }
 

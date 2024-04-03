@@ -27,6 +27,7 @@ export type IRoute = {
   component: ElementType
   navPath: string
   name: string
+  imageUri?: string
 }
 
 export interface TeacherData {

@@ -18,8 +18,9 @@ const DEFAULT_INITIAL_STATE: StudentLogged = {
 export const USER_KEY = 'user_state'
 
 const initialState = (() => {
-  const state = localStorage.getItem('user_state')
-  return (state != null) ? JSON.parse(state) : DEFAULT_INITIAL_STATE
+  const state = localStorage.getItem(USER_KEY)
+  const user = JSON.parse(state)?.value
+  return (state != null) ? user : DEFAULT_INITIAL_STATE
 })()
 
 // Retorna las acciones del objeto como un objeto
@@ -28,7 +29,6 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.name = action.payload.name
       state._id = action.payload.id
       state.loggedIn = true
       state.rol = action.payload.rol

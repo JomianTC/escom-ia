@@ -1,9 +1,9 @@
 import { teacherClient } from '@/api'
+import { type TeacherDataResponse } from '@/types/index'
 import { getLocalStorage } from '@/utilities/localStorage.utlity'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { teacherQueryKeys } from './teachers-query-keys'
-import { type TeacherDataResponse } from '@/types/index'
 
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 export function useTeacher () {

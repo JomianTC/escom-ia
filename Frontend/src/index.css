@@ -78,7 +78,6 @@
         background: var(--gradiend);
     }
 }
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -105,6 +104,14 @@ body {
     /* place-content: center; */
     overflow: hidden;
     padding-bottom: 2rem;
+}
+#root main{
+    transition: scale 0.25s;
+}
+#root:has(nav ul.active) main {
+    opacity: 0.4;
+    scale: 0.8;
+    user-select:none;
 }
 
 h1 {
@@ -396,10 +403,18 @@ input[type="password"]:focus {
             0 1px 4px 0.5px var(--bg_300);
             border-width: 4px;
     }
+    nav ul button {
+        transition: transform 0.25s, opacity 0.25s;
+        transition-delay: 0.3s;
+    }
     nav ul.active button {
-        transform: translateY(-330px);
+        transform: translateY(-310px);
         transition-delay: 0.2s;
         opacity: 1;
+    }
+
+    nav ul.active li:not(:has(a.active)) {
+        opacity: 0.6;
     }
 }
 
@@ -430,6 +445,3 @@ input[type="password"]:focus {
 nav,ul,li {
     transition: all 0.25s;
 }
-
-
-

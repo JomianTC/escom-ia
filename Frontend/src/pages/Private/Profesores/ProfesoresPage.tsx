@@ -37,7 +37,7 @@ function Profesores () {
         </div>
       </div>
       {data?.teachers?.map((profesor) => (
-        <ProfesorCard key={profesor.email} {...profesor} />
+        <ProfesorCard key={profesor.email} {...profesor} detail={ false} />
       ))}
     </section>
   )

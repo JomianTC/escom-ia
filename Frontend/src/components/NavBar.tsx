@@ -1,39 +1,14 @@
-import { NAV_ROUTES, PUBLIC_ROUTES_MODEL } from '@models/ROUTES'
-import { USER_KEY, resetUser } from '@store/slices/userSlice'
-import { clearLocalStorage } from '@utils/index'
-import { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavBarActions } from '@/pages/hooks/useNavBarActions'
+import { NAV_ROUTES } from '@models/ROUTES'
+import { NavLink } from 'react-router-dom'
 
 export function NavBar () {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const [showNav, setShowNav] = useState(true)
-  function handleLogOut () {
-    clearLocalStorage(USER_KEY)
-    dispatch(resetUser())
-    navigate(`${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
-  }
-  const navRef = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const windowEvent = () => {
-      if (showNav) {
-        setShowNav(false)
-      }
-    }
-    if (navRef.current !== null) {
-      window.addEventListener('resize', windowEvent)
-    }
-    return () => {
-      window.removeEventListener('resize', windowEvent)
-    }
-  }, [])
-
+  const { handleLogOut, handleToggleNavBar, showNav } = useNavBarActions()
   // const show = showNav ? 'block' : 'hidden'
 
   return (
-    <nav className={` sm:bg-black sm:border-[1px] absolute sm:top-0 sm:relative sm:border-zinc-100 px-4  sm:px-12 sm:py-3 my-0 mx-auto rounded-full ${''} w-fit left-0 sm:right-0 transition-all mt-8 mb-8 bottom-0 z-50`} ref={navRef}>
-      <ul className={`flex flex-col-reverse sm:flex-row gap-6 justify-center items-center relative ${showNav ? 'active' : ''}`} onClick={ () => { setShowNav(!showNav) } }>
+    <nav className={` sm:bg-black sm:border-[1px] absolute sm:top-0 sm:relative sm:border-zinc-100 px-4  sm:px-12 sm:py-3 my-0 mx-auto rounded-full ${''} w-fit left-0 sm:right-0 transition-all mt-8 mb-8 bottom-0 z-50`} >
+      <ul className={`flex flex-col-reverse sm:flex-row gap-6 justify-center items-center relative ${showNav ? 'active' : ''}`} onClick={ handleToggleNavBar}>
         <li className='absolute bottom-0 sm:relative border-2 border-primary_300 rounded-full bg-bg_200 p-3 cursor-pointer sm:p-0 sm:bg-transparent sm:rounded-none sm:border-none'>
           <img className='w-10 h-12 sm:w-10 sm:h-12' src="/icons/logo.webp" alt="escom_plus_logo" />
         </li>
@@ -47,7 +22,9 @@ export function NavBar () {
             </li>
           ))
         }
-        <button type='button' onClick={handleLogOut}>Log Out</button>
+        <button type='button' className='rounded-full border-2 p-2 bg-bg_100 sm:border-none' onClick={handleLogOut}>
+          <img className='w-8 h-8 sm:w-8 sm:h-8' src='/icons/logout.webp' alt='logout' />
+        </button>
       </ul>
     </nav>
   )

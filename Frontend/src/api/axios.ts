@@ -9,7 +9,7 @@ export const apiClient = axios.create({
   }
 })
 export const teacherClient = axios.create({
-  baseURL: 'http://localhost:3000/api/teachers/',
+  baseURL: 'http://localhost:3000/api/teacher/',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -17,6 +17,12 @@ export const teacherClient = axios.create({
 createAuthRefreshInterceptor(teacherClient, useRefreshToken, {
   statusCodes: [401, 403],
   pauseInstanceWhileRefreshing: true
+})
+export const commentsClient = axios.create({
+  baseURL: 'http://localhost:3000/api/comment/',
+  headers: {
+    'Content-Type': 'application/json'
+  }
 })
 
 export const API_METHODS = {

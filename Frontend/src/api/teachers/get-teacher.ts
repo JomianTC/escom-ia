@@ -15,25 +15,25 @@ export function useTeacher () {
     return response.data
   }
 
-  const errorHandling = async () => {
-    const { data } = await teacherClient.get('/renew')
-  }
+  // const errorHandling = async () => {
+  //   const { data } = await teacherClient.get('/renew')
+  // }
 
   return useQuery({
     queryKey: teacherQueryKeys.detail(Number(id)),
     queryFn: getTeacher,
-    throwOnError: (error, query) => {
-      if (error.response?.status === 403) {
-        errorHandling()
-      }
-      return false
-    },
-    retry: (count, error) => {
-      if (error.response?.status === 403 && count < 2) {
-        // errorHandling()
-      }
-      return count < 2
-    },
+    // throwOnError: (error, query) => {
+    //   if (error.response?.status === 403) {
+    //     errorHandling()
+    //   }
+    //   return false
+    // },
+    // retry: (count, error) => {
+    //   if (error.response?.status === 403 && count < 2) {
+    //     // errorHandling()
+    //   }
+    //   return count < 2
+    // },
     refetchOnWindowFocus: true,
     retryDelay: 1000
   })

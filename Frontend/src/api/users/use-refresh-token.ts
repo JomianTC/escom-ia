@@ -13,7 +13,9 @@ export const fetchNewToken = async () => {
 }
 
 export async function useRefreshToken (failedRequest: any) {
+  // Peticion a la ruta users/renew
   const newToken = await fetchNewToken()
+
   if (newToken != null) {
     failedRequest.response.config.headers.Authorization = 'Bearer ' + newToken
     // you can set your token in storage too

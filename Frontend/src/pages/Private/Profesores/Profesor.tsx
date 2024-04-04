@@ -1,14 +1,16 @@
+import { useGetComments } from '@/api/comments/use-get-comments'
 import { useTeacher } from '@/api/teachers/get-teacher'
-import { Bubble } from '@/pages/Home/components/Bubble'
+import Loader from '@/components/Loader'
 import { useQueryErrorResetBoundary } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ProfesorCard } from './components/ProfesorCard'
-import Loader from '@/components/Loader'
 
 export function Profesor () {
   const { data, isError, isLoading, isFetching, isRefetching } = useTeacher()
-  console.log(data)
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  const { data: comments, hasNextPage, fetchNextPage } = useGetComments(!!data)
+  console.log(comments)
 
   const { reset } = useQueryErrorResetBoundary()
   const navigate = useNavigate()
@@ -37,8 +39,9 @@ export function Profesor () {
       {(isLoading || isFetching || isRefetching) && (<Loader />
       )}
       {((data !== null) && !isFetching && !isRefetching) && (
-        <ProfesorCard {...data?.profesor} />
+        <ProfesorCard {...data?.profesor} detail={ true} />
       )}
+      <button onClick={async () => await  fetchNextPage()}>More</button>
     </div>
   )
 }

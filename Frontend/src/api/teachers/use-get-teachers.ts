@@ -7,9 +7,7 @@ import { useSearchParams } from 'react-router-dom'
 import { teacherQueryKeys } from './teachers-query-keys'
 
 const getTeachers = async (page = 1, limit = 10) => {
-  const { token } = getLocalStorage('token')
-  console.log('me llamaron')
-
+  const { token } = await getLocalStorage('token')
   teacherClient.defaults.headers.common.Authorization = `Bearer ${token}`
   const response: TeachersDataResponse = await teacherClient.get('all', {
     params: {
@@ -32,7 +30,9 @@ export function useTeachers () {
   const handlePageChange = (page: number) => {
     if (page < 1) return
     setPage(Number(page))
-    setSearchParams({ page })
+    const searchParams = new URLSearchParams()
+    searchParams.set('page', page.toString())
+    setSearchParams(searchParams.toString())
   }
 
   return {

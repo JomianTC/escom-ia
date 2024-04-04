@@ -46,11 +46,11 @@ export default function Login () {
                 <Formik
                     initialValues={{ contrasena: '', boleta: '' }}
                     validationSchema={estudianteEsquemaIngreso}
-                    onSubmit={async (values, { setSubmitting }) => {
+                    onSubmit={async (values) => {
                       await startLogin('', values)
                     }}
                 >
-                    {({ isSubmitting }) => (
+                    {() => (
                         <Form
                             className="flex flex-col gap-2 w-full sm:px-10"
                             noValidate

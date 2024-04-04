@@ -1,9 +1,9 @@
 import { type LoginData, type TSFixMe } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apiClient, userQueryKeys } from '../index'
+import { API_URLS, apiClient, userQueryKeys } from '../index'
 
 const getUserDetails = async (data: LoginData) => {
-  const response = await apiClient.post('/login', { ...data })
+  const response = await apiClient.post(API_URLS.apiClient.loginUser, { ...data })
   return response.data
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates

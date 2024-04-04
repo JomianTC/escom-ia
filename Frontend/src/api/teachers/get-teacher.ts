@@ -1,4 +1,4 @@
-import { teacherClient } from '@/api'
+import { API_URLS, teacherClient } from '@/api'
 import { type TeacherDataResponse } from '@/types/index'
 import { getLocalStorage } from '@/utilities/localStorage.utlity'
 import { useQuery } from '@tanstack/react-query'
@@ -11,7 +11,8 @@ export function useTeacher () {
   teacherClient.defaults.headers.common.Authorization = `Bearer ${token}`
   const { id } = useParams()
   const getTeacher = async () => {
-    const response: TeacherDataResponse = await teacherClient.get('/' + id)
+    // /
+    const response: TeacherDataResponse = await teacherClient.get(API_URLS.teacherClient.getTeachers + id)
     return response.data
   }
 

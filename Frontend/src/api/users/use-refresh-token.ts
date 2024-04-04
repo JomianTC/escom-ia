@@ -1,10 +1,10 @@
 import { setLocalStorage } from '@/utilities'
-import { apiClient } from '../axios'
+import { API_URLS, apiClient } from '../axios'
 
 export const fetchNewToken = async () => {
   try {
     const token: string = await apiClient
-      .get('/renew')
+      .get(API_URLS.apiClient.checkToken)
       .then(res => res.data.token)
     return token
   } catch (error) {

@@ -1,9 +1,9 @@
-import { type StudentLogged } from '@/types'
+import { type StudentLogged, type LoginUserResponse } from '@/types/index'
 import { createSlice } from '@reduxjs/toolkit'
 import { clearLocalStorage, setLocalStorage } from '../../utilities'
 
 const DEFAULT_INITIAL_STATE: StudentLogged = {
-  _id: null,
+  _id: '',
   loggedIn: false,
   rol: '',
   nombres: '',
@@ -23,17 +23,21 @@ const initialState = (() => {
   return (state != null) ? user : DEFAULT_INITIAL_STATE
 })()
 
+type LoginAction = {
+  payload: LoginUserResponse
+}
+
 // Retorna las acciones del objeto como un objeto
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action) => {
-      state._id = action.payload.id
+    login: (state, action: LoginAction) => {
+      state._id = action.payload.user.boleta
       state.loggedIn = true
-      state.rol = action.payload.rol
+      state.rol = 'student'
       const data = { ...state, ...action.payload }
-      // console.log(data)
+      setLocalStorage('token', action.payload.token)
       setLocalStorage(USER_KEY, data)
     },
     update: (state, action) => {

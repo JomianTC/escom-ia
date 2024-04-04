@@ -42,3 +42,7 @@ console.log(PRIVATE_ROUTES);
 
 const NAV_ROUTES = PRIVATE_ROUTES.filter(route => route.navPath !== 'home')
 console.log(NAV_ROUTES);
+
+const IA_ROUTE = PRIVATE_ROUTES.find(route => route.navPath === 'ia')
+console.log(IA_ROUTE);
+console.log({IA_ROUTE});

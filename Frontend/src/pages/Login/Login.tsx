@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { useGetUser } from '@/api/users/use-get-user'
 import { MyTextInput } from '@/components/InputText'
-import { type LoginData } from '@/types/index'
+import { type LoginUserResponse, type LoginData } from '@/types/index'
 import { FormLayout } from '@layouts/FormLayout'
 import { PRIVATE_ROUTES_MODEL, PUBLIC_ROUTES_MODEL } from '@models/ROUTES'
 import { USER_KEY, login, resetUser } from '@store/slices/userSlice'
@@ -27,7 +27,7 @@ export default function Login () {
   async function startLogin (rol = '', loginData: LoginData) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      const data = await userQuery.mutateAsync(loginData)
+      const data: LoginUserResponse = await userQuery.mutateAsync(loginData)
       dispatch(login(data))
       navigate(`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}`, { replace: true })
     } catch (error) {

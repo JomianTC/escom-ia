@@ -39,7 +39,7 @@ export function Profesor () {
       {(isLoading || isFetching || isRefetching) && (<Loader />
       )}
       {((data !== null) && !isFetching && !isRefetching) && (
-        <ProfesorCard {...data?.profesor} detail={ true} />
+        <ProfesorCard {...data?.teacherFound} detail={ true} />
       )}
       <button onClick={async () => await  fetchNextPage()}>More</button>
     </div>

@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apiClient, userQueryKeys } from '../index'
+import { API_URLS, apiClient, userQueryKeys } from '../index'
 import { type TSFixMe, type Student } from '@/types/index'
 
 const createUserFn = async (newUser: Student) => {
-  const response = await apiClient.post('register', newUser)
+  const response = await apiClient.post(API_URLS.apiClient.registerUser, newUser)
   return response.data
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates

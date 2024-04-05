@@ -41,7 +41,17 @@ export function Profesor () {
       {((data !== null) && !isFetching && !isRefetching) && (
         <ProfesorCard {...data?.teacherFound} detail={ true} />
       )}
-      <button onClick={async () => await  fetchNextPage()}>More</button>
+      <h2>Comentarios</h2>
+      {comments?.pages.map((page, index) => (
+        <div key={index}>
+          {page.comentarios.map((comment) => (
+            <div key={comment.usuario.nombres}>
+              <p>{comment.comentario.comentario}</p>
+            </div>
+          ))}
+        </div>
+      ))}
+      <button onClick={async () => await fetchNextPage()} disabled={ !hasNextPage}>More</button>
     </div>
   )
 }

@@ -19,7 +19,8 @@ export interface CommentByTeacher {
 }
 
 export type CommentsByTeacherResponse = {
-  comments: CommentByTeacher[]
+  length: number
+  comentarios: CommentByTeacher[]
   total: number
 }
 

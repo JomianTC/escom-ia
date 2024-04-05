@@ -5,7 +5,7 @@ export const setLocalStorage = (key: string, value: string | object | any) => {
 
 export const getLocalStorage = (key: string) => {
   const value = localStorage.getItem(key)
-  return (value != null) ? JSON.parse(value).value : { data: 'not found' }
+  return JSON.parse(value ?? '')
 }
 
 export const clearLocalStorage = (key: string) => {

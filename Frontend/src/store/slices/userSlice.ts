@@ -1,4 +1,4 @@
-import { type StudentLogged, type LoginUserResponse } from '@/types/index'
+import { type LoginUserResponse, type StudentLogged } from '@/types/index'
 import { createSlice } from '@reduxjs/toolkit'
 import { clearLocalStorage, setLocalStorage } from '../../utilities'
 
@@ -33,12 +33,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: LoginAction) => {
-      state._id = action.payload.user.boleta
-      state.loggedIn = true
-      state.rol = 'student'
-      const data = { ...state, ...action.payload }
+      const data = { ...action.payload.user, loggedIn: true, rol: 'student', _id: action.payload.user.boleta }
       setLocalStorage('token', action.payload.token)
       setLocalStorage(USER_KEY, data)
+      return data
     },
     update: (state, action) => {
       const result = { ...state, ...action.payload }

@@ -7,15 +7,18 @@ import { useSearchParams } from 'react-router-dom'
 import { teacherQueryKeys } from './teachers-query-keys'
 
 const getTeachers = async (page = 1, limit = 10) => {
-  const { token } = await getLocalStorage('token')
-  teacherClient.defaults.headers.common.Authorization = `Bearer ${token}`
-  const response: TeachersDataResponse = await teacherClient.get(API_URLS.teacherClient.getTeachers, {
+  const token = getLocalStorage('token')
+
+  teacherClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
+  const response = await teacherClient.get(API_URLS.teacherClient.getTeachers, {
     params: {
       page,
       limit
     }
   })
-  return response.data
+  const data: TeachersDataResponse = response.data
+
+  return data.data
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 export function useTeachers () {

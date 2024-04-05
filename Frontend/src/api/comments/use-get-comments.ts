@@ -2,13 +2,15 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { commentsClient } from '../axios'
 import { commentsQueryKeys } from './comments-query-keys'
+import { type CommentsByTeacherResponse } from '@/types/api-responses'
 
 export const useGetComments = (readyToFetch: boolean) => {
   const { id } = useParams()
 
   const getAllComments = async ({ pageParam }: { pageParam: number }) => {
     const response = await commentsClient.get(`teacher/${id}?page=${pageParam}`)
-    return response.data
+    const data: CommentsByTeacherResponse = response.data
+    return data
   }
 
   return useInfiniteQuery({

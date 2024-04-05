@@ -5,7 +5,7 @@ import { type LoginUserResponse, type LoginData } from '@/types/index'
 import { FormLayout } from '@layouts/FormLayout'
 import { PRIVATE_ROUTES_MODEL, PUBLIC_ROUTES_MODEL } from '@models/ROUTES'
 import { USER_KEY, login, resetUser } from '@store/slices/userSlice'
-import { clearLocalStorage } from '@utils/index'
+import { clearLocalStorage, setLocalStorage } from '@utils/index'
 import { Form, Formik } from 'formik'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -29,6 +29,7 @@ export default function Login () {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const data: LoginUserResponse = await userQuery.mutateAsync(loginData)
       dispatch(login(data))
+      setLocalStorage('token', data.token)
       navigate(`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}`, { replace: true })
     } catch (error) {
       console.log(error)

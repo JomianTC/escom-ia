@@ -75,7 +75,7 @@ export class ProcedureService {
 
 	async create( createProcedureDto: CreateProcedureDto ) {
 
-		const { nombre, fechaInicio, fechaTermino, ...procedureData } = createProcedureDto;
+		const { nombre, fechaInicio, fechaTermino, links, ...procedureData } = createProcedureDto;
 
 		try {
 
@@ -89,9 +89,16 @@ export class ProcedureService {
 			const newFechaInicio = new Date( fechaInicio ).toISOString().slice(0, 19).replace('T', ' ');
 			const newFechaTermino = new Date( fechaTermino ).toISOString().slice(0, 19).replace('T', ' ');
 
+			let enlaces = "";
+
+			links.forEach( ( link ) => {
+				enlaces += `${ link }-----`;
+			});
+
 			const newProcedure = this.procedureRepository.create({ 
 				nombre,
 				...procedureData,
+				links: enlaces,
 				fechaInicio: new Date( newFechaInicio ),
 				fechaTermino: new Date( newFechaTermino ),
 			});
@@ -105,7 +112,7 @@ export class ProcedureService {
 
 	async update( id: string, updateProcedureDto: UpdateProcedureDto ) {
 
-		const { requerimentos, ...procedureData } = updateProcedureDto;
+		const { requerimentos, links, ...procedureData } = updateProcedureDto;
 
 		try {
 
@@ -121,6 +128,21 @@ export class ProcedureService {
 	
 				if ( procedureFound ) 
 					throw new BadRequestException( "Ya existe un trámite con ese nombre" );
+			}
+
+			if ( links ) {
+
+				let enlaces = "";
+
+				links.forEach( ( link ) => {
+					enlaces += `${ link }-----`;
+				});
+
+				await this.procedureRepository.update( id, { ...procedureData, links: enlaces });
+				
+				const { estado } = await this.procedureRepository.findOneBy({ id });
+
+				return estado;
 			}
 
 			await this.procedureRepository.update( id, { ...procedureData });

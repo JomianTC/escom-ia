@@ -18,5 +18,8 @@ export class CreateProcedureDto {
 	esInformativo: boolean;
 
 	@IsArray()
+	links: string[];
+	
+	@IsArray()
 	requerimentos: string[];
 }

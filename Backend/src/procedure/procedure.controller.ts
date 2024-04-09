@@ -50,9 +50,15 @@ export class ProcedureController {
 		const procedure = await this.procedureService.findOne( id );
 		const requirements = await this.reqProService.findStack( procedure );
 
+		const { links, ...procedureData } = procedure;
+
+		const enlaces = links.split("-----");
+		enlaces.pop();
+
 		return {
-			procedure,
-			requirements
+			procedure: procedureData,
+			requirements,			
+			links: enlaces
 		}
 	}
 
@@ -106,7 +112,13 @@ export class ProcedureController {
 		const { procedure } = await this.checkPermission( email, id );
 
 		const requirements = await this.reqProService.findStack( procedure );
-		return { tramite: procedure, requerimientos: requirements };
+
+		const { links, ...procedureData } = procedure;
+
+		const enlaces = links.split("-----");
+		enlaces.pop();
+
+		return { tramite: procedureData, requerimientos: requirements, links: enlaces };
 	}
 
 	@Post( "admin/:id" )

@@ -26,6 +26,9 @@ export class Procedure {
 	@Column()
 	esInformativo: boolean;
 
+	@Column()
+	links: string;
+
 	@OneToMany(
 		() => RequirementProcedure,
 		requirement_procedure => requirement_procedure.id,

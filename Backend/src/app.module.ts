@@ -15,6 +15,7 @@ import { ComentModule } from "./coment/coment.module";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { TagModule } from "./tag/tag.module";
+import { GptAiModule } from './gpt-ai/gpt-ai.module';
 
 @Module({
 	imports: [
@@ -66,6 +67,8 @@ import { TagModule } from "./tag/tag.module";
 		AdminProcedureModule,
 
 		NotificationModule,
+
+		GptAiModule,
 	],
 	controllers: [],
 	providers: [],

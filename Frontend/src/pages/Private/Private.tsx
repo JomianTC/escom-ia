@@ -1,3 +1,4 @@
+import EditInfoModal from '@/components/EditInfoModal'
 import { NavBar } from '@/components/NavBar'
 import { PRIVATE_ROUTES } from '@/models'
 import { type IRoute } from '@/types/index'
@@ -10,7 +11,9 @@ const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashb
 export default function Private () {
   return (
     <>
-      <NavBar />
+      <NavBar>
+        <EditInfoModal />
+      </NavBar>
       <main className='main__container ' data-theme="dark">
         <RoutesWithNotFound>
           <Route path={'/'} element={<Dashboard />} />

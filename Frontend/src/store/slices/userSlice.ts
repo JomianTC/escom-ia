@@ -8,7 +8,7 @@ const DEFAULT_INITIAL_STATE: StudentLogged = {
   rol: '',
   nombres: '',
   boleta: '',
-  foto_perfil: '',
+  foto_perfil: 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
   apellidos: '',
   contrasena: '',
   email_academico: '',
@@ -19,6 +19,7 @@ export const USER_KEY = 'user_state'
 
 const initialState = (() => {
   const state = localStorage.getItem(USER_KEY)
+  if (state === null) return DEFAULT_INITIAL_STATE
   const user = JSON.parse(state)?.value
   return (state != null) ? user : DEFAULT_INITIAL_STATE
 })()
@@ -33,6 +34,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: LoginAction) => {
+      if (action.payload.user.foto_perfil === '') { action.payload.user.foto_perfil = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png' }
       const data = { ...action.payload.user, loggedIn: true, rol: 'student', _id: action.payload.user.boleta }
       setLocalStorage('token', action.payload.token)
       setLocalStorage(USER_KEY, data)
@@ -55,4 +57,3 @@ export const userSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { login, update, resetUser, showUserInfo } = userSlice.actions
-export default userSlice.reducer

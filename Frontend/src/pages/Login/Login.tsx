@@ -28,6 +28,7 @@ export default function Login () {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const data: LoginUserResponse = await userQuery.mutateAsync(loginData)
+
       dispatch(login(data))
       setLocalStorage('token', data.token)
       navigate(`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}`, { replace: true })

@@ -1,5 +1,5 @@
-import { type FunctionComponent } from 'react'
-import { ErrorMessage, useField, type FormikErrors } from 'formik'
+import { ErrorMessage, useField } from 'formik'
+import { useEffect, useState, type FunctionComponent } from 'react'
 
 interface IUploadFile {
   name: string
@@ -8,11 +8,23 @@ interface IUploadFile {
 export const InputTypeFile: FunctionComponent<IUploadFile> = ({
   name
 }) => {
-  const [field,, helpers] = useField(name)
+  const [field, , helpers] = useField(name)
+  const [preview, setPreview] = useState<string>('')
   const { setValue } = helpers
 
+  useEffect(() => {
+    if (field.value instanceof File) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setPreview(reader.result as string)
+      }
+      reader.readAsDataURL(field.value)
+    }
+  }, [field.value])
+
   return (
-  <label className='w-32 h-32 rounded-full  mb-2 border-2 border-text_100 self-center'>
+    <label className='w-32 h-32 rounded-full  mb-2 border-2 border-text_100 self-center overflow-hidden relative'>
+      <img src={preview} alt="Imagen subida" />
       <input
         className='hidden'
         type="file"
@@ -33,7 +45,7 @@ export const InputTypeFile: FunctionComponent<IUploadFile> = ({
       {(field.name != null) && (
         <>
           <br />
-          <ErrorMessage className={'text-red-400'} name={field.name} component={'span'} />
+          <ErrorMessage className={'bg-bg_200 absolute bottom-10 text-text_200 z-50 text-center'} name={field.name} component={'p'} />
           <br />
         </>
       )}

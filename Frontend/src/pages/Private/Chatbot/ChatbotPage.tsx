@@ -1,5 +1,7 @@
 export function ChatbotPage () {
   return (
-    <div>ChatbotPage</div>
+    <>
+      <h1>ChatbotPage</h1>
+    </>
   )
 }

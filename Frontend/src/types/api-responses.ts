@@ -1,4 +1,3 @@
-import { type Student } from '.'
 // TEACHERS
 
 // COMENTARIOS
@@ -7,40 +6,32 @@ type Comentario = {
   comentario: string
   fecha: string
 }
-
-type ComentarioDeUsuario = Pick<
-Student,
-'nombres' | 'apellidos' | 'foto_perfil'
->
+type StudentComment = {
+  nombres: string
+  apellidos: string
+  foto_perfil: string
+}
 export interface CommentByTeacher {
   comentario: Comentario
-  usuario: ComentarioDeUsuario
+  usuario: StudentComment
   tags: string[]
 }
-
 export type CommentsByTeacherResponse = {
-  length: number
+  length?: number
   comentarios: CommentByTeacher[]
   total: number
 }
-
-export type CommentCreatedRespose = {
+export type CommentCreatedResponse = {
   message: string
 }
-
 export interface CommentUpdatedResponse extends CommentByTeacher {
   message: string
 }
-
-export interface CommentCreatedResponse extends CommentsByTeacherResponse { }
-
 export interface DeleteCommentRespose {
-  id: string
-  user: Student
+  message: string
 }
-
 const comentario: CommentsByTeacherResponse = {
-  comments: [{
+  comentarios: [{
     comentario: {
       puntuacion: 5,
       comentario: 'Muy buen profesor',
@@ -56,26 +47,5 @@ const comentario: CommentsByTeacherResponse = {
   ],
   total: 1
 }
-
 export type FindOneCommentResponse = CommentByTeacher
-
-const commentCreated: CommentCreatedResponse = {
-  comments: [
-    {
-      comentario: {
-        puntuacion: 5,
-        comentario: 'Muy buen profesor',
-        fecha: '2021-10-10'
-      },
-      usuario: {
-        nombres: 'Juan',
-        apellidos: 'Perez',
-        foto_perfil: 'https://example.com'
-      },
-      tags: ['tag1', 'tag2']
-    }
-  ],
-  total: 1
-}
 console.log(comentario)
-console.log(commentCreated)

@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Glory:ital,wght@0,100..800;1,100..800&family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root,
 :root[data-theme="light"] {
     --primary_100: #0f68a3;
@@ -105,11 +107,19 @@ body {
     overflow: hidden;
     padding-bottom: 2rem;
 }
+#root.open{
+    overflow: hidden;
+    scroll-behavior: smooth;
+    height: 100%;
+}
+#root.open main {
+    overflow: hidden;
+}
 #root main{
     transition: scale 0.25s;
 }
 #root:has(nav ul.active) main {
-    opacity: 0.4;
+    opacity: 0.1;
     scale: 0.8;
     user-select:none;
 }
@@ -286,10 +296,30 @@ input[type="password"]:focus {
     background: var(--primary_300); /* Color de la barra de desplazamiento */
     border-radius: 5px; /* Radio de los bordes de la barra de desplazamiento */
 }
-
+.vento article:hover {
+    background-image: linear-gradient(180deg, rgba(15, 28, 46, 0.97) 0%, rgba(61, 90, 128, 0.73) 38%, rgba(226, 242, 255, 0.36) 100%);
+    opacity: 1;
+}
 .vento:has(article:hover) article:not(:hover) {
     filter: grayscale(1);
-    opacity: 0.2;
+    opacity: 0.1;
+    scale: 0.9;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    scrollbar-color: var(--primary_300) var(--primary_100); /* Color de la barra de desplazamiento */
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: var(
+        --primary_100
+    ); /* Color de fondo de la barra de desplazamiento */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--primary_300); /* Color de la barra de desplazamiento */
+    border-radius: 2px; /* Radio de los bordes de la barra de desplazamiento */
 }
 
 .vento article:nth-child(1) {
@@ -397,6 +427,16 @@ input[type="password"]:focus {
         transition-delay: 0.2s;
         opacity: 1;
     }
+    nav ul .profile-icon {
+        opacity: 0;
+        transition: transform 0.25s, opacity 0.25s;
+        transition-delay: 0.2s;
+    }
+    nav ul.active .profile-icon {
+        transform: translateY(-500px);
+        transition-delay: 0.1s;
+        opacity: 1;
+    }
     nav ul li:has(a.active) {
         /* background-color: white; */
         box-shadow: 0 1px 4px 0.5px var(--primary_300),
@@ -405,10 +445,10 @@ input[type="password"]:focus {
     }
     nav ul button {
         transition: transform 0.25s, opacity 0.25s;
-        transition-delay: 0.3s;
+        transition-delay: 0.1s;
     }
-    nav ul.active button {
-        transform: translateY(-310px);
+    nav ul.active .log-out-button  {
+        transform: translateY(-420px);
         transition-delay: 0.2s;
         opacity: 1;
     }
@@ -445,3 +485,91 @@ input[type="password"]:focus {
 nav,ul,li {
     transition: all 0.25s;
 }
+
+.tooltip {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    padding: 0.2rem 0.5rem;
+  }
+
+  .tooltip:hover {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .tooltip .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    transition: opacity 0.1s, visibility 0.1s;
+  }
+  
+  .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+
+  .rs-checkbox-label{
+    color: var(--text_100);
+  }
+/* .rs-checkbox-control{}
+  .rs-picker-list-item{
+  } */
+
+  .rs-picker {
+    max-height: 70px;
+    overflow-y: scroll;
+  }
+  .rs-picker-input {
+    background: var(--bg_200)
+  }
+  /* .rs-picker-default {}
+  .rs-picker-toggle-wrapper {}
+  .rs-picker-cleanable {}
+  .rs-picker-tag {}
+  .rs-picker-focused{} */
+
+  .rs-picker-popup {
+    background: var(--bg_200);
+    color: var(--text_100);
+    overflow-y: scroll;
+    background-color: red;
+    z-index: 500;
+  }
+  .rs-tag{
+    background: var(--bg_300);
+    color: var(--text_100);
+    width: min-content;
+    border-radius: 3rem;
+    padding: 0.2rem 0.5rem;
+    margin: 0.2rem;
+  }
+  .rs-tag .rs-tag-md .rs-tag-default .rs-tag-closable{
+    color: var(--text_100);
+    display: none;
+  }
+
+  .rs-picker-textbox {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #crud-modal {
+    z-index: 400;
+  }
+
+
+

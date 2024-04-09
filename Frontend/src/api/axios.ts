@@ -13,6 +13,7 @@ export const API_URLS = {
   },
   userPictureClient: {
     client: BASE_URL + '/api/user',
+    upload: '/upload',
     updateProfilePicture: '/update-picture',
     deleteProfilePicture: '/delete-picture'
   },
@@ -96,6 +97,19 @@ createAuthRefreshInterceptor(teacherClient, useRefreshToken, {
 })
 export const commentsClient = axios.create({
   baseURL: API_URLS.commentsClient.client,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+export const tagsClient = axios.create({
+  baseURL: API_URLS.tagClient.client,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+export const imageClient = axios.create({
+  baseURL: API_URLS.userPictureClient.client,
   headers: {
     'Content-Type': 'application/json'
   }

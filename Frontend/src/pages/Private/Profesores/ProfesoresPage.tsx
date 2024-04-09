@@ -14,6 +14,8 @@ export function ProfesoresPage () {
 }
 
 function Profesores () {
+  console.log('Profesores')
+
   const { data, isLoading, isError, page, handlePageChange, totalPages } = useTeachers()
   const navigate = useNavigate()
 

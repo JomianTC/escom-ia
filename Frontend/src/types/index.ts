@@ -44,7 +44,10 @@ export interface TeacherData {
   contacto: string
   foto_perfil: string
 }
-
+export type Tag = {
+  id: string
+  nombre: string
+}
 // TODOS LOS PROFESORES
 export interface TeachersDataResponse {
   data: {
@@ -102,4 +105,11 @@ export interface LoginAdminResponse {
 export interface RegisterAdminResponse {
   message: string
   admin: Admin
+}
+export interface TagsResponse {
+  tags: Tag[]
+  total: number
+}
+export interface TagsCreatedResponse {
+  message: string
 }

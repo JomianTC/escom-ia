@@ -1,8 +1,8 @@
+import { type CommentsByTeacherResponse } from '@/types/api-responses'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { commentsClient } from '../axios'
 import { commentsQueryKeys } from './comments-query-keys'
-import { type CommentsByTeacherResponse } from '@/types/api-responses'
 
 export const useGetComments = (readyToFetch: boolean) => {
   const { id } = useParams()

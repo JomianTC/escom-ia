@@ -8,7 +8,7 @@ interface ProfesorCardProps {
 }
 export function ProfesorCard ({ nombre, email, area, id = '/', detail }: ProfesorCardProps) {
   return (
-      <article className={`bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 white-border profesor__card ${detail ? '' : 'hover:scale-105 '}`}>
+      <article className={`bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 white-border profesor__card ${detail ? 'sm:w-min' : 'hover:scale-105 '}`}>
       <img
         className='w-20 h-20 rounded-full border-4 border-primary_300'
         src={'https://via.placeholder.com/150'}

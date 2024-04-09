@@ -7,6 +7,7 @@ import RoutesWithNotFound from '@utils/RoutesWithNotFound'
 import { Suspense } from 'react'
 import { Provider } from 'react-redux'
 import { Navigate, Route } from 'react-router-dom'
+
 import './App.css'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'

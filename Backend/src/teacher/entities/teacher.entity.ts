@@ -24,6 +24,16 @@ export class Teacher {
 	@Column({ default: "" })
 	foto_perfil: string;
 
+	@Column(
+		"decimal", 
+		{ 
+			precision: 5, 
+			scale: 2, 
+			default: 0
+		}
+	)
+	calificacion: number;
+
 	@BeforeInsert()
 	checkFieldsBeforeInsert() {
 		this.email = this.email.toLowerCase().trim();

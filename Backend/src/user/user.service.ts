@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { Administrator } from "../auth/entities/admin.entity";
 import { HandleErrors } from "../common/handle-errors";
+import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "../auth/entities/user.entity";
 
 @Injectable()
@@ -86,6 +87,37 @@ export class UserService {
 			return {
 				message: "Foto recibida correctamente",
 				foto_perfil: secure_url
+			};
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async updateUserInfo( email: string, updateUserDto: UpdateUserDto ) {
+
+		const { email_academico = "", email_recuperacion = "" } = updateUserDto;
+
+		try {
+
+			const userFound = await this.findByEmail( email );
+
+			const userFoundEmailAcademico = await this.userRepository.findOne({ 
+				where: { email_academico }
+			});
+
+			if ( userFoundEmailAcademico )
+				throw new BadRequestException({ message: "Email academico ya registrado" });
+
+			const userFoundEmailRecuperacion = await this.userRepository.findOne({ 
+				where: { email_recuperacion }
+			});
+
+			if ( userFoundEmailRecuperacion )
+				throw new BadRequestException({ message: "Email de recuperacion ya registrado" });
+
+			await this.userRepository.update( userFound.id, updateUserDto );
+
+			return {
+				message: "Información actualizada correctamente"
 			};
 
 		} catch ( error ) { HandleErrors( error ); }

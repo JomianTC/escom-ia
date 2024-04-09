@@ -31,3 +31,6 @@ npm run start:dev
 
 ## TODO
 
+- Crear ruta para enviar email con enlace para reemplazar contraseña
+- Crear ruta para modificar la contraseña
+- Crear ruta para verificar la contraseña (Se puede usar el login???)

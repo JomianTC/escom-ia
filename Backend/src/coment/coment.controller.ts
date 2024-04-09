@@ -29,6 +29,9 @@ export class ComentController {
 		const coment = await this.comentService.create( user, createComentDto );
 		await this.tagComentService.create({ tags_id: createComentDto.tags, coment });
 
+		const { comentsFound, total } = await this.comentService.findAll( createComentDto.id_profesor, { page: 1, limit: 1000 } );
+		await this.teacherService.updateScore( createComentDto.id_profesor, comentsFound, total );
+
 		return { message: "Comentario creado con éxito" };
 	}
 
@@ -150,6 +153,11 @@ export class ComentController {
 	async remove( @GetTokenPayload() email: string , @Param( "id", ParseUUIDPipe ) id: string ) {
 
 		const user = await this.userService.findByEmail( email );
-		return this.comentService.remove( id, user );
+		const { teacherID, message } = await this.comentService.remove( id, user );
+		
+		const { comentsFound, total } = await this.comentService.findAll( teacherID, { page: 1, limit: 1000 } );
+		await this.teacherService.updateScore( teacherID, comentsFound, total );
+		
+		return { message };
 	}
 }

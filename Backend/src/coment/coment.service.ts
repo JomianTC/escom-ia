@@ -123,7 +123,10 @@ export class ComentService {
 
 			await this.comentRepository.delete( id );
 			
-			return { message: "Comentario eliminado con éxito" };
+			return { 
+				teacherID: comentFound.id_profesor,
+				message: "Comentario eliminado con éxito"
+			};
 
 		} catch ( error ) { HandleErrors( error ); }
 

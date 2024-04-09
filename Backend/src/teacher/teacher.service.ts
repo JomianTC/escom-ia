@@ -1,5 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { CloudinaryService } from "../cloudinary/cloudinary.service";
 import { PaginationDto } from "../common/dto/pagination.dto";
@@ -7,6 +7,7 @@ import { CreateTeacherDto } from "./dto/create-teacher.dto";
 import { UpdateTeacherDto } from "./dto/update-teacher.dto";
 import { HandleErrors } from "../common/handle-errors";
 import { Teacher } from "./entities/teacher.entity";
+import { Coment } from "src/coment/entities/coment.entity";
 
 @Injectable()
 export class TeacherService {
@@ -214,5 +215,26 @@ export class TeacherService {
 
 	async deletePicture( fileName: string ) {
 		await this.cloudinaryService.deleteImage( fileName );
+	}
+
+	async updateScore( teacherID: string, coments: Coment[], total: number ) {
+
+		try {
+			
+			const teacherFound = await this.findOne( teacherID );
+
+			let score = 0;
+
+			coments.forEach( coment => score += coment.puntuacion );
+
+			score = score / total;
+
+			if ( score > 5 )
+				throw new InternalServerErrorException({ message: "Error al actualizar la puntuacion" });
+
+			await this.teacherRepository.update( teacherFound.id, { calificacion: score });
+
+		} catch ( error ) { HandleErrors( error ); }
+
 	}
 }

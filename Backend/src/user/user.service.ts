@@ -27,7 +27,7 @@ export class UserService {
 			});
 
 			if ( !userFound )
-				throw new BadRequestException({ message: "Usuario no encontrado" });
+				throw new BadRequestException({ mensaje: "Usuario no encontrado" });
 
 			return userFound;
 
@@ -43,7 +43,7 @@ export class UserService {
 			});
 
 			if ( !adminFound )
-				throw new BadRequestException({ message: "Administrador no encontrado" });
+				throw new BadRequestException({ mensaje: "Administrador no encontrado" });
 
 			return adminFound;
 
@@ -59,21 +59,21 @@ export class UserService {
 			});
 
 			if ( !userFound )
-				throw new BadRequestException({ message: "Usuario no encontrado" });
+				throw new BadRequestException({ mensaje: "Usuario no encontrado" });
 
 			await this.deletePicture( userFound.id );
 
 			if ( !file )
-				throw new BadRequestException({ message: "No se subio ningun archivo" });
+				throw new BadRequestException({ mensaje: "No se subio ningun archivo" });
 
 			const fileExtension = file.mimetype.split( "/" )[ 1 ];
 			const validExtensions = [ "jpg", "png", "jpeg", "gif" ];
 
 			if ( !validExtensions.includes( fileExtension ) )
-				throw new BadRequestException({ message: "Tipo de archivo no permitido" });
+				throw new BadRequestException({ mensaje: "Tipo de archivo no permitido" });
 
 			if ( file.size > 2097152 )
-				throw new BadRequestException({ message: "El archivo es mayor a 2MB" });
+				throw new BadRequestException({ mensaje: "El archivo es mayor a 2MB" });
 
 			file.originalname = userFound.id;
 
@@ -85,7 +85,7 @@ export class UserService {
 			await this.userRepository.update( userFound.id, { foto_perfil: secure_url });
 
 			return {
-				message: "Foto recibida correctamente",
+				mensaje: "Foto recibida correctamente",
 				foto_perfil: secure_url
 			};
 
@@ -105,19 +105,19 @@ export class UserService {
 			});
 
 			if ( userFoundEmailAcademico )
-				throw new BadRequestException({ message: "Email academico ya registrado" });
+				throw new BadRequestException({ mensaje: "Email academico ya registrado" });
 
 			const userFoundEmailRecuperacion = await this.userRepository.findOne({ 
 				where: { email_recuperacion }
 			});
 
 			if ( userFoundEmailRecuperacion )
-				throw new BadRequestException({ message: "Email de recuperacion ya registrado" });
+				throw new BadRequestException({ mensaje: "Email de recuperacion ya registrado" });
 
 			await this.userRepository.update( userFound.id, updateUserDto );
 
 			return {
-				message: "Información actualizada correctamente"
+				mensaje: "Información actualizada correctamente"
 			};
 
 		} catch ( error ) { HandleErrors( error ); }
@@ -132,14 +132,14 @@ export class UserService {
 			});
 
 			if ( !userFound )
-				throw new BadRequestException({ message: "Usuario no encontrado" });
+				throw new BadRequestException({ mensaje: "Usuario no encontrado" });
 
 			await this.userRepository.update( userFound.id, { foto_perfil: "" });
 
 			await this.deletePicture( userFound.id );
 
 			return {
-				message: "Foto eliminada correctamente"
+				mensaje: "Foto eliminada correctamente"
 			};
 
 		} catch ( error ) { HandleErrors( error ); }

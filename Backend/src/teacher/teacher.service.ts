@@ -33,10 +33,10 @@ export class TeacherService {
 				teacherFound.forEach( teacher => {
 
 					if ( teacher.email === email )
-						throw new BadRequestException({ message: "El email ya está registrado" });
+						throw new BadRequestException({ mensaje: "El email ya está registrado" });
 
 					if ( teacher.contacto === contacto )
-						throw new BadRequestException({ message: "El contacto ya está registrado" });
+						throw new BadRequestException({ mensaje: "El contacto ya está registrado" });
 				}); 
 			}
 
@@ -44,8 +44,8 @@ export class TeacherService {
 			await this.teacherRepository.save( newTeacher );
 
 			return {
-				message: "Profesor registrado exitosamente",
-				teacher: newTeacher
+				mensaje: "Profesor registrado exitosamente",
+				profesor: newTeacher
 			};
 
 		} catch ( error ) { HandleErrors( error ); }
@@ -63,12 +63,12 @@ export class TeacherService {
 			});
 
 			if ( !teachersFound )
-				throw new BadRequestException({ message: "No hay profesores registrados" });
+				throw new BadRequestException({ mensaje: "No hay profesores registrados" });
 		
 			const totalTeachers = await this.teacherRepository.count();
 				
 			return {
-				teachers: teachersFound,
+				profesores: teachersFound,
 				total: totalTeachers
 			};
 
@@ -82,7 +82,7 @@ export class TeacherService {
 			const teacherFound = await this.teacherRepository.findOneBy({ id });
 
 			if ( !teacherFound )
-				throw new BadRequestException({ message: "Profesor no registrado" });
+				throw new BadRequestException({ mensaje: "Profesor no registrado" });
 
 			return teacherFound;
 
@@ -98,7 +98,7 @@ export class TeacherService {
 			const teacherFound = await this.teacherRepository.findOneBy({ id });
 
 			if ( !teacherFound )
-				throw new BadRequestException({ message: "Profesor no registrado" });
+				throw new BadRequestException({ mensaje: "Profesor no registrado" });
 
 			const teacherByUniques = await this.teacherRepository.find({ 
 				where: [ { email }, { contacto } ]
@@ -112,10 +112,10 @@ export class TeacherService {
 						return;
 
 					if ( teacher.email === email )
-						throw new BadRequestException({ message: "El email ya está registrado" });
+						throw new BadRequestException({ mensaje: "El email ya está registrado" });
 
 					if ( teacher.contacto === contacto )
-						throw new BadRequestException({ message: "El contacto ya está registrado" });
+						throw new BadRequestException({ mensaje: "El contacto ya está registrado" });
 				}); 
 			}
 
@@ -130,8 +130,8 @@ export class TeacherService {
 			});
 
 			return {
-				message: "Profesor actualizado exitosamente",
-				teacher: newTeacher
+				mensaje: "Profesor actualizado exitosamente",
+				profesor: newTeacher
 			};
 
 		} catch ( error ) { HandleErrors( error ); }
@@ -144,11 +144,11 @@ export class TeacherService {
 			const teacherFound = await this.teacherRepository.findOneBy({ id });
 
 			if ( !teacherFound )
-				throw new BadRequestException({ message: "Profesor no registrado" });
+				throw new BadRequestException({ mensaje: "Profesor no registrado" });
 
 			await this.teacherRepository.delete({ id });
 
-			return { message: "Profesor eliminado exitosamente" };
+			return { mensaje: "Profesor eliminado exitosamente" };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -160,21 +160,21 @@ export class TeacherService {
 			const teacherFound = await this.teacherRepository.findOneBy({ id });
 
 			if ( !teacherFound )
-				throw new BadRequestException({ message: "Profesor no registrado" });
+				throw new BadRequestException({ mensaje: "Profesor no registrado" });
 
 			await this.deletePicture( teacherFound.id );
 
 			if ( !file )
-				throw new BadRequestException({ message: "No se subio ningun archivo" });
+				throw new BadRequestException({ mensaje: "No se subio ningun archivo" });
 
 			const fileExtension = file.mimetype.split( "/" )[ 1 ];
 			const validExtensions = [ "jpg", "png", "jpeg", "gif" ];
 
 			if ( !validExtensions.includes( fileExtension ) )
-				throw new BadRequestException({ message: "Tipo de archivo no permitido" });
+				throw new BadRequestException({ mensaje: "Tipo de archivo no permitido" });
 
 			if ( file.size > 2097152 )
-				throw new BadRequestException({ message: "El archivo es mayor a 2MB" });
+				throw new BadRequestException({ mensaje: "El archivo es mayor a 2MB" });
 
 			file.originalname = teacherFound.id;
 
@@ -186,7 +186,7 @@ export class TeacherService {
 			await this.teacherRepository.update( teacherFound.id, { foto_perfil: secure_url });
 
 			return {
-				message: "Foto recibida correctamente",
+				mensaje: "Foto recibida correctamente",
 				foto_perfil: secure_url
 			};
 
@@ -200,14 +200,14 @@ export class TeacherService {
 			const teacherFound = await this.teacherRepository.findOneBy({ id }); 
 
 			if ( !teacherFound )
-				throw new BadRequestException({ message: "Profesor no registrado" });
+				throw new BadRequestException({ mensaje: "Profesor no registrado" });
 
 			await this.teacherRepository.update( teacherFound.id, { foto_perfil: "" });
 
 			await this.deletePicture( teacherFound.id );
 
 			return {
-				message: "Foto eliminada correctamente"
+				mensaje: "Foto eliminada correctamente"
 			};
 
 		} catch ( error ) { HandleErrors( error ); }
@@ -230,7 +230,7 @@ export class TeacherService {
 			score = score / total;
 
 			if ( score > 5 )
-				throw new InternalServerErrorException({ message: "Error al actualizar la puntuacion" });
+				throw new InternalServerErrorException({ mensaje: "Error al actualizar la puntuacion" });
 
 			await this.teacherRepository.update( teacherFound.id, { calificacion: score });
 

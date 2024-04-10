@@ -31,7 +31,7 @@ export class ProcedureService {
 			});
 			
 			if ( !procedures.length ) 
-				throw new BadRequestException( "No se encontraron trámites" );
+				throw new BadRequestException({ mensaje: "No se encontraron trámites" });
 
 			const total = await this.procedureRepository.createQueryBuilder( "procedure" )
 			.where( "procedure.estado = :estado", { estado: true })
@@ -49,7 +49,7 @@ export class ProcedureService {
 			const procedure = await this.procedureRepository.findOneBy({ id });
 
 			if ( !procedure ) 
-				throw new BadRequestException( "No se encontró el trámite" );
+				throw new BadRequestException({ mensaje: "No se encontró el trámite" });
 
 			return procedure;
 
@@ -84,7 +84,7 @@ export class ProcedureService {
 			});
 
 			if ( procedureFound ) 
-				throw new BadRequestException( "Ya existe un trámite con ese nombre" );
+				throw new BadRequestException({ mensaje: "Ya existe un trámite con ese nombre" });
 
 			const newFechaInicio = new Date( fechaInicio ).toISOString().slice(0, 19).replace('T', ' ');
 			const newFechaTermino = new Date( fechaTermino ).toISOString().slice(0, 19).replace('T', ' ');
@@ -119,7 +119,7 @@ export class ProcedureService {
 			const procedure = await this.procedureRepository.findOneBy({ id });
 
 			if ( !procedure ) 
-				throw new BadRequestException( "No se encontró el trámite" );
+				throw new BadRequestException({ mensaje: "No se encontró el trámite" });
 
 			if ( procedureData.nombre ) {
 				const procedureFound = await this.procedureRepository.findOneBy({
@@ -127,7 +127,7 @@ export class ProcedureService {
 				});
 	
 				if ( procedureFound ) 
-					throw new BadRequestException( "Ya existe un trámite con ese nombre" );
+					throw new BadRequestException({ mensaje: "Ya existe un trámite con ese nombre" });
 			}
 
 			if ( links ) {
@@ -166,7 +166,7 @@ export class ProcedureService {
 			const newFechaTermino = new Date( fechaTermino ).toISOString().slice(0, 19).replace('T', ' ');
 
 			if ( fechaInicio === null && fechaTermino === null )
-				return { message: "X" };
+				return { mensaje: "X" };
 
 			if ( fechaInicio && fechaTermino ){
 
@@ -175,7 +175,7 @@ export class ProcedureService {
 					fechaTermino: new Date( newFechaTermino ),
 				});
 
-				return { message: `Se han modificado las fechas para el tramite: ${ procedure.nombre }` };
+				return { mensaje: `Se han modificado las fechas para el tramite: ${ procedure.nombre }` };
 			}
 
 			if ( fechaInicio )
@@ -188,7 +188,7 @@ export class ProcedureService {
 					fechaTermino: new Date( newFechaTermino ),
 				});
 
-			return { message: `Se ha modificado la fecha para el tramite: ${ procedure.nombre }` };
+			return { mensaje: `Se ha modificado la fecha para el tramite: ${ procedure.nombre }` };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -200,15 +200,15 @@ export class ProcedureService {
 			const procedure = await this.procedureRepository.findOneBy({ id });
 
 			if ( !procedure ) 
-				throw new BadRequestException( "No se encontró el trámite" );
+				throw new BadRequestException({ mensaje: "No se encontró el trámite" });
 
 			if ( procedure.estado === estado )
-				throw new BadRequestException( "El trámite no puede cambiar de estado" );
+				throw new BadRequestException({ mensaje: "El trámite no puede cambiar de estado" });
 
 			await this.procedureRepository.update( id, { estado } );
 
-			if ( estado ) return { message: "El Trámite ahora esta activo" };
-			else return { message: "El Trámite ahora esta inactivo" };
+			if ( estado ) return { mensaje: "El Trámite ahora esta activo" };
+			else return { mensaje: "El Trámite ahora esta inactivo" };
 		
 		} catch ( error ) { HandleErrors( error ); }
 	}

@@ -35,16 +35,16 @@ export class AuthService {
 			});
 	
 			if ( !userFound )
-				throw new BadRequestException({ message: "Usuario no encontrado" });
+				throw new BadRequestException({ mensaje: "Usuario no encontrado" });
 	
 			if ( !BcryptAdapter.compare( contrasena, userFound.contrasena ) )
-				throw new UnauthorizedException({ message: "Contraseña incorrecta" });
+				throw new UnauthorizedException({ mensaje: "Contraseña incorrecta" });
 	
 			delete userFound.contrasena;
 	
 			return {
-				message: "Inicio de sesión exitoso!",
-				user: userFound,
+				mensaje: "Inicio de sesión exitoso!",
+				usuario: userFound,
 				token: this.createJWTToken({ email: userFound.email_academico }),
 			};
 
@@ -62,7 +62,7 @@ export class AuthService {
 			});
 	
 			if ( userFound )
-				throw new BadRequestException({ message: "Usuario ya registrado" });
+				throw new BadRequestException({ mensaje: "Usuario ya registrado" });
 			
 			const user = this.userRepository.create({
 				...userData,
@@ -73,8 +73,8 @@ export class AuthService {
 			delete user.contrasena;
 	
 			return {
-				message: "Usuario registrado con exito!",
-				user,
+				mensaje: "Usuario registrado con exito!",
+				usuario: user,
 			};
 
 		} catch ( error ) { HandleErrors( error ); }
@@ -91,15 +91,15 @@ export class AuthService {
 			});
 	
 			if ( !adminFound )
-				throw new BadRequestException({ message: "Administrador no encontrado" });
+				throw new BadRequestException({ mensaje: "Administrador no encontrado" });
 	
 			if ( !BcryptAdapter.compare( identificador, adminFound.identificador ) )
-				throw new UnauthorizedException({ message: "Identificador incorrecto" });
+				throw new UnauthorizedException({ mensaje: "Identificador incorrecto" });
 	
 			delete adminFound.identificador;
 	
 			return {
-				message: "Inicio de sesión exitoso!",
+				mensaje: "Inicio de sesión exitoso!",
 				admin: adminFound,
 				token: this.createJWTToken({ email }),
 			};
@@ -118,7 +118,7 @@ export class AuthService {
 			});
 	
 			if ( adminFound )
-				throw new BadRequestException({ message: "Administrador ya registrado" });
+				throw new BadRequestException({ mensaje: "Administrador ya registrado" });
 			
 			const admin = this.adminRepository.create({
 				...adminData,
@@ -129,7 +129,7 @@ export class AuthService {
 			delete admin.identificador;
 	
 			return {
-				message: "Administrador registrado con exito!",
+				mensaje: "Administrador registrado con exito!",
 				admin,
 			};
 

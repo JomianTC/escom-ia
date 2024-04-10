@@ -21,8 +21,8 @@ export class NotificationController {
 
 		await this.userService.findByEmail( email );
 		return { 
-			message: "Llave enviada correctamente",
-			publicKey: process.env.VAPID_PUBLIC_KEY
+			mensaje: "Llave enviada correctamente",
+			llave_publica: process.env.VAPID_PUBLIC_KEY
 		}
 	}
 
@@ -36,7 +36,7 @@ export class NotificationController {
 		const user = await this.userService.findByEmail( email );
 		await this.procedureService.findOne( id );
 		const isActivated = await this.notificationService.checkProcedureNotification( user.id, id );
-		return { isActivated }
+		return { estado: isActivated }
 	}
 
 	@Post( "subscription/:id" )
@@ -51,7 +51,7 @@ export class NotificationController {
 		await this.procedureService.findOne( id );
 
 		await this.notificationService.create( user.id, id, createNotificationDto );
-		return { message: "Suscripcion creada correctamente" }
+		return { mensaje: "Suscripcion creada correctamente" }
 	}
 
 	@Post( "checkDevice" )

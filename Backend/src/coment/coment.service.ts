@@ -45,7 +45,7 @@ export class ComentService {
 				take: limit
 			});
 
-			if ( !comentsFound ) throw new BadRequestException({ message: "No hay comentarios" });
+			if ( !comentsFound ) throw new BadRequestException({ mensaje: "No hay comentarios" });
 			
 			const total = await this.comentRepository.createQueryBuilder( "coment" )
 			.where( "coment.id_profesor = :id", { id })
@@ -68,7 +68,7 @@ export class ComentService {
 				take: limit
 			});
 
-			if ( !comentsFound ) throw new BadRequestException({ message: "No hay comentarios" });
+			if ( !comentsFound ) throw new BadRequestException({ mensaje: "No hay comentarios" });
 			
 			const total = await this.comentRepository.createQueryBuilder( "coment" )
 			.where( "coment.id_usuario = :id", { id: user.id })
@@ -86,7 +86,7 @@ export class ComentService {
 			const comentFound = await this.comentRepository.findOneBy({ id });
 
 			if ( !comentFound ) 
-				throw new BadRequestException({ message: "El comentario no existe" });
+				throw new BadRequestException({ mensaje: "El comentario no existe" });
 
 			return comentFound;
 
@@ -102,7 +102,7 @@ export class ComentService {
 			const comentFound = await this.comentRepository.findOneBy({ id });
 
 			if ( !comentFound ) 
-				throw new NotFoundException({ message: "El comentario no existe" });
+				throw new NotFoundException({ mensaje: "El comentario no existe" });
 
 			await this.comentRepository.update( id, { ...comentData, fecha: new Date() });
 
@@ -116,16 +116,16 @@ export class ComentService {
 			const comentFound = await this.comentRepository.findOneBy({ id });
 
 			if ( !comentFound ) 
-				throw new NotFoundException({ message: "El comentario no existe" });
+				throw new NotFoundException({ mensaje: "El comentario no existe" });
 
 			if ( comentFound.id_usuario.id !== user.id )
-				throw new BadRequestException({ message: "No tienes permiso para eliminar este comentario" });
+				throw new BadRequestException({ mensaje: "No tienes permiso para eliminar este comentario" });
 
 			await this.comentRepository.delete( id );
 			
 			return { 
 				teacherID: comentFound.id_profesor,
-				message: "Comentario eliminado con éxito"
+				mensaje: "Comentario eliminado con éxito"
 			};
 
 		} catch ( error ) { HandleErrors( error ); }

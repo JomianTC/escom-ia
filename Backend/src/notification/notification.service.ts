@@ -25,7 +25,7 @@ export class NotificationService {
 			});
 
 			if ( notificationExists ) 
-				throw new BadRequestException( { message: "El dispositivo ya esta registrado" } );
+				throw new BadRequestException( { mensaje: "El dispositivo ya esta registrado" } );
 
 			const registerNotification = this.notificationRepository.create({
 				userID,
@@ -37,7 +37,7 @@ export class NotificationService {
 
 			await this.notificationRepository.save( registerNotification );
 
-			return { message: "Notificaciones activadas correctamente" };
+			return { mensaje: "Notificaciones activadas correctamente" };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -65,13 +65,13 @@ export class NotificationService {
 				where: { endpoint }
 			});
 
-			if ( endpointExists.length > 0 ) return { message: "El dispositivo ya esta registrado" };
+			if ( endpointExists.length > 0 ) return { mensaje: "El dispositivo ya esta registrado" };
 			
 			const notificationsFound = await this.notificationRepository.find({
 				where: { userID }
 			});
 
-			if ( notificationsFound.length === 0 ) return { message: "No se encontraron notificaciones registradas" };
+			if ( notificationsFound.length === 0 ) return { mensaje: "No se encontraron notificaciones registradas" };
 
 			const notificationsAux = new Map();
 
@@ -89,7 +89,7 @@ export class NotificationService {
 				await this.create( notification.userID, notification.procedureID, createNotificationDto );
 			});
 
-			return { message: "Comprobacion exitosa" }
+			return { mensaje: "Comprobacion exitosa" }
 
 		} catch ( error ) {  HandleErrors( error ); }
 	}
@@ -238,11 +238,11 @@ export class NotificationService {
 			});
 
 			if ( !notification ) 
-				throw new BadRequestException({ message: "No se encontro ninguna subscripcion" });
+				throw new BadRequestException({ mensaje: "No se encontro ninguna subscripcion" });
 
 			await this.notificationRepository.remove( notification );
 
-			return { message: "Subscripcion eliminada correctamente" };
+			return { mensaje: "Subscripcion eliminada correctamente" };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -256,7 +256,7 @@ export class NotificationService {
 			});
 
 			if ( notification.length === 0 ) 
-				throw new BadRequestException({ message: "No se encontraron subscripciones" });
+				throw new BadRequestException({ mensaje: "No se encontraron subscripciones" });
 
 			const deleteNotifications = notification.map( async ( notify ) => {
 				return await this.notificationRepository.remove( notify );
@@ -264,7 +264,7 @@ export class NotificationService {
 
 			await Promise.all( deleteNotifications );
 
-			return { message: "Subscripciones eliminadas correctamente" };
+			return { mensaje: "Subscripciones eliminadas correctamente" };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}

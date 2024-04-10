@@ -32,7 +32,7 @@ export class ComentController {
 		const { comentsFound, total } = await this.comentService.findAll( createComentDto.id_profesor, { page: 1, limit: 1000 } );
 		await this.teacherService.updateScore( createComentDto.id_profesor, comentsFound, total );
 
-		return { message: "Comentario creado con éxito" };
+		return { mensaje: "Comentario creado con éxito" };
 	}
 
 	@Get( ":id" )
@@ -133,7 +133,7 @@ export class ComentController {
 		const tags = await this.tagComentService.update({ tags_id: updateComentDto.tags, coment });
 
 		return {
-			message: "Comentario actualizado con éxito",
+			mensaje: "Comentario actualizado con éxito",
 			comentario: {
 				puntuacion: coment.puntuacion,
 				comentario: coment.comentario,
@@ -153,11 +153,11 @@ export class ComentController {
 	async remove( @GetTokenPayload() email: string , @Param( "id", ParseUUIDPipe ) id: string ) {
 
 		const user = await this.userService.findByEmail( email );
-		const { teacherID, message } = await this.comentService.remove( id, user );
+		const { teacherID, mensaje } = await this.comentService.remove( id, user );
 		
 		const { comentsFound, total } = await this.comentService.findAll( teacherID, { page: 1, limit: 1000 } );
 		await this.teacherService.updateScore( teacherID, comentsFound, total );
 		
-		return { message };
+		return { mensaje };
 	}
 }

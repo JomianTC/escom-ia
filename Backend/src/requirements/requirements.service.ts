@@ -24,14 +24,14 @@ export class RequirementsService {
 			});
 
 			if ( reqFound ) 
-				throw new BadRequestException({ message: "El requerimiento ya existe" });
+				throw new BadRequestException({ mensaje: "El requerimiento ya existe" });
 
 			const requirement = this.requirementRepository.create( createRequirementDto );
 			await this.requirementRepository.save( requirement );
 
 			return { 
-				message: "Requerimiento creado exitosamente",
-				requirement
+				mensaje: "Requerimiento creado exitosamente",
+				requerimiento: requirement
 			};
 			
 		} catch ( error ) { HandleErrors( error ); }
@@ -48,7 +48,7 @@ export class RequirementsService {
 				skip: limit * ( page - 1 )
 			});
 
-			return { requirements, total };
+			return { requirementos: requirements, total };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -60,7 +60,7 @@ export class RequirementsService {
 			const reqFound = await this.requirementRepository.findOneBy({ id });
 			
 			if ( !reqFound ) 
-				throw new BadRequestException({ message:  "Requerimiento no registrado" });
+				throw new BadRequestException({ mensaje:  "Requerimiento no registrado" });
 
 			return { requirement: reqFound };
 
@@ -75,7 +75,7 @@ export class RequirementsService {
 				const requirement = await this.requirementRepository.findOneBy({ id });
 	
 				if ( !requirement )
-					throw new BadRequestException({ message: "El Requerimiento no existe" });
+					throw new BadRequestException({ mensaje: "El Requerimiento no existe" });
 
 				return requirement;
 			})
@@ -94,7 +94,7 @@ export class RequirementsService {
 
 			await this.requirementRepository.update( id, updateRequirementDto );
 
-			return { message: "Requerimiento actualizado exitosamente" };
+			return { mensaje: "Requerimiento actualizado exitosamente" };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -107,7 +107,7 @@ export class RequirementsService {
 
 			await this.requirementRepository.delete( id );
 
-			return { message: "Requerimiento eliminado exitosamente" };
+			return { mensaje: "Requerimiento eliminado exitosamente" };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}

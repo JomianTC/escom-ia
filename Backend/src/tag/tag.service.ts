@@ -24,12 +24,12 @@ export class TagService {
 			});
 
 			if ( tagFound ) 
-				throw new BadRequestException({ message: "El Tag ya existe" });
+				throw new BadRequestException({ mensaje: "El Tag ya existe" });
 
 			const tag = this.tagRepository.create( createTagDto );
 			await this.tagRepository.save( tag );
 
-			return { message: "Tag creado correctamente" }
+			return { mensaje: "Tag creado correctamente" }
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -60,7 +60,7 @@ export class TagService {
 				const tag = await this.tagRepository.findOneBy({ id });
 	
 				if ( !tag )
-					throw new BadRequestException({ message: "El Tag no existe" });
+					throw new BadRequestException({ mensaje: "El Tag no existe" });
 
 				return tag;
 			})
@@ -80,17 +80,17 @@ export class TagService {
 			const tagFound = await this.tagRepository.findOneBy({ id });
 
 			if ( !tagFound )
-				throw new BadRequestException({ message: "El Tag no existe" });
+				throw new BadRequestException({ mensaje: "El Tag no existe" });
 
 			if ( tagFound.nombre === nombre.toLowerCase() )
-				throw new BadRequestException({ message: "El Tag ya existe" });
+				throw new BadRequestException({ mensaje: "El Tag ya existe" });
 
 			const updatedTag = await this.tagRepository.save({
 				...tagFound,
 				nombre: nombre.toLowerCase()
 			});
 
-			return { message: "Tag actualizado correctamente", tag: updatedTag }
+			return { mensaje: "Tag actualizado correctamente", tag: updatedTag }
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -102,11 +102,11 @@ export class TagService {
 			const tagFound = await this.tagRepository.findOneBy({ id });
 
 			if ( !tagFound )
-				throw new BadRequestException({ message: "El Tag no existe" });
+				throw new BadRequestException({ mensaje: "El Tag no existe" });
 
 			await this.tagRepository.delete({ id });
 
-			return { message: "Tag eliminado correctamente" }
+			return { mensaje: "Tag eliminado correctamente" }
 
 		} catch ( error ) { HandleErrors( error ); }
 	}

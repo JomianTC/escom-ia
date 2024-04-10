@@ -31,7 +31,19 @@ export class ProcedureController {
 	@Get()
 	async findAll( @Query() paginationDto: PaginationDto ){
 
-		return this.procedureService.findAll( paginationDto );
+		const { procedures, total } = await this.procedureService.findAll( paginationDto );
+
+		const tramites = procedures.map( async ( procedure ) => {
+			
+			const { links, ...procedureData } = procedure;
+
+			const enlaces = links.split("-----");
+			enlaces.pop();
+			
+			return { ...procedureData, links: enlaces };
+		});
+
+		return { tramites: await Promise.all( tramites ), total };
 
 		// const { procedures, total } = await this.procedureService.findAll( paginationDto );
 
@@ -56,9 +68,9 @@ export class ProcedureController {
 		enlaces.pop();
 
 		return {
-			procedure: procedureData,
-			requirements,			
-			links: enlaces
+			...procedureData,
+			links: enlaces,
+			requerimientos: requirements,			
 		}
 	}
 
@@ -80,7 +92,7 @@ export class ProcedureController {
 		const admin = await this.userService.findByEmailAdmin( email );
 		await this.adminProService.create({ admin, procedure });
 
-		return { message: "Trámite creado correctamente" }
+		return { mensaje: "Trámite creado correctamente" }
 	}
 
 	@Get( "admin/findAll" )
@@ -95,8 +107,13 @@ export class ProcedureController {
 
 		const fullProcedures = await Promise.all( adminProceduresFound.map( async ( procedure ) => {
 
+			const { links, ...procedureData } = procedure;
+
+			const enlaces = links.split("-----");
+			enlaces.pop();
+
 			const requirements = await this.reqProService.findStack( procedure );
-			return { tramite: procedure, requerimientos: requirements };
+			return { tramite: { ...procedureData, links: enlaces }, requerimientos: requirements };
 		}));
 
 		return { tramites: fullProcedures, total };
@@ -118,7 +135,12 @@ export class ProcedureController {
 		const enlaces = links.split("-----");
 		enlaces.pop();
 
-		return { tramite: procedureData, requerimientos: requirements, links: enlaces };
+		// return { tramite: procedureData, requerimientos: requirements, links: enlaces };
+		return {
+			...procedureData,
+			links: enlaces,
+			requerimientos: requirements,			
+		}
 	}
 
 	@Post( "admin/:id" )
@@ -140,7 +162,7 @@ export class ProcedureController {
 
 		await this.adminProService.create({ admin: adminToGive, procedure });
 		
-		return { message: "Permisos otorgados correctamente" };
+		return { mensaje: "Permisos otorgados correctamente" };
 	}
 
 	@Delete( "admin/:id" )
@@ -163,7 +185,7 @@ export class ProcedureController {
 
 		await this.adminProService.remove( admin, procedure );
 		
-		return { message: "Permisos revocados correctamente" };
+		return { mensaje: "Permisos revocados correctamente" };
 	}
 
 	@Put( ":id" )
@@ -174,15 +196,15 @@ export class ProcedureController {
 	){
 		
 		const estado = await this.procedureService.update( id, updateProcedureDto );
-		const { message } = await this.procedureService.updateDate( id, updateProcedureDto );
+		const { mensaje } = await this.procedureService.updateDate( id, updateProcedureDto );
 
-		if ( estado && message !== "X" )
-			await this.notificationService.sendNotification( id, "Modificacion de Fechas", message );
+		if ( estado && mensaje !== "X" )
+			await this.notificationService.sendNotification( id, "Modificacion de Fechas", mensaje );
 
 		const procedure = await this.procedureService.findOne( id );
 		await this.reqProService.update({ id_requirements: updateProcedureDto.requerimentos, procedure });
 		
-		return { message: "Trámite actualizado correctamente" };
+		return { mensaje: "Trámite actualizado correctamente" };
 	}
 
 	@Delete( ":id" )
@@ -193,7 +215,7 @@ export class ProcedureController {
 	) {
 
 		const procedure = await this.procedureService.findOne( id );
-		const { message } = await this.procedureService.remove( id, estado );
+		const { mensaje } = await this.procedureService.remove( id, estado );
 
 		if ( !this.nonNewProcedures.includes( id ) ){
 			await this.notificationService.sendAllNotification( `El tramite ${ procedure.nombre } ahora esta disponible` );
@@ -207,7 +229,7 @@ export class ProcedureController {
 			await this.notificationService.sendNotification( 
 				id, "Activacion de Tramite", `El tramite: ${ procedure.nombre } esta inactivo` );
 
-		return { message };
+		return { mensaje };
 	}
 
 	async checkPermission( email: string, id: string ){

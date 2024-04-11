@@ -18,8 +18,8 @@ const studentValues = {
   contrasena: '@200120Tm',
   email_academico: 'antonio_@alumno.ipn.mx',
   email_recuperacion: 'antonio_@gmail.com',
-  programa_academico: 'ISC-2009',
-  stars: 0
+  programa_academico: 'ISC-2009'
+  // stars: 0
 }
 const FORM_STEPS = [<FormStepOne key={'stf1'} />, <FormStepTwo key={'stf2'} />]
 

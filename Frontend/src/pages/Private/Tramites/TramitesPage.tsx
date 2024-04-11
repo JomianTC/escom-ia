@@ -1,6 +1,6 @@
+import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { setProcedure, showModal } from '@/store/slices/procedureModalSlice'
-import { useDispatch, useSelector, useStore } from 'react-redux'
-import CommentModal from '../Profesores/components/CommentModal'
+import { useDispatch } from 'react-redux'
 import { ModalTramite } from './components/ModalTramite'
 const respose = {
   procedures: [
@@ -53,7 +53,7 @@ const respose = {
   total: 5
 }
 export function TramitesPage () {
-  const { isModalOpen } = useSelector((state) => state.procedure)
+  const { isModalOpen } = useAppSelector((state) => state.procedure)
   const dispatch = useDispatch()
   const handleDetails = (procedure) => {
     dispatch(setProcedure(procedure))

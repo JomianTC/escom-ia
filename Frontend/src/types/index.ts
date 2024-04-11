@@ -48,6 +48,10 @@ export type Tag = {
   id: string
   nombre: string
 }
+export type FormattedInputTags = {
+  label: string
+  value: string
+}
 // TODOS LOS PROFESORES
 export interface TeachersDataResponse {
   data: {

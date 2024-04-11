@@ -27,7 +27,9 @@ export const useForm = (initialValues: Student, components: Components, isUpdate
         return
       }
       createUser.mutate(values)
-      if (values.foto_perfil != null) { uploadImage.mutate(values.foto_perfil as unknown as File) }
+      if (values.foto_perfil != null) {
+        uploadImage.mutate(values.foto_perfil as unknown as File)
+      }
 
       if (createUser.isSuccess) {
         setCanRedirect(true)

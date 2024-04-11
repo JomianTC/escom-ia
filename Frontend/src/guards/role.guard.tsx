@@ -1,9 +1,11 @@
+import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { PRIVATE_ROUTES_MODEL } from '@models/ROUTES'
-import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
-
-export function RoleGuard ({ rol }) {
+type RoleGuardProps = {
+  rol?: 'admin' | 'user'
+}
+export function RoleGuard ({ rol = 'user' }: RoleGuardProps) {
   // Verificamos si el usuario esta logueado
-  const userState = useSelector(state => state.user)
-  return userState.rol === rol ? <Outlet /> : < Navigate replace to={PRIVATE_ROUTES_MODEL.PRIVATE.navPath} />
+  const { rol: userRole } = useAppSelector((state) => state.user)
+  return userRole === rol ? <Outlet /> : < Navigate replace to={PRIVATE_ROUTES_MODEL.PRIVATE.navPath} />
 }

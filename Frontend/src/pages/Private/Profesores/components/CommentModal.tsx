@@ -1,5 +1,5 @@
 import Modal from '@/components/Modal'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@/store/hooks/useAppSelector'
 
 export default function CommentModal () {
   const {
@@ -11,7 +11,7 @@ export default function CommentModal () {
     estado,
     esInformativo,
     isModalOpen
-  } = useSelector(store => store.procedure)
+  } = useAppSelector((state) => state.procedure)
   return (
     <Modal open={isModalOpen}>
         <Modal.Image alt="escom_plus_logo" />

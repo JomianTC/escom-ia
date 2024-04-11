@@ -43,7 +43,8 @@ export default function Login () {
                 <img
                     src="/icons/logoCompleto.webp"
                     alt="escom plus"
-                    className="w-40"
+                  className="w-40"
+                  loading="lazy"
                 />
                 <Formik
                     initialValues={{ contrasena: '', boleta: '' }}

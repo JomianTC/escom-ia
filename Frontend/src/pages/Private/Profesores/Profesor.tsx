@@ -22,6 +22,8 @@ export function Profesor () {
   const navigate = useNavigate()
   const { id } = useParams()
 
+  const hasComments = comments?.pages[0].comentarios.length !== 0
+
   useEffect(() => {
     if (isError) {
       const timer = setTimeout(() => {
@@ -42,19 +44,25 @@ export function Profesor () {
   }, [data])
 
   const handleSubmit = (values) => {
-    const comment = {
+    const comment: {
+      id_profesor: string
+      puntuacion: number
+      comentario: string
+      tags: string[]
+    } = {
       ...values,
       id_profesor: id
     }
     createComment.mutate(comment)
   }
+
   return (
-    <div className='container mx-auto'>
+    <div className='container mx-auto grid grid-cols-1 profesor__detail__grid px-4 py-2 md:px-8 gap-4 md:gap-8 h-full'>
       {(isLoading || isFetching || isRefetching) && (<Loader />
       )}
       {((data !== null) && !isFetching && !isRefetching && (tags !== undefined)) && (
-        <>
-          <ProfesorCard {...data?.teacherFound} detail={true} />
+        <div className='h-[calc(100%-100px)]'>
+          <ProfesorCard {...data?.teacherFound} totalComments={comments?.pages[0].total ?? 0 } detail={true}>
           <Modal trigger={
               <ModalTrigger className={' sm:relative opacity-100 bg-bg_200 py-2 px-4 rounded-xl'}>
               <>Comentar</>
@@ -63,18 +71,29 @@ export function Profesor () {
             <Modal.Title title="Comentar" />
             <Modal.CommentForm data={tags} handleSubmit={handleSubmit} />
             <Modal.Controls />
-          </Modal>
-        </>
+            </Modal>
+          </ProfesorCard>
+        </div>
       )}
-      <h2>Comentarios</h2>
-      <section key={uuid()} className='grid  md:grid-cols-3 gap-8 p-4'>
-      {comments?.pages.map((page) => (
-        page.comentarios.map((comment) => (
-          <CommentBox key={uuid()} comment={comment} />
-        ))
-      ))}
-          </section>
-      <button onClick={async () => await fetchNextPage()} disabled={ !hasNextPage}>More</button>
+      <div className=''>
+        <h1 className='font-bold '>Comentarios</h1>
+        <section key={uuid()} className='grid gap-8 p-4 max-h-[600px] overflow-y-scroll custom-scrollbar'>
+        {comments?.pages.map((page) => (
+          page.comentarios.map((comment) => (
+            <CommentBox key={uuid()} comment={comment} />
+          ))
+        ))}
+          {(hasComments)
+            ? (<button onClick={async () => await fetchNextPage()} disabled={!hasNextPage}>More</button>)
+            : (
+              <>
+              <img className='w-10/12 mx-auto' src='/icons/robotduda.webp' alt='bot-duda' />
+                <p className='text-center text-4xl'>¡Se el primero en comentar!</p>
+              </>
+              )
+          }
+        </section>
+      </div>
     </div>
   )
 }

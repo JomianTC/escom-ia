@@ -67,3 +67,22 @@ export const comentarioEsquema = yup.object().shape({
   puntuacion: yup.number().min(1).max(5).required('La puntuacion es requerida'),
   tags: yup.array().min(1, 'Al menos debes seleccionar un Item').required('Al menos debes ingresar un Tag')
 })
+
+export const procedureEsquema = yup.object().shape({
+  nombre: yup.string().min(2).required('El nombre es requerido'),
+  descripcion: yup.string().min(2).required('La descripcion es requerida'),
+  fechaInicio: yup.string().required('La fecha de inicio es requerida'),
+  fechaTermino: yup.string().required('La fecha de termino es requerida'),
+  esInformativo: yup.boolean().required('El estado es requerido'),
+  requerimientos: yup.array()
+})
+
+// Utilizar para dar permiso y para eliminar permiso
+export const permissionEsquema = yup.object().shape({
+  email: yup.string().email().required('El email es requerido')
+})
+
+export const requirementEsquema = yup.object().shape({
+  nombre: yup.string().min(2).required('El nombre es requerido'),
+  descripcion: yup.string().min(2).required('La descripcion es requerida')
+})

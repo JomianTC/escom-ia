@@ -4,7 +4,7 @@ import { AdminForm } from './AdminForm/AdminForm'
 import { StudentForm } from './StudentForm/StudentForm'
 
 export default function Register () {
-  const [form, setForm] = useState(<StudentForm />)
+  const [form, setForm] = useState(<StudentForm isUpdate={false} />)
   const [selected, setSelected] = useState('estudiante')
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelected(prev => {

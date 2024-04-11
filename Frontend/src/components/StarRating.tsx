@@ -55,3 +55,18 @@ export function StarRating ({ stars = 5, readOnly = false, name = 'rating' }) {
     </Field>
   )
 }
+
+export function StarComponent ({ stars = 5, rating = 0, className = '' }) {
+  return (
+    <div className={`flex items-center ${className}`}>
+    {Array.from({ length: stars }, (_, i) => (
+      <StarIcon
+        readOnly
+        handleClick={() => {}}
+        key={i}
+        filled={i < rating}
+      />
+    ))}
+  </div>
+  )
+}

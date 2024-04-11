@@ -33,7 +33,15 @@ export default function Modal ({ children, type = 'default', open = false, trigg
       document.querySelector('#root')?.classList.remove('open')
       dispatch(closeModal())
     }
+    const closeModalOnEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false)
+        document.querySelector('#root')?.classList.remove('open')
+        dispatch(closeModal())
+      }
+    }
     window.addEventListener('resize', closeModalOnResize)
+    window.addEventListener('keydown', closeModalOnEscape)
     if (type === 'timer') {
       const timer = setTimeout(() => {
         setIsOpen(false)
@@ -52,7 +60,7 @@ export default function Modal ({ children, type = 'default', open = false, trigg
             {trigger}
                 <div id="crud-modal" tabIndex={-1} aria-hidden="true" className={`bg-red-300 flex justify-center items-center  ${!isOpen ? 'hidden' : 'h-screen w-screen bg-zinc-800/60 fixed top-0 left-0 open p-4 overflow-y-scroll'}`}>
                     <div className="modal-content relative p-4
-                     w-72 sm:w-[460px]  sm:max-h-full bg-bg_300 z-50 rounded-xl text-white flex flex-col justify-center items-center">
+                     w-full md:w-[460px]  sm:max-h-full bg-bg_300 z-50 rounded-xl text-white flex flex-col justify-center items-center">
                                     {children}
                     </div>
                 </div>
@@ -62,7 +70,7 @@ export default function Modal ({ children, type = 'default', open = false, trigg
 }
 
 export function Title ({ title }: { title?: string }) {
-  return <h1 className="text-xl sm:text-4xl font-bold border-b-2 text-left py-4">{title}</h1>
+  return <h1 className="text-xl sm:text-4xl font-bold border-b-2 text-left py-4 mb-4">{title}</h1>
 }
 
 export function Body ({ children }: { children: React.ReactNode }) {

@@ -111,7 +111,7 @@ export const tagsClient = axios.create({
 export const imageClient = axios.create({
   baseURL: API_URLS.userPictureClient.client,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'multipart/form-data'
   }
 })
 

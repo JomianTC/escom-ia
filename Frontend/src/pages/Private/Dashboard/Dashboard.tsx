@@ -3,7 +3,7 @@ export default function Dashboard () {
     <section className="w-full h-full container mx-auto vento p-2 sm:p-2">
       <article className="rounded-xl p-4 border-4 relative">
         <h2 className="text-5xl">Centraliza tus Trámites Escolares</h2>
-        <img src="/icons/logoCompleto.webp" alt="logo escom ++" className="w-96 absolute top-40 sm:top-60 sm:left-30 md:left-32 opacity-40" />
+        <img src="/icons/logoCompleto.webp" alt="logo escom ++" className="w-96 absolute top-40 sm:top-24 sm:left-48 md:left-32 opacity-40" />
         <p className="text-xl line leading-9">
           <span className="highlighted-text"> Simplifica</span> tu experiencia académica al tener todos tus <span className="highlighted-text"> trámites</span> escolares en un solo lugar. Mantén un registro organizado y actualizado de cada trámite, recibe notificaciones importantes cuando se agregue un nuevo trámite o esté próximo a expirar. Además, accede a información <span className="highlighted-text"> detallada</span> sobre la documentación necesaria, el propósito del trámite y las fechas clave de inicio y termino. ¡<span className="highlighted-text"> Optimiza</span> tu tiempo y elimina la complejidad de busqueda!
         </p>

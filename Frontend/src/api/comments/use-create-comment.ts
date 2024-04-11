@@ -1,12 +1,12 @@
-import { type TSFixMe } from '@/types/index'
+import { useAppSelector } from '@/store/hooks/useAppSelector'
+import { type FormattedInputTags, type TSFixMe } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useSelector } from 'react-redux'
 import { API_URLS, commentsClient } from '../index'
 import { tagQueryKeys } from '../tags/tags-query-keys'
-import { type CommentCreatedResponse } from './../../types/api-responses'
+import { type CommentCreatedResponse, type CommentsByTeacherResponse, type CommentStructure } from './../../types/api-responses'
 import { commentsQueryKeys } from './comments-query-keys'
 
-const createComment = async (data: any) => {
+const createComment = async (data: CommentStructure) => {
   const response = await commentsClient.post(API_URLS.commentsClient.createComment, { ...data })
   const { data: commentResponse }: { data: CommentCreatedResponse } = response
   return commentResponse
@@ -14,29 +14,36 @@ const createComment = async (data: any) => {
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 export function useCreateComment () {
   const queryClient = useQueryClient()
-  const { nombres, apellidos, foto_perfil: fotoPerfil } = useSelector(store => store.user)
+  const { nombres, apellidos, foto_perfil: fotoPerfil } = useAppSelector((state) => state.user)
 
   return useMutation({
     mutationFn: createComment,
-    onMutate: async (newData) => {
+    onMutate: async (newData: CommentStructure) => {
       // Realizando un refetch de los comentarios para que se actualice la lista
       await queryClient.cancelQueries({ queryKey: commentsQueryKeys.all })
-      const tags: any[] = queryClient.getQueryData(tagQueryKeys.pagination(1)) ?? []
-      const previousComments = queryClient.getQueryData(commentsQueryKeys.all)
+      // Obteniendo los tags que ya se tenían en cache
+      const tags: FormattedInputTags[] = queryClient.getQueryData(tagQueryKeys.pagination(1)) ?? []
+      interface PrevComments {
+        pages: CommentsByTeacherResponse[]
+        pageParams: number
+      }
+      const previousComments: PrevComments = queryClient.getQueryData(commentsQueryKeys.all) ?? { pages: [], pageParams: 1 }
       const tagsToShow = newData.tags.map((tag: string) => {
         return tags?.find((tagData: { value: string, label: string }) => tagData.value === tag)?.label
-      })
+      }) ?? ['loading', 'loading']
 
       // Aqui colocar el comentario que se va a agregar
-      console.log(newData)
+      // console.log(newData)
+      const fecha = new Date().toLocaleDateString()
+
       const mockComment = {
-        comentario: { puntuacion: newData.puntuacion, comentario: newData.comentario, fecha: '2020-10-10' },
+        comentario: { puntuacion: newData.puntuacion, comentario: newData.comentario, fecha },
         id: newData.id_profesor,
-        tags: tagsToShow,
+        tags: (tagsToShow ?? []).filter((tag) => tag !== undefined) as string[],
         usuario: { nombres, apellidos, foto_perfil: fotoPerfil }
       }
 
-      queryClient.setQueryData(commentsQueryKeys.all, (old: any) => {
+      queryClient.setQueryData(commentsQueryKeys.all, () => {
         const { pages, pageParams } = previousComments
         console.log(pages)
         console.log(pageParams)

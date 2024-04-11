@@ -1,6 +1,6 @@
 import { StudentForm } from '@/pages/Register/StudentForm/StudentForm'
+import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import Modal, { ModalTrigger } from './Modal'
 
 export default function EditInfoModal () {
@@ -13,7 +13,7 @@ export default function EditInfoModal () {
     programa_academico: programaAcademico,
     email_academico: emailAcademico,
     email_recuperacion: emailRecuperacion
-  } = useSelector((state) => state.user)
+  } = useAppSelector((state) => state.user)
   const [modify, setModify] = useState(false)
   return (
     <Modal trigger={<ModalTrigger className={'profile-icon w-12 h-12 absolute bottom-0 sm:relative opacity-100'}>

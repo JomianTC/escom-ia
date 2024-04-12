@@ -48,7 +48,7 @@ export class RequirementsService {
 				skip: limit * ( page - 1 )
 			});
 
-			return { requirementos: requirements, total };
+			return { requerimientos: requirements, total };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}

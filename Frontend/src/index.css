@@ -24,8 +24,10 @@
     --gradiend: linear-gradient(
         180deg,
         var(--black) 30%,
-        var(--accent_100) 100%
+        var(--accent_200) 180%
     );
+
+
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
@@ -73,6 +75,8 @@
             var(--black) 30%,
             var(--accent_100) 100%
         );
+
+
 
         color-scheme: light dark;
         color: rgba(255, 255, 255, 0.87);
@@ -631,4 +635,14 @@ nav,ul,li {
         transform: rotate(0deg);
         scale: 0.9;
     }
+}
+
+.comment-box{
+    background: rgba( 255, 255, 255, 0.25 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 3px );
+-webkit-backdrop-filter: blur( 3px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+color: var(--text_200);
 }

@@ -2,10 +2,11 @@ import EditInfoModal from '@/components/EditInfoModal'
 import { NavBar } from '@/components/NavBar'
 import { PRIVATE_ROUTES } from '@/models'
 import { type IRoute } from '@/types/index'
-import { AuthGuards } from '@guards/index.ts'
+import { AuthGuards, RoleGuard } from '@guards/index.ts'
 import RoutesWithNotFound from '@utils/RoutesWithNotFound'
 import { lazy } from 'react'
 import { Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashboard'))
 
 export default function Private () {
@@ -26,11 +27,12 @@ export default function Private () {
             }
             )
           }
-          <Route element={<AuthGuards privateValidation={false} />}>
-            <Route path={'privadaValidada'} element={<h1>RUTA PRIVADA VALIDADA</h1>} />
+          <Route element={<RoleGuard rol={'admin'} />}>
+            <Route path={'privadaValidada'} element={<h1>Admin podra eliminar</h1>} />
           </Route>
         </RoutesWithNotFound>
       </main >
+      <ToastContainer />
     </>
   )
 }

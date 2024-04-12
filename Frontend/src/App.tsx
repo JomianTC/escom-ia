@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import { Navigate, Route } from 'react-router-dom'
 
 import './App.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Login } from './pages/Login'
@@ -20,7 +21,7 @@ const queryClient = new QueryClient()
 function App () {
   return (
         <>
-            <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient} >
                 <Suspense fallback={<>Loading ...</>}>
                     <Provider store={store}>
                         {/* <h3 >Este elemento se visualiza en todas partes</h3> */}
@@ -43,10 +44,7 @@ function App () {
                             />
 
                             <Route
-                                element={
-                                    <AuthGuards privateValidation={true} />
-                                }
-                            >
+                                element={<AuthGuards privateValidation={true} />}>
                                 {/* Nos permite proteger las rutas privadas que tiene dentro,  */}
                                 <Route
                                     path={`${PRIVATE_ROUTES_MODEL.PRIVATE.path}/*`}
@@ -54,7 +52,7 @@ function App () {
                                 />
                             </Route>
 
-                            <Route element={<RoleGuard rol="ADMIN" />}>
+                            <Route element={<RoleGuard rol="admin" />}>
                                 <Route
                                     path="admin"
                                     element={

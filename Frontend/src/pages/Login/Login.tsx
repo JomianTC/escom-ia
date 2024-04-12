@@ -1,42 +1,31 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { useGetUser } from '@/api/users/use-get-user'
-import { MyTextInput } from '@/components/InputText'
-import { type LoginUserResponse, type LoginData } from '@/types/index'
+import { PUBLIC_ROUTES_MODEL } from '@/models'
+import { useAppDispatch } from '@/store/hooks/useAppSelector'
+import { resetUser, USER_KEY } from '@/store/slices/userSlice'
+import { clearLocalStorage } from '@/utilities'
 import { FormLayout } from '@layouts/FormLayout'
-import { PRIVATE_ROUTES_MODEL, PUBLIC_ROUTES_MODEL } from '@models/ROUTES'
-import { USER_KEY, login, resetUser } from '@store/slices/userSlice'
-import { clearLocalStorage, setLocalStorage } from '@utils/index'
-import { Form, Formik } from 'formik'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { estudianteEsquemaIngreso } from '../Schemas'
+import AdminLogin from './AdminLogin'
+import { StudentFormLogin } from './Student'
 
 export default function Login () {
-  const dispatch = useDispatch()
+  const [form, setForm] = useState(<StudentFormLogin />)
+  const [selected, setSelected] = useState('estudiante')
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const userQuery = useGetUser()
-
   // Si el usuario accede a la ruta de login y ya esta logueado, hacemos que se desloguee
   useEffect(() => {
     clearLocalStorage(USER_KEY)
     dispatch(resetUser())
     navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
   }, [])
-
-  async function startLogin (rol = '', loginData: LoginData) {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      const data: LoginUserResponse = await userQuery.mutateAsync(loginData)
-
-      dispatch(login(data))
-      setLocalStorage('token', data.token)
-      navigate(`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}`, { replace: true })
-    } catch (error) {
-      console.log(error)
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelected(prev => {
+      setForm(prev === 'administrador' ? <StudentFormLogin /> : <AdminLogin />)
+      return e.target.value
+    })
   }
-
   return (
         <FormLayout>
             <>
@@ -45,45 +34,26 @@ export default function Login () {
                     alt="escom plus"
                   className="w-40"
                   loading="lazy"
-                />
-                <Formik
-                    initialValues={{ contrasena: '', boleta: '' }}
-                    validationSchema={estudianteEsquemaIngreso}
-                    onSubmit={async (values) => {
-                      await startLogin('', values)
-                    }}
-                >
-                    {() => (
-                        <Form
-                            className="flex flex-col gap-2 w-full sm:px-10"
-                            noValidate
-                        >
-                            <MyTextInput
-                                label="Boleta"
-                                name="boleta"
-                                type="text"
-                                className="input-border"
-                            />
-                            <MyTextInput
-                                label="Contraseña"
-                                name="contrasena"
-                                type="password"
-                                className="input-border"
-                            />
-                            <button
-                                type="submit"
-                                className="white-border"
-                            >
-                                Submit
-                            </button>
-                        </Form>
-                    )}
-                </Formik>
+        />
+                        <div className='flex gap-4'>
+                  <label className='flex justify-center items-center form-selector'>
+                      <span className='text-lg p-2'>Estudiante</span>
+                      <input className='input-form-selector' type="radio" onChange={handleChange} value={'estudiante'} checked={selected === 'estudiante' } />
+                      <div className='w-6 h-6 rounded-full radio-checked'></div>
+                    </label>
+                    <label className='flex justify-center items-center form-selector'>
+                    <span className='text-lg p-2'>Administrador</span>
+                      <input className='input-form-selector' type="radio" value={'administrador'} onChange={handleChange} checked={selected === 'administrador'} />
+                      <div className='w-6 h-6 rounded-full radio-checked'></div>
+                    </label>
+                </div>
+                {form}
                 <Link to="/register" className="text-primary_300">
                     ¿No tienes una cuenta? ¡Unete Ahora!
                 </Link>
                 {/* <button onClick={async () => { await startLogin() }}>Login</button> */}
-                {/* <button onClick={async () => { await startLogin('ADMIN') }}>LoginUsingRole</button> */}
+        {/* <button onClick={async () => { await startLogin('ADMIN') }}>LoginUsingRole</button> */}
+
             </>
         </FormLayout>
   )

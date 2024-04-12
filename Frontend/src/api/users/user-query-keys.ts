@@ -9,3 +9,11 @@ export const userQueryKeys = {
   pagination: (page: number) => [...userQueryKeys.all, 'pagination', page],
   infinite: () => [...userQueryKeys.all, 'infinite']
 }
+
+export const adminQueryKeys = {
+  all: ['admins'],
+  details: () => [...adminQueryKeys.all, 'detail'],
+  detail: (id: number) => [...adminQueryKeys.details(), id],
+  pagination: (page: number) => [...adminQueryKeys.all, 'pagination', page],
+  infinite: () => [...adminQueryKeys.all, 'infinite']
+}

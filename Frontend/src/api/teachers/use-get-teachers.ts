@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { teacherQueryKeys } from './teachers-query-keys'
 
-const getTeachers = async (page = 1, limit = 10) => {
+const getTeachers = async (page = 1, limit = 100) => {
   const token = getLocalStorage('token')
 
   teacherClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
@@ -17,14 +17,13 @@ const getTeachers = async (page = 1, limit = 10) => {
     }
   })
   const data: TeachersDataResponse = response.data
-
   return data.data
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
-export function useTeachers () {
+export function useTeachers (resultLimit = 10) {
   const [searchParams, setSearchParams] = useSearchParams()
   const [page, setPage] = useState(searchParams.get('page') ?? 1)
-  const [limit, setLimit] = useState(10)
+  const [limit, setLimit] = useState(resultLimit)
 
   const { data, isLoading, isError } = useQuery({
     queryKey: teacherQueryKeys.pagination(Number(page)),

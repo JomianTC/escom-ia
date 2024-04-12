@@ -33,14 +33,15 @@ export function StudentForm ({ isUpdate = false }: { isUpdate?: boolean }) {
     canGoBack,
     handleSubmit,
     isLoading,
-    isSuccess
+    isSuccess,
+    canRedirect
   } = useForm(studentValues, FORM_STEPS, isUpdate)
 
   useEffect(() => {
     if (isSuccess) {
       navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`)
     }
-  }, [isSuccess])
+  }, [canRedirect])
 
   return isLoading
     ? (

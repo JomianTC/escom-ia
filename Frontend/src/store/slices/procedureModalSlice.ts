@@ -8,6 +8,7 @@ interface Tramite {
   estado: boolean
   esInformativo: boolean
   isModalOpen: boolean
+  isEditMode: boolean
 }
 const DEFAULT_INITIAL_STATE: Tramite = {
   id: '99c32be0-fc7e-465a-9023-d1adf0238674',
@@ -17,7 +18,8 @@ const DEFAULT_INITIAL_STATE: Tramite = {
   fechaTermino: '2024-03-22T06:00:00.000Z',
   estado: true,
   esInformativo: true,
-  isModalOpen: false
+  isModalOpen: false,
+  isEditMode: false
 }
 
 // Retorna las acciones del objeto como un objeto
@@ -36,9 +38,12 @@ export const procedureSlice = createSlice({
     },
     closeModal: (state) => {
       return { ...state, isModalOpen: false }
+    },
+    setEditMode: (state, action) => {
+      return { ...state, isEditMode: action.payload }
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { setProcedure, clearProcedure, showModal, closeModal } = procedureSlice.actions
+export const { setProcedure, clearProcedure, showModal, closeModal, setEditMode } = procedureSlice.actions

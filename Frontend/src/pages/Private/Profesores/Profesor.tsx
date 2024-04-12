@@ -1,4 +1,3 @@
-import { useCreateComment } from '@/api/comments/use-create-comment'
 import { useGetComments } from '@/api/comments/use-get-comments'
 import { useTags } from '@/api/tags/use-get-tags'
 import { useTeacher } from '@/api/teachers/get-teacher'
@@ -6,7 +5,7 @@ import Loader from '@/components/Loader'
 import Modal, { ModalTrigger } from '@/components/Modal'
 import { useQueryErrorResetBoundary } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import uuid from 'react-uuid'
 import CommentBox from './components/CommentBox'
 import { ProfesorCard } from './components/ProfesorCard'
@@ -16,11 +15,9 @@ export function Profesor () {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   const { data: comments, hasNextPage, fetchNextPage } = useGetComments(!!data)
   const { data: tags } = useTags()
-  const createComment = useCreateComment()
 
   const { reset } = useQueryErrorResetBoundary()
   const navigate = useNavigate()
-  const { id } = useParams()
 
   const hasComments = comments?.pages[0].comentarios.length !== 0
 
@@ -43,33 +40,20 @@ export function Profesor () {
     }
   }, [data])
 
-  const handleSubmit = (values) => {
-    const comment: {
-      id_profesor: string
-      puntuacion: number
-      comentario: string
-      tags: string[]
-    } = {
-      ...values,
-      id_profesor: id
-    }
-    createComment.mutate(comment)
-  }
-
   return (
     <div className='container mx-auto grid grid-cols-1 profesor__detail__grid px-4 py-2 md:px-8 gap-4 md:gap-8 h-full'>
       {(isLoading || isFetching || isRefetching) && (<Loader />
       )}
       {((data !== null) && !isFetching && !isRefetching && (tags !== undefined)) && (
         <div className='h-[calc(100%-100px)]'>
-          <ProfesorCard {...data?.teacherFound} totalComments={comments?.pages[0].total ?? 0 } detail={true}>
+          <ProfesorCard {...data} totalComments={comments?.pages[0].total ?? 0 } detail={true}>
           <Modal trigger={
               <ModalTrigger className={' sm:relative opacity-100 bg-bg_200 py-2 px-4 rounded-xl'}>
               <>Comentar</>
             </ModalTrigger>
           }>
             <Modal.Title title="Comentar" />
-            <Modal.CommentForm data={tags} handleSubmit={handleSubmit} />
+            <Modal.CommentForm data={tags} />
             <Modal.Controls />
             </Modal>
           </ProfesorCard>

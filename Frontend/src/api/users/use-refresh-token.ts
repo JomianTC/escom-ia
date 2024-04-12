@@ -19,7 +19,7 @@ export async function useRefreshToken (failedRequest: any) {
   if (newToken != null) {
     failedRequest.response.config.headers.Authorization = 'Bearer ' + newToken
     // you can set your token in storage too
-    setLocalStorage('token', { token: newToken })
+    setLocalStorage('token', newToken)
     return await Promise.resolve(newToken)
   }
   // eslint-disable-next-line prefer-promise-reject-errors

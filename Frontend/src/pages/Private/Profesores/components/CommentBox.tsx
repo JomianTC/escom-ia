@@ -11,7 +11,7 @@ export default function CommentBox ({ comment }: CommentBoxProps) {
   const [active, setActive] = useState(false)
 
   return (
-    <article key={uuid()} className='white-border flex relative h-48'>
+    <article key={uuid()} className='white-border flex relative h-48 bg-zinc-900 text-white'>
     {/* Columna Izquierda - Imagen y Tags */}
     <div className='flex flex-col gap-2 max-w-40'>
       <img className='w-14 h-14 md:w-16 md:h-16' src={getProfilePicture(comment.usuario.foto_perfil)} alt={comment.usuario.foto_perfil} />
@@ -30,10 +30,10 @@ export default function CommentBox ({ comment }: CommentBoxProps) {
     {/* USER INFO */}
       <div className='flex flex-col'>
         <div className='flex items-center gap-6 '>
-          <p className='text-3xl font-bold text-primary_300'>{comment.usuario.nombres + ' ' + comment.usuario.apellidos}</p>
+          <p className='text-3xl font-bold text-zinc-300'>{comment.usuario.nombres + ' ' + comment.usuario.apellidos}</p>
           <span className='text-sm text-zinc-300 italic'>{ comment.comentario.fecha}</span>
         </div>
-        <div className='flex grow flex-col justify-between pb-6'>
+        <div className='flex grow flex-col justify-between pb-6 text-zinc-300'>
           <p>{comment.comentario.comentario}</p>
           <StarComponent rating={comment.comentario.puntuacion} />
         </div>

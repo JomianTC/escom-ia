@@ -1,4 +1,5 @@
 import { PUBLIC_ROUTES_MODEL } from '@/models'
+import { removeSession } from '@/store/slices/authSlice'
 import { resetUser, USER_KEY } from '@/store/slices/userSlice'
 import { clearLocalStorage } from '@/utilities'
 import { useEffect, useState } from 'react'
@@ -12,6 +13,7 @@ export function useNavBarActions () {
   function handleLogOut () {
     clearLocalStorage(USER_KEY)
     dispatch(resetUser())
+    dispatch(removeSession())
     navigate(`${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
   }
   useEffect(() => {

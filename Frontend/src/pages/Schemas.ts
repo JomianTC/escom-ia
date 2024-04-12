@@ -62,6 +62,10 @@ export const administradorEsquema = yup.object().shape({
   identificador: yup.string().min(10).required('El identificador es requerido')
 })
 
+export const administradorEsquemaRegistro = yup.object().shape({
+  identificador: yup.string().min(10).required('El identificador es requerido'), email: yup.string().email().required('El email es requerido')
+})
+
 export const comentarioEsquema = yup.object().shape({
   comentario: yup.string().min(2).required('El comentario es requerido'),
   puntuacion: yup.number().min(1).max(5).required('La puntuacion es requerida'),

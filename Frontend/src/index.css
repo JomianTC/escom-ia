@@ -7,17 +7,17 @@
 
 :root,
 :root[data-theme="light"] {
-    --primary_100: #0f68a3;
+    --primary_100: #74c7ff;
     --primary_200: #5596d5;
-    --primary_300: #bff9ff;
-    --accent_100: #3d5a80;
-    --accent_200: #e2f2ff;
-    --text_100: #ffffff;
-    --text_200: #e0e0e0;
-    --bg_300: #2b3444;
-    --bg_200: #1f2b3e;
-    --bg_100: #0f1c2e;
-    --black: #030508;
+    --primary_300: #001e21;
+    --accent_100: #266882a6;
+    --accent_200: #5bccfd;
+    --text_100: #2a2a2a;
+    --text_200: #222222;
+    --bg_300: #f5f9ff;
+    --bg_200: #d1e2fd;
+    --bg_100: #e8e8e8;
+    --black: #e7e7f9;
     font-family: "Glory", sans-serif;
     line-height: 1.5;
     font-weight: 400;
@@ -61,7 +61,7 @@
         --accent_200: #e2f2ff;
         --text_100: #ffffff;
         --text_200: #e0e0e0;
-        --bg_300: #2b3444;
+        --bg_300: #3267c3;
         --bg_200: #1f2b3e;
         --bg_100: #0f1c2e;
         --black: #030508;
@@ -144,6 +144,7 @@ button:focus-visible {
 input[type="text"],
 input[type="email"],
 input[type="password"] {
+    --black : #000;
     outline: none;
     border: 2px solid var(--primary_200);
     box-shadow: 2px 4px 0px 0px var(--primary_200);
@@ -226,10 +227,10 @@ input[type="password"]:focus {
 }
 
 .profesor__card {
-    display: grid;
+    /* display: grid; */
     grid-template-columns: 100px 1fr;
     align-items: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-overflow: ellipsis;
     white-space: nowrap;
     transition: transform 0.25s;
@@ -277,8 +278,10 @@ input[type="password"]:focus {
 .vento article {
     display: grid;
     /* grid-template-rows: subgrid; */;
+    background-color: var(--bg_300);
     grid-template-rows: subgrid;
     transition: all 0.25s;
+    border: 4px solid var(--text_200);
 }
 .vento article h2 {
     font-size: 1.5rem;
@@ -286,7 +289,6 @@ input[type="password"]:focus {
     text-align: center;
     margin: 0;
     color: var(--text_100);
-    text-shadow: 2px 2px 0px var(--black);
     border-bottom: 2px solid var(--primary_200);
 }
 
@@ -307,13 +309,17 @@ input[type="password"]:focus {
 }
 .vento article:hover {
     /* From https://css.glass */
-    background: rgba(9, 181, 249, 0.34);
+    background: var(--primary_300);
+    color: var(--black);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
     border: 4px solid rgba(255, 255, 255, 0.9);
     opacity: 1;
+}
+.vento article:hover h2 {
+    color: var(--black);
 }
 .vento:has(article:hover) article:not(:hover) {
     filter: grayscale(1);
@@ -598,4 +604,31 @@ nav,ul,li {
   }
 
 
+    .tilt {
+        animation: tilt 1s infinite alternate-reverse;
+    }
+    .tilt:hover {
+        background-color: var(--primary_100);
+        animation : none;
+    }
 
+@keyframes tilt {
+    0% {
+        transform: rotate(0deg);
+        scale: 0.9;
+    }
+    25% {
+        transform: rotate(30deg);
+    }
+    50% {
+        transform: rotate(0deg);
+        scale: 1;
+    }
+    75% {
+        transform: rotate(-30deg);
+    }
+    100% {
+        transform: rotate(0deg);
+        scale: 0.9;
+    }
+}

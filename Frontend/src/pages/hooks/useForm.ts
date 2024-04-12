@@ -26,15 +26,14 @@ export const useForm = (initialValues: Student, components: Components, isUpdate
         updateUser.mutate(values)
         return
       }
-      createUser.mutate(values)
       if (values.foto_perfil != null) {
         uploadImage.mutate(values.foto_perfil as unknown as File)
       }
-
-      if (createUser.isSuccess) {
+      await createUser.mutateAsync(values).then((data) => {
+        console.log(data)
         setCanRedirect(true)
-        return dispatch(showUserInfo(values))
-      }
+        return dispatch(showUserInfo(data))
+      })
     } else {
       handleNext()
     }

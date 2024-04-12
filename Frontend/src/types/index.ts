@@ -1,5 +1,12 @@
 import { type ElementType } from 'react'
+export const LEVEL_ACCESS = {
+  ADMIN: 'admin',
+  STUDENT: 'student',
+  INVITED: 'invited'
+}
+
 export type Admin = {
+  id: string
   identificador: string
   nombre: string
   email: string
@@ -16,7 +23,7 @@ export type Student = Partial<{
   programa_academico: string
 }>
 export type StudentLogged = Student & {
-  _id: string
+  id: string
   loggedIn: boolean
   rol: string
 }
@@ -35,13 +42,15 @@ export type IRoute = {
   imageUri?: string
 }
 
-export interface TeacherData {
-  id: string
+export interface TeacherFormData {
   nombre: string
   area: string
   grado_academico: string
   email: string
   contacto: string
+}
+export interface TeacherData extends TeacherFormData {
+  id: string
   foto_perfil: string
 }
 export type Tag = {
@@ -55,15 +64,13 @@ export type FormattedInputTags = {
 // TODOS LOS PROFESORES
 export interface TeachersDataResponse {
   data: {
-    teachers: TeacherData[]
+    profesores: TeacherData[]
     total?: number
   }
 }
 // UN PROFESOR
 export interface TeacherDataResponse {
-  data: {
-    teacherFound: TeacherData
-  }
+  data: TeacherData
 }
 type Tags = string[]
 // Informacion necesaria para crear un comentario
@@ -76,7 +83,7 @@ export interface ComentarioInfo {
 
 export interface TeacherCreatedResponse {
   message: string
-  teacher: TeacherData
+  profesor: TeacherData
 }
 
 export interface TeacherUpdatedRespose extends TeacherCreatedResponse { }
@@ -94,12 +101,12 @@ export interface RemoveProfilePicture {
 
 export interface LoginUserResponse {
   message: string
-  user: Student
+  usuario: Student
   token: string
 }
 export interface RegisterUserResponse {
   message: string
-  user: Student
+  usuario: Student
 }
 export interface LoginAdminResponse {
   message: string
@@ -116,4 +123,9 @@ export interface TagsResponse {
 }
 export interface TagsCreatedResponse {
   message: string
+}
+
+export interface LoginAdminData {
+  email: string
+  id: string
 }

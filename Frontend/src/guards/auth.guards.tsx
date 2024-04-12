@@ -4,8 +4,8 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 export function AuthGuards ({ privateValidation = false }) {
   // Verificamos si el usuario esta logueado
-  // const { loggedIn } = useAppSelector((state) => state.user)
-  const loggedIn = true
+  const { loggedIn }: { loggedIn: boolean } = useAppSelector((state) => state.auth)
+  // const loggedIn = true
   return loggedIn
     ? (
         privateValidation

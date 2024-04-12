@@ -1,3 +1,25 @@
+interface UsuarioCreado {
+  nombres: string
+  apellidos: string
+  boleta: string
+  email_academico: string
+  email_recuperacion: string
+  programa_academico: string
+  foto_perfil: string
+  id: string
+}
+
+export interface StudentCreatedResponse {
+  mensaje: string
+  usuario: UsuarioCreado
+}
+
+export interface UsuarioLoginResponse {
+  mensaje: string
+  token: string
+  usuario: UsuarioCreado
+}
+
 // TEACHERS
 
 // COMENTARIOS
@@ -36,23 +58,6 @@ export interface CommentUpdatedResponse extends CommentByTeacher {
 export interface DeleteCommentRespose {
   message: string
 }
-const comentario: CommentsByTeacherResponse = {
-  comentarios: [{
-    comentario: {
-      puntuacion: 5,
-      comentario: 'Muy buen profesor',
-      fecha: '2021-10-10'
-    },
-    usuario: {
-      nombres: 'Juan',
-      apellidos: 'Perez',
-      foto_perfil: 'https://example.com'
-    },
-    tags: ['tag1', 'tag2']
-  }
-  ],
-  total: 1
-}
 export type FindOneCommentResponse = CommentByTeacher
 
 // Procedures Routes To Users
@@ -65,14 +70,13 @@ interface Procedure {
   fechaTermino: string
   estado: boolean
   esInformativo: boolean
+  links?: string[]
 }
-export interface OneProcedureUserResponse {
-  procedure: Procedure
-  requirements: string[]
+export interface OneProcedureUserResponse extends Procedure {
+  requerimientos: string[]
 }
-
 export interface AllProceduresUserResponse {
-  procedures: Procedure[]
+  tramites: Procedure[]
   total: number
 }
 
@@ -92,8 +96,7 @@ export interface AllProceduresAdminResponse {
   }>
   total: number
 }
-export interface OneProcedureAdminResponse {
-  tramite: Procedure
+export interface OneProcedureAdminResponse extends Procedure {
   requerimientos: string[]
 }
 
@@ -255,53 +258,17 @@ const proceduresUser: AllProceduresUserResponse = {
 
 console.log(proceduresUser)
 
-const oneProcedureUser: OneProcedureUserResponse = {
-  procedure: {
-    id: '87ded2a6-7a59-4b05-9dcb-4b5dbbb78790',
-    nombre: 'VOIDDRIFTER2X',
-    descripcion: 'Este tramite no hace nada',
-    fechaInicio: '2024-06-11T12:00:00.000Z',
-    fechaTermino: '2024-06-12T12:00:00.000Z',
-    estado: false,
-    esInformativo: true
-  },
-  requirements: [
-    'nombre completo 3',
-    'nombre completo 2',
-    'nombre completo 1'
-  ]
-}
-console.log(oneProcedureUser)
-
-const oneProcedureAdmin: OneProcedureAdminResponse = {
-  tramite: {
-    id: '8591b88c-cfe0-4231-9488-801335fdb529',
-    nombre: 'trabajo opcional 5',
-    descripcion: 'Este tramite te ayudara tramitar el servicio social',
-    fechaInicio: '2024-02-01T06:00:00.000Z',
-    fechaTermino: '2024-03-22T06:00:00.000Z',
-    estado: false,
-    esInformativo: true
-  },
-  requerimientos: [
-    'nombre completo 2',
-    'nombre completo 3',
-    'nombre completo 1'
-  ]
-}
-
 // REQUIREMENTS
 
-console.log(oneProcedureAdmin)
 interface Requirement {
   nombre: string
   descripcion: string
   id: string
 }
 export interface RequirementCreatedResponse extends MessageResponse {
-  requirement: Requirement
+  requerimiento: Requirement
 }
 export interface AllRequirementsResponse {
-  requirements: Requirement[]
+  requerimientos: Requirement[]
   total: number
 }

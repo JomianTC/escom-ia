@@ -1,10 +1,20 @@
+import { type StudentCreatedResponse } from './../../types/api-responses'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { API_URLS, apiClient, userQueryKeys } from '../index'
 import { type TSFixMe, type Student } from '@/types/index'
 
 const createUserFn = async (newUser: Student) => {
-  const response = await apiClient.post(API_URLS.apiClient.registerUser, newUser)
-  return response.data
+  try {
+    const response = await apiClient.post(API_URLS.apiClient.registerUser, newUser)
+
+    const data: StudentCreatedResponse = response.data
+
+    console.log(data)
+
+    return data
+  } catch (err) {
+    console.error(err)
+  }
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 export function useCreateUser () {

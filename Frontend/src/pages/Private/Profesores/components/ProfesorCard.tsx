@@ -1,3 +1,6 @@
+import { useDeleteTeacher } from '@/api/teachers/use-delete-teacher'
+import { useAppSelector } from '@/store/hooks/useAppSelector'
+import { LEVEL_ACCESS } from '@/types/index'
 import { Link } from 'react-router-dom'
 interface ProfesorCardProps {
   nombre?: string
@@ -7,10 +10,23 @@ interface ProfesorCardProps {
   detail: boolean
   totalComments?: number
   children?: React.ReactNode
+  edit?: boolean
 }
-export function ProfesorCard ({ nombre, email, area, id = '/', detail, totalComments, children }: ProfesorCardProps) {
+export function ProfesorCard ({ nombre, email, area, id = '/', detail, totalComments, children, edit = false }: ProfesorCardProps) {
+  const deleteTeacher = useDeleteTeacher()
+  const { rol } = useAppSelector((state) => state.auth)
+  const handleRemoveTeacher = async (id: string) => {
+    await deleteTeacher.mutateAsync({ id })
+    if (deleteTeacher.isSuccess) {
+      console.log('Profesor eliminado')
+    }
+  }
+  const canDelete = (!detail && rol === LEVEL_ACCESS.ADMIN && edit)
   return (
-      <article className={`bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 white-border  ${detail ? 'flex-col sm:flex-row sm:w-full flex sm:justify-evenly gap-2 md:h-full md:flex-col md:items-center justify-between ' : 'hover:scale-105 profesor__card '}`}>
+    <article className={`bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 white-border grid overflow-hidden ${detail ? 'flex-col sm:flex-row sm:w-full flex sm:justify-evenly gap-2 md:h-full md:flex-col md:items-center justify-between ' : 'hover:scale-105 profesor__card relative overflow-visible'} ${deleteTeacher.isSuccess ? 'bg-red-500 hidden' : ''}`}>
+      {(canDelete) && (
+        <button onClick={async () => { await handleRemoveTeacher(id) }} className='w-10 h-10 bg-primary_200 rounded-full font-bold absolute -top-2 -left-4 text-center tilt'>X</button>
+      )}
       <img
         className={`w-20 h-20 rounded-full border-4 border-primary_300 ${detail ? 'w-32 h-32 sm:w-40 sm:h-40 self-center md:mx-auto my-auto md:my-0' : 'w-20 h-20'}`}
         src={'https://via.placeholder.com/150'}

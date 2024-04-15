@@ -1,7 +1,8 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { G4F } from "g4f";
 import { CreateGptAiDto } from "./dto/create-gpt-ai.dto";
 import { HandleErrors } from "src/common/handle-errors";
-import { Procedure } from 'src/procedure/entities/procedure.entity';
+import { Procedure } from "src/procedure/entities/procedure.entity";
 
 // import OpenAI from "openai";
 
@@ -13,12 +14,14 @@ type ProcedureReq = {
 @Injectable()
 export class GptAiService {
 
+	private readonly g4f = new G4F();
+
 	// private readonly openai = new OpenAI({ apiKey: "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" });
 
 	async createComent( createGptAiDto: CreateGptAiDto ) {
 
 		const { tags } = createGptAiDto;
-		let consultaGPT = "Crea un comentario sobre un profesor de la manera mas respectuosa posible usando los siguientes tags:\n";
+		let consultaGPT = "Crea un comentario sobre un profesor de la manera mas respectuosa posible como si fueras un alumno usando los siguientes tags:\n";
 
 		try {
 
@@ -29,15 +32,14 @@ export class GptAiService {
 				consultaGPT += ` ${ tag }\n`;
 			});
 
-			// CONSULTA A GPT-3
-			// const completion = await openai.chat.completions.create({
-			// 	messages: [{ role: "system", content: consultaGPT }],
-			// 	model: "gpt-3.5-turbo",
-			// });
+			const responseGTP = await this.g4f.chatCompletion([
+				{
+					role: "user", 
+					content: consultaGPT
+				}
+			]);
 
-			// console.log(completion.choices[0]);
-
-			return { message: consultaGPT };
+			return { mensaje: responseGTP };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -46,10 +48,9 @@ export class GptAiService {
 
 		const { consulta } = createGptAiDto;
 
-		let consultaGPT = "Con base en la siguiente informacion responde la siguiente pregunta ";
-		consultaGPT += "si es posible, si no es posible simplemente di que no puedes responder la pregunta ";
+		let consultaGPT = "Con base en la siguiente informacion responde la siguiente pregunta si es posible, ";
 		consultaGPT += "piensa muy bien la relacion entre la pregunta y la respuesta dada ";
-		consultaGPT += "y actua como si fueras un asistente virtual y supieras las respuestas en caso de que si\n";
+		consultaGPT += "y actua como si fueras un asistente virtual y supieras las respuestas\n";
 		consultaGPT += "Es muy importante que toda la conversacion sea sobre esta informacion y cualquier cosa que no se encuentre en ella ";
 		consultaGPT += "simplemente no la respondas ni ahora ni en consultas futuras\n\n";
 		
@@ -65,8 +66,8 @@ export class GptAiService {
 				informacion += `{\n`;
 				informacion += `Tramite: ${ procedure.tramite.nombre }\n`;
 				informacion += `Descripcion: ${ procedure.tramite.descripcion }\n`;
-				informacion += `Fecha de inicio: ${ procedure.tramite.fechaInicio }\n`;
-				informacion += `Fecha de Termino: ${ procedure.tramite.fechaTermino }\n`;
+				informacion += `Fecha de inicio: ${ procedure.tramite.fechaInicio.toDateString() }\n`;
+				informacion += `Fecha de Termino: ${ procedure.tramite.fechaTermino.toDateString() }\n`;
 				informacion += `Requerimientos: \n`;
 				
 				procedure.requerimientos.forEach( requerimiento => {
@@ -76,15 +77,18 @@ export class GptAiService {
 				informacion += `},\n`;
 			});
 			
-			// CONSULTA A GPT-3
-			// const completion = await openai.chat.completions.create({
-			//	messages: [{ role: "system", content: consulta }],
-			// 	model: "gpt-3.5-turbo",
-			// });
+			const responseGTP = await this.g4f.chatCompletion([
+				{
+					role: "user", 
+					content: consultaGPT + informacion
+				},
+				{
+					role: "user", 
+					content: `\nPregunta: ${ consulta }`
+				},
+			]);
 
-			// console.log(completion.choices[0]);
-
-			return { message: consultaGPT + informacion + `\nPregunta: ${ consulta }` };
+			return { mensaje: responseGTP };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -93,22 +97,22 @@ export class GptAiService {
 
 		const { comentario } = createGptAiDto;
 
-		let consultaGPT = "Responde unicamente con un si o no si el siguiente comentario es respetuoso: ";
+		let consultaGPT = "Responde con 'Buen Comentario' si el siguiente comentario no contiene palabras mal sonantes, doble sentido y no falta al respeto ";
+		consultaGPT += "en caso contrario responde con un 'Mal Comentario': ";
 
 		try {
 
 			if ( !comentario )
 				throw new BadRequestException({ message: "El comentario es requerido" });
 
-			// CONSULTA A GPT-3
-			// const completion = await openai.chat.completions.create({
-			// 	messages: [{ role: "system", content: `${ consultaGPT }\n${ comentario }` }],
-			// 	model: "gpt-3.5-turbo",
-			// });
+			const responseGTP = await this.g4f.chatCompletion([
+				{
+					role: "user", 
+					content: `${ consultaGPT }\n${ comentario }`
+				}
+			]);
 
-			// console.log(completion.choices[0]);
-
-			return { message: `${ consultaGPT }\n${ comentario }` };
+			return { mensaje: responseGTP };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}

@@ -26,6 +26,21 @@ docker compose up -d
 npm run start:dev
 ```
 
+## Levantar el servicio de IA ( Docker )
+Ejecutar el siguiente comando en la terminal
+
+```
+docker pull hlohaus789/g4f
+```
+
+## Ejecutar contenedor de IA
+Ejecutar el siguiente comando, cambiando la palabra puerto, por el puerto al que quiere enlazar la imagen
+aun que al ejecutar el comando la terminal diga localhost:8080, el puerto es el que usted eligió.
+
+```
+docker run -p PUERTO:8080 -p 1337:1337 -p 7900:7900 --shm-size="2g" -v ${PWD}/hardir:/app/hardir hlohaus789/g4f:latest
+```
+
 ---
 ---
 

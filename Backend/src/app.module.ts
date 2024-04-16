@@ -1,5 +1,5 @@
 import { join } from "path";
-import { ServeStaticModule } from "@nestjs/serve-static";
+import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
@@ -15,7 +15,8 @@ import { ComentModule } from "./coment/coment.module";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { TagModule } from "./tag/tag.module";
-import { GptAiModule } from './gpt-ai/gpt-ai.module';
+import { GptAiModule } from "./gpt-ai/gpt-ai.module";
+import { MailerModule } from "@nestjs-modules/mailer";
 
 @Module({
 	imports: [
@@ -42,6 +43,24 @@ import { GptAiModule } from './gpt-ai/gpt-ai.module';
 
 			autoLoadEntities: true,
 			synchronize: true,
+		}),
+
+		// ? Importar el módulo de envío de correos
+		MailerModule.forRoot({
+			transport: {
+				host: process.env.MAILER_SERVICE,
+				auth: {
+					user: process.env.MAILER_EMAIL,
+					pass: process.env.MAILER_SECRET_KEY,
+				},
+			},
+			template: {
+				dir: join( __dirname, ".." + "/templates" ),
+				adapter: new HandlebarsAdapter(),
+				options: {
+					strict: true,
+				},
+			}
 		}),
 
 		AuthModule,
@@ -75,3 +94,4 @@ import { GptAiModule } from './gpt-ai/gpt-ai.module';
 })
 
 export class AppModule { }
+console.log( __dirname );

@@ -1,8 +1,10 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
+import { MailerService } from "@nestjs-modules/mailer";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { Administrator } from "../auth/entities/admin.entity";
+import { BcryptAdapter } from "../config/bcrypt.adapter";
 import { HandleErrors } from "../common/handle-errors";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "../auth/entities/user.entity";
@@ -15,7 +17,8 @@ export class UserService {
 		private readonly userRepository: Repository<User>,
 		@InjectRepository( Administrator )
 		private readonly adminRepository: Repository<Administrator>,
-		private readonly cloudinaryService: CloudinaryService
+		private readonly cloudinaryService: CloudinaryService,
+		private readonly mailerService: MailerService,
 	) {}
 
 	async findByEmail( email: string ) {
@@ -30,6 +33,50 @@ export class UserService {
 				throw new BadRequestException({ mensaje: "Usuario no encontrado" });
 
 			return userFound;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async resetPassword( email_recuperacion: string ) {
+
+		try {
+
+			const userFound = await this.userRepository.findOne({ 
+				where: { email_recuperacion }
+			});
+
+			if ( !userFound )
+				throw new BadRequestException({ mensaje: "Email de recuperacion no registrado" });
+
+			await this.mailerService.sendMail({
+				to: email_recuperacion,
+				from: {
+					name: "No Reply",
+					address: `${ process.env.MAILER_EMAIL }`,
+				},
+				subject: "Restablecimiento de contraseña",
+				template: "email-template",
+			});
+
+			return { mensaje: "Correo de recuperación enviado correctamente" }
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async newPassword( email_recuperacion: string, contrasena: string ) {
+
+		try {
+
+			const userFound = await this.userRepository.findOne({
+				where: { email_recuperacion }
+			});
+	
+			if ( !userFound )
+				throw new BadRequestException({ mensaje: "Usuario no encontrado" });
+
+			await this.userRepository.update( userFound.id, { contrasena: BcryptAdapter.hash( contrasena ) })
+	
+			return { mensaje: "Contraseña actualizada correctamente" };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}

@@ -20,6 +20,7 @@
 		"test:e2e": "jest --detectOpenHandles --verbose --config ./test/jest-e2e.json"
 	},
 	"dependencies": {
+		"@nestjs-modules/mailer": "^1.11.2",
 		"@nestjs/common": "^10.0.0",
 		"@nestjs/config": "^3.2.0",
 		"@nestjs/core": "^10.0.0",
@@ -35,6 +36,7 @@
 		"class-validator": "^0.14.1",
 		"cloudinary": "^2.0.1",
 		"g4f": "^1.4.3",
+		"handlebars": "^4.7.8",
 		"mysql2": "^3.9.2",
 		"passport": "^0.7.0",
 		"passport-jwt": "^4.0.1",

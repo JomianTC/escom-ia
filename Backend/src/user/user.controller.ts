@@ -1,4 +1,4 @@
-import { Controller, UseGuards, UseInterceptors, UploadedFile, Put, Delete, Get, Body } from "@nestjs/common";
+import { Controller, UseGuards, UseInterceptors, UploadedFile, Put, Delete, Get, Body, Post } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { GetTokenPayload } from "./decorators/get-token-payload.decorator";
 import { AuthGuard } from "../auth/guards/auth.guard";
@@ -15,6 +15,19 @@ export class UserController {
 	@Get()
 	async findByEmail( email: string ){
 		return this.userService.findByEmail( email );
+	}
+
+	@Post( "reset/password" )
+	async resetPassword( @Body( "email_recuperacion" ) email_recuperacion: string ){
+		return this.userService.resetPassword( email_recuperacion );
+	}
+
+	@Put( "new/password" )
+	async newPassword( 
+		@Body( "email_recuperacion" ) email_recuperacion: string,
+		@Body( "contrasena" ) contrasena: string )
+	{
+		return this.userService.newPassword( email_recuperacion, contrasena );
 	}
 
 	@Put( "update" )

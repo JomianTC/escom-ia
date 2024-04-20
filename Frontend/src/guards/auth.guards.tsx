@@ -17,6 +17,6 @@ export function AuthGuards ({ privateValidation = false }) {
             )
       )
     : (
-        <Navigate replace to={PUBLIC_ROUTES_MODEL.LOGIN.path} />
+        <Navigate replace to={PUBLIC_ROUTES_MODEL.HOME.path } />
       )
 }

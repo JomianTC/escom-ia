@@ -9,11 +9,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        primary_op_100: "rgb(var(--primary-o-100) / <alpha-value>)",
         primary_100: "var(--primary_100)",
         primary_200: "var(--primary_200)",
         primary_300: "var(--primary_300)",
         accent_100: "var(--accent_100)",
         accent_200: "var(--accent_200)",
+        text_accent: "var(--text_accent)",
         text_100: "var(--text_100)",
         text_200: "var(--text_200)",
         bg_300: "var(--bg_300)",

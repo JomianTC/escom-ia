@@ -19,6 +19,7 @@ class Server {
                   teacher: '/api/teacher',
                   coment: '/api/coment',
                   tag: '/api/tag',
+                  ia: '/api/gptai',
             }
             //DB connection
             // this.dbConnection()
@@ -82,7 +83,10 @@ class Server {
             this.app.use(this.paths.coment, require('./routes/comment'));
             this.app.use(this.paths.tag, require('./routes/tag'));
             this.app.use(this.paths.teacher, require('./routes/teacher'));
+            this.app.use(this.paths.ia, require('./routes/ia'));
             this.app.use("/api/user", require('./routes/upload'));
+            this.app.use("/api/procedure", require('./routes/procedures'));
+            this.app.use("/api/requirements", require('./routes/requirments'));
             
 
       };

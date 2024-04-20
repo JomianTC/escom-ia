@@ -13,5 +13,6 @@ async function uploadImage (file: File) {
 export function useUploadImage () {
   return useMutation({
     mutationFn: uploadImage
-  })
+  }
+  )
 }

@@ -30,7 +30,7 @@ export default function Login () {
         <FormLayout>
             <>
                 <img
-                    src="/icons/logoCompleto.webp"
+                    src="/icons/escomNegro.webp"
                     alt="escom plus"
                   className="w-40"
                   loading="lazy"

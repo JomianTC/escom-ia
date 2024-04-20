@@ -1,7 +1,12 @@
+import { useCreateAdmin } from '@/api/users/use-create-admin'
+import { useUpdateAdmin } from '@/api/users/use-update-admin'
 import { PUBLIC_ROUTES_MODEL } from '@/models'
-import { type Administrador } from '@/types'
+import { useAppDispatch } from '@/store/hooks/useAppSelector'
+import { changeState } from '@/store/slices/uiSlice'
+import { type Admin } from '@/types/index'
 import { Form, Formik } from 'formik'
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { administradorEsquema } from '../../Schemas'
 import { FormStepOneAdmin } from './FormStepOne'
 
@@ -12,8 +17,33 @@ const adminValues = {
   area: 'Servicios SU'
 }
 const FORM_STEPS = [<FormStepOneAdmin key={'stfa1'} />]
-export function AdminForm () {
-  const handleSubmit = (values: Administrador) => { }
+export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {
+  const createAdmin = useCreateAdmin()
+  const updateAdmin = useUpdateAdmin()
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const handleSubmit = async (values: Admin) => {
+    if (isUpdate) {
+      await updateAdmin.mutateAsync(values)
+      dispatch(changeState())
+      return
+    }
+    await createAdmin.mutateAsync(values)
+    if (createAdmin.isSuccess) {
+      console.log('Admin creado')
+      return
+    }
+    console.log(values)
+  }
+  useEffect(() => {
+    if (createAdmin.isSuccess) {
+      navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
+    }
+    return () => {
+      console.log('Admin creado')
+    }
+  }, [createAdmin.isSuccess])
+
   const handleBack = () => { }
   const canAdvance = false
   const canGoBack = false
@@ -38,7 +68,7 @@ export function AdminForm () {
                         type="submit"
                         className="white-border disabled:opacity-50"
                     >
-                        {canAdvance ? 'Siguiente' : 'Registrarse'}
+                        {canAdvance ? 'Siguiente' : isUpdate ? 'Actualizar' : 'Registrarse'}
                     </button>
                     {canGoBack && (
                         <button
@@ -52,14 +82,16 @@ export function AdminForm () {
                 </div>
             </Form>
         )}
-    </Formik>
-    <Link
-        to={`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`}
-        className="text-primary_300"
-        replace
-    >
-        ¿Ya tienes cuenta? Inicia sesión
-    </Link>
+      </Formik>
+      {!isUpdate && (
+      <Link
+          to={`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`}
+          className="text-primary_300"
+          replace
+      >
+          ¿Ya tienes cuenta? Inicia sesión
+      </Link>
+      ) }
     {/* <button onClick={async () => { await startLogin() }}>Login</button> */}
     {/* <button onClick={async () => { await startLogin('ADMIN') }}>LoginUsingRole</button> */}
 </>

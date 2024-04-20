@@ -1,11 +1,16 @@
 import { Bubble } from '@/pages/Home/components/Bubble'
+import { useAppDispatch } from '@/store/hooks/useAppSelector'
+import { setSession } from '@/store/slices/authSlice'
+import { LEVEL_ACCESS } from '@/types/index'
 import { useNavigate } from 'react-router-dom'
 
-type VALID_ROUTES = 'login' | 'register' | 'invitado'
+type VALID_ROUTES = 'login' | 'register' | 'private'
 
 export function Home () {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const handleRedirect = (route: VALID_ROUTES) => {
+    dispatch(setSession({ rol: LEVEL_ACCESS.INVITED }))
     navigate(`/${route}`)
   }
   return (
@@ -25,7 +30,7 @@ export function Home () {
                     Registro
                 </button>
                 <button
-                    onClick={() => { handleRedirect('login') }}
+                    onClick={() => { handleRedirect('private') }}
                     className="login-button bg-primary_100 font-bold  text-text_200 px-8 py-2 rounded-full text-3xl "
                 >
                     Invitado

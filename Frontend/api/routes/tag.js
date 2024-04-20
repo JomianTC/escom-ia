@@ -72,6 +72,6 @@ router.post("/", function (req, res, next) {
         nombre
     }
     console.log("Se ha creado un nuevo tag", newTag);
-    res.status(201).json({ message: "Creado" });
+    res.status(201).json({ mensaje: "Creado" });
 })
 module.exports = router;

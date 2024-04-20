@@ -50,8 +50,8 @@ export const profesorEsquema = yup.object().shape({
 export const tramiteEsquema = yup.object().shape({
   nombre: nombresSchema,
   descripcion: yup.string().min(2).required('La descripcion es requerida'),
-  fecha_inicio: yup.string().required('La fecha de inicio es requerida'),
-  fecha_termino: yup.string().required('La fecha de termino es requerida'),
+  fecha_inicio: yup.date().required('La fecha de inicio es requerida'),
+  fecha_termino: yup.date().min(yup.ref('fecha_inicio'), 'No puedes elegir una fecha anterior a la de inicio').required('La fecha de termino es requerida'),
   estado: yup.string().min(2).required('El estado es requerido')
 })
 
@@ -67,18 +67,18 @@ export const administradorEsquemaRegistro = yup.object().shape({
 })
 
 export const comentarioEsquema = yup.object().shape({
-  comentario: yup.string().min(2).required('El comentario es requerido'),
-  puntuacion: yup.number().min(1).max(5).required('La puntuacion es requerida'),
+  puntuacion: yup.number().min(1, 'Al menos debes asignar una estrella').max(5).required('La puntuacion es requerida'),
   tags: yup.array().min(1, 'Al menos debes seleccionar un Item').required('Al menos debes ingresar un Tag')
 })
 
 export const procedureEsquema = yup.object().shape({
   nombre: yup.string().min(2).required('El nombre es requerido'),
   descripcion: yup.string().min(2).required('La descripcion es requerida'),
-  fechaInicio: yup.string().required('La fecha de inicio es requerida'),
-  fechaTermino: yup.string().required('La fecha de termino es requerida'),
+  fechaInicio: yup.date().required('La fecha de inicio es requerida'),
+  fechaTermino: yup.date().min(yup.ref('fechaInicio'), 'No puedes elegir una fecha anterior a la de inicio').required('La fecha de termino es requerida'),
   esInformativo: yup.boolean().required('El estado es requerido'),
-  requerimientos: yup.array()
+  requerimentos: yup.array().min(1).required('Al menos debes seleccionar un requerimiento'),
+  links: yup.array().optional()
 })
 
 // Utilizar para dar permiso y para eliminar permiso
@@ -89,4 +89,8 @@ export const permissionEsquema = yup.object().shape({
 export const requirementEsquema = yup.object().shape({
   nombre: yup.string().min(2).required('El nombre es requerido'),
   descripcion: yup.string().min(2).required('La descripcion es requerida')
+})
+
+export const tagCreateShecma = yup.object().shape({
+  nombre: yup.string().min(2).required('El nombre es requerido')
 })

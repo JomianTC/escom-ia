@@ -1,58 +1,88 @@
+import { useCreateRequirment } from '@/api/requirments/use-create-requirment'
 import { type FieldProps } from 'formik'
 import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 
-interface Option {
-  label: string
+const defaultOptions = [
+  { value: '1', label: 'Aún no hay nada' }
+]
+type OptionType = {
   value: string
+  label: string
 }
-
 interface CustomSelectProps extends FieldProps {
-  options: Option[]
+  options: OptionType[]
   isMulti?: boolean
-  className?: string
   placeholder?: string
+  isCreatable?: boolean
 }
 
 export const CustomSelect = ({
-  className,
-  placeholder,
+  isCreatable = false,
   field,
-  form: { touched, errors, setFieldValue },
-  options,
-  isMulti = false
+  form,
+  options = defaultOptions,
+  isMulti = false,
+  placeholder = 'Select'
 }: CustomSelectProps) => {
-  const onChange = async (option) => {
-    await setFieldValue(
-      field.name,
-      isMulti
-        ? (option as Option[]).map((item: Option) => item.value)
-        : (option as Option).value
-    )
+  const createRequirment = useCreateRequirment()
+  const handleCreate = async (inputValue: string) => {
+    await createRequirment.mutateAsync(inputValue)
+    console.log(inputValue)
+  }
+  async function onChange (option: any) {
+    await form.setFieldValue(field.name, option !== undefined ? (option).map((item: OptionType) => item.value) : [])
   }
 
   const getValue = () => {
-    if (options.length === 0) return []
-    return isMulti
-      ? options.filter(option => field.value.indexOf(option.value) >= 0)
-      : options.find(option => option.value === field.value)
+    if (options !== undefined && field.value !== undefined) {
+      return isMulti
+        ? options.filter((option) => field.value.indexOf(option.value) >= 0)
+        : options.find((option) => option.value === field.value)
+    } else {
+      return isMulti ? [] : ('')
+    }
   }
 
-  return (
-    <div className='flex flex-col'>
-    <Select
-      className={className}
-      name={field.name}
+  if (isCreatable && isMulti) {
+    return (
+      <CreatableSelect
+        className='max-w-[300px]'
+        isMulti
+        name={field.name}
+      options={options ?? defaultOptions}
       value={getValue()}
       onChange={onChange}
-      placeholder={placeholder}
-      options={options}
-      isMulti={isMulti}
-      />
-      {(errors[field.name] !== '') && (
-        <div className='text-red-500'>{errors[field.name]?.toString() ?? ''}</div>
-      )}
-      </div>
-  )
-}
+      onBlur={field.onBlur}
+        onCreateOption={handleCreate}
+        isLoading={createRequirment.isPending}
+    />
+    )
+  }
 
-export default CustomSelect
+  if (!isMulti) {
+    return (
+            <Select
+                options={options}
+                name={field.name}
+                value={options !== undefined ? options.find(option => option.value === field.value) : ''}
+                onChange={async (option: any) => await form.setFieldValue(field.name, option !== null ? option.value ?? '' : '')}
+                onBlur={field.onBlur}
+                placeholder={placeholder}
+            />
+    )
+  } else {
+    return (
+            <Select
+                className="react-select-container"
+                classNamePrefix="react-select"
+                name={field.name}
+                value={getValue()}
+                onChange={onChange}
+                options={options ?? defaultOptions}
+                isMulti={true}
+                placeholder={placeholder}
+            />
+    )
+  }
+}

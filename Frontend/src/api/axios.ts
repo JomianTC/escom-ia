@@ -59,7 +59,7 @@ export const API_URLS = {
   requirmentClient: {
     client: BASE_URL + '/api/requirements',
     // ?page=1&limit=10
-    getRequirments: '',
+    getRequirments: '/',
     // +id
     updateRequirments: '/',
     createRequirment: '/',
@@ -77,6 +77,25 @@ export const API_URLS = {
     // +id
     deleteSubscription: '/subscription/',
     deleteCheckDeviceNotification: ''
+  },
+  ia: {
+    client: BASE_URL + '/api/gptai',
+    createComment: '/coment',
+    askSomething: '/askSomething',
+    validate: '/coment/validate'
+  },
+  procedures: {
+    client: BASE_URL + '/api/procedure',
+    // ?page=1&limit=10
+    getProcedures: 'admin/findAll',
+    // +id
+    getProcedure: '/',
+    // +id
+    updateProcedure: '/',
+    createProcedure: '/',
+    // +id
+    deleteProcedure: '/'
+
   }
 }
 export const apiClient = axios.create({
@@ -113,6 +132,27 @@ export const imageClient = axios.create({
   headers: {
     'Content-Type': 'multipart/form-data'
   }
+})
+export const iaClient = axios.create({
+  baseURL: API_URLS.ia.client,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+
+})
+export const procedureClient = axios.create({
+  baseURL: API_URLS.procedures.client,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+
+})
+export const requirmentClient = axios.create({
+  baseURL: API_URLS.requirmentClient.client,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+
 })
 
 export const API_METHODS = {

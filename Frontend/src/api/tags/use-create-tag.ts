@@ -1,12 +1,17 @@
 import { type TagsCreatedResponse } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { tagsClient } from '../axios'
+import { API_URLS, tagsClient } from '../axios'
 import { tagQueryKeys } from './tags-query-keys'
+import { toast } from 'react-toastify'
 
-async function createTag (tag: string) {
-  const respose = await tagsClient.post('/tags', { nombre: tag })
-  const data: TagsCreatedResponse = respose.data
-  return data
+async function createTag (tag: { nombre: string }) {
+  try {
+    const respose = await tagsClient.post(API_URLS.tagClient.createTag, tag)
+    const data: TagsCreatedResponse = respose.data
+    return data
+  } catch (error) {
+    throw new Error('Algo no salio como se esperaba al crear el tag')
+  }
 }
 
 export function useCreateTag () {
@@ -16,7 +21,12 @@ export function useCreateTag () {
     {
       mutationFn: createTag,
       onSuccess: async () => {
+        toast.success('Tag creado con éxito')
         await queryClient.invalidateQueries({ queryKey })
+      },
+      onError: (error) => {
+        toast.error(error.message)
+        console.error(error)
       }
     }
   )

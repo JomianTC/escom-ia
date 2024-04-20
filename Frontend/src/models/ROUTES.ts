@@ -1,6 +1,7 @@
 import { Home } from '@/pages/Home/Home'
 import { ChatbotPage } from '@/pages/Private/Chatbot/ChatbotPage'
-import { ProfesoresPage } from '@/pages/Private/Profesores/ProfesoresPage'
+import ProfesoresPage from '@/pages/Private/Profesores/ProfesoresPage'
+
 import { TramitesPage } from '@/pages/Private/Tramites/TramitesPage'
 import { type IRoute } from '@/types/index'
 
@@ -64,7 +65,7 @@ export const PRIVATE_ROUTES_MODEL: Record<string, IRoute> = {
     imageUri: '/icons/teachers.webp'
   },
   TRAMITES: {
-    path: 'tramites',
+    path: 'tramites/*',
     component: TramitesPage,
     navPath: 'tramites',
     name: 'Tramites',

@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { tagQueryKeys } from './tags-query-keys'
+
 const defaultValue = [{
   label: 'buen profesor',
   value: 'buen profesor'

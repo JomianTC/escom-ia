@@ -1,3 +1,170 @@
+const commentsRepsonse = [
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-14"
+            },
+            "usuario": {
+                "nombres": "Jose Antonio",
+                "apellidos": "Mora Ayala",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "Sin tags"
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-14"
+            },
+            "usuario": {
+                "nombres": "qweqwe",
+                "apellidos": "asdasd",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "Sin tags"
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-14"
+            },
+            "usuario": {
+                "nombres": "Jose Antonio",
+                "apellidos": "Mora Ayala",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "Sin tags"
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 5,
+                "comentario": "Hola mundo desde este comentario",
+                "fecha": "2024-03-08"
+            },
+            "usuario": {
+                "nombres": "Josehf Miguel Angel",
+                "apellidos": "Torres Carrillo",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "Sin tags"
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-08"
+            },
+            "usuario": {
+                "nombres": "Jose Antonio",
+                "apellidos": "Mora Ayala",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "Sin tags"
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-08"
+            },
+            "usuario": {
+                "nombres": "Jose Antonio",
+                "apellidos": "Mora Ayala",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "muy cómico",
+                "mucha tarea",
+                "pocos exámenes",
+                "tomaría su clase otra vez "
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-08"
+            },
+            "usuario": {
+                "nombres": "Jose Antonio",
+                "apellidos": "Mora Ayala",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "muy cómico",
+                "mucha tarea",
+                "tomaría su clase otra vez ",
+                "pocos exámenes"
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-08"
+            },
+            "usuario": {
+                "nombres": "Jose Antonio",
+                "apellidos": "Mora Ayala",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "mucha tarea",
+                "muy cómico",
+                "tomaría su clase otra vez ",
+                "pocos exámenes"
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-14"
+            },
+            "usuario": {
+                "nombres": "qweqwe",
+                "apellidos": "asdasd",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "Sin tags"
+            ]
+        },
+        {
+            "comentario": {
+                "puntuacion": 3,
+                "comentario": "Comentario para el profesor SuperSu",
+                "fecha": "2024-03-08"
+            },
+            "usuario": {
+                "nombres": "Jose Antonio",
+                "apellidos": "Mora Ayala",
+                "foto_perfil": ""
+            },
+            "tags": [
+                "mucha tarea",
+                "tomaría su clase otra vez ",
+                "muy cómico",
+                "pocos exámenes"
+            ]
+        }
+    ]
+
+
+
 const express = require('express');
 const router = express.Router();
 const COMMENTS = require('../data/Comments.json');
@@ -14,9 +181,10 @@ router.get('/teacher/:id', function (req, res, next) {
     const { id } = req.params;
     console.log(id);
     const { page, limit = 10 } = req.query;
-    const commentsByTeacher = COMMENTS.filter(comment => comment.id == id)
+    // const commentsByTeacher = COMMENTS.filter(comment => comment.id == id)
+    const commentsByTeacher = commentsRepsonse.filter(comment => comment.id == id)
     // console.log(commentsByTeacher);
-    const paginatedComments = commentsByTeacher.slice((page - 1) * limit, page * limit);
+    const paginatedComments = commentsRepsonse.slice((page - 1) * limit, page * limit);
 
     res.status(200).json(
         {

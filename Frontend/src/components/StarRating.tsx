@@ -15,8 +15,10 @@ function StarIcon ({ filled, handleClick, readOnly }: StarIconProps) {
 
   return (
     <svg
-      className={`w-6 sm:w-8 h-6 sm:h-8 text-gray-300 me-1 dark:text-gray-500 cursor-pointer ${readOnly ? 'pointer-events-none' : 'hover:bg-yellow-500'}`}
+      className={`w-6 sm:w-8 h-6 sm:h-8 text-gray-300 me-1 dark:text-gray-500 cursor-pointer  ${readOnly ? 'pointer-events-none' : 'hover:stroke-yellow-500 hover:fill-yellow-500'}`}
       aria-hidden="true"
+      stroke='var(--primary_100)'
+      strokeWidth='1'
       xmlns="http://www.w3.org/2000/svg"
       fill={filled ? 'yellow' : 'currentColor'}
       viewBox="0 0 22 20"
@@ -36,7 +38,7 @@ export function StarRating ({ stars = 5, readOnly = false, name = 'rating' }) {
   return (
     <Field name={name}>
       {({ field, form }: StarComponentProps) => (
-        <div className="flex flex-col">
+        <div className="flex flex-col relative -z-10">
           <div className="flex items-center">
             {Array.from({ length: stars }, (_, i) => (
               <StarIcon

@@ -1,2 +1,2 @@
-export { default as RoutesWithNotFound } from './RoutesWithNotFound';
-export { clearLocalStorage, setLocalStorage } from './localStorage.utlity';
+export { default as RoutesWithNotFound } from './RoutesWithNotFound'
+export { clearLocalStorage, setLocalStorage } from './localStorage.utlity'

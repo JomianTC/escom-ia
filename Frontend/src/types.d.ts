@@ -30,9 +30,12 @@ interface Tramite {
   fecha_termino: string
   estado: string
   esInformativo: boolean
+  requerimientos: string[]
+  links: string[]
 }
 
 interface Administrador {
+  identificador?: string
   id?: string
   nombre: string
   email: string

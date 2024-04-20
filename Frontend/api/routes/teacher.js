@@ -2,16 +2,15 @@ const express = require('express');
 const router = express.Router();
 const Profesores = require('../data/Profesores.json');
 
-const profesoresResponse = 
-    [{
-        "id": "0376f5be-d608-4da8-98cd-831de255592a",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco154@gmail.com",
-        "contacto": "55123456121",
-        "foto_perfil": "",
-        "calificacion": "0.00"
+const profesoresResponse = [{
+        id: "0376f5be-d608-4da8-98cd-831de255592a",
+        nombre: "Edgardo Adrian Franco",
+        area: "Sistemas computacionales",
+        grado_academico: "Doctor",
+        email: "eafranco154@gmail.com",
+        contacto: "55123456121",
+        foto_perfil: "",
+        calificacion: "0.00"
     },
     {
         "id": "0ef22883-ea84-416b-9cda-28a0385c0ade",
@@ -131,14 +130,17 @@ router.get('/', function (req, res, next) {
     
     res.status(200).json({
         data:{
+            // profesores: profesoresResponse.slice(startIndex, endIndex),
             profesores: Profesores.slice(startIndex, endIndex),
-            total: profesoresResponse.length
+            // total: profesoresResponse.length
+            total: Profesores.length
         }
     });
 });
 router.get('/:id', checkHeaderToken, function (req, res, next) {
     const { id } = req.params;
     const game = Profesores.find(profesor => profesor.id === id);
+    // const game = profesoresResponse.find(profesor => profesor.id === id);
     if (!game) {
         return res.status(404).json({ message: 'No se encontro el personaje' });
     }
@@ -149,7 +151,6 @@ router.post('/', async function (req, res, next) {
     // Simulación tiempo de respuesta
     // await new Promise((r) => setTimeout(r, 6000))
     const { body } = req;
-    console.log(body);
     const { nombre, area, grado_academico, email, contacto, foto_perfil } = body;
     const newProfesor = {
         id: Math.random().toString(16).slice(2),
@@ -168,7 +169,7 @@ router.delete('/:id', function (req, res, next) {
     const { id } = req.params;
     console.log("Profesor eliminado", id);
 
-    res.status(200).json({ message: 'Profesor eliminado' });
+    res.status(200).json({ mensaje: 'Profesor eliminado' });
 });
 
 

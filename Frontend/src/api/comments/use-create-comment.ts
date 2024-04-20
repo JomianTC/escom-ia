@@ -1,15 +1,25 @@
 import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { type FormattedInputTags, type TSFixMe } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { API_URLS, commentsClient } from '../index'
+import { toast } from 'react-toastify'
+import { API_URLS, commentsClient, iaClient } from '../index'
 import { tagQueryKeys } from '../tags/tags-query-keys'
 import { type CommentCreatedResponse, type CommentsByTeacherResponse, type CommentStructure } from './../../types/api-responses'
 import { commentsQueryKeys } from './comments-query-keys'
 
 const createComment = async (data: CommentStructure) => {
-  const response = await commentsClient.post(API_URLS.commentsClient.createComment, { ...data })
-  const { data: commentResponse }: { data: CommentCreatedResponse } = response
-  return commentResponse
+  try {
+    const validateResponse = await iaClient.post(API_URLS.ia.validate, { comentario: data.comentario })
+
+    if (validateResponse.data.valid === false) {
+      throw new Error('El comentario no es válido')
+    }
+    const response = await commentsClient.post(API_URLS.commentsClient.createComment, { ...data })
+    const { data: commentResponse }: { data: CommentCreatedResponse } = response
+    return commentResponse
+  } catch (error) {
+    throw new Error('Error al crear el comentario')
+  }
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 export function useCreateComment () {
@@ -18,6 +28,7 @@ export function useCreateComment () {
 
   return useMutation({
     mutationFn: createComment,
+    mutationKey: ['createComment'],
     onMutate: async (newData: CommentStructure) => {
       // Realizando un refetch de los comentarios para que se actualice la lista
       await queryClient.cancelQueries({ queryKey: commentsQueryKeys.all })
@@ -45,18 +56,16 @@ export function useCreateComment () {
 
       queryClient.setQueryData(commentsQueryKeys.all, () => {
         const { pages, pageParams } = previousComments
-        console.log(pages)
-        console.log(pageParams)
         pages[0].comentarios.unshift(mockComment)
-        console.log(pages[0].comentarios)
         return { pages, pageParams }
       })
-      return { previousComments }
     },
     onSuccess: (data) => {
+      toast.success('Comentario creado correctamente')
       return data
     },
     onError: (_err, _, context?: TSFixMe) => {
+      toast.error('Puede que tu comentario no sea válido, intenta de nuevo, recuerda no insultar a nadie')
       return context?.previousComments
     },
     onSettled: () => {

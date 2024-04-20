@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { showUserInfo } from '@/store/slices/userSlice.ts'
 import { useUploadImage } from '@/api/users/use-upload-image'
 import { useUpdateUser } from '@/api/users/useUpdateUser'
+import { closeModal } from '@/store/slices/uiSlice'
 
 interface Components extends Array<JSX.Element> {
   components?: JSX.Element[]
@@ -21,9 +22,11 @@ export const useForm = (initialValues: Student, components: Components, isUpdate
   async function handleSubmit (values: Student) {
     if (formStep === components.length - 1) {
       if (isUpdate) {
-        console.log(values)
-        console.log('Actualizando usuario...')
-        updateUser.mutate(values)
+        await updateUser.mutateAsync(values).then((data) => {
+          setCanRedirect(true)
+          dispatch(closeModal())
+          return dispatch(showUserInfo(data))
+        })
         return
       }
       if (values.foto_perfil != null) {
@@ -57,6 +60,7 @@ export const useForm = (initialValues: Student, components: Components, isUpdate
     handleSubmit,
     isLoading: createUser.isPending,
     isSuccess: createUser.isSuccess,
-    canRedirect
+    canRedirect,
+    isUpdateSuccess: updateUser.isSuccess
   }
 }

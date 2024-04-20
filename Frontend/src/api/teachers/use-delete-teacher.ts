@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { API_URLS, teacherClient } from '../axios'
 import { teacherQueryKeys } from './teachers-query-keys'
+import { useAppSelector } from '@/store/hooks/useAppSelector'
 
 async function deleteTeacher (id: Pick<TeacherData, 'id'>) {
   try {
@@ -17,14 +18,17 @@ async function deleteTeacher (id: Pick<TeacherData, 'id'>) {
 }
 
 export function useDeleteTeacher () {
+  const { infoModal } = useAppSelector((state) => state.ui)
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: deleteTeacher,
+    mutationKey: teacherQueryKeys.delete(infoModal?.id),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: teacherQueryKeys.all })
     },
     onSuccess: (data) => {
       toast.success('Profesor eliminado correctamente')
+      console.log(data)
       return data
     },
     onError: (_err, _, context?: TSFixMe) => {

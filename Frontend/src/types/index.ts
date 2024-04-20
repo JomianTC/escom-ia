@@ -3,10 +3,12 @@ export const LEVEL_ACCESS = {
   ADMIN: 'admin',
   STUDENT: 'student',
   INVITED: 'invited'
-}
+} as const
+
+export type LevelAccess = typeof LEVEL_ACCESS[keyof typeof LEVEL_ACCESS]
 
 export type Admin = {
-  id: string
+  id?: string
   identificador: string
   nombre: string
   email: string
@@ -82,39 +84,39 @@ export interface ComentarioInfo {
 }
 
 export interface TeacherCreatedResponse {
-  message: string
+  mensaje: string
   profesor: TeacherData
 }
 
 export interface TeacherUpdatedRespose extends TeacherCreatedResponse { }
 export interface TeacherRemovedRespose {
-  message: string
+  mensaje: string
 }
 
 export interface UpdatePictureProfessor {
-  message: string
+  mensaje: string
   foto_perfil: string
 }
 export interface RemoveProfilePicture {
-  message: string
+  mensaje: string
 }
 
 export interface LoginUserResponse {
-  message: string
+  mensaje: string
   usuario: Student
   token: string
 }
 export interface RegisterUserResponse {
-  message: string
+  mensaje: string
   usuario: Student
 }
 export interface LoginAdminResponse {
-  message: string
+  mensaje: string
   admin: Admin
   token: string
 }
 export interface RegisterAdminResponse {
-  message: string
+  mensaje: string
   admin: Admin
 }
 export interface TagsResponse {
@@ -122,7 +124,7 @@ export interface TagsResponse {
   total: number
 }
 export interface TagsCreatedResponse {
-  message: string
+  mensaje: string
 }
 
 export interface LoginAdminData {

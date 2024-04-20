@@ -1,7 +1,6 @@
+import { type LevelAccess } from '@/types'
 import { setLocalStorage } from '@/utilities'
 import { createSlice } from '@reduxjs/toolkit'
-
-export type ValidRoles = 'admin' | 'student' | 'invited' | ''
 
 const DEFAULT_INITIAL_STATE = {
   loggedIn: false,
@@ -18,8 +17,7 @@ const initialState = (() => {
 
 type AuthAction = {
   payload: {
-    loggedIn: boolean
-    rol: ValidRoles
+    rol: LevelAccess
   }
 }
 
@@ -29,9 +27,9 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setSession: (state, action: AuthAction) => {
-      //   {loggedIn: true, rol: 'student'}
+      const data = { loggedIn: true, rol: action.payload.rol }
       setLocalStorage(ROL_STATE, action.payload)
-      return action.payload
+      return data
     },
     removeSession: (state) => {
       localStorage.removeItem(ROL_STATE)

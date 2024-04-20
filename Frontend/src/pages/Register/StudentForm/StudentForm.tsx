@@ -41,6 +41,9 @@ export function StudentForm ({ isUpdate = false }: { isUpdate?: boolean }) {
     if (isSuccess) {
       navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`)
     }
+    if (canRedirect) {
+      navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`)
+    }
   }, [canRedirect])
 
   return isLoading

@@ -27,6 +27,6 @@ export function Bubble ({ index, top, right, left, size, extraStyles, animation 
       <figure className="ball bubble" style={{
         animation
       }}></figure>
-</section>
+    </section>
   )
 }

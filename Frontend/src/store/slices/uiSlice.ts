@@ -5,7 +5,7 @@ interface Tramite {
   changeState: boolean
   deleteModalState: boolean
   isDeleteModalOpen: boolean
-  infoModal: string | number | null
+  infoModal: { id: string, nombre: string }
 }
 const DEFAULT_INITIAL_STATE: Tramite = {
   isModalOpen: false,
@@ -13,7 +13,7 @@ const DEFAULT_INITIAL_STATE: Tramite = {
   changeState: false,
   isDeleteModalOpen: false,
   deleteModalState: false,
-  infoModal: null
+  infoModal: { id: '', nombre: '' }
 }
 
 // Retorna las acciones del objeto como un objeto

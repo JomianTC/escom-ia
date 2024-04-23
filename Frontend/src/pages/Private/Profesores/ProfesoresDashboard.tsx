@@ -1,3 +1,4 @@
+import { useDeleteTeacher } from '@/api/teachers/use-delete-teacher'
 import { useTeachers } from '@/api/teachers/use-get-teachers'
 import Loader from '@/components/Loader'
 import Modal, { ModalTrigger } from '@/components/Modal'
@@ -5,11 +6,9 @@ import { useSearch } from '@/pages/hooks/useSearch'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { closeDeleteModal, setEditMode } from '@/store/slices/uiSlice'
 import { LEVEL_ACCESS } from '@/types/index'
-import { useMutationState } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import uuid from 'react-uuid'
 import { ProfesorCard } from './components/ProfesorCard'
-import { useDeleteTeacher } from '@/api/teachers/use-delete-teacher'
 
 export function Profesores () {
   const { rol } = useAppSelector((state) => state.auth)
@@ -63,16 +62,16 @@ export function Profesores () {
           </div>
         </div>
         {filteredData?.map((profesor) => (
-          <ProfesorCard key={uuid()} {...profesor} detail={false} edit={ isEditMode} />
+          <ProfesorCard key={uuid()} {...profesor} detail={false}/>
         ))}
       {isDeleteModalOpen && (
-        <div className='fixed w-full h-screen top-0 left-0 flex justify-center items-center bg-zinc-400/80  z-[900]'>
-          <div className=''>
-            <h1 className='font-semibold '>¿Seguro que quieres eliminar al profesor?</h1>
-            <div className='bg-bg_300 p-4 rounded-lg text-text_100'>
-              <p className='text-xl font-bold'>¿Estas seguro de eliminar a {infoModal?.nombre }?</p>
-              <div className='flex gap-4 justify-end'>
-                <button onClick={async () => { await handleRemoveTeacher(infoModal?.id) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg'>Eliminar</button>
+        <div className='fixed w-full h-screen top-0 left-0 flex justify-center items-center bg-zinc-400/80  z-[9000] p-8'>
+          <div className='bg-bg_300 p-4 rounded-lg text-text_100 flex flex-col gap-8'>
+            <h2 className='font-semibold text text-2xl md:text-3xl  '>¿Seguro que quieres eliminar al profesor?</h2>
+            <div >
+              <p className='text-base md:text-lg '>¿Estas seguro de eliminar a {infoModal?.nombre }?</p>
+              <div className='flex gap-4 justify-end mt-8'>
+                <button onClick={async () => { await handleRemoveTeacher(infoModal.id) }} className='bg-accent_200 text-bg_300 p-2 rounded-lg'>Eliminar</button>
                 <button onClick={async () => { dispatch(closeDeleteModal()) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg'>Cancelar</button>
               </div>
             </div>

@@ -1,7 +1,7 @@
 import { teacherQueryKeys } from '@/api/teachers/teachers-query-keys'
 import { RemoveIcon } from '@/components/icons/Icons'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
-import { openDeleteModal, setInfoModal } from '@/store/slices/uiSlice'
+import { openDeleteModal, setEditMode, setInfoModal } from '@/store/slices/uiSlice'
 import { LEVEL_ACCESS } from '@/types/index'
 import { useMutationState } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
@@ -14,20 +14,23 @@ interface ProfesorCardProps {
   totalComments?: number
   children?: React.ReactNode
   edit?: boolean
+  foto_perfil?: string
 }
-export function ProfesorCard ({ nombre, email, area, id = '/', detail, edit = false }: ProfesorCardProps) {
+export function ProfesorCard ({ nombre, email, area, id = '/', detail, foto_perfil: fotoPerfil }: ProfesorCardProps) {
   const appDispatch = useAppDispatch()
+  const { isEditMode } = useAppSelector((state) => state.ui)
   const { rol } = useAppSelector((state) => state.auth)
   const handleTriggerModal = () => {
     appDispatch(openDeleteModal())
     appDispatch(setInfoModal({ id, nombre }))
+    appDispatch(setEditMode(false))
   }
   const deleteTeacher = useMutationState({
     filters: { mutationKey: teacherQueryKeys.delete(id) },
     select: (mutation) => mutation.state.status === 'success' ? 'success' : 'error'
   })
 
-  const canDelete = (!detail && rol === LEVEL_ACCESS.ADMIN && edit)
+  const canDelete = (!detail && rol === LEVEL_ACCESS.ADMIN && isEditMode)
   return (
     <article className={`relative h-full mt-8 ${deleteTeacher[0] === 'success' ? 'bg-red-500 hidden' : ''}`}>
           {(canDelete) && (
@@ -38,7 +41,7 @@ export function ProfesorCard ({ nombre, email, area, id = '/', detail, edit = fa
       <article className={'bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 relative white-border grid h-min overflow-hidden hover:scale-105 profesor__card '}>
         <img
           className={'rounded-full border-4 border-primary_300 \'w-16 h-16'}
-          src={'https://via.placeholder.com/150'}
+          src={fotoPerfil}
           alt={nombre}
         />
         <div className={'flex flex-col leading-8 justify-around'}>

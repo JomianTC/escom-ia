@@ -22,7 +22,7 @@ export function useDeleteTeacher () {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: deleteTeacher,
-    mutationKey: teacherQueryKeys.delete(infoModal?.id),
+    mutationKey: teacherQueryKeys.delete(infoModal.id),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: teacherQueryKeys.all })
     },

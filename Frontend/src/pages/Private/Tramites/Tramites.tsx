@@ -6,8 +6,7 @@ import { setProcedure } from '@/store/slices/procedureModalSlice'
 import { type Procedure, type ProcedureContent } from '@/types/api-responses'
 import { LEVEL_ACCESS } from '@/types/index'
 import { useDispatch } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import { ModalTramite } from './components/ModalTramite'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 export function Tramites () {
   const { isModalOpen } = useAppSelector((state) => state.ui)
@@ -19,12 +18,17 @@ export function Tramites () {
     dispatch(setProcedure({ ...procedure, requerimientos }))
     // dispatch(showModal())
   }
+  const navigate = useNavigate()
   const { data, isLoading, handlePageChange, page, totalPages } = useProcedures()
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const { search, setSearch, filteredData } = useSearch({
     type: 'tramite',
     data: data ?? []
   })
+
+  const handleRedirect = (id: string) => {
+    navigate(`detalles/${id}`)
+  }
 
   if (isLoading) {
     return (
@@ -56,17 +60,30 @@ export function Tramites () {
         ? filteredData.map((procedure: ProcedureContent) => (
           <div key={procedure.tramite.id} className={`  p-2
           self-start  white-border rounded-xl flex flex-col justify-between my-2 ${procedure.tramite.estado ? 'bg-bg_300' : 'bg-accent_100 select-none opacity-80'}`}>
-            <NavLink to={`detalles/${procedure.tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(procedure.tramite, procedure.requerimientos) }}>{procedure.tramite.nombre}</NavLink>
-            <p className='text-nowrap overflow-hidden text-ellipsis'>{procedure.tramite.descripcion}</p>
+            { }
+            {procedure.tramite.estado
+              ? <NavLink to={`detalles/${procedure.tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(procedure.tramite, procedure.requerimientos) }}>{procedure.tramite.nombre}</NavLink>
+              : <h1 className='text-center text-xl font-bold mb-2' >{procedure.tramite.nombre }</h1>
+            }
+            <p className='text-nowrap overflow-hidden text-ellipsis'>{(procedure.tramite.descripcion).substring(0, 120)}</p>
             <div className='flex justify-between py-4'>
-              <button className='border-4 px-4 py-1 rounded-lg font-bold' disabled={!procedure.tramite.estado } onClick={() => { handleDetails(procedure.tramite, procedure.requerimientos) }}>Detalles</button>
+              {
+                procedure.tramite.estado
+                  ? <button className='border-4 px-4 py-1 rounded-lg font-bold' disabled={!procedure.tramite.estado} onClick={() => {
+                    handleDetails(procedure.tramite, procedure.requerimientos)
+                    handleRedirect(procedure.tramite.id)
+                  }}>Detalles</button>
+                  : <button className='border-4 px-4 py-1 rounded-lg font-bold' disabled={!procedure.tramite.estado} onClick={() => {
+                    handleDetails(procedure.tramite, procedure.requerimientos)
+                  }}>Detalles</button>
+              }
               {canCreateAndEdit && (<NavLink to={`editar/${procedure.tramite.id}` } onClick={() => { handleDetails(procedure.tramite, procedure.requerimientos) }} className='flex items-center justify-center w-fit h-fit py-2 px-3  text-white bg-primary_300 rounded-lg hover:bg-primary_400'>Editar Trámite</NavLink>)}
             </div>
           </div>
         ))
         : <div className='flex items-center justify-center w-full h-24 text-lg text-gray-500'>No se encontraron trámites</div>
       }
-      {isModalOpen && <ModalTramite />}
+      {/* {isModalOpen && <ModalTramite />} */}
     </section>
   )
 }

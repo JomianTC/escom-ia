@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import uuid from 'react-uuid'
 import CommentBox from './components/CommentBox'
 import { DetailProfessor } from './components/DetailProfessor'
-import Modal, { ModalTrigger } from '@/components/Modal'
+import { ReturnButton } from '@/components/ReturnButton'
 
 export function Profesor () {
   const { data, isError, isLoading, isFetching, isRefetching } = useTeacher()
@@ -65,8 +65,11 @@ export function Profesor () {
         </div>
           )
         : (<Loader/>) }
-      <div className=''>
-        <h1 className='font-bold z-[600] relative'>Comentarios</h1>
+      <div className='relative'>
+        <h1 className='font-bold z-[600] relative '>
+              Comentarios
+        </h1>
+        <ReturnButton styles='right-0 top-0 z-[1000]'/>
 
         <section key={uuid()} className=' comment-section overflow-hidden relative z-[900] '>
           <div className='overflow-y-scroll grid gap-8 p-4 custom-scrollbar max-h-[640px] relative z-[600] '>

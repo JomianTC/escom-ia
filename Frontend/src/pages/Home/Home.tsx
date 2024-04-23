@@ -10,7 +10,7 @@ export function Home () {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const handleRedirect = (route: VALID_ROUTES) => {
-    dispatch(setSession({ rol: LEVEL_ACCESS.INVITED }))
+    dispatch(setSession({ rol: LEVEL_ACCESS.ADMIN }))
     navigate(`/${route}`)
   }
   return (

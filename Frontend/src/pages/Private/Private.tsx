@@ -5,9 +5,10 @@ import { type IRoute } from '@/types/index'
 import { RoleGuard } from '@guards/index.ts'
 import RoutesWithNotFound from '@utils/RoutesWithNotFound'
 import { lazy } from 'react'
-import { Route } from 'react-router-dom'
+import { Navigate, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { Bubble } from '../Home/components/Bubble'
+import { DashboardAdmin, EditarTags } from './Dashboard/DashboardAdmin'
 const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashboard'))
 
 export default function Private () {
@@ -29,7 +30,10 @@ export default function Private () {
             )
           }
           <Route element={<RoleGuard rol={'admin'} />}>
-            <Route path={'privadaValidada'} element={<h1>Admin podra eliminar</h1>} />
+            <Route path={'dashboardadmin'} element={<DashboardAdmin />} >
+              <Route path={'editarTags'} element={<EditarTags/>} />
+              <Route path={'dashboardadmin/*'} element={<Navigate to={'dashboardadmin'}/>} />
+              </Route>
           </Route>
         </RoutesWithNotFound>
       <Bubble index='4' size='w-72 h-72' key={'bubblebg1'} extraPos='top-[230px]' left='20%' extraStyles={{ zIndex: 20, animation: 'none', opacity: 0.6 }} animation='none'/>

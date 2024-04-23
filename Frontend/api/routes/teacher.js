@@ -104,6 +104,46 @@ const profesoresResponse = [{
     }
     ]
 
+    const avatarOptions = {
+        topType : ["LongHairBigHair",
+        "LongHairBob",
+        "LongHairBun",
+        "LongHairCurly",
+        "LongHairCurvy",
+        "LongHairDreads",
+        "LongHairFrida",
+        "LongHairFro",
+        "LongHairFroBand",
+        "LongHairNotTooLong",
+        "LongHairShavedSides",
+        "LongHairMiaWallace",
+        "LongHairStraight",
+        "LongHairStraight2",
+        "LongHairStraightStrand",
+        "ShortHairDreads01",
+        "ShortHairDreads02",
+        ],
+        accesoriesType: ["Blank", "Prescription01", "Prescription02", "Round"],
+        clotheType: ["BlazerShirt", "BlazerSweater", "CollarSweater", "GraphicShirt"],
+        eyeType: ["Default"],
+        eyebrowType: ["Default"],
+        mouthType: ["Default"],
+        skinColor: ["Pale", "Light", "Brown"],
+        
+    }
+    
+    const getRandomAvatar = () => { 
+        let avatar = {
+            topType: avatarOptions.topType[Math.floor(Math.random() * avatarOptions.topType.length)],
+            accesoriesType: avatarOptions.accesoriesType[Math.floor(Math.random() * avatarOptions.accesoriesType.length)],
+            clotheType: avatarOptions.clotheType[Math.floor(Math.random() * avatarOptions.clotheType.length)],
+            eyeType: avatarOptions.eyeType[Math.floor(Math.random() * avatarOptions.eyeType.length)],
+            eyebrowType: avatarOptions.eyebrowType[Math.floor(Math.random() * avatarOptions.eyebrowType.length)],
+            mouthType: avatarOptions.mouthType[Math.floor(Math.random() * avatarOptions.mouthType.length)],
+            skinColor: avatarOptions.skinColor[Math.floor(Math.random() * avatarOptions.skinColor.length)]
+        }
+        return `https://avataaars.io/?avatarStyle=Circle&topType=${avatar.topType}&accessoriesType=${avatar.accesoriesType}&hairColor=${"BrownDark"}&facialHairType=Blank&clotheType=${avatar.clotheType}&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=${avatar.skinColor}`
+    }
 
 function checkHeaderToken (req, res, next) {
     const { authorization } = req.headers
@@ -127,11 +167,18 @@ router.get('/', function (req, res, next) {
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
+
+    const profesores = Profesores.slice(startIndex, endIndex).map(profesor => { 
+        return {
+            ...profesor,
+            foto_perfil: getRandomAvatar()
+        }
+    });
     
     res.status(200).json({
         data:{
             // profesores: profesoresResponse.slice(startIndex, endIndex),
-            profesores: Profesores.slice(startIndex, endIndex),
+            profesores: profesores,
             // total: profesoresResponse.length
             total: Profesores.length
         }
@@ -139,12 +186,14 @@ router.get('/', function (req, res, next) {
 });
 router.get('/:id', checkHeaderToken, function (req, res, next) {
     const { id } = req.params;
-    const game = Profesores.find(profesor => profesor.id === id);
-    // const game = profesoresResponse.find(profesor => profesor.id === id);
-    if (!game) {
+    const profesor = Profesores.find(profesor => profesor.id === id);
+    profesor.foto_perfil = getRandomAvatar();
+
+    // const profesor = profesoresResponse.find(profesor => profesor.id === id);
+    if (!profesor) {
         return res.status(404).json({ message: 'No se encontro el personaje' });
     }
-    res.status(200).json({ ...game });
+    res.status(200).json({ ...profesor });
 })
 
 router.post('/', async function (req, res, next) {

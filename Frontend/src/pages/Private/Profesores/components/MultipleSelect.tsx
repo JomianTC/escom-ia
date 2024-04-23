@@ -28,7 +28,6 @@ export const CustomSelect = ({
   const createRequirment = useCreateRequirment()
   const handleCreate = async (inputValue: string) => {
     await createRequirment.mutateAsync(inputValue)
-    console.log(inputValue)
   }
   async function onChange (option: any) {
     await form.setFieldValue(field.name, option !== undefined ? (option).map((item: OptionType) => item.value) : [])

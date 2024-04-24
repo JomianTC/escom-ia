@@ -3,6 +3,9 @@ import { G4F } from "g4f";
 import { CreateGptAiDto } from "./dto/create-gpt-ai.dto";
 import { HandleErrors } from "src/common/handle-errors";
 import { Procedure } from "src/procedure/entities/procedure.entity";
+import { createComentQuery } from './queries/create-coment.query';
+import { validateComentQuery } from './queries/validate-coment.query';
+import { respondQuestionsQuery } from './queries/respond-questions.query';
 
 // import OpenAI from "openai";
 
@@ -21,7 +24,7 @@ export class GptAiService {
 	async createComent( createGptAiDto: CreateGptAiDto ) {
 
 		const { tags } = createGptAiDto;
-		let consultaGPT = "Crea un comentario sobre un profesor de la manera mas respectuosa posible como si fueras un alumno usando los siguientes tags:\n";
+		let consultaGPT = createComentQuery;
 
 		try {
 
@@ -48,12 +51,7 @@ export class GptAiService {
 
 		const { consulta } = createGptAiDto;
 
-		let consultaGPT = "Con base en la siguiente informacion responde la siguiente pregunta si es posible, ";
-		consultaGPT += "piensa muy bien la relacion entre la pregunta y la respuesta dada ";
-		consultaGPT += "y actua como si fueras un asistente virtual y supieras las respuestas\n";
-		consultaGPT += "Es muy importante que toda la conversacion sea sobre esta informacion y cualquier cosa que no se encuentre en ella ";
-		consultaGPT += "simplemente no la respondas ni ahora ni en consultas futuras\n\n";
-		
+		const consultaGPT = respondQuestionsQuery;
 		let informacion = "";
 		
 		try {
@@ -73,7 +71,18 @@ export class GptAiService {
 				procedure.requerimientos.forEach( requerimiento => {
 					informacion += `${ requerimiento }\n`;
 				});
+				
+				informacion += `Enlaces: \n`;
+				
+				const { links } = procedure.tramite;
 
+				const enlaces = links.split("-----");
+				enlaces.pop();
+
+				enlaces.forEach( enlace => {
+					informacion += `${ enlace }\n`;
+				});
+				
 				informacion += `},\n`;
 			});
 			
@@ -97,8 +106,7 @@ export class GptAiService {
 
 		const { comentario } = createGptAiDto;
 
-		let consultaGPT = "Responde con 'Buen Comentario' si el siguiente comentario no contiene palabras mal sonantes, doble sentido y no falta al respeto ";
-		consultaGPT += "en caso contrario responde con un 'Mal Comentario': ";
+		let consultaGPT = validateComentQuery;
 
 		try {
 

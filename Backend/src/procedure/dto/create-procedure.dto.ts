@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsDateString, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsDateString, IsOptional, IsString } from "class-validator";
 
 export class CreateProcedureDto {
 
@@ -9,15 +9,19 @@ export class CreateProcedureDto {
 	descripcion: string;
 
 	@IsDateString()
+	@IsOptional()
 	fechaInicio: Date;
 
 	@IsDateString()
+	@IsOptional()
 	fechaTermino: Date;
 	
 	@IsBoolean()
+	@IsOptional()
 	esInformativo: boolean;
 
 	@IsArray()
+	@IsOptional()
 	links: string[];
 	
 	@IsArray()

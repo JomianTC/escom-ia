@@ -23,10 +23,10 @@ export class Procedure {
 	@Column({ default: false })
 	estado: boolean;
 	
-	@Column()
+	@Column({ default: true })
 	esInformativo: boolean;
 
-	@Column()
+	@Column({ default: "" })
 	links: string;
 
 	@OneToMany(

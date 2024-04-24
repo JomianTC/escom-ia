@@ -75,7 +75,7 @@ export class ProcedureService {
 
 	async create( createProcedureDto: CreateProcedureDto ) {
 
-		const { nombre, fechaInicio, fechaTermino, links, ...procedureData } = createProcedureDto;
+		const { nombre, fechaInicio = "2024-01-01", fechaTermino = "2024-01-01", links = [], ...procedureData } = createProcedureDto;
 
 		try {
 
@@ -91,9 +91,12 @@ export class ProcedureService {
 
 			let enlaces = "";
 
-			links.forEach( ( link ) => {
-				enlaces += `${ link }-----`;
-			});
+			if ( links.length > 0 ){
+
+				links.forEach( ( link ) => {
+					enlaces += `${ link }-----`;
+				});
+			}
 
 			const newProcedure = this.procedureRepository.create({ 
 				nombre,

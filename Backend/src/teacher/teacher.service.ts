@@ -153,7 +153,7 @@ export class TeacherService {
 		} catch ( error ) { HandleErrors( error ); }
 	}
 
-	async updateProfilePicture( id: string, file: Express.Multer.File ) {
+	async updateProfilePicture( id: string, url: string ) {
 
 		try {
 
@@ -162,32 +162,11 @@ export class TeacherService {
 			if ( !teacherFound )
 				throw new BadRequestException({ mensaje: "Profesor no registrado" });
 
-			await this.deletePicture( teacherFound.id );
-
-			if ( !file )
-				throw new BadRequestException({ mensaje: "No se subio ningun archivo" });
-
-			const fileExtension = file.mimetype.split( "/" )[ 1 ];
-			const validExtensions = [ "jpg", "png", "jpeg", "gif" ];
-
-			if ( !validExtensions.includes( fileExtension ) )
-				throw new BadRequestException({ mensaje: "Tipo de archivo no permitido" });
-
-			if ( file.size > 2097152 )
-				throw new BadRequestException({ mensaje: "El archivo es mayor a 2MB" });
-
-			file.originalname = teacherFound.id;
-
-			const { secure_url } = await this.cloudinaryService.uploadImage( file );
-
-			if ( !secure_url )
-				throw new BadRequestException( "Error subiendo la imagen" );
-
-			await this.teacherRepository.update( teacherFound.id, { foto_perfil: secure_url });
+			await this.teacherRepository.update( teacherFound.id, { foto_perfil: url });
 
 			return {
 				mensaje: "Foto recibida correctamente",
-				foto_perfil: secure_url
+				foto_perfil: url
 			};
 
 		} catch ( error ) { HandleErrors( error ); }
@@ -204,17 +183,11 @@ export class TeacherService {
 
 			await this.teacherRepository.update( teacherFound.id, { foto_perfil: "" });
 
-			await this.deletePicture( teacherFound.id );
-
 			return {
 				mensaje: "Foto eliminada correctamente"
 			};
 
 		} catch ( error ) { HandleErrors( error ); }
-	}
-
-	async deletePicture( fileName: string ) {
-		await this.cloudinaryService.deleteImage( fileName );
 	}
 
 	async updateScore( teacherID: string, coments: Coment[], total: number ) {

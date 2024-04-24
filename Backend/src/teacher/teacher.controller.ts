@@ -41,9 +41,8 @@ export class TeacherController {
 
 	@Put( "profile-picture/:id" )
 	@UseGuards( AuthGuard )
-	@UseInterceptors( FileInterceptor( "file" ) )
-	async updateProfilePicture( @Param( "id", ParseUUIDPipe ) id: string, @UploadedFile() file: Express.Multer.File ) {
-		return this.teacherService.updateProfilePicture( id, file );
+	async updateProfilePicture( @Param( "id", ParseUUIDPipe ) id: string, @Body( "url" ) url: string ) {
+		return this.teacherService.updateProfilePicture( id, url );
 	}
 	
 	@Delete( "profile-picture/:id" )

@@ -1,451 +1,102 @@
 const response = {
   "tramites": [
-    {tramite: {
-      nombre: 'Plan acádemico de las nuevas carreras',
-      descripcion: '<p>Podemos realizar nuevos formularios.</p><p>Recuerda que es indispensable que sigas los pasos tal como en la iinfografía mostrada al inicio del curso</p><p><br></p><p>Puedes encontras la información de las carreras aquí :</p><p><a href="https://www.escom.ipn.mx/htmls/oferta/isc2020.php" rel="noopener noreferrer" target="_blank">Información</a></p><p><br></p><p>O bien consulta el plan curricular en:</p><p><a href="https://www.escom.ipn.mx/htmls/oferta/mapaCurrISC2020.php" rel="noopener noreferrer" target="_blank"><u>Página</u></a></p>',
-      fechaInicio: '2024-04-22T06:00:00.000Z',
-      fechaTermino: '2024-05-22T06:00:00.000Z',
-      esInformativo: true,
-      requerimentos: [ '33a36fc7-5957-4071-96d6-7d2a0d3c8a2f' ],
-      links: [],
-      estado: true
+    {
+      tramite:
+      {
+        nombre: 'Servicio Social',
+        descripcion: ' <p style="font-size:18px; text-align:justify">Es un requisito indispensable para el proceso de titulación profesional. Se cubre al realizar actividades relacionadas con los conocimientos adquiridos en las aulas, talleres y laboratorios, por lo tanto, se considera como una retribución que hace el egresado a la sociedad que le dio la oportunidad de obtener una profesión. Los requisitos (tomados del Reglamento de Servicio Social del IPN) para prestar el Servicio Social dentro del Instituto Politécnico Nacional se enumeran a continuación:</p> <ul style="font-size:18px; text-align:justify"> <li><b>Artículo 7.</b> Por sus funciones y fines académicos, el servicio social estará desvinculado de cualquier relación de carácter laboral y no podrá otorgar categoría de trabajador al prestador bajo ninguna circunstancia, con excepción de lo señalado en el artículo 20 del presente <a href="https://www.aplicaciones.abogadogeneral.ipn.mx/PDFS/Normatividad/carpeta4/GAC_EXT_932B_reglamento_serv_social.pdf" target="_blank">Reglamento</a>.</li> <li><b>Artículo 11.</b> El servicio deberá prestarse dentro de los programas que al efecto se convengan con los sectores público, social y privado, así como los que establezca el propio instituto</li> <li><b>Artículo 13.</b> El servicio que se realice en programas intrainstitucionales será gratuito</li> <li><b>Artículo 14.</b> El servicio deberá prestarse durante un periodo mínimo de seis meses y máximo de dos años, quedando determinado el mismo por las características del programa al que este adscrito el prestador y su duración no podrá ser menor de cuatrocientas ochenta horas. La prestación será continua a efecto de que pueda cumplir sus objetivos</li> <li><b>Artículo 15.</b> El servicio que realicen los prestadores nacionales o extranjeros de los planteles deberá realizarse en el territorio de la República Mexicana, en beneficio de la sociedad y el estado mexicano</li></ul><b>Solicitud de constancia INDISPENSABLE al momento de realizar el registro:</b> <a href="https://forms.office.com/pages/responsepage.aspx?id=2fRL-ZeAlEet9qVGbKKFY-JLdN8w-KlBnYjodQmtWMpUQVNQMjdMQVFGNkY3RzdZVUZZUFlVTTVBWi4u">Link al Formulario</a> ',
+        fechaInicio: '',
+        fechaTermino: '',
+        esInformativo: true,
+        requerimentos: ['33a36fc7-5957-4071-96d6-7d2a0d3c8a2f'],
+        links: ["https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_fuera_de_la_ESCOM.JPG"],
+        estado: true
+      },
+      requerimientos: ["Boleta", "Varía dependiendo si es presencial o a distancia", "Constancia de Servicio Social", "Prestador asegurado"]
     },
-      requerimientos: ["nombre completo", "boleta global", "constancia de servicio social"]
+    {
+      "tramite": {
+        "id": "8591b88c-cfe0-4231-9488-801335fdb529",
+        "nombre": "Reportes Servicio Social SISS",
+        "descripcion": "Recopilatorio de los documentos generales para subir a la plataforma del SISS. Mantente atento al llenado de los formatos y a la fecha de entrega de los mismos, recuerda que si es a distancia <b>NO LLEVAN FIRMAS</b>. Si estan consciente de que <b>no podrás cargar el reporte posterior a los 5 días despues de tu ultima fecha valida debes enviar un correo a  <a href='mailto:servicio_social_escom@ipn.mx'></a> </b>  ",
+        "fechaInicio": "",
+        "fechaTermino": "",
+        "estado": true,
+        "esInformativo": true,
+        "links": ['https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Mensual.docx', "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Global.docx", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Reporte_de_Desempeno_o_Evaluacion.docx", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_para_la_liberacion_del_servicio_social.pdf", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_de_baja_de_servicio_social.pdf"]
+      },
+      "requerimientos": [
+        "Reportes por periodo",
+        "Registro SISS autorizado"
+      ]
     },
-        {
-            "tramite": {
-                "id": "8591b88c-cfe0-4231-9488-801335fdb529",
-                "nombre": "trabajo opcional 5",
-                "descripcion": "Este tramite te ayudara tramitar el servicio social",
-                                "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-                "estado": false,
-                "esInformativo": true,
-                "links": ['https://forms.gle/BHGXWJSEiEZBnPDYA']
-            },
-            "requerimientos": [
-              "nombre completo 2",
-              "curp",
-              "rdf",
-                "nombre completo 3",
-                "nombre completo 1",
-                "nombre completo 4",
-                "nombre completo 5",
-                "nombre completo 6",
-                "nombre completo 7",
-            ]
-        },
-        {
-            "tramite": {
-                "id": "c4a1f727-04c7-47d2-b094-3f8221942588",
-                "nombre": "trabajo opcional 4",
-                "descripcion": "Este tramite te ayudara tramitar el servicio social",
-                                "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-                "estado": true,
-                "esInformativo": true,
-                "links": ["https://docs.google.com/forms/d/e/1FAIpQLSfjvv_WKHW0QSRubAIwl6j16P0nxgsDgb7_BEZvrmcoXN7AsQ/viewform?embedded=true","https://docs.google.com/forms/d/e/1FAIpQLSeH2FUFhiXzMcut9xJzCzvCpqiT0ohR_Y-CjlBkvZ0Om_MwCQ/viewform?embedded=true" ]
-            },
-            "requerimientos": [
-              "nombre completo 2",
-              "curp",
-              "rdf",
-                "nombre completo 3",
-                "nombre completo 1",
-                "nombre completo 4",
-                "nombre completo 5",
-                "nombre completo 6",
-                "nombre completo 7",
-            ]
-        },
-        {
-            "tramite": {
-                "id": "8779b211-fbcb-466c-892f-4df581f680a5",
-                "nombre": "kame hame haaaaaaaaaaaaa",
-                "descripcion": "Este tramite te ayudara tramitar el servicio social",
-                                "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-                "estado": true,
-                "esInformativo": true,
-                "links": []
-            },
-            "requerimientos": [
-                "nombre completo 8",
-                "nombre completo 5",
-                "nombre completo 7",
-                "nombre completo 6"
-            ]
-        },
-        {
-            "tramite": {
-                "id": "957a8746-9544-46df-8981-2217df84c2a9",
-                "nombre": "trabajo opcional xxxxsxx",
-                "descripcion": "Este tramite te ayudara tramitar el servicio social",
-                                "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-                "estado": false,
-                "esInformativo": true,
-                "links": [
-                    "QWE",
-                    "ASD",
-                    "ZXC"
-                ]
-            },
-            "requerimientos": [
-                "nombre completo 1",
-                "nombre completo 3",
-                "nombre completo 2"
-            ]
-        },
-        {
-            "tramite": {
-                "id": "23ef0a20-2872-4c25-970e-ff822d7c9b41",
-                "nombre": "trabajo opcional 3",
-                "descripcion": "Este tramite te ayudara tramitar el servicio social",
-                                "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-                "estado": true,
-                "esInformativo": true,
-                "links": []
-            },
-            "requerimientos": [
-                "nombre completo 2",
-                "nombre completo 1",
-                "nombre completo 3"
-            ]
-        },
-        {
-            "tramite": {
-                "id": "896d588f-f097-4f68-8dcd-02ec6a610db4",
-                "nombre": "trabajo opcional xxxxxx",
-                "descripcion": "Este tramite te ayudara tramitar el servicio social",
-                                "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-                "estado": true,
-                "esInformativo": true,
-                "links": [
-                    "UIO",
-                    "JKL",
-                    "ZVM",
-                    "ERT"
-                ]
-            },
-            "requerimientos": [
-                "nombre completo 7",
-                "nombre completo 5",
-                "nombre completo 6",
-                "nombre completo 8"
-            ]
-        },
-        {
-            "tramite": {
-                "id": "47b48c15-25ee-4782-a675-f6dae62e3ee1",
-                "nombre": "trabajo opcional 2",
-                "descripcion": "Este tramite te ayudara tramitar el servicio social",
-                                "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-                "estado": true,
-                "esInformativo": true,
-                "links": []
-            },
-            "requerimientos": [
-                "nombre completo 3",
-                "nombre completo 2",
-                "nombre completo 1"
-            ]
-        },
-        {
-            "tramite": {
-                "id": "99c32be0-fc7e-465a-9023-d1adf0238674",
-                "nombre": "trabajo opcional",
-                "descripcion": "Este tramite te ayudara tramitar el servicio social",
-                                "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-                "estado": true,
-                "esInformativo": true,
-                "links": []
-            },
-            "requerimientos": [
-                "nombre completo 3",
-                "nombre completo 2",
-                "nombre completo 1"
-            ]
-        },
-        {
-            tramite: {
-            "id": "1a2b3c4d5e6f7g8h",
-            "nombre": "Dune",
-            "descripcion": "Science fiction novel by Frank Herbert",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example1"]
-          },
-          requerimientos : []
-        },
-        {tramite:{
-            "id": "9i8h7g6f5e4d3c2b",
-            "nombre": "Foundation",
-            "descripcion": "Science fiction novel by Isaac Asimov",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example2"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "a1b2c3d4e5f6g7h8i",
-            "nombre": "1984",
-            "descripcion": "Science fiction novel by George Orwell",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example3"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "1i2h3g4f5e6d7c8b",
-            "nombre": "Brave New World",
-            "descripcion": "Science fiction novel by Aldous Huxley",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example4"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "a9b8c7d6e5f4g3h2i",
-            "nombre": "Neuromancer",
-            "descripcion": "Science fiction novel by William Gibson",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example5"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "1a2b3c4d5e6f7g8h",
-            "nombre": "Ender's Game",
-            "descripcion": "Science fiction novel by Orson Scott Card",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example6"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "9i8h7g6f5e4d3c2b",
-            "nombre": "The Hitchhiker's Guide to the Galaxy",
-            "descripcion": "Science fiction novel by Douglas Adams",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example7"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "a1b2c3d4e5f6g7h8i",
-            "nombre": "Fahrenheit 451",
-            "descripcion": "Science fiction novel by Ray Bradbury",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example8"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "1i2h3g4f5e6d7c8b",
-            "nombre": "The War of the Worlds",
-            "descripcion": "Science fiction novel by H.G. Wells",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example9"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "a9b8c7d6e5f4g3h2i",
-            "nombre": "Snow Crash",
-            "descripcion": "Science fiction novel by Neal Stephenson",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example10"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "1a2b3c4d5e6f7g8h",
-            "nombre": "The Martian",
-            "descripcion": "Science fiction novel by Andy Weir",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example11"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "9i8h7g6f5e4d3c2b",
-            "nombre": "I, Robot",
-            "descripcion": "Science fiction novel by Isaac Asimov",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example12"]
-          },
-          requerimientos : []
-        },
-        {tramite:{
-            "id": "a1b2c3d4e5f6g7h8i",
-            "nombre": "Tengo HTML embeded",
-            "descripcion": `<p>
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-            <span style="font-size: 18px;">Quill Rich Text Editor</span>
-        </p>
-        <p>
-            <br>
-        </p>
-        <p>Quill is a free,
-            <a href="https://github.com/quilljs/quill/" target="_blank">open source</a>WYSIWYG editor built for the modern web. With its
-            <a href="http://quilljs.com/docs/modules/" target="_blank">extensible architecture</a>and a
-            <a href="http://quilljs.com/docs/api/" target="_blank">expressive API</a>you can completely customize it to fulfill your needs. Some built in features include:</p>
-        <p>
-            <br>
-        </p>
+    {
+      "tramite": {
+        "id": "c4a1f727-04c7-47d2-b094-3f8221942588",
+        "nombre": "Opciones de Prestatarios Servicio Social",
+        "descripcion": "Enlace a lista de prestatarios disponible para realizar tu servicio social. Recuerda que debes de tener en cuenta la fecha de inicio y termino de tu servicio social, así como los requerimientos de cada prestatario. Si tienes dudas, acude a la oficina de Servicio Social de la ESCOM",
+        "fechaInicio": "",
+        "fechaTermino": "",
+        "estado": true,
+        "esInformativo": true,
+        "links": ["https://serviciosocial.ipn.mx/infoServSoc/InfoServSocListaPrsttrPerf.do?cvePerfil=36"]
+      },
+      "requerimientos": [
+      ]
+    },
+    {
+      "tramite": {
+        "id": "8779b211-fbcb-466c-892f-4df581f680a5",
+        "nombre": "Justificante Médico",
+        "descripcion": "El siguiente formulario es únicamente para los alumnos de la Escuela Superior de Cómputo que deseen justificar su(s) falta(s) por medio de un soporte médico. NOTA: Si la fecha de la receta médica y las faltas que deseas justificar tienen más de una semana, NO PROCEDERÁ. **Las recetas médicas de servicio particular (que no sean expedidas por IMSS, ISSSTE u otro servicio médico público), deberán ser llevadas primero al servicio médico de la ESCOM con nombre, firma, sello y notas del médico para su validación y posteriormente anexarla a este formulario.** El horario deberá adjuntarse completo donde se incluya el (los) GRUPO(S), PROFESOR(ES) y DÍA (S) a justificar, de no ser así, no se elaborará el justificante. Una vez recibida la información, se elaborará el justificante y se enviará por correo a los profesores al correo institucional. Solamente nos pondremos en contacto contigo al correo que dejas de referencia, únicamente si hubiera alguna duda sobre la información proporcionada para la elaboración del mismo. SOLO SE ELABORARÁN JUSTIFICANTES POR CUESTIONES MÉDICAS (con soporte médico y validado por el servicio médico de ESCOM), ACADÉMICAS (que representes a la ESCOM o IPN en algún evento y con la invitación oficial como soporte) y POR CAUSAS DE FUERZA MAYOR (fallecimiento de familiar directo), NO SE REALIZAN JUSTIFICANTES POR CUESTIONES LABORALES Y/O PERSONALES, DEBERÁS CONSULTARLO CON EL O LOS DOCENTES Y ES A CONSIDERACIÓN DE CADA UNO.",
+        "fechaInicio": "2024-02-01T06:00:00.000Z",
+        "fechaTermino": "2024-03-22T06:00:00.000Z",
+        "estado": true,
+        "esInformativo": true,
+        "links": ["https://docs.google.com/forms/d/e/1FAIpQLSdA5w0hig1SviBkxWsH19wqd4wiqDpyD9bgy4fOANAkIuMHkw/viewform?embedded=true"]
+      },
+      "requerimientos": [
+        "Receta médica",
+      ]
+    }, {
+      tramite: {
+        id: "33a36fc7-5957-4071-96d6-7d2a0d3c8a2f",
+        nombre: "Servicio Médico",
+        descripcion: `El servicio médico de la ESCOM es un servicio gratuito para toda la comunidad politécnica. Se encuentra ubicado en el edificio de la ESCOM en el primer piso. El horario de atención es de 9:00 a 18:00 horas de lunes a viernes. Para poder ser atendido es necesario presentar tu credencial de estudiante. Si tienes alguna duda, acude a la oficina de Servicio Social de la ESCOM. <b>En los links odrás encontrar el formulatio de seguro de vida y accidentes</b> 
+        Adicionalmente se adjuntan los telefonos de contacto de las personas encargadas del servicio médico:
         <ul>
-            <li>Fast and lightweight</li>
-            <li>Semantic markup</li>
-            <li>Standardized HTML between browsers</li>
-            <li>Cross browser support including Chrome, Firefox, Safari, and IE 9+</li>
+          <li>Dra. Aideé Lizbeth Galván Zermeño | Dr Daniel Mauricio Temozihui Trejo : 57296000 Ext. 52014</li>
+          <li>Dr Óscar Cortés Jiménez | Dr Cuauhtémoc García Hidalgo Trejo : 57296000 Ext. 52014</li>
         </ul>
-        <p>
-            <br>
-        </p>
-        <p>
-            <span style="font-size: 18px;">Downloads</span>
-        </p>
-        <p>
-            <br>
-        </p>
+        Algunos materiales Extra:
         <ul>
-            <li>
-                <a href="https://quilljs.com" target="_blank">Quill.js</a>, the free, open source WYSIWYG editor</li>
-            <li>
-                <a href="https://zenoamaro.github.io/react-quill" target="_blank">React-quill</a>, a React component that wraps Quill.js</li>
-            <li>Hello</li>
-            <li>
-                <br>
-            </li>
-        </ul>`,
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example13"]
-          },
-          requerimientos : ["Tarea", "Acta de nacimiento"]
-        },
-          {tramite:{
-            "id": "1i2h3g4f5e6d7c8b",
-            "nombre": "A Wrinkle in Time",
-            "descripcion": "Science fiction novel by Madeleine L'Engle",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example14"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "a9b8c7d6e5f4g3h2i",
-            "nombre": "The Matrix",
-            "descripcion": "Science fiction film by The Wachowskis",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example15"]
-          },
-          requerimientos : []
-        },
-          {tramite:{
-            "id": "1a2b3c4d5e6f7g8h",
-            "nombre": "The Hunger Games",
-            "descripcion": "Science fiction novel by Suzanne Collins",
-                            "fechaInicio": "2024-02-01T06:00:00.000Z",
-                "fechaTermino": "2024-03-22T06:00:00.000Z",
-
-
-            "estado": "true",
-            "esInformativo": "false",
-            "links":[ "https://forms.gle/example16"]
-          },
-          requerimientos : []}
-    ],
-    "total": 8
+          <li><a href="https://www.escom.ipn.mx/SSEIS/serviciosestudiantiles/documentos/cartelServicioMedico.pdf">Seguro de Vida y Accidentes</a></li>
+          <li><a href="https://www.escom.ipn.mx/SSEIS/serviciosestudiantiles/documentos/cartelServicioMedico.pdf">Seguro de Vida y Accidentes</a></li>
+        </ul>
+        `,
+        fechaInicio: "",
+        fechaTermino: "",
+        estado: true,
+        esInformativo: true,
+        links: ["https://docs.google.com/forms/d/e/1FAIpQLSesltmSfnHYW-K4Yj5sLYJOfmjwweCHHLAJAJjX7bsvU86AKQ/viewform?embedded=true"]
+      },
+      requerimientos: []
+    },
+    {
+      tramite: {
+        id: 'd15dab7b96aef16438d5983ee58fa168',
+        nombre: 'Biblioteca',
+        descripcion: '<p class="ql-align-justify">En la biblioteca nuestro objetivo es facilitar a la comunidad de ESCOM el acceso a libros y bases de datos, a través de la Red Institucional de Bibliotecas y el uso de las tecnologías de la información y comunicación, con el fin de favorecer la generación del conocimiento y el desarrollo de la investigación científica y tecnológica.</p><p class="ql-align-justify"><br></p><p class="ql-align-justify">Te recomendamos realizar una lectura y revisión a detalle de los formatos de registro y renovación de servicios bibliotecarios</p><p><br></p>',
+        fechaInicio: '2024-04-24T06:00:00.000Z',
+        fechaTermino: '2024-04-25T06:00:00.000Z',
+        esInformativo: true,
+        links: [""],
+        estado: true
+      },
+      requerimientos: [ 'b51e40dab3a9b85f4f4c268bd67f4f48' ]
+    }
+  ],
+  "total": 8
 }
 const crypto = require('crypto');
 const waitTime = (wait) => new Promise((resolve) => setTimeout(resolve, wait));
@@ -453,40 +104,92 @@ const express = require('express');
 const router = express.Router();
 const COMMENTS = require('../data/Comments.json');
 function checkHeaderToken (req, res, next) {
-    const { authorization } = req.headers
-    if (authorization.includes('Bearer') && authorization.includes('tony')) {
-        next();
-    } else {
-        return res.status(403).json({ message: 'No tienes acceso' });
-    }
+  const { authorization } = req.headers
+  if (authorization.includes('Bearer') && authorization.includes('tony')) {
+    next();
+  } else {
+    return res.status(403).json({ message: 'No tienes acceso' });
+  }
 }
 
-router.get('/admin/findAll', async function (req, res, next) { 
-    console.log(req.query);
-    const withNewIdData = response.tramites.map((tramite, index) => { 
-        tramite.tramite.id = crypto.randomBytes(16).toString('hex');
-        return tramite;
-    });
-    console.log(withNewIdData);
-    await waitTime(1000);
-    return res.status(200).json({ tramites: withNewIdData, total: withNewIdData.length });
+router.get('/admin/findAll', async function (req, res, next) {
+  console.log(req.query);
+  const withNewIdData = response.tramites.map((tramite, index) => {
+    tramite.tramite.id = crypto.randomBytes(16).toString('hex');
+    return tramite;
+  });
+  console.log(withNewIdData);
+  await waitTime(1000);
+  return res.status(200).json({ tramites: withNewIdData, total: withNewIdData.length });
 });
 
-router.post('/', function (req,res,next) {
+router.post('/', function (req, res, next) {
   console.log(req.body);
+  const {id,
+    nombre,
+    descripcion,
+    fechaInicio,
+    fechaTermino,
+    esInformativo,
+    requerimentos,
+    links,
+    estado, } = req.body  
+  const newTramite = {
+    tramite:{
+    id: crypto.randomBytes(16).toString('hex'),
+    nombre,
+    descripcion,
+    fechaInicio,
+    fechaTermino,
+    esInformativo,
+    links,
+    estado
+    },
+    requerimientos : requerimentos
+  }
+  console.log(newTramite);
+  console.log(links);
+  response.tramites.push(newTramite)
   return res.json({
     mensaje: "Creado correctamente",
-    
   })
 })
 
-router.put('/:id', function (req,res,next) {
+router.put('/:id', function (req, res, next) {
   console.log(req.body);
   console.log(req.params.id);
+  const {id,
+    nombre,
+    descripcion,
+    fechaInicio,
+    fechaTermino,
+    esInformativo,
+    requerimentos,
+    links,
+    estado, } = req.body
+  const newTramite = {
+    tramite:{
+    id: req.params.id,
+    nombre,
+    descripcion,
+    fechaInicio,
+    fechaTermino,
+    esInformativo,
+    links,
+    estado
+    },
+    requerimientos : requerimentos
+  }
+
+  response.tramites = response.tramites.map(tramite => {
+    if (tramite.tramite.id === req.params.id) {
+      return newTramite
+    }
+    return tramite
+  })
   return res.json({
     mensaje: "Creado correctamente",
-    id : req.params.id
-    
+    id: req.params.id
   })
 })
 

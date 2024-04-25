@@ -58,3 +58,16 @@ const description = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qu
 
 const shortedString = description.substring(0, 50);
 console.log(shortedString);
+
+
+const elements = [
+    { nombre: "tunas" },
+    { nombre: "ramon" }
+    , { nombre: "Erick" },
+    {nombre:"Lupita"}
+]
+
+
+const index = elements.findIndex(element => element.nombre === "Erick")
+elements.splice(index, 1,{ nombre: "Ana" })
+console.log(elements);

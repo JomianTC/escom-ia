@@ -3,144 +3,124 @@ const router = express.Router();
 const Profesores = require('../data/Profesores.json');
 
 const profesoresResponse = [{
-        id: "0376f5be-d608-4da8-98cd-831de255592a",
+        id: "0376f5be-d608-4da8-98cd-831dg255592a",
         nombre: "Edgardo Adrian Franco",
-        area: "Sistemas computacionales",
+        area: "Sistemas Computacionales",
         grado_academico: "Doctor",
         email: "eafranco154@gmail.com",
         contacto: "55123456121",
         foto_perfil: "",
         calificacion: "0.00"
+},
+    {
+        id: "0376f5be-d608-4da8-98cd-831de255532a",
+        nombre: "Marta Rosa Cordero López",
+        area: "",
+        grado_academico: "Maestra",
+        email: "profesoraCordero@gmail.com",
+        contacto: "55123456121",
+        foto_perfil: "",
+        calificacion: "0.00"
     },
     {
-        "id": "0ef22883-ea84-416b-9cda-28a0385c0ade",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco299@gmail.com",
-        "contacto": "55123456721",
-        "foto_perfil": "",
-        "calificacion": "0.00"
+        id: "0376f5be-d608-4da8-98cd-831de255592d",
+        nombre: "Jose Asunción Enriquez Zárate",
+        area: "Subdirección de Servicios Educativos",
+        grado_academico: "Maestro en Ciencias",
+        email: "asuncionez@gmail.com",
+        contacto: "57296000 Ext. 52012",
+        foto_perfil: "",
+        calificacion: "0.00"
     },
     {
-        "id": "2208978d-053f-4954-aaff-ec8a844b7386",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco14@gmail.com",
-        "contacto": "55123456714",
-        "foto_perfil": "",
-        "calificacion": "0.00"
+        id: "0376f5be-d608-4da8-98cd-831ae255592d",
+        nombre: "Virginia Medina Mejía",
+        area: "Humanidades",
+        grado_academico: "Maestra",
+        email: "vmedinamejia@yahoo.com.mx",
+        contacto: "55123456121",
+        foto_perfil: "",
+        calificacion: "0.00"
     },
     {
-        "id": "2b87286c-03f8-482f-a5ed-433d6977a16b",
-        "nombre": "Super Su Fake",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "nosupersu@gmail.com",
-        "contacto": "6666666666",
-        "foto_perfil": "",
-        "calificacion": "3.48"
+        id: "0376f5be-d608-4da8-28cd-831ae255592d",
+        nombre: "Cortés Galicia Jorge",
+        area: "Sistemas",
+        grado_academico: "Maestro",
+        email: "cgalicia@gmail.com",
+        contacto: "55123456121",
+        foto_perfil: "",
+        calificacion: "0.00"
     },
     {
-        "id": "319c263e-2f03-412e-a554-08c01788fe7b",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco10@gmail.com",
-        "contacto": "55123456710",
-        "foto_perfil": "",
-        "calificacion": "0.00"
+        id: "1376f5be-d608-4da8-28cd-831ae255592d",
+        nombre: "Cortez Duarte Nidia Asunción",
+        area: "Redes | Criptografía",
+        grado_academico: "Maestra",
+        email: "nidiaduarte_@hotmail.com",
+        contacto: "55123456121",
+        foto_perfil: "",
+        calificacion: "0.00"
     },
     {
-        "id": "3f950fef-8844-4f7f-b00e-4dd7d57db30f",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco11@gmail.com",
-        "contacto": "55123456711",
-        "foto_perfil": "",
-        "calificacion": "0.00"
+        id: "1376febe-d608-4da8-28cd-831ae255592d",
+        nombre: "Cifuentes Álvarez Alejandro Sigfrido",
+        area: "Aplicaciones Moviles | Desarrollo Web",
+        grado_academico: "Maestro",
+        email: "avionica1@yahoo.com.mx",
+        contacto: "55123456121",
+        foto_perfil: "",
+        calificacion: "0.00"
     },
-    {
-        "id": "42572ad8-5cc7-4646-a9fc-7feb8ea27074",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco6@gmail.com",
-        "contacto": "55123456786",
-        "foto_perfil": "",
-        "calificacion": "0.00"
-    },
-    {
-        "id": "46c45fbb-eca5-4be1-8353-58a134b934b4",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco12@gmail.com",
-        "contacto": "55123456712",
-        "foto_perfil": "",
-        "calificacion": "0.00"
-    },
-    {
-        "id": "470cc89f-82df-42cc-bf68-a4f3f794667d",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco3@gmail.com",
-        "contacto": "55123456783",
-        "foto_perfil": "",
-        "calificacion": "0.00"
-    },
-    {
-        "id": "5defcbc1-ee5b-4b47-b838-d1c4b3787c09",
-        "nombre": "Edgardo Adrian Franco",
-        "area": "Sistemas computacionales",
-        "grado_academico": "Doctor",
-        "email": "eafranco2@gmail.com",
-        "contacto": "55123456782",
-        "foto_perfil": "",
-        "calificacion": "0.00"
-    }
+
     ]
 
     const avatarOptions = {
-        topType : ["LongHairBigHair",
-        "LongHairBob",
-        "LongHairBun",
-        "LongHairCurly",
-        "LongHairCurvy",
-        "LongHairDreads",
-        "LongHairFrida",
-        "LongHairFro",
-        "LongHairFroBand",
-        "LongHairNotTooLong",
-        "LongHairShavedSides",
-        "LongHairMiaWallace",
-        "LongHairStraight",
-        "LongHairStraight2",
-        "LongHairStraightStrand",
-        "ShortHairDreads01",
-        "ShortHairDreads02",
-        ],
-        accesoriesType: ["Blank", "Prescription01", "Prescription02", "Round"],
-        clotheType: ["BlazerShirt", "BlazerSweater", "CollarSweater", "GraphicShirt"],
-        eyeType: ["Default"],
-        eyebrowType: ["Default"],
-        mouthType: ["Default"],
-        skinColor: ["Pale", "Light", "Brown"],
+        masculino: {
+            accesoriesType: ["Blank", "Prescription01", "Prescription02", "Round"],
+            clotheType: ["BlazerShirt", "BlazerSweater", "CollarSweater", "GraphicShirt"],
+            eyeType: ["Default"],
+            eyebrowType: ["Default"],
+            mouthType: ["Default"],
+            skinColor: ["Pale", "Light", "Brown"],
+            topType : [
+                "ShortHairDreads01",
+                "ShortHairShortFlat",
+                "ShortHairShortRound"
+            ],
+        },
+        femenino: {
+            topType : ["LongHairBigHair",
+            "LongHairBob",
+            "LongHairBun",
+            "LongHairCurly",
+            "LongHairCurvy",
+            "LongHairNotTooLong",
+            "LongHairShavedSides",
+            "LongHairMiaWallace",
+            "LongHairStraight",
+            "LongHairStraight2",
+            "LongHairStraightStrand",
+            ],
+            accesoriesType: ["Blank", "Prescription01", "Prescription02", "Round"],
+            clotheType: ["BlazerShirt", "BlazerSweater", "CollarSweater", "GraphicShirt"],
+            eyeType: ["Default"],
+            eyebrowType: ["Default"],
+            mouthType: ["Default"],
+            skinColor: ["Pale", "Light", "Brown"],
+        }
+        }
         
-    }
     
-    const getRandomAvatar = () => { 
+    const getRandomAvatar = (sexo = ' masculino') => { 
         let avatar = {
-            topType: avatarOptions.topType[Math.floor(Math.random() * avatarOptions.topType.length)],
-            accesoriesType: avatarOptions.accesoriesType[Math.floor(Math.random() * avatarOptions.accesoriesType.length)],
-            clotheType: avatarOptions.clotheType[Math.floor(Math.random() * avatarOptions.clotheType.length)],
-            eyeType: avatarOptions.eyeType[Math.floor(Math.random() * avatarOptions.eyeType.length)],
-            eyebrowType: avatarOptions.eyebrowType[Math.floor(Math.random() * avatarOptions.eyebrowType.length)],
-            mouthType: avatarOptions.mouthType[Math.floor(Math.random() * avatarOptions.mouthType.length)],
-            skinColor: avatarOptions.skinColor[Math.floor(Math.random() * avatarOptions.skinColor.length)]
+            topType: avatarOptions[sexo].topType[Math.floor(Math.random() * avatarOptions[sexo].topType.length)],
+            accesoriesType: avatarOptions[sexo].accesoriesType[Math.floor(Math.random() * avatarOptions[sexo].accesoriesType.length)],
+            clotheType: avatarOptions[sexo].clotheType[Math.floor(Math.random() * avatarOptions[sexo].clotheType.length)],
+            eyeType: avatarOptions[sexo].eyeType[Math.floor(Math.random() * avatarOptions[sexo].eyeType.length)],
+            eyebrowType: avatarOptions[sexo].eyebrowType[Math.floor(Math.random() * avatarOptions[sexo].eyebrowType.length)],
+            mouthType: avatarOptions[sexo].mouthType[Math.floor(Math.random() * avatarOptions[sexo].mouthType.length)],
+            skinColor: avatarOptions[sexo].skinColor[Math.floor(Math.random() * avatarOptions[sexo].skinColor.length)]
         }
         return `https://avataaars.io/?avatarStyle=Circle&topType=${avatar.topType}&accessoriesType=${avatar.accesoriesType}&hairColor=${"BrownDark"}&facialHairType=Blank&clotheType=${avatar.clotheType}&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=${avatar.skinColor}`
     }
@@ -163,31 +143,32 @@ router.get('/renew', function (req, res, next) {
 })
 
 router.get('/', function (req, res, next) {
-    const { limit=10, page=1 } = req.query
+    const { limit=100, page=1 } = req.query
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    const profesores = Profesores.slice(startIndex, endIndex).map(profesor => { 
+    const profesores = profesoresResponse.slice(startIndex, endIndex).map(profesor => { 
         return {
             ...profesor,
-            foto_perfil: getRandomAvatar()
+            foto_perfil: getRandomAvatar("masculino")
         }
     });
     
     res.status(200).json({
         data:{
-            // profesores: profesoresResponse.slice(startIndex, endIndex),
             profesores: profesores,
-            // total: profesoresResponse.length
-            total: Profesores.length
+            // profesores: profesores,
+            total: profesoresResponse.length
+            // total: Profesores.length
         }
     });
 });
-router.get('/:id', checkHeaderToken, function (req, res, next) {
+router.get('/:id',  function (req, res, next) {
     const { id } = req.params;
-    const profesor = Profesores.find(profesor => profesor.id === id);
-    profesor.foto_perfil = getRandomAvatar();
+    // const profesor = Profesores.find(profesor => profesor.id === id);
+    const profesor = profesoresResponse.find(profesor => profesor.id === id);
+    profesor.foto_perfil = getRandomAvatar("masculino");
 
     // const profesor = profesoresResponse.find(profesor => profesor.id === id);
     if (!profesor) {
@@ -210,8 +191,16 @@ router.post('/', async function (req, res, next) {
         contacto,
         foto_perfil
     }
-    // Profesores.push(newProfesor);
-    console.log("Se ha creado un nuevo profesor", newProfesor);
+
+    const profesorExists = profesoresResponse.find(profesor => profesor.nombre === nombre)
+    console.log(profesorExists);
+    if (profesorExists) { 
+        return res.status(404).json({message: "Oops ya existe"})
+    }
+
+    console.log("ID CREADO",newProfesor.id);
+    profesoresResponse.push(newProfesor);
+    console.log(profesoresResponse.length);
     res.status(201).json({ message: "Creado",profesor: newProfesor });
 });
 router.delete('/:id', function (req, res, next) { 
@@ -220,6 +209,19 @@ router.delete('/:id', function (req, res, next) {
 
     res.status(200).json({ mensaje: 'Profesor eliminado' });
 });
+router.put('/profile-picture/:id', function (req,res) {
+    const { id } = req.params
+    const { url } = req.body
+    console.log("ID ACTUALIZADO",id);
+    const index = profesoresResponse.findIndex(profesor => profesor.id === id)
+    profesoresResponse[index].foto_perfil = url
+    console.log(profesoresResponse[index]);
+    return res.status(200).json({
+        mensaje: "Correcto",
+        profesor: profesoresResponse[index].foto_perfil
+    })
+
+})
 
 
 module.exports = router;

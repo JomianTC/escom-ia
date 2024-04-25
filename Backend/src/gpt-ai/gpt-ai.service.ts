@@ -88,7 +88,7 @@ export class GptAiService {
 			
 			const responseGTP = await this.g4f.chatCompletion([
 				{
-					role: "user", 
+					role: "assistant", 
 					content: consultaGPT + informacion
 				},
 				{

@@ -87,7 +87,7 @@ export class AuthService {
 		try {
 			
 			const adminFound = await this.adminRepository.findOne({
-				where: { email }
+				where: { email: email.toLowerCase() }
 			});
 	
 			if ( !adminFound )

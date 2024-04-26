@@ -40,7 +40,7 @@ export class AdminProcedureService {
 			});
 			
 			if ( adminProceduresFound.length === 0 ) 
-				throw new BadRequestException( "No se encontraron trámites" );
+				throw new BadRequestException({ mensaje: "No se encontraron trámites" });
 		
 			const total = await this.adminProRepository.countBy({ admin });
 
@@ -57,10 +57,10 @@ export class AdminProcedureService {
 			const adminProcedure = await this.adminProRepository.findOneBy({ procedure, admin });
 
 			if ( !adminProcedure ) 
-				throw new BadRequestException( "No se encontró el permiso" );
+				throw new BadRequestException({ mensaje: "No se encontró el permiso" });
 
 			if ( adminProcedure.admin.id !== admin.id )
-				throw new BadRequestException( "No tienes permisos para ver este trámite" );
+				throw new BadRequestException({ mensaje: "No tienes permisos para ver este trámite" });
 
 			return adminProcedure.id;
 

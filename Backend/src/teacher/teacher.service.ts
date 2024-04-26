@@ -15,7 +15,6 @@ export class TeacherService {
 	constructor(
 		@InjectRepository( Teacher )
 		private readonly teacherRepository: Repository<Teacher>,
-		private readonly cloudinaryService: CloudinaryService
 	){}
 
 	async create( createTeacherDto: CreateTeacherDto ) {

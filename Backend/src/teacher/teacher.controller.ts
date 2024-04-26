@@ -1,5 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, Query, ParseUUIDPipe, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Query, ParseUUIDPipe, Put } from '@nestjs/common';
 import { PaginationDto } from "../common/dto/pagination.dto";
 import { CreateTeacherDto } from "./dto/create-teacher.dto";
 import { UpdateTeacherDto } from "./dto/update-teacher.dto";

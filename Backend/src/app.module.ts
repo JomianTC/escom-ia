@@ -33,13 +33,19 @@ import { MailerModule } from "@nestjs-modules/mailer";
 		// ? Importar el módulo de TypeORM para la BD
 		TypeOrmModule.forRoot({
 
-			type: "mysql",
+			type: "postgres",
 
 			host: process.env.DB_HOST,
 			port: +process.env.DB_PORT,
 			username: process.env.DB_USERNAME,
 			password: process.env.DB_PASSWORD,
 			database: process.env.DB_NAME,
+			ssl: true,
+			extra: {
+				ssl: {
+					rejectUnauthorized: false,
+				},
+			},
 
 			autoLoadEntities: true,
 			synchronize: true,
@@ -55,7 +61,7 @@ import { MailerModule } from "@nestjs-modules/mailer";
 				},
 			},
 			template: {
-				dir: join( __dirname, ".." + "/templates" ),
+				dir: join(__dirname, ".." + "/templates"),
 				adapter: new HandlebarsAdapter(),
 				options: {
 					strict: true,
@@ -94,4 +100,4 @@ import { MailerModule } from "@nestjs-modules/mailer";
 })
 
 export class AppModule { }
-console.log( __dirname );
+console.log(__dirname);

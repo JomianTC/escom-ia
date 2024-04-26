@@ -20,6 +20,9 @@ export class CreateProcedureDto {
 	@IsOptional()
 	esInformativo: boolean;
 
+	@IsBoolean()
+	estado: boolean;
+
 	@IsArray()
 	@IsOptional()
 	links: string[];

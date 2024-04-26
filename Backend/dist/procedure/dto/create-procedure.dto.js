@@ -38,6 +38,10 @@ __decorate([
     __metadata("design:type", Boolean)
 ], CreateProcedureDto.prototype, "esInformativo", void 0);
 __decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateProcedureDto.prototype, "estado", void 0);
+__decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)

@@ -105,7 +105,7 @@ let ProcedureService = class ProcedureService {
                 const procedureFound = await this.procedureRepository.findOneBy({
                     nombre: procedureData.nombre.toLowerCase()
                 });
-                if (procedureFound)
+                if (procedureFound.id !== id)
                     throw new common_1.BadRequestException({ mensaje: "Ya existe un trámite con ese nombre" });
             }
             if (links) {

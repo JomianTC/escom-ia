@@ -2,9 +2,9 @@ import { IsArray, IsOptional, IsString } from "class-validator";
 
 export class CreateGptAiDto {
 
-	@IsString()
+	@IsArray()
 	@IsOptional()
-	consulta: string;
+	consultas: string[];
 	
 	@IsString()
 	@IsOptional()

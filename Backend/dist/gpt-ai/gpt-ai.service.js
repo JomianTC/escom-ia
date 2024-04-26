@@ -39,11 +39,11 @@ let GptAiService = class GptAiService {
         }
     }
     async askSomething(createGptAiDto, procedures) {
-        const { consulta } = createGptAiDto;
+        const { consultas } = createGptAiDto;
         const consultaGPT = respond_questions_query_1.respondQuestionsQuery;
         let informacion = "";
         try {
-            if (!consulta)
+            if (!consultas)
                 throw new common_1.BadRequestException({ message: "La consulta es requerida" });
             procedures.forEach(procedure => {
                 informacion += `{\n`;
@@ -64,16 +64,36 @@ let GptAiService = class GptAiService {
                 });
                 informacion += `},\n`;
             });
-            const responseGTP = await this.g4f.chatCompletion([
-                {
+            if (consultas.length < 2) {
+                const responseGTP = await this.g4f.chatCompletion([
+                    {
+                        role: "assistant",
+                        content: consultaGPT + informacion
+                    },
+                    {
+                        role: "user",
+                        content: `\nPregunta: ${consultas[0]}`
+                    },
+                ]);
+                return { mensaje: responseGTP };
+            }
+            let mensajes = [{
                     role: "assistant",
                     content: consultaGPT + informacion
-                },
-                {
-                    role: "user",
-                    content: `\nPregunta: ${consulta}`
-                },
-            ]);
+                }];
+            for (let i = 0; i < consultas.length; i++) {
+                if (i % 2 === 0)
+                    mensajes.push({
+                        role: "user",
+                        content: `\nPregunta: ${consultas[i]}`
+                    });
+                else
+                    mensajes.push({
+                        role: "assistant",
+                        content: `\n${consultas[i]}`
+                    });
+            }
+            const responseGTP = await this.g4f.chatCompletion(mensajes);
             return { mensaje: responseGTP };
         }
         catch (error) {

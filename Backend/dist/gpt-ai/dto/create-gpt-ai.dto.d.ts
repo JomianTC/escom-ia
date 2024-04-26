@@ -1,5 +1,5 @@
 export declare class CreateGptAiDto {
-    consulta: string;
+    consultas: string[];
     comentario: string;
     tags: string[];
 }

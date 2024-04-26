@@ -129,7 +129,7 @@ export class ProcedureService {
 					nombre: procedureData.nombre.toLowerCase()
 				});
 	
-				if ( procedureFound ) 
+				if ( procedureFound.id !== id ) 
 					throw new BadRequestException({ mensaje: "Ya existe un trámite con ese nombre" });
 			}
 

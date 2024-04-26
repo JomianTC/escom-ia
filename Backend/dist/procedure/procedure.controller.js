@@ -169,8 +169,13 @@ let ProcedureController = class ProcedureController {
         }, tiempoRestante);
     }
     async obtainNonNewProcedures() {
-        const { procedures } = await this.procedureService.findAll({ limit: 1000, page: 1 });
-        procedures.forEach(procedure => { this.nonNewProcedures.push(procedure.id); });
+        try {
+            const { procedures } = await this.procedureService.findAll({ limit: 1000, page: 1 });
+            procedures.forEach(procedure => { this.nonNewProcedures.push(procedure.id); });
+        }
+        catch (error) {
+            console.log(error.message);
+        }
     }
 };
 exports.ProcedureController = ProcedureController;

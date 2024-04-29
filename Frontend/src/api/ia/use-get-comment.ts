@@ -4,6 +4,8 @@ import { API_URLS, iaClient } from '../axios'
 async function getIAComment (tags: string[]) {
   try {
     const response = await iaClient.post(API_URLS.ia.createComment, { tags })
+    console.log(response.data)
+
     return response.data
   } catch (error) {
     throw new Error('Oops esto es por nosotros no por ti, intenta de nuevo más tarde')

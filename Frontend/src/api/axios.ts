@@ -2,6 +2,7 @@ import axios from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import { useRefreshToken } from './users/use-refresh-token'
 const BASE_URL = 'http://localhost:3000'
+// const BASE_URL = 'https://escom-ia.onrender.com'
 export const API_URLS = {
   apiClient: {
     client: BASE_URL + '/api/auth',
@@ -14,7 +15,7 @@ export const API_URLS = {
   userPictureClient: {
     client: BASE_URL + '/api/user',
     upload: '/upload',
-    updateProfilePicture: '/update-picture',
+    updateProfilePicture: '/update/profile-picture',
     deleteProfilePicture: '/delete-picture'
   },
   teacherClient: {

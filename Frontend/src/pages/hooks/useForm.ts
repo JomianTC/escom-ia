@@ -11,7 +11,7 @@ interface Components extends Array<JSX.Element> {
   components?: JSX.Element[]
 }
 
-export const useForm = (initialValues: Student, components: Components, isUpdate = false) => {
+export const useForm = (_initialValues: Student, components: Components, isUpdate = false) => {
   const [formStep, setFormStep] = useState(0)
   const [canRedirect, setCanRedirect] = useState(false)
   const dispatch = useDispatch()
@@ -29,13 +29,13 @@ export const useForm = (initialValues: Student, components: Components, isUpdate
         })
         return
       }
-      if (values.foto_perfil != null) {
+      if (values.foto_perfil != null && values.foto_perfil !== '') {
         uploadImage.mutate(values.foto_perfil as unknown as File)
       }
-      await createUser.mutateAsync(values).then((data) => {
-        console.log(data)
+      await createUser.mutateAsync(values).then((_data) => {
         setCanRedirect(true)
-        return dispatch(showUserInfo(data))
+      }).catch(() => {
+        console.log('Oops something went wrong')
       })
     } else {
       handleNext()

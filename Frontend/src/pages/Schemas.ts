@@ -74,8 +74,8 @@ export const comentarioEsquema = yup.object().shape({
 export const procedureEsquema = yup.object().shape({
   nombre: yup.string().min(2).required('El nombre es requerido'),
   descripcion: yup.string().min(2).required('La descripcion es requerida'),
-  fechaInicio: yup.date().required('La fecha de inicio es requerida'),
-  fechaTermino: yup.date().min(yup.ref('fechaInicio'), 'No puedes elegir una fecha anterior a la de inicio').required('La fecha de termino es requerida'),
+  fechaInicio: yup.date(),
+  fechaTermino: yup.date().min(yup.ref('fechaInicio'), 'No puedes elegir una fecha anterior a la de inicio'),
   esInformativo: yup.boolean().required('El estado es requerido'),
   requerimentos: yup.array().min(1).required('Al menos debes seleccionar un requerimiento'),
   links: yup.array().optional()

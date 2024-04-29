@@ -1,7 +1,7 @@
 import { teacherQueryKeys } from '@/api/teachers/teachers-query-keys'
 import { RemoveIcon } from '@/components/icons/Icons'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
-import { openDeleteModal, setEditMode, setInfoModal } from '@/store/slices/uiSlice'
+import { openDeleteModal, setInfoModal } from '@/store/slices/uiSlice'
 import { LEVEL_ACCESS } from '@/types/index'
 import { useMutationState } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
@@ -23,7 +23,7 @@ export function ProfesorCard ({ nombre, email, area, id = '/', detail, foto_perf
   const handleTriggerModal = () => {
     appDispatch(openDeleteModal())
     appDispatch(setInfoModal({ id, nombre }))
-    appDispatch(setEditMode(false))
+    // appDispatch(setEditMode(false))
   }
   const deleteTeacher = useMutationState({
     filters: { mutationKey: teacherQueryKeys.delete(id) },
@@ -40,17 +40,19 @@ export function ProfesorCard ({ nombre, email, area, id = '/', detail, foto_perf
           )}
       <article className={'bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 relative white-border grid h-min overflow-hidden hover:scale-105 profesor__card '}>
         <img
-          className={'rounded-full border-4 border-primary_300 \'w-16 h-16'}
+          className={'rounded-full border-4 border-primary_200 shadow-2xl  w-16 h-16'}
           src={fotoPerfil}
           alt={nombre}
         />
         <div className={'flex flex-col leading-8 justify-around'}>
+        <Link to={id} >
           <article>
-            <Link to={id} ><h2 className='text-xl sm:text-2xl text-text_100 hover:text-primary_300 font-bold '>
-              {nombre}</h2>  </Link>
+          <h2 className='text-xl sm:text-2xl text-text_100 hover:text-primary_300 font-bold '>
+          {nombre}</h2>
           <p className='text-base text-wrap font-bold text-peimary_300 '>Areá: <span className='text-accent_100'>{area}</span> </p>
           <p className='text-base text-wrap font-bold text-peimary_300 '>Email: <span className='text-accent_100'>{email}</span> </p>
-          </article>
+            </article>
+            </Link>
         </div>
       </article>
     </article>

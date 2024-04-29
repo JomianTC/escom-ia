@@ -4,12 +4,11 @@ import uuid from 'react-uuid'
 import { useWordByWord } from '../Profesores/components/WordByWord'
 
 export function ChatbotPage () {
-  const [recentQuestions, setRecentQuestions] = useState([''
-  ])
+  const [recentQuestions, setRecentQuestions] = useState<string[]>([])
 
   const [chatResponses, setChatResponses] = useState([''])
   const [expand, setExpand] = useState(false)
-  const { setIaClicked, startIASubmit, isIALoading, showingPartial, partialResponse } = useWordByWord()
+  const { setIaClicked, startIASubmit, isIALoading, showingPartial, partialResponse } = useWordByWord('procedure')
   const formik = useFormik({
     initialValues: {
       message: ''
@@ -20,10 +19,10 @@ export function ChatbotPage () {
         return [...prev, values.message]
       })
       setIaClicked(true)
-      const response = await startIASubmit({ type: 'procedure', values: 'Hola a todos quiero informacion del procedimiento' })
-      console.log(response)
+      const response = await startIASubmit({ type: 'procedure', values: values.message })
 
       setChatResponses((prev) => [...prev, response])
+      formik.resetForm()
     }
   })
   const handleExpand = () => {
@@ -41,12 +40,12 @@ export function ChatbotPage () {
     }
   }, [])
   return (
-    <section className="container p-8 w-full h-full my-0 mx-auto grid gap-2 sm:gap-6 relative grid-cols-4 z-50">
+    <section className="container p-8 w-full h-full my-0 mx-auto grid  relative grid-cols-4 z-50 ">
       {/* Lado preguntas recientes */}
-      <aside className={`border-4 bg-bg_200   ${expand ? 'absolute w-full h-full top-0 left-0 z-[50] ' : 'hidden sm:block'}`}>
+      <aside className={`border-4 border-accent_200 -right-4 ${expand ? 'absolute w-full h-full top-0 left-0 z-[50] bg-bg_200' : 'hidden sm:block scale-95'}`}>
         {
-          recentQuestions.map((question) => (
-            <div key={uuid()} className="p-4 border-b-2 border-primary_200 cursor-pointer">
+          recentQuestions?.map((question) => (
+            <div key={uuid()} className="px-2 py-1 text-left font-semibold border-b-2 border-primary_200 cursor-pointer shadow-lg transition-all duration-200 bg-accent_100 text-white  ">
               <p className='italic text-nowrap text-ellipsis overflow-hidden'
                 onClick={async () => {
                   setExpand(false)

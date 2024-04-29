@@ -20,7 +20,7 @@ export function useUpdateUser () {
       toast.success('Usuario actualizado correctamente')
       return data
     },
-    onError: (_err, newUser, context?: TSFixMe) => {
+    onError: (_err, _newUser, context?: TSFixMe) => {
       toast.success('Algo no salio como debía')
       queryClient.setQueryData(userQueryKeys.all, context.previousUsers)
     },

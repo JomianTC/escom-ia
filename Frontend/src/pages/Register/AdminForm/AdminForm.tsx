@@ -28,27 +28,29 @@ export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {
       dispatch(changeState())
       return
     }
-    await createAdmin.mutateAsync(values)
-    if (createAdmin.isSuccess) {
+    await createAdmin.mutateAsync(values).then(() => {
       console.log('Admin creado')
-      return
-    }
-    console.log(values)
-  }
-  useEffect(() => {
-    if (createAdmin.isSuccess) {
       navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
-    }
+    }).catch(() => {
+      console.log('Oops something went wrong')
+    })
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      createAdmin.reset()
+    }, 5000)
     return () => {
-      console.log('Admin creado')
+      clearTimeout(timer)
     }
-  }, [createAdmin.isSuccess])
+  }, [])
 
   const handleBack = () => { }
   const canAdvance = false
   const canGoBack = false
   return (
     <>
+      {createAdmin.isError && <div>Hubo un error</div>}
     <Formik
         initialValues={adminValues}
         validateOnChange={false}

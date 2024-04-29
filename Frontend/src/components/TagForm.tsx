@@ -25,7 +25,7 @@ export default function TagForm ({ children }: { children: React.ReactNode }) {
     }}
     validationSchema={tagCreateShecma}
 >
-    {({ handleSubmit, resetForm }) => (
+    {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit} className='flex flex-col md:flex-row gap-4 h-full  '>
             <MyTextInput label="Tag" name="nombre" type="text" placeholder="Agrega un nuevo tag..." className='mt-4'/>
             <button type='submit' className='px-4 py-1 border-4 border-accent_200 h-min self-center'>Crear</button>

@@ -10,13 +10,13 @@ export function Home () {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const handleRedirect = (route: VALID_ROUTES) => {
-    dispatch(setSession({ rol: LEVEL_ACCESS.ADMIN }))
+    dispatch(setSession({ rol: LEVEL_ACCESS.INVITED }))
     navigate(`/${route}`)
   }
   return (
-        <div className="w-full h-screen relative overflow-hidden flex justify-center content-center items-center ">
+        <div className="w-full h-[calc(100vh-40px)] rselative overflow-hidden flex justify-center content-center items-center">
           <div className="relative  z-50 buttons-container flex flex-col gap-6  ">
-              <img className='w-56 drop-shadow-2xl shadow-primary_300' src="/icons/logoCompleto.png" alt="" />
+              <img className='w-56 drop-shadow-2xl shadow-primary_300 ' src="/icons/logoCompleto.webp" alt="" />
                 <button
                     onClick={() => { handleRedirect('login') }}
                     className="login-button bg-primary_100 font-bold  text-text_200 px-8 py-2 rounded-full text-3xl"

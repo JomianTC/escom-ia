@@ -5,11 +5,12 @@ import { toast } from 'react-toastify'
 import { API_URLS, procedureClient } from '../axios'
 import { proceduresQueryKeys } from './procedures-query-keys'
 
-export function useUpdateProcedure (id: string) {
+export function useUpdateProcedure (_id: string) {
   const navigate = useNavigate()
-  async function updateProcedure (procedure: Procedure) {
+  async function updateProcedure (procedure: Procedure & { requerimientos: string[] }) {
     try {
-      const { requerimientos, id, ...procedureFiltered } = procedure
+      const { requerimientos, id, estado, ...procedureFiltered } = procedure
+      console.log('Esto mando', procedureFiltered)
 
       const response = await procedureClient.put(`${API_URLS.procedures.updateProcedure}${id}`, procedureFiltered)
 
@@ -32,7 +33,7 @@ export function useUpdateProcedure (id: string) {
       navigate('/private/tramites')
       return data
     },
-    onError: (_err, procedure, context) => {
+    onError: (_err, _procedure, _context) => {
       toast.error('No se pudo actualizar el trámite')
     }
   })

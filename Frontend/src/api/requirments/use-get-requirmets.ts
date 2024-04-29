@@ -9,13 +9,18 @@ async function getAllRequirments () {
   try {
     const response = await requirmentClient.get(API_URLS.requirmentClient.getRequirments)
     const data = response.data
-    const formattedResponse = data?.requirementos.map((requirment: { nombre: string, id: string }) => {
-      return {
-        label: requirment.nombre,
-        value: requirment.id
+    console.log(data)
+
+    const formattedResponse = data?.requerimientos
+      .map((requirment: { nombre: string, id: string }) => {
+        return {
+          label: requirment.nombre,
+          // Este ES EL VALOR QUE DEBE TENER, SE CAMBIA SOLO POR LA DEMO
+          value: requirment.id
+          // value: requirment.nombre
+        }
       }
-    }
-    )
+      )
     return formattedResponse ?? defaultValue
   } catch (error) {
     console.error(error)

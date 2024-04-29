@@ -66,10 +66,12 @@ export function Profesor () {
           )
         : (<Loader/>) }
       <div className='relative'>
-        <h1 className='font-bold z-[600] relative '>
-              Comentarios
-        </h1>
-        <ReturnButton styles='right-0 top-0 z-[1000]'/>
+        <div className='flex justify-between'>
+          <h1 className='font-bold z-[600] relative '>
+                Comentarios
+          </h1>
+          <ReturnButton styles='right-0 top-0 z-[1000]'/>
+        </div>
 
         <section key={uuid()} className=' comment-section overflow-hidden relative z-[900] '>
           <div className='overflow-y-scroll grid gap-8 p-4 custom-scrollbar max-h-[640px] relative z-[600] '>

@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
   return res.sendFile(__dirname + '/index.html');
 });
 
-router.post('/upload', upload.single('file'), (req, res) => {
+router.put('/update/profile-picture', upload.single('file'), (req, res) => {
     console.log(req.file);
   return res.json({ message: 'Upload success' });
 });

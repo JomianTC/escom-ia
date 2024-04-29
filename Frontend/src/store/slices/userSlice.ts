@@ -17,12 +17,16 @@ const DEFAULT_INITIAL_STATE = {
   area: ''
 }
 export const USER_KEY = 'user_state'
-
+const TokenToRole: any = {
+  '8s91b88c-cfe0-2048-9488-801d35fdb529': 'admin',
+  '8a91328c-cfe0-2148-9318-801d55f7b529': 'student',
+  invitado: 'invitado'
+} as const
 const initialState = (() => {
   const state = localStorage.getItem(USER_KEY)
   if (state === null) return DEFAULT_INITIAL_STATE
   const user = JSON.parse(state)?.value
-  return (state != null) ? user : DEFAULT_INITIAL_STATE
+  return (state != null) ? { ...user, rol: TokenToRole[user.rol] } : DEFAULT_INITIAL_STATE
 })()
 interface AdminLoginAction {
   user: LoginAdminResponse
@@ -46,21 +50,21 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action) => {
+    login: (_, action) => {
       const payload: LoginAction = action.payload
       const defaultImg = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
 
       if (payload.type === 'admin') {
         const data = { ...payload.user.admin, loggedIn: true, rol: 'admin', foto_perfil: defaultImg, nombres: payload.user.admin.nombre, apellidos: '' }
         setLocalStorage('token', payload.user.token)
-        setLocalStorage(USER_KEY, data)
+        setLocalStorage(USER_KEY, { ...data, rol: '8s91b88c-cfe0-2048-9488-801d35fdb529' })
         return data
       }
 
       if (payload.type === 'student') {
         const data = { ...payload.user.usuario, loggedIn: true, rol: 'student', foto_perfil: defaultImg }
         setLocalStorage('token', payload.user.token)
-        setLocalStorage(USER_KEY, data)
+        setLocalStorage(USER_KEY, { ...data, rol: '8a91328c-cfe0-2148-9318-801d55f7b529' })
         return data
       }
 
@@ -80,7 +84,8 @@ export const userSlice = createSlice({
       return DEFAULT_INITIAL_STATE
     },
     showUserInfo: (state, action) => {
-
+      console.log(state)
+      console.log(action)
     }
   }
 })

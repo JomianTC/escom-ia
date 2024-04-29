@@ -1,28 +1,36 @@
 import { type TeacherData, type TeacherFormData, type TSFixMe } from '@/types/index'
+import { getRandomAvatar } from '@/utilities/avatarURL'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import uuid from 'react-uuid'
 import { API_URLS, teacherClient } from '../axios'
 import { teacherQueryKeys } from './teachers-query-keys'
-import { toast } from 'react-toastify'
 
-const createTeacher = async (values: TeacherFormData) => {
-  const response = await teacherClient.post(API_URLS.teacherClient.createTeacher, values)
+type ValidSex = 'masculino' | 'femenino'
+
+const createTeacher = async (values: (TeacherFormData & { sexo: ValidSex })) => {
+  const { sexo, ...teacherData } = values
+  const token = JSON.parse(localStorage.getItem('token') ?? '{}')
+  console.log(token)
+  teacherClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
+  const response = await teacherClient.post(API_URLS.teacherClient.createTeacher, teacherData)
+  const { profesor } = response.data
+  const avatarURL = getRandomAvatar(sexo)
+  const profilePicture = await teacherClient.put(API_URLS.teacherClient.updateProfilePicture + profesor.id, { url: avatarURL })
+  console.log(profilePicture.data)
   return response.data
 }
 
 export function useCreateTeacher () {
-  const pageFromUrl = useLocation().search.split('=')[1] ?? 1
-
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: createTeacher,
     onMutate: async (newData: TeacherFormData) => {
       // Realizando un refetch de los comentarios para que se actualice la lista
-      await queryClient.cancelQueries({ queryKey: teacherQueryKeys.pagination(Number(pageFromUrl)) })
-      await queryClient.cancelQueries({ queryKey: teacherQueryKeys.pagination(Number(pageFromUrl)) })
+      await queryClient.cancelQueries({ queryKey: teacherQueryKeys.all })
+      await queryClient.cancelQueries({ queryKey: teacherQueryKeys.all })
       // Obteniendo los teachers que ya se tenían en cache
-      const { profesores }: { profesores: TeacherData[] } = queryClient.getQueryData(teacherQueryKeys.pagination(Number(pageFromUrl))) ?? {
+      const { profesores }: { profesores: TeacherData[] } = queryClient.getQueryData(teacherQueryKeys.all) ?? {
         profesores: []
       }
 
@@ -38,7 +46,7 @@ export function useCreateTeacher () {
         foto_perfil: 'https://randomuser.me/api/portraits'
       }
 
-      queryClient.setQueryData(teacherQueryKeys.pagination(Number(pageFromUrl)), () => {
+      queryClient.setQueryData(teacherQueryKeys.all, () => {
         profesores.unshift(mockTeacher)
         return { profesores }
       })
@@ -50,6 +58,7 @@ export function useCreateTeacher () {
       return data
     },
     onError: (_err, _, context?: TSFixMe) => {
+      toast.error('Algo salío mal')
       return context?.teachers
     },
     onSettled: () => {

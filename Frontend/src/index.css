@@ -6,6 +6,7 @@
 
 :root,
 :root[data-theme="light"] {
+    --focus-ring-color: #0e44af;
     --primary-o-100: 116 199 255;
     --primary_100: #74c7ff;
     --primary_200: #5596d5;
@@ -140,10 +141,14 @@ body {
     z-index: -10000;
 }
 
-#root.open main section {
-    /* display: none; */
-    /* overflow: hidden; */
+button:focus, 
+button:focus-visible,
+button:focus-within {
+    outline: 2px solid var(--primary_100) !important;
+    border-radius: 0.4rem;
+    outline-offset: 2px;
 }
+
 #root.open main {
     position: relative;
     /* z-index: -500000; */
@@ -316,8 +321,8 @@ input[type="text"].input-procedure {
     text-shadow: 1px 1px 6px var(--black);
 }
 
-.profesor__card div a h2:hover {
-    filter: drop-shadow(1px 1px 2px var(--primary_100));
+.profesor__card div a:hover h2 {
+    color: var(--accent_200);
 }
 
 .profesor__card div p {
@@ -538,6 +543,14 @@ input[type="text"].input-procedure {
         transition-delay: 0.2s;
         opacity: 1;
     }
+
+    nav ul.active a:nth-child(6) {
+        transform: translateY(-480px);
+        transition-delay: 0.4s;
+        opacity: 1;
+    }
+
+
     nav ul .profile-icon {
         opacity: 0;
         transition: transform 0.25s, opacity 0.25s;
@@ -559,7 +572,7 @@ input[type="text"].input-procedure {
         transition-delay: 0.1s;
     }
     nav ul.active .log-out-button {
-        transform: translateY(-420px);
+        transform: translateY(-410px);
         transition-delay: 0.2s;
         opacity: 1;
     }
@@ -634,6 +647,7 @@ li {
     opacity: 1;
 }
 
+
 .tag:nth-child(even) {
     background-color: var(--primary_300);
     color: var(--black);
@@ -642,6 +656,13 @@ li {
     background-color: var(--accent_100);
     color: var(--bg_300);
 }
+
+.tag:hover {
+    background-color: var(--accent_200);
+    color: var(--text_100);
+    font: bold;
+}
+
 
 .rs-checkbox-label {
     color: var(--text_100);

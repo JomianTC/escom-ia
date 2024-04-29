@@ -23,7 +23,7 @@ export function useTeacher () {
   // }
 
   return useQuery({
-    queryKey: teacherQueryKeys.detail(Number(id)),
+    queryKey: teacherQueryKeys.detail(id ?? ''),
     queryFn: getTeacher,
     // throwOnError: (error, query) => {
     //   if (error.response?.status === 403) {
@@ -38,6 +38,7 @@ export function useTeacher () {
     //   return count < 2
     // },
     refetchOnWindowFocus: true,
-    retryDelay: 1000
+    retryDelay: 1000,
+    staleTime: 1000 * 60 * 5 // 5 minutes
   })
 }

@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Login } from './pages/Login'
 import Private from './pages/Private/Private'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ToastContainer } from 'react-toastify'
 // LAZYLOADING DE LOGIN Y LAS PARTES PRIVADAS
 
 const queryClient = new QueryClient()
@@ -63,7 +64,8 @@ function App () {
                                     }
                                 />
                             </Route>
-                        </RoutesWithNotFound>
+                      </RoutesWithNotFound>
+                      <ToastContainer />
                     </Provider>
               </Suspense>
               <ReactQueryDevtools />

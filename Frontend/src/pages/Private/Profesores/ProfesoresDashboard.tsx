@@ -16,7 +16,8 @@ export function Profesores () {
   const { isEditMode } = useAppSelector((state) => state.ui)
   const dispatch = useAppDispatch()
 
-  const { data, isLoading, totalPages, page, handlePageChange } = useTeachers()
+  const { data, isLoading } = useTeachers()
+
   const { search, setSearch, filteredData } = useSearch({
     type: 'profesor',
     data: data?.profesores ?? []
@@ -50,16 +51,16 @@ export function Profesores () {
           <div className='flex items-center gap-6 flex-wrap'>
             <input type="text" placeholder='Profesor' value={search} onChange={(e) => { setSearch(e.target.value) }} className='text-text_accent my-6 py-1 px-4 w-full max-w-lg ' />
             <div className='grow flex justify-end  '>
-              {rol === LEVEL_ACCESS.ADMIN && (<button className='w-max px-2 py-1 bg-bg_200 rounded-full font-bold cursor-pointer hover:bg-bg_100' onClick={handleEditMode}>Editar profesores</button>)}
+            {rol === LEVEL_ACCESS.ADMIN && (<button className={`w-max px-4 py-1 bg-bg_200 rounded-full font-bold cursor-pointer border-accent_200 border-2 outline-none active:border-0  focus:border-0 border-none focus:outline-accent_200 focus-visible:outline-accent_200 ring-accent_100  ${isEditMode ? 'bg-primary_200 text-black hover:bg-primary_op_100/80' : 'hover:bg-primary_op_100/40'}` } onClick={handleEditMode}>Editar profesores</button>)}
             </div>
           </div>
-          <div className='flex flex-col items-end gap-2'>
+          {/* <div className='flex flex-col items-end gap-2'>
             <span>Mostrando página: {page} de { totalPages }</span>
             <div className="flex">
               <button className='flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700  disabled:opacity-40' onClick={() => { handlePageChange(page - 1) }} disabled={page === 1}>Anterior</button>
               <button className='flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-40 ' onClick={() => { handlePageChange(page + 1) }} disabled={page === totalPages }>Siguiente</button>
             </div>
-          </div>
+          </div> */}
         </div>
         {filteredData?.map((profesor) => (
           <ProfesorCard key={uuid()} {...profesor} detail={false}/>

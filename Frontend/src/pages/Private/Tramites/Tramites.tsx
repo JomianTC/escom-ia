@@ -5,11 +5,11 @@ import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { setProcedure } from '@/store/slices/procedureModalSlice'
 import { type Procedure, type ProcedureContent } from '@/types/api-responses'
 import { LEVEL_ACCESS } from '@/types/index'
+import { createMarkup } from '@/utilities/sanitize'
 import { useDispatch } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 export function Tramites () {
-  const { isModalOpen } = useAppSelector((state) => state.ui)
   const { rol } = useAppSelector((state) => state.auth)
   const canCreateAndEdit = rol === LEVEL_ACCESS.ADMIN
   const dispatch = useDispatch()
@@ -65,7 +65,7 @@ export function Tramites () {
               ? <NavLink to={`detalles/${procedure.tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(procedure.tramite, procedure.requerimientos) }}>{procedure.tramite.nombre}</NavLink>
               : <h1 className='text-center text-xl font-bold mb-2' >{procedure.tramite.nombre }</h1>
             }
-            <p className='text-nowrap overflow-hidden text-ellipsis'>{(procedure.tramite.descripcion).substring(0, 120)}</p>
+            <p className='text-nowrap overflow-hidden text-ellipsis' dangerouslySetInnerHTML={createMarkup(procedure.tramite.descripcion.substring(0, 140))}></p>
             <div className='flex justify-between py-4'>
               {
                 procedure.tramite.estado

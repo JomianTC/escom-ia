@@ -2,9 +2,9 @@ import { useGetUser } from '@/api/users/use-get-user'
 import { MyTextInput } from '@/components/InputText'
 import { PRIVATE_ROUTES_MODEL } from '@/models'
 import { useAppDispatch } from '@/store/hooks/useAppSelector'
-import { type ValidRoles, setSession } from '@/store/slices/authSlice'
+import { setSession } from '@/store/slices/authSlice'
 import { login } from '@/store/slices/userSlice'
-import { type LoginData } from '@/types/index'
+import { type LevelAccess, type LoginData } from '@/types/index'
 import { setLocalStorage } from '@/utilities'
 import { Form, Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +15,7 @@ export function StudentFormLogin () {
   const navigate = useNavigate()
   const userQuery = useGetUser()
 
-  async function startLogin (rol: ValidRoles, loginData: LoginData) {
+  async function startLogin (rol: LevelAccess, loginData: LoginData) {
     try {
       const data = await userQuery.mutateAsync(loginData)
 

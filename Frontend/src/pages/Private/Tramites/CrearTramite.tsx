@@ -45,8 +45,8 @@ const MyCustomCheckbox = ({ name = '', title = '' }) => {
   const { setValue } = helpers
 
   return (
-    <label htmlFor={field.name} className='flex gap-2 container_checkbox'>
-      <span>{title}</span>
+    <label htmlFor={field.name} className='flex gap-1 flex-col container_checkbox items-start justify-center'>
+      <span className='font-semibold'>{title}</span>
       <input
         type='checkbox'
         id={field.name}
@@ -90,12 +90,10 @@ export function CrearTramite () {
           validationSchema={procedureEsquema}
           onSubmit={(values, actions) => {
             console.log(values)
-
             if (isEditting) {
               updateProcedure.mutate(values as unknown as Procedure)
             } else {
               createProcedure.mutate(values as unknown as CreateProcedure)
-              console.log(new Date(values.fechaInicio))
               actions.resetForm()
             }
           }}
@@ -105,8 +103,8 @@ export function CrearTramite () {
               <ReturnButton styles='-top-10 -left-8'/>
               <MyTextInput type='text' name='nombre' label='Titulo' />
               {/* <Field name='text' component={RichTextEditor} /> */}
-              <MyCustomCheckbox name='esInformativo' title={'Es Informativo'} />
-              <div className='flex gap-2'>
+              <div className='flex flex-col  gap-1 md:flex-row '>
+                <MyCustomCheckbox name='esInformativo' title={'¿Informativo?'} />
                 <MyDatePicker name='fechaInicio' title='Fecha de Inicio' />
                 <MyDatePicker name='fechaTermino' title='Fecha de Termino' />
               </div>
@@ -129,7 +127,7 @@ export function CrearTramite () {
                   <div className='flex flex-col justify-start mt-12 sm:mt-2 '>
                     <span className='italic font-semibold mt-3'>¡Agrega links a formularios o documentos!</span>
                     <div className='flex max-w-80 overflow-x-scroll custom-scrollbar snap-mandatory'>
-                      {values.links.map((link, index) => (
+                      {values.links.map((_link, index) => (
                         <div key={index} className=" flex w-1/2 shrink-0 items-center py-2 px-2 gap-2">
                           <MyTextInput label={`Link: ${index + 1}`} name={`links.${index}`} type="text" className='input-procedure grow' />
                           <button type="button" onClick={() => remove(index)}>

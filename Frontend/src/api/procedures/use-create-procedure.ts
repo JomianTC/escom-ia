@@ -3,9 +3,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { API_URLS, procedureClient } from '../axios'
 import { proceduresQueryKeys } from './procedures-query-keys'
+import { getLocalStorage } from '@/utilities/localStorage.utlity'
 
 async function createProcedure (procedure: CreateProcedure) {
-  const { id, ...procedureInfo } = procedure
+  const token = getLocalStorage('token')
+  // console.log(token)
+  procedureClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
+  const { id, estado, ...procedureInfo } = procedure
   try {
     const response = await procedureClient.post(API_URLS.procedures.createProcedure, procedureInfo)
     const data: OneProcedureAdminResponse = response.data
@@ -31,6 +35,7 @@ export function useCreateProcedure () {
     onError: (_err, procedure, context) => {
       console.log(procedure)
       console.log(context)
+      console.log(_err)
 
       toast.error('No se pudo crear el trámite')
     }

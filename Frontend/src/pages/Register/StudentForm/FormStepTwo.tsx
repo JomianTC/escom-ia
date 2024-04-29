@@ -23,9 +23,9 @@ export const FormStepTwo = () => {
           />
           <label >
           <span>Programa Acádemico</span>
-          <Field as="select" name="color" className={'px-2 py-1 input-border mb-2 text-black'}>
+          <Field as="select" name="programa_academico" className={'px-2 py-1 input-border mb-2 text-text_100'}>
               {PROGRAMAS_ACADEMICOS.map((programa) => (
-                    <option key={programa} value={programa}>
+                    <option className='text-text_100' key={programa} value={programa}>
                         {programa}
                     </option>
               ))}

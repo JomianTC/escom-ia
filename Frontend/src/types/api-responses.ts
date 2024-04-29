@@ -71,7 +71,6 @@ export interface Procedure {
   estado: boolean
   esInformativo: boolean
   links: string[]
-  requerimientos: string[]
 }
 export interface OneProcedureUserResponse extends Procedure {
   requerimientos: string[]

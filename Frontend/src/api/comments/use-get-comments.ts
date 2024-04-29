@@ -18,13 +18,13 @@ export const useGetComments = (readyToFetch: boolean) => {
     queryFn: getAllComments,
     enabled: readyToFetch,
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
       if (lastPage.length === 0) {
         return undefined
       }
       return lastPageParam + 1
     },
-    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => {
       if (firstPageParam <= 1) {
         return undefined
       }

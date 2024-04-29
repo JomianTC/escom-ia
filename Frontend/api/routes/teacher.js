@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Profesores = require('../data/Profesores.json');
 
-const profesoresResponse = [{
+const profesoresResponse = [
+    {
         id: "0376f5be-d608-4da8-98cd-831dg255592a",
         nombre: "Edgardo Adrian Franco",
         area: "Sistemas Computacionales",
@@ -11,7 +12,7 @@ const profesoresResponse = [{
         contacto: "55123456121",
         foto_perfil: "",
         calificacion: "0.00"
-},
+    },
     {
         id: "0376f5be-d608-4da8-98cd-831de255532a",
         nombre: "Marta Rosa Cordero López",
@@ -156,12 +157,10 @@ router.get('/', function (req, res, next) {
     });
     
     res.status(200).json({
-        data:{
             profesores: profesores,
             // profesores: profesores,
             total: profesoresResponse.length
             // total: Profesores.length
-        }
     });
 });
 router.get('/:id',  function (req, res, next) {
@@ -206,7 +205,8 @@ router.post('/', async function (req, res, next) {
 router.delete('/:id', function (req, res, next) { 
     const { id } = req.params;
     console.log("Profesor eliminado", id);
-
+    const deletedTeacherIndex = profesoresResponse.findIndex(profesor => profesor.id === id);
+    profesoresResponse.splice(deletedTeacherIndex, 1);
     res.status(200).json({ mensaje: 'Profesor eliminado' });
 });
 router.put('/profile-picture/:id', function (req,res) {
@@ -221,6 +221,24 @@ router.put('/profile-picture/:id', function (req,res) {
         profesor: profesoresResponse[index].foto_perfil
     })
 
+})
+
+router.put('/:id', function (req, res, next) { 
+    const { id } = req.params;
+    console.log(id);
+    const { body } = req;
+    const { nombre, area, grado_academico, email, contacto } = body;
+    const index = profesoresResponse.findIndex(profesor => profesor.id === id);
+    profesoresResponse[index] = {
+        ...profesoresResponse[index],
+        nombre,
+        area,
+        grado_academico,
+        email,
+        contacto
+    }
+
+    res.status(200).json({ mensaje: 'Profesor actualizado', profesor: profesoresResponse[index] });
 })
 
 

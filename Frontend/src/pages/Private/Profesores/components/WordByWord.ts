@@ -2,7 +2,7 @@ import { useGetIAComment } from '@/api/ia/use-get-comment'
 import { useAskSomething } from '@/api/ia/use-get-response'
 import { useEffect, useState } from 'react'
 
-export function useWordByWord () {
+export function useWordByWord (type = 'comment') {
   const createComment = useGetIAComment()
   const getIAInstruction = useAskSomething()
   const [iaClicked, setIaClicked] = useState(false) // Nuevo estado para indicar si el botón de IA ha sido presionado
@@ -23,7 +23,8 @@ export function useWordByWord () {
             // clearInterval(interval)
             setIaClicked(false)
             setResponse('')
-            setShowingPartial(false)
+            // No debe resetearse cuando es en comentario
+            if (type === 'procedure') { setShowingPartial(false) }
             return prevResponse
           }
           return prevResponse + ' ' + nextWord

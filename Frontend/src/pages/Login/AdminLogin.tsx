@@ -2,18 +2,18 @@ import { useGetAdmin } from '@/api/users/use-get-admin'
 import { MyTextInput } from '@/components/InputText'
 import { PRIVATE_ROUTES_MODEL } from '@/models'
 import { useAppDispatch } from '@/store/hooks/useAppSelector'
-import { setSession, type ValidRoles } from '@/store/slices/authSlice'
-import { login, showUserInfo } from '@/store/slices/userSlice'
+import { setSession } from '@/store/slices/authSlice'
+import { login } from '@/store/slices/userSlice'
 import { Form, Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { administradorEsquemaRegistro } from '../Schemas'
-import { type LoginAdminResponse } from '@/types'
+import { type LevelAccess } from '@/types/index'
 
 export default function AdminLogin () {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const adminQuery = useGetAdmin()
-  const startLogin = async (rol: ValidRoles, loginData: any) => {
+  const startLogin = async (rol: LevelAccess, loginData: any) => {
     console.log(loginData)
 
     const sessionInfo = {
@@ -22,14 +22,14 @@ export default function AdminLogin () {
     }
     try {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      const data: LoginAdminResponse = await adminQuery.mutateAsync(loginData)
+      const data = await adminQuery.mutateAsync(loginData)
       dispatch(setSession(sessionInfo))
       const payload = {
         user: data,
         type: rol
       }
       dispatch(login(payload))
-      navigate(`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}`, { replace: true })
+      navigate(`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}/dashboardadmin`, { replace: true })
     } catch (error) {
       adminQuery.reset()
     }

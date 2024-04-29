@@ -1,74 +1,37 @@
-import { useFormik } from 'formik'
-import { useState } from 'react'
+import { useNavBarActions } from '@/pages/hooks/useNavBarActions'
 import { NavLink, Outlet } from 'react-router-dom'
+import { DeleteProfesorModal } from './Modal'
+import { CloseIcon, MenuIcon } from '@/components/icons/Icons'
 
 export function DashboardAdmin () {
-  const [expand, setExpand] = useState(false)
-  const handleExpand = () => {
-    setExpand(!expand)
-  }
+  const { handleToggleNavBar, showNav } = useNavBarActions()
+
   return (
-    <section className="container p-8 w-full h-full my-0 mx-auto grid gap-2 sm:gap-6 relative grid-cols-4 z-50">
-      {/* Lado preguntas recientes */}
-          <aside className={`border-4 bg-bg_200 flex flex-col  ${expand ? 'absolute w-full h-full top-0 left-0 z-[50] ' : 'hidden sm:flex '}`}>
-              <NavLink to='/' className='p-4 text-lg font-semibold border-primary_200 cursor-pointer'>
-                  Dashboard Admin </NavLink>
-              <NavLink to='profesores' className='p-4 text-lg font-semibold border-primary_200 cursor-pointer'>
-                  Profesores </NavLink>
-              <NavLink to='editarTags' className='p-4 text-lg font-semibold border-primary_200 cursor-pointer'>
-                  Tags </NavLink>
+    <section className="container p-8 w-full h-full my-0 mx-auto grid relative grid-cols-6 z-50">
+      <aside className={`flex flex-col  ${showNav ? 'fixed w-full h-full top-0 left-0 z-[50] bg-primary_op_100/60 flex justify-center glass items-center content-center' : 'hidden sm:flex '}`}>
+        <button onClick={() => { handleToggleNavBar() }} className=" block sm:hidden absolute top-0 left-0">
+            <CloseIcon styles='stroke-2 w-10 h-10 stroke-primary_100 fill-none'/>
+          </button>
+        <NavLink onClick={() => { handleToggleNavBar() }} to='profesores-editar' className={({ isActive }) => {
+          return `py-2 px-4 text-lg font-semibold text-nowrap border-primary_200 cursor-pointer sm:rounded-l-xl transition-all   ${isActive ? 'text-center uppercase border-b-4 sm:border-none sm:shadow-lg w-fit  sm:bg-primary_op_100/90 drop-shadow-2xl text-text_accent  sm:w-10/12 sm:self-end font-bold' : 'text-center sm:bg-primary_op_100/70 w-full  sm:w-1/2 font-normal text-accent_100 sm:self-end overflow-hidden'}`
+        }}>
+          Profesores </NavLink>
+        <NavLink onClick={() => { handleToggleNavBar() }} to='editarTags' className={({ isActive }) => {
+          return `py-2 px-4 text-lg font-semibold text-nowrap border-primary_200 cursor-pointer sm:rounded-l-xl transition-all sm:-mt-3   ${isActive ? 'text-center uppercase border-b-4 sm:border-none sm:shadow-lg w-fit  sm:bg-primary_op_100/90 drop-shadow-2xl text-primary_300  sm:w-10/12 sm:self-end font-bold' : 'text-center sm:bg-primary_op_100/70 w-full  sm:w-1/2 font-normal text-accent_100 sm:self-end overflow-hidden'}`
+        }}>
+          Tags </NavLink>
       </aside>
       {/* Lado chatbot */}
-      <article className="chatbot__container col-span-full sm:col-span-3  p-4 rounded-lg flex flex-col h-full justify-between glass ">
-        <header className="chatbot__header bg-primary_200 p-4 flex items-center justify-between rounded-md">
-          <h1 className="text-2xl font-bold text-white">Modifica algún tag</h1>
-          <button onClick={handleExpand} className="bg-primary_100 p-2 rounded-full block md:hidden ">
-            <img src="/icons/expand.webp" alt="expand" />
+      <article className="chatbot__container col-span-full sm:col-span-5  p-4 rounded-r-lg flex flex-col h-full glass overflow-hidden custom-scrollbar ">
+        <header className="chatbot__header p-2 flex items-center justify-between rounded-md">
+          <button onClick={() => { handleToggleNavBar() }} className=" block sm:hidden ">
+            <MenuIcon styles='stroke-2 w-10 h-10 fill-primary_200'/>
           </button>
         </header>
         <Outlet />
       </article>
+      <DeleteProfesorModal />
+      {/* <DeleteProfesorModal /> */}
     </section>
-  )
-}
-
-export const EditarTags = () => {
-  const formik = useFormik({
-    initialValues: {
-      tag: ''
-    },
-    onSubmit: async (values) => {
-      console.log(values)
-    }
-  })
-  const handleSelect = async (values: string) => {
-    await formik.setFieldValue('tag', values)
-  }
-  return (
-      <div className='grow flex flex-col mt-8'>
-          <div className='grow flex gap-2 flex-wrap justify-start items-start content-start'>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Demasiadas tareas</button>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Demasiadas tareas</button>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Demasiadas tareas</button>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Demasiadas tareas</button>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Flojo</button>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Demasiadas tareas</button>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Demasiadas tareas</button>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Flojo</button>
-              <button onClick={async () => { await handleSelect('Otro tag') }} className='tag shrink-0 rounded-lg px-2 py-1 h-fit'>Demasiadas tareas</button>
-          </div>
-            <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4 w-fit">
-            <label htmlFor="tag">Tag</label>
-            <input
-                type="text"
-                id="tag"
-                name="tag"
-                onChange={formik.handleChange}
-                value={formik.values.tag}
-                className="bg-bg_300 p-2 rounded-lg border-2 border-primary_200"
-            />
-            <button type="submit" className="bg-primary_200 p-2 rounded-lg font-bold">Enviar</button>
-            </form>
-        </div>
   )
 }

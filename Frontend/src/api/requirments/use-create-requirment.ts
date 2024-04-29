@@ -2,8 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { API_URLS, requirmentClient } from '../axios'
 import { requirmentsQueryKeys } from './requirments-query-keys'
 import { toast } from 'react-toastify'
+import { getLocalStorage } from '@/utilities/localStorage.utlity'
 
 async function createRequirment (requirment: string) {
+  const token = getLocalStorage('token')
+  requirmentClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   try {
     const response = await requirmentClient.post(API_URLS.requirmentClient.createRequirment, { nombre: requirment, descripcion: '' })
     console.log(response.data)

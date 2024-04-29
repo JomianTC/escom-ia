@@ -18,7 +18,7 @@ export function useGetUser () {
     onSuccess: (data) => {
       return data
     },
-    onError: (_err, _, context?: TSFixMe) => {
+    onError: (_err, _, _context?: TSFixMe) => {
       return []
     },
     onSettled: () => {

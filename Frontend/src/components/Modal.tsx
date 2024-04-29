@@ -1,9 +1,10 @@
 import { useCreateTeacher } from '@/api/teachers/use-create-teacher'
+import { useEditTeacher } from '@/api/teachers/use-edit-teacher'
 import { profesorEsquema } from '@/pages/Schemas'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
-import { closeModal, showModal } from '@/store/slices/uiSlice'
+import { closeModal } from '@/store/slices/uiSlice'
 import { type TeacherFormData } from '@/types/index'
-import { Form, Formik } from 'formik'
+import { Field, Form, Formik } from 'formik'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { MyTextInput } from './InputText'
 
@@ -22,7 +23,7 @@ interface ModalProps {
 export default function Modal ({ children, type = 'default', open = false, trigger }: ModalProps) {
   const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(open)
-  const { changeState, isModalOpen } = useAppSelector((state) => state.ui)
+  const { changeState } = useAppSelector((state) => state.ui)
 
   const handleClose = () => {
     // if (isModalOpen) {
@@ -161,6 +162,7 @@ export function AdminInfo () {
   } = useAppSelector((state) => state.user)
   return (
     <div className='flex flex-col w-full'>
+      <img src={fotoPerfil} alt={nombres } />
       <p className='text-text_200 text-lg text-left' >
         <span className="font-bold text-text_accent block">Nombre:</span>
         {nombres}</p>
@@ -209,9 +211,33 @@ export function StudentInfo () {
   )
 }
 
-function AddTeacherForm () {
+interface MyFormValues {
+  nombre: string
+  area: string
+  grado_academico: string
+  email: string
+  contacto: string
+  sexo?: 'masculino' | 'femenino'
+}
+type Action = 'create' | 'update'
+const defaultValues: MyFormValues = {
+  nombre: 'Profesor Cordero',
+  area: 'Humanisticas',
+  grado_academico: 'Ingeniero',
+  email: 'profecordero@gmail.com',
+  contacto: 'profecordero@gmail.com',
+  sexo: 'masculino'
+}
+export function ProfesorForm ({ action = 'create', styles = '', data = defaultValues }: { action?: Action, styles?: string, data?: MyFormValues }) {
+  const initialValues: MyFormValues = { sexo: 'masculino', ...data }
   const teacher = useCreateTeacher()
-  const handleCreateTeacher = async (values: TeacherFormData) => {
+  const teacherUpdate = useEditTeacher()
+  const handleCreateTeacher = async (values: TeacherFormData & { sexo: 'masculino' | 'femenino' }) => {
+    if (action === 'update') {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      await teacherUpdate.mutateAsync(values)
+      return
+    }
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await teacher.mutateAsync(values)
   }
@@ -219,15 +245,9 @@ function AddTeacherForm () {
   const { handleClose } = useContext(ModalContext)
   return (
     <Formik
-      initialValues={{
-        nombre: 'Profesor Cordero',
-        area: 'Humanisticas',
-        grado_academico: 'Ingeniero',
-        email: 'profecordero@gmail.com',
-        contacto: 'profecordero@gmail.com'
-      }}
+      initialValues={initialValues}
       onSubmit={async (values, actions) => {
-        await handleCreateTeacher(values)
+        await handleCreateTeacher({ sexo: 'masculino', ...values })
         handleClose()
         // Reinitialize the form
         actions.resetForm()
@@ -235,13 +255,26 @@ function AddTeacherForm () {
       validationSchema={profesorEsquema}
     >
       {({ handleSubmit }) => (
-        <Form onSubmit={handleSubmit} className='mt-0 w-full px-4 flex flex-col gap-4 max-h-80 overflow-y-scroll '>
-          <MyTextInput label="Nombre" name="nombre" type="text" placeholder="Tu opinion..." />
-          <MyTextInput label="Area" name="area" type="text" placeholder="Tu opinion..." />
-          <MyTextInput label="Grado Acádemico" name="grado_academico" type="text" placeholder="Tu opinion..." />
-          <MyTextInput label="Email" name="email" type="text" placeholder="Tu opinion..." />
-          <MyTextInput label="Contacto" name="contacto" type="text" placeholder="Tu opinion..." />
-          <button type='submit' >Confirmar</button>
+        <Form onSubmit={handleSubmit} className={`mt-0 w-full px-4 flex flex-col gap-4 max-h-80 overflow-y-scroll ${styles}`}>
+          {teacherUpdate.isPending && <p>Actualizando...</p>}
+          {teacher.isPending && <p>Actualizando...</p>}
+          <MyTextInput label="Nombre" name="nombre" type="text" placeholder="Victoria Isabel Blas Pérez" />
+          <div className='flex gap-6'>
+            <label>
+                <Field type="radio" name="sexo" value="masculino" />
+                H
+              </label>
+              <label>
+                <Field type="radio" name="sexo" value="femenino" />
+                F
+              </label>
+          </div>
+
+          <MyTextInput label="Area" name="area" type="text" placeholder="Matemáticas" />
+          <MyTextInput label="Grado Acádemico" name="grado_academico" type="text" placeholder="Maestra en Ciencias" />
+          <MyTextInput label="Email" name="email" type="text" placeholder="victoria@outlook.ipn.mx" />
+          <MyTextInput label="Contacto" name="contacto" type="text" placeholder="5543456534" />
+          <button type='submit' className='white-border w-fit' >Confirmar</button>
         </Form>
       )}
     </Formik>
@@ -255,4 +288,4 @@ Modal.Form = ModalForm
 Modal.Image = ModalImageCover
 Modal.Logo = ModalLogo
 Modal.TramiteControl = TramiteControl
-Modal.Profesor = AddTeacherForm
+Modal.Profesor = ProfesorForm

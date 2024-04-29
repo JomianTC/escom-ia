@@ -28,14 +28,15 @@ const getTags = async (page = 1, limit = 10) => {
   return formattedInputData ?? defaultValue
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
-export function useTags () {
+export function useTags (limitResults = 100) {
   const [searchParams, setSearchParams] = useSearchParams()
   const [page, setPage] = useState(searchParams.get('page') ?? 1)
-  const [limit, setLimit] = useState(10)
+  const [limit, setLimit] = useState(limitResults)
 
   const { data, isLoading, isError } = useQuery({
     queryKey: tagQueryKeys.pagination(Number(page)),
-    queryFn: async () => await getTags(Number(page), limit)
+    queryFn: async () => await getTags(Number(page), limit),
+    staleTime: 1000
   })
   const handlePageChange = (page: number) => {
     if (page < 1) return

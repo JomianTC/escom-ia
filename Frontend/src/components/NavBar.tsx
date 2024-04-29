@@ -3,6 +3,7 @@ import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { LEVEL_ACCESS } from '@/types/index'
 import { NAV_ROUTES } from '@models/ROUTES'
 import { NavLink } from 'react-router-dom'
+import { DashboardIconAdmin } from './icons/Icons'
 interface NavBarProps {
   children?: React.ReactNode
 }
@@ -31,10 +32,16 @@ export function NavBar ({ children }: NavBarProps) {
         }
         {showControls && (
           <>
-          <button type='button' className='log-out-button rounded-full border-2 p-2 bg-bg_100 sm:border-none absolute bottom-0 sm:relative ' onClick={handleLogOut}>
-            <img className='w-8 h-8 sm:w-8 sm:h-8 invert' src='/icons/logout.webp' alt='logout' />
-          </button>
-          { children }
+            {rol === LEVEL_ACCESS.ADMIN
+              ? (<NavLink to={'dashboardadmin'} onClick={handleToggleNavBar} className={({ isActive }: { isActive: boolean }) => `nav__link rounded-full border-2 border-primary_300 sm:rounded-none sm:border-0 absolute bottom-0 sm:relative p-2  ${isActive ? 'active text-primary_300 font-bold ' : ''} `} end>
+                <DashboardIconAdmin styles='w-8 h-8 stroke-2 stroke-primary_100 fill-none drop-shadow-lg '/>
+            </NavLink>)
+              : (
+                  children
+                ) }
+          <button type='button' className='log-out-button rounded-full border-2 p-2 bg-accent_100 sm:border-none absolute bottom-0 sm:relative ' onClick={handleLogOut}>
+            <img className='w-8 h-8 sm:w-8 sm:h-8 -hue-rotate-180' src='/icons/logout.webp' alt='logout' />
+            </button>
           </>
         )
         }

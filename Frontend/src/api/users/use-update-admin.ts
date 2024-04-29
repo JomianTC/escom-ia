@@ -24,7 +24,7 @@ export function useUpdateAdmin () {
       toast.success('Usuario actualizado correctamente')
       return data
     },
-    onError: (_err, admin, context?: TSFixMe) => {
+    onError: (_err, _admin, context?: TSFixMe) => {
       toast.success('Algo no salio como debía')
       queryClient.setQueryData(userQueryKeys.all, context.previousUsers)
     },

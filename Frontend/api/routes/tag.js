@@ -87,4 +87,11 @@ router.post("/", function (req, res, next) {
     console.log("Se ha creado un nuevo tag", newTag);
     res.status(201).json({ mensaje: "Creado" });
 })
+router.delete("/:id", function (req, res, next) { 
+    const { id } = req.params;
+    console.log("Tag eliminado", id);
+    const deletedTagIndex = tags.findIndex(tag => tag.id === id);
+    tags.splice(deletedTagIndex, 1);
+    res.status(200).json({ mensaje: "Tag eliminado" });
+})
 module.exports = router;

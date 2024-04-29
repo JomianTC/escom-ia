@@ -11,7 +11,7 @@ export function dateFormatter (date: string) {
 export function getDate (fecha: string) {
   const date = new Date(fecha)
 
-  if (date === 'Invalid Date') {
+  if (date.toString() === 'Invalid Date') {
     return fecha
   }
 

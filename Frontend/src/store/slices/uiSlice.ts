@@ -5,7 +5,7 @@ interface Tramite {
   changeState: boolean
   deleteModalState: boolean
   isDeleteModalOpen: boolean
-  infoModal: { id: string, nombre: string }
+  infoModal: { id: string, nombre: string, type: string }
 }
 const DEFAULT_INITIAL_STATE: Tramite = {
   isModalOpen: false,
@@ -13,7 +13,7 @@ const DEFAULT_INITIAL_STATE: Tramite = {
   changeState: false,
   isDeleteModalOpen: false,
   deleteModalState: false,
-  infoModal: { id: '', nombre: '' }
+  infoModal: { id: '', nombre: '', type: '' }
 }
 
 // Retorna las acciones del objeto como un objeto
@@ -41,7 +41,7 @@ export const uiSlice = createSlice({
       return { ...state, infoModal: action.payload }
     },
     closeDeleteModal: (state) => {
-      return { ...state, isDeleteModalOpen: false }
+      return { ...state, isDeleteModalOpen: false, infoModal: { id: '', nombre: '', type: '' } }
     }
   }
 })

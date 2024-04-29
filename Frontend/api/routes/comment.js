@@ -406,7 +406,6 @@ router.get('/teacher/:id', function (req, res, next) {
     const { id } = req.params;
     console.log(id);
     const { page = 1, limit = 10 } = req.query;
-    console.log(COMMENTS);
     const commentsByTeacher = COMMENTS.filter(comment => comment.id == id)
     // const commentsByTeacher = commentsRepsonse.filter(comment => comment.id == id)
     // console.log(commentsByTeacher);
@@ -441,15 +440,24 @@ router.delete('/:id', checkHeaderToken, function (req, res, next) {
 
 router.post('/', async function (req, res, next) { 
     const { body } = req;
-    const { id, tags,comentario,id_profesor, id_usuario} = body;
+    const { id, tags,comentario,id_profesor, id_usuario,puntuacion} = body;
     const newComment = {
-        id,
-        tags,
-        comentario,
-        id_profesor,
-        id_usuario
+        id : id_profesor,
+        comentario: {
+            puntuacion: puntuacion,
+            comentario: comentario,
+            fecha: new Date().toISOString()
+        },
+        usuario: {
+            nombres: "Tony",
+            apellidos: "Mora",
+            foto_perfil: ""
+        },
+        tags : tags
     }
-    COMMENTS.push(newComment);
+    COMMENTS.unshift(newComment);
+    console.log("nuevo comentario", newComment);
+
     console.log("Se ha creado un nuevo comentario", newComment);
     res.status(201).json({ message: 'Comentario creado', comment: newComment });
 });

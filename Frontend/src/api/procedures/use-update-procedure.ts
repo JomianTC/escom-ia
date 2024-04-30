@@ -4,15 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { API_URLS, procedureClient } from '../axios'
 import { proceduresQueryKeys } from './procedures-query-keys'
+import { formatLinks } from '@/utilities/formatted-links'
 
 export function useUpdateProcedure (_id: string) {
   const navigate = useNavigate()
-  async function updateProcedure (procedure: Procedure & { requerimientos: string[] }) {
+  async function updateProcedure (procedure: Procedure & { requerimientos?: string[] }) {
     try {
+      const formattedLinks = formatLinks(procedure.links)
       const { requerimientos, id, estado, ...procedureFiltered } = procedure
-      console.log('Esto mando', procedureFiltered)
 
-      const response = await procedureClient.put(`${API_URLS.procedures.updateProcedure}${id}`, procedureFiltered)
+      const response = await procedureClient.put(`${API_URLS.procedures.updateProcedure}${id}`, { ...procedureFiltered, links: formattedLinks })
 
       const data = response.data
       return data

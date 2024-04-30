@@ -60,7 +60,6 @@ const router = express.Router();
 
 
 router.get('/', async function (req, res, next) { 
-    console.log(response.requirementos.length);
     return res.status(200).json({...response});
 });
 
@@ -74,7 +73,6 @@ router.post('/', async function (req, res, next) {
         descripcion
     }
     response.requirementos.push(newRequirement);
-    console.log("Se ha creado un nuevo requerimiento", newRequirement);
     return res.status(201).json({ message: 'Requerimiento creado', requirement: newRequirement });
 })
 

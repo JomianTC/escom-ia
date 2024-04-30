@@ -70,7 +70,10 @@ export interface Procedure {
   fechaTermino: string
   estado: boolean
   esInformativo: boolean
-  links: string[]
+  links: {
+    link: string
+    title: string
+  }
 }
 export interface OneProcedureUserResponse extends Procedure {
   requerimientos: string[]
@@ -108,7 +111,10 @@ export interface CreateProcedure {
   fechaTermino: string
   estado: boolean
   esInformativo: boolean
-  links: string[]
+  links: {
+    link: string
+    title: string
+  }
   requerimentos: string[]
 }
 

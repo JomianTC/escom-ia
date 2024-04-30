@@ -404,7 +404,6 @@ function checkHeaderToken (req, res, next) {
 
 router.get('/teacher/:id', function (req, res, next) {
     const { id } = req.params;
-    console.log(id);
     const { page = 1, limit = 10 } = req.query;
     const commentsByTeacher = COMMENTS.filter(comment => comment.id == id)
     // const commentsByTeacher = commentsRepsonse.filter(comment => comment.id == id)
@@ -456,9 +455,6 @@ router.post('/', async function (req, res, next) {
         tags : tags
     }
     COMMENTS.unshift(newComment);
-    console.log("nuevo comentario", newComment);
-
-    console.log("Se ha creado un nuevo comentario", newComment);
     res.status(201).json({ message: 'Comentario creado', comment: newComment });
 });
 

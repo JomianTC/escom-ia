@@ -66,7 +66,7 @@ export function Detalles () {
 
               {/* Si vienen links en la descripción */}
               {linksFromDesc?.map((link) => (
-                <Link key={uuid()} link={link.enlace} />
+                <Link key={uuid()} link={link.enlace} isMarkUpLink/>
               ))}
 
             </div>

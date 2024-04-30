@@ -11,7 +11,7 @@ async function getAllRequirments () {
     const data = response.data
     console.log(data)
 
-    const formattedResponse = data?.requerimientos
+    const formattedResponse = data?.requirementos
       .map((requirment: { nombre: string, id: string }) => {
         return {
           label: requirment.nombre,

@@ -8,7 +8,7 @@ const response = {
         fechaInicio: '',
         fechaTermino: '',
         esInformativo: true,
-        links: ["https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_fuera_de_la_ESCOM.JPG"],
+        links: ["https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG, Registro SS presencial", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_fuera_de_la_ESCOM.JPG, Registro SS a distancia"],
         estado: true
       },
       requerimientos: ["Boleta", "Varía dependiendo si es presencial o a distancia", "Constancia de Servicio Social", "Prestador asegurado"]
@@ -22,7 +22,7 @@ const response = {
         "fechaTermino": "",
         "estado": true,
         "esInformativo": true,
-        "links": ['https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Mensual.docx', "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Global.docx", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Reporte_de_Desempeno_o_Evaluacion.docx", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_para_la_liberacion_del_servicio_social.pdf", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_de_baja_de_servicio_social.pdf"]
+        "links": ['https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Mensual.docx, Formato reporte mensual', "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Global.docx, Formato Reporte Global", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Reporte_de_Desempeno_o_Evaluacion.docx , Formato reporte de desempeno o evaluación", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_para_la_liberacion_del_servicio_social.pdf, Proceso liberación del servicio social", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_de_baja_de_servicio_social.pdf, ¿Problemas? Consulta como realizar la baja de tu servicio social"]
       },
       "requerimientos": [
         "Reportes por periodo",
@@ -52,7 +52,7 @@ const response = {
         "fechaTermino": "2024-03-22T06:00:00.000Z",
         "estado": true,
         "esInformativo": true,
-        "links": ["https://docs.google.com/forms/d/e/1FAIpQLSdA5w0hig1SviBkxWsH19wqd4wiqDpyD9bgy4fOANAkIuMHkw/viewform?embedded=true"]
+        "links": ["https://docs.google.com/forms/d/e/1FAIpQLSdA5w0hig1SviBkxWsH19wqd4wiqDpyD9bgy4fOANAkIuMHkw/viewform?embedded=true, Formulario de Justificante Médico"]
       },
       "requerimientos": [
         "Receta médica",
@@ -77,7 +77,7 @@ const response = {
         fechaTermino: "",
         estado: true,
         esInformativo: true,
-        links: ["https://docs.google.com/forms/d/e/1FAIpQLSesltmSfnHYW-K4Yj5sLYJOfmjwweCHHLAJAJjX7bsvU86AKQ/viewform?embedded=true"]
+        links: ["https://docs.google.com/forms/d/e/1FAIpQLSesltmSfnHYW-K4Yj5sLYJOfmjwweCHHLAJAJjX7bsvU86AKQ/viewform, Formulario de Seguro de Vida y Accidentes", "https://docs.google.com/forms/d/e/1FAIpQLSesltmSfnHYW-K4Yj5sLYJOfmjwweCHHLAJAJjX7bsvU86AKQ/viewform, Formulario de Seguro de Vida y Accidentes"]
       },
       requerimientos: []
     },
@@ -89,7 +89,7 @@ const response = {
         fechaInicio: '2024-04-24T06:00:00.000Z',
         fechaTermino: '2024-04-25T06:00:00.000Z',
         esInformativo: true,
-        links: [""],
+        links: [],
         estado: true
       },
       requerimientos: [ 'b51e40dab3a9b85f4f4c268bd67f4f48' ]
@@ -112,18 +112,15 @@ function checkHeaderToken (req, res, next) {
 }
 
 router.get('/admin/findAll', async function (req, res, next) {
-  console.log(req.query);
   const withNewIdData = response.tramites.map((tramite, index) => {
     tramite.tramite.id = crypto.randomBytes(16).toString('hex');
     return tramite;
   });
-  console.log(withNewIdData);
   await waitTime(1000);
   return res.status(200).json({ tramites: withNewIdData, total: withNewIdData.length });
 });
 
 router.post('/', function (req, res, next) {
-  console.log(req.body);
   const {id,
     nombre,
     descripcion,
@@ -147,16 +144,13 @@ router.post('/', function (req, res, next) {
     requerimientos : requerimentos
   }
   console.log(newTramite);
-  console.log(links);
-  response.tramites.push(newTramite)
+  response.tramites.push({...newTramite , estado : true})
   return res.json({
     mensaje: "Creado correctamente",
   })
 })
 
 router.put('/:id', function (req, res, next) {
-  console.log(req.body);
-  console.log(req.params.id);
   const {id,
     nombre,
     descripcion,
@@ -165,7 +159,7 @@ router.put('/:id', function (req, res, next) {
     esInformativo,
     requerimentos,
     links,
-    estado, } = req.body
+    estado = true, } = req.body
   const newTramite = {
     tramite:{
     id: req.params.id,
@@ -177,6 +171,7 @@ router.put('/:id', function (req, res, next) {
     links,
     estado
     },
+  
     requerimientos : requerimentos
   }
 

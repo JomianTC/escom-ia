@@ -70,4 +70,3 @@ const elements = [
 
 const index = elements.findIndex(element => element.nombre === "Erick")
 elements.splice(index, 1,{ nombre: "Ana" })
-console.log(elements);

@@ -40,12 +40,14 @@ const ICONS = {
 
 export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
   const summaryText = getTypeOfLink(link)
+  const [toLink, tiulo] = link.split(',')
+  console.log(toLink, tiulo)
 
   return isMarkUpLink
     // eslint-disable-next-line multiline-ternary
     ? (
       <details className='cursor-pointer px-2  rounded-lg py-1 italic select-none'>
-        <summary className='px-4 py-2 rounded-lg w-fit bg-primary_op_100/20' >{contenido} <LinkIcon styles='w-6 h-6 fill-bg_300 stroke-primary_300 inline-block ml-2' /> </summary>
+        <summary className='px-4 py-2 rounded-lg w-fit bg-primary_op_100/20' >{contenido}Dame click <LinkIcon styles='w-6 h-6 fill-bg_300 stroke-primary_300 inline-block ml-2' /> </summary>
         ¿No puedes verlo?
         <a href={link} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">   Dame click</a>
         {getTypeOfLink(link) === 'doc' &&
@@ -55,31 +57,31 @@ export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
       }
       </details>
       ) : (<details className='cursor-pointer px-2  rounded-lg py-1 italic select-none'>
-      <summary className='px-2 py-2 flex flex-row-reverse items-end justify-start rounded-lg w-fit bg-primary_op_100/20 font-semibold gap-2' > {summaryText} {ICONS[summaryText] }
+      <summary className='px-2 py-2 flex flex-row-reverse items-end justify-start rounded-lg w-fit bg-primary_op_100/20 font-semibold gap-2' > {tiulo} {ICONS[summaryText] }
       </summary>
       {(link.includes('forms') || link.includes('forms')) &&
         (
           <div>
             {/* Agregando vista de google forms */}
-            <iframe src={link} width="100%" height="500px" />
+            <iframe src={toLink} width="100%" height="500px" />
             ¿No puedes verlo?
-            <a href={link} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">   Dame click</a>
+            <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">   Dame click</a>
           </div>
         )
       }
-      {getTypeOfLink(link) === 'image' &&
-        <a href={link} target='_blank' rel="noreferrer">
-          <img src={link} alt={contenido} className='w-full h-full' />
+      {getTypeOfLink(toLink) === 'image' &&
+        <a href={toLink} target='_blank' rel="noreferrer">
+          <img src={toLink} alt={contenido} className='w-full h-full' />
         </a>}
-      {getTypeOfLink(link) === 'pdf' &&
+      {getTypeOfLink(toLink) === 'pdf' &&
         <>
-          <a href={link} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Visualizar en otra ventana</a>
-          <embed src={link} type="application/pdf" width="100%" height="500px" />
+          <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Visualizar en otra ventana</a>
+          <embed src={toLink} type="application/pdf" width="100%" height="500px" />
         </>
       }
-    {getTypeOfLink(link) === 'doc' &&
+    {getTypeOfLink(toLink) === 'doc' &&
         <>
-          <a href={link} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Descargar Archivo</a>
+          <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Descargar Archivo</a>
         </>
       }
     </details>

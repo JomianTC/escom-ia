@@ -79,14 +79,12 @@ if (authorization.includes('Bearer') && authorization.includes('tony')) {
 router.post('/coment', async function (req, res, next) { 
 const { body } = req;
     const { tags } = body;
-    console.log(tags);
     return res.status(200).json({ mensaje: 'El profeso me parece bastante aburrido y sus clases no tienen mucho sentido realmente', tags: tags });
 });
 
 router.post('/coment/validate', async function (req, res, next) { 
     const { body } = req;
         const { tags } = body;
-    console.log(tags);
     await waitTime(10000);
         return res.status(200).json({valid : true});
 });
@@ -94,7 +92,6 @@ router.post('/coment/validate', async function (req, res, next) {
 router.post('/askSomething', async function (req, res, next) { 
     const { body } = req;
     const { message } = body;
-    console.log(message);
     // await waitTime(10000);
     const response = responses.find(response => response.pregunta.toLowerCase() === message.toLowerCase());
     

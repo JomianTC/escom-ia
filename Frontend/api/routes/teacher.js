@@ -130,16 +130,13 @@ function checkHeaderToken (req, res, next) {
     const { authorization } = req.headers
     if (authorization.includes('Bearer') && ( authorization.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEwMTAxMDEwMTBAYWx1bW5vLmlwbi5teCIsImlhdCI6MTcxMjc4NjE3OCwiZXhwIjoyMDcyNzgyNTc4fQ.KWQ91qRPjF2PxWXJQ6OJDf0HM2po64T1cF0lhueRYaI")
     )) {
-        console.log("Autorizazado");
         next();
     } else {
-        console.log("No autorizado");
         return res.status(403).json({ message: 'No tienes acceso' });
     }
 }
 
 router.get('/renew', function (req, res, next) {
-    console.log("Estoy renovando el token");
     res.status(200).json({ token: 'tony' });
 })
 
@@ -192,19 +189,14 @@ router.post('/', async function (req, res, next) {
     }
 
     const profesorExists = profesoresResponse.find(profesor => profesor.nombre === nombre)
-    console.log(profesorExists);
     if (profesorExists) { 
         return res.status(404).json({message: "Oops ya existe"})
     }
-
-    console.log("ID CREADO",newProfesor.id);
     profesoresResponse.push(newProfesor);
-    console.log(profesoresResponse.length);
     res.status(201).json({ message: "Creado",profesor: newProfesor });
 });
 router.delete('/:id', function (req, res, next) { 
     const { id } = req.params;
-    console.log("Profesor eliminado", id);
     const deletedTeacherIndex = profesoresResponse.findIndex(profesor => profesor.id === id);
     profesoresResponse.splice(deletedTeacherIndex, 1);
     res.status(200).json({ mensaje: 'Profesor eliminado' });
@@ -212,10 +204,8 @@ router.delete('/:id', function (req, res, next) {
 router.put('/profile-picture/:id', function (req,res) {
     const { id } = req.params
     const { url } = req.body
-    console.log("ID ACTUALIZADO",id);
     const index = profesoresResponse.findIndex(profesor => profesor.id === id)
     profesoresResponse[index].foto_perfil = url
-    console.log(profesoresResponse[index]);
     return res.status(200).json({
         mensaje: "Correcto",
         profesor: profesoresResponse[index].foto_perfil
@@ -225,7 +215,6 @@ router.put('/profile-picture/:id', function (req,res) {
 
 router.put('/:id', function (req, res, next) { 
     const { id } = req.params;
-    console.log(id);
     const { body } = req;
     const { nombre, area, grado_academico, email, contacto } = body;
     const index = profesoresResponse.findIndex(profesor => profesor.id === id);

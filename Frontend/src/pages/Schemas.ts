@@ -76,8 +76,8 @@ export const procedureEsquema = yup.object().shape({
   descripcion: yup.string().min(2).required('La descripcion es requerida'),
   fechaInicio: yup.date(),
   fechaTermino: yup.date().min(yup.ref('fechaInicio'), 'No puedes elegir una fecha anterior a la de inicio'),
-  esInformativo: yup.boolean().required('El estado es requerido'),
-  requerimentos: yup.array().min(1).required('Al menos debes seleccionar un requerimiento'),
+  // esInformativo: yup.boolean().required('El estado es requerido'),
+  requerimentos: yup.array().min(1).optional(),
   links: yup.array().optional()
 })
 

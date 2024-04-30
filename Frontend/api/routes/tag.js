@@ -72,7 +72,6 @@ router.put("/:id", function (req, res, next) {
 })
 
 router.get("/", function (req, res, next) {
-    console.log(req.query);
     res.status(200).json({ tags: tags,
     "total": 24});
 })
@@ -84,12 +83,10 @@ router.post("/", function (req, res, next) {
         id: Math.random().toString(16).slice(2),
         nombre
     }
-    console.log("Se ha creado un nuevo tag", newTag);
     res.status(201).json({ mensaje: "Creado" });
 })
 router.delete("/:id", function (req, res, next) { 
     const { id } = req.params;
-    console.log("Tag eliminado", id);
     const deletedTagIndex = tags.findIndex(tag => tag.id === id);
     tags.splice(deletedTagIndex, 1);
     res.status(200).json({ mensaje: "Tag eliminado" });

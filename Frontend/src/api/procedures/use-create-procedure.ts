@@ -4,14 +4,15 @@ import { toast } from 'react-toastify'
 import { API_URLS, procedureClient } from '../axios'
 import { proceduresQueryKeys } from './procedures-query-keys'
 import { getLocalStorage } from '@/utilities/localStorage.utlity'
+import { formatLinks } from '@/utilities/formatted-links'
 
 async function createProcedure (procedure: CreateProcedure) {
   const token = getLocalStorage('token')
-  // console.log(token)
   procedureClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
-  const { id, estado, ...procedureInfo } = procedure
+  const formattedLinks = formatLinks(procedure.links)
+  const { id, estado, links, ...procedureInfo } = procedure
   try {
-    const response = await procedureClient.post(API_URLS.procedures.createProcedure, procedureInfo)
+    const response = await procedureClient.post(API_URLS.procedures.createProcedure, { ...procedureInfo, links: formattedLinks })
     const data: OneProcedureAdminResponse = response.data
     return data
   } catch (err) {

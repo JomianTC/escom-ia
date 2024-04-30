@@ -6,7 +6,6 @@ const multer = require('multer');
 const storage = multer.diskStorage({
   destination: 'images/',
     filename: (req, file, cb) => {
-      console.log(file);
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const ext = path.extname(file.originalname);
     cb(null, file.fieldname + '-' + uniqueSuffix + ext);
@@ -20,7 +19,6 @@ router.get('/', (req, res) => {
 });
 
 router.put('/update/profile-picture', upload.single('file'), (req, res) => {
-    console.log(req.file);
   return res.json({ message: 'Upload success' });
 });
 

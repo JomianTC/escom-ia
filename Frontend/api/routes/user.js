@@ -23,8 +23,6 @@ router.get("/", function (req, res, next) {
   })
   // Aqui ya estaríamos creando una ruta para el usuario que quiere registrarse por ejemplo
   router.post("/register", function (req, res, next) {
-    console.log(req.body);
-
     return res
       .status(201)
       .json({
@@ -42,7 +40,6 @@ router.get("/", function (req, res, next) {
     });
   })
   router.post("/login", function (req, res, next) {
-    console.log(req.body);
     const data = {
       nombres: "Tony",
       boleta: "2020630319",
@@ -111,13 +108,11 @@ router.get("/", function (req, res, next) {
   })
 
   router.get('/check-auth', function (req, res, next) {
-  console.log("Estoy renovando el token");
   res.status(200).json({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEwMTAxMDEwMTBAYWx1bW5vLmlwbi5teCIsImlhdCI6MTcxMjc4NjE3OCwiZXhwIjoyMDcyNzgyNTc4fQ.KWQ91qRPjF2PxWXJQ6OJDf0HM2po64T1cF0lhueRYaI' });
   })
 router.put("/register/admin", function (req, res, next) { 
     const { body } = req;
     const { nombres, apellidos, email_academico, email_recuperacion, programa_academico, foto_perfil } = body;
-    console.log("Se ha actualizado el usuario", body);
     res.status(200).json({ mensaje: "Actualizado" });
 })
 

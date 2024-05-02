@@ -29,7 +29,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Coment.prototype, "puntuacion", void 0);
 __decorate([
-    (0, typeorm_1.Column)("varchar", { length: 255 }),
+    (0, typeorm_1.Column)("varchar", { length: 1000 }),
     __metadata("design:type", String)
 ], Coment.prototype, "comentario", void 0);
 __decorate([

@@ -115,6 +115,7 @@ export class NotificationService {
 
 			const notifications = await this.findNotification( id );
 
+
 			const notify = notifications.map( async ( notification ) => {
 
 				const subscription: CreateNotificationDto = {

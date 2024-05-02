@@ -14,7 +14,7 @@ export class Coment {
 	@Column()
 	puntuacion: number;
 
-	@Column( "varchar", { length: 255 } )
+	@Column( "varchar", { length: 1000 } )
 	comentario: string;
 
 	@Column( "date" )

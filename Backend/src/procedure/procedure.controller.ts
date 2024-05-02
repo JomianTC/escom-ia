@@ -194,9 +194,10 @@ export class ProcedureController {
 		@Param( "id", ParseUUIDPipe ) id: string,
 		@Body() updateProcedureDto: UpdateProcedureDto
 	){
-		
+		console.log( id );
 		const estado = await this.procedureService.update( id, updateProcedureDto );
 		const { mensaje } = await this.procedureService.updateDate( id, updateProcedureDto );
+
 
 		if ( estado && mensaje !== "X" )
 			await this.notificationService.sendNotification( id, "Modificacion de Fechas", mensaje );

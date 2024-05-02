@@ -19,8 +19,9 @@ export class CreateProcedureDto {
 	@IsBoolean()
 	@IsOptional()
 	esInformativo: boolean;
-
+	
 	@IsBoolean()
+	@IsOptional()
 	estado: boolean;
 
 	@IsArray()

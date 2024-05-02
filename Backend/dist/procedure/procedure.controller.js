@@ -112,6 +112,7 @@ let ProcedureController = class ProcedureController {
         return { mensaje: "Permisos revocados correctamente" };
     }
     async update(id, updateProcedureDto) {
+        console.log(id);
         const estado = await this.procedureService.update(id, updateProcedureDto);
         const { mensaje } = await this.procedureService.updateDate(id, updateProcedureDto);
         if (estado && mensaje !== "X")

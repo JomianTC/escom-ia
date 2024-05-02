@@ -35,6 +35,7 @@ let GptAiService = class GptAiService {
             return { mensaje: responseGTP };
         }
         catch (error) {
+            console.log(error);
             (0, handle_errors_1.HandleErrors)(error);
         }
     }

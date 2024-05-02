@@ -44,7 +44,9 @@ export class GptAiService {
 
 			return { mensaje: responseGTP };
 			
-		} catch ( error ) { HandleErrors( error ); }
+		} catch ( error ) { 
+			console.log( error );
+			HandleErrors( error ); }
 	}
 	
 	async askSomething( createGptAiDto: CreateGptAiDto, procedures: ProcedureReq ) {

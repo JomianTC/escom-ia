@@ -1,10 +1,10 @@
 import { API_URLS, procedureClient } from '@/api'
+import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { type AllProceduresAdminResponse } from '@/types/api-responses'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { proceduresQueryKeys } from './procedures-query-keys'
-import { getLocalStorage } from '@/utilities/localStorage.utlity'
 
 const placeHolderProcedures: AllProceduresAdminResponse = {
   tramites: [{
@@ -16,7 +16,10 @@ const placeHolderProcedures: AllProceduresAdminResponse = {
       fechaInicio: '',
       fechaTermino: '',
       esInformativo: true,
-      links: ['https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG', 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_fuera_de_la_ESCOM.JPG'],
+      links: {
+        link: 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG',
+        title: 'Registro de SS presencial dentro de la ESCOM'
+      },
       estado: true
     },
     requerimientos: ['Boleta', 'Varía dependiendo si es presencial o a distancia', 'Constancia de Servicio Social', 'Prestador asegurado']
@@ -30,7 +33,10 @@ const placeHolderProcedures: AllProceduresAdminResponse = {
       fechaTermino: '',
       estado: true,
       esInformativo: true,
-      links: ['https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Mensual.docx', 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Global.docx', 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Reporte_de_Desempeno_o_Evaluacion.docx', 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_para_la_liberacion_del_servicio_social.pdf', 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_de_baja_de_servicio_social.pdf']
+      links: {
+        link: 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG',
+        title: 'Reporte de Servicio Social'
+      }
     },
     requerimientos: [
       'Reportes por periodo',
@@ -41,21 +47,28 @@ const placeHolderProcedures: AllProceduresAdminResponse = {
   total: 2
 }
 
-// https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
-const getProcedures = async (page = 1, limit = 100) => {
-  const token = getLocalStorage('token')
-
-  procedureClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
-  // /
-  const response = await procedureClient.get(API_URLS.procedures.getProcedures + `?page=${page}&limit=${limit}`)
-
-  const data: AllProceduresAdminResponse = response.data
-  return data
-}
 export function useProcedures (resultLimit = 10) {
   const [searchParams, setSearchParams] = useSearchParams()
   const [page, setPage] = useState(searchParams.get('page') ?? 1)
   const [limit, setLimit] = useState(resultLimit)
+  const { rol } = useAppSelector((state) => state.auth)
+
+  // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
+  const getProcedures = async (page = 1, limit = 100) => {
+    try {
+      if (rol === 'admin') {
+        const response = await procedureClient.get(API_URLS.procedures.getProceduresAdmin + `?page=${page}&limit=${limit}`)
+        const data: AllProceduresAdminResponse = response.data
+        return data
+      } else {
+        const response = await procedureClient.get(API_URLS.procedures.getProceduresUser + `?page=${page}&limit=${limit}`)
+        const data: AllProceduresAdminResponse = response.data
+        return data
+      }
+    } catch (error) {
+
+    }
+  }
 
   const { data, isLoading, isError } = useQuery({
     queryKey: proceduresQueryKeys.all,

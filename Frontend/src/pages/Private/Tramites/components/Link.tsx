@@ -41,8 +41,6 @@ const ICONS = {
 export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
   const summaryText = getTypeOfLink(link)
   const [toLink, tiulo] = link.split(',')
-  console.log(toLink, tiulo)
-
   return isMarkUpLink
     // eslint-disable-next-line multiline-ternary
     ? (

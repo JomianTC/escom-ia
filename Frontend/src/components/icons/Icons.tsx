@@ -204,3 +204,36 @@ export const CloseIcon = ({ stroke = '', color = '', styles = '' }) => {
 </svg>
   )
 }
+
+export const EditTagIcon = ({ stroke = '', color = '', styles = '' }) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`icon icon-tabler icon-tabler-calendar-time ${styles}`} viewBox="0 0 24 24" strokeWidth="1.5" stroke={ stroke} fill={color} strokeLinecap="round" strokeLinejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+  <path d="M16 5l3 3" />
+</svg>
+  )
+}
+
+export const ShareIcon = ({ stroke = '', color = '', styles = '' }) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`icon icon-tabler icon-tabler-calendar-time ${styles}`} viewBox="0 0 24 24" strokeWidth="1.5" stroke={ stroke} fill={color} strokeLinecap="round" strokeLinejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h3" />
+  <path d="M16 22l5 -5" />
+  <path d="M21 21.5v-4.5h-4.5" />
+</svg>
+  )
+}
+
+export const PowerIcon = ({ stroke = '', color = '', styles = '' }) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`icon icon-tabler icon-tabler-calendar-time ${styles}`} viewBox="0 0 24 24" strokeWidth="1.5" stroke={ stroke} fill={color} strokeLinecap="round" strokeLinejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 6a7.75 7.75 0 1 0 10 0" />
+  <path d="M12 4l0 8" />
+</svg>
+  )
+}

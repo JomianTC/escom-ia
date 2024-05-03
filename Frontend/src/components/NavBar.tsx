@@ -13,6 +13,7 @@ export function NavBar ({ children }: NavBarProps) {
   const { rol } = useAppSelector((state) => state.auth)
   const { handleLogOut, handleToggleNavBar, showNav } = useNavBarActions()
   const showControls = !(rol === LEVEL_ACCESS.INVITED)
+  const isInvited = rol === LEVEL_ACCESS.INVITED
   // const show = showNav ? 'block' : 'hidden'
   return (
     <nav className={`  sm:border-[1px] fixed sm:top-0 sm:relative sm:border-primary_100 px-4  sm:px-12 sm:py-3 my-0 mx-auto rounded-full ${''} w-fit left-0 sm:right-0 transition-all mt-8 mb-8 bottom-0  ${isModalOpen ? 'opacity-100 bg-zinc-800/10 ' : 'opacity-100 z-[100]'} `} >
@@ -45,6 +46,14 @@ export function NavBar ({ children }: NavBarProps) {
           </>
         )
         }
+        {isInvited && (
+          <li className='invited-button rounded-full border-2 p-2 bg-accent_100 text-white sm:rounded-lg  absolute bottom-0 sm:relative w-14 h-14 text-center sm:w-auto sm:h-auto hover:bg-primary_200'>
+          <NavLink to={'/home'} >
+              <span className='hidden sm:block '>Crea una cuenta</span>
+              <span className='text-3xl sm:hidden text-primary_100 font-bold drop-shadow-2xl'>L</span>
+          </NavLink>
+        </li>
+        )}
       </ul>
     </nav>
   )

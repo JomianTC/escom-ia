@@ -24,6 +24,7 @@ export function StudentFormLogin () {
         loggedIn: true,
         rol
       }
+
       dispatch(setSession(sessionInfo))
       setLocalStorage('token', data.token)
       navigate(`/${PRIVATE_ROUTES_MODEL.PRIVATE.path}`, { replace: true })

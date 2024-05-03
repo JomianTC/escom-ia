@@ -27,12 +27,12 @@ export function useDeleteTeacher () {
     mutationFn: deleteTeacher,
     mutationKey: teacherQueryKeys.delete(infoModal.id),
     onMutate: async () => {
+
+    },
+    onSuccess: async (data) => {
       await queryClient.cancelQueries({ queryKey: teacherQueryKeys.all })
       await queryClient.invalidateQueries({ queryKey: teacherQueryKeys.all })
-    },
-    onSuccess: (data) => {
       toast.success('Profesor eliminado correctamente')
-      console.log(data)
       return data
     },
     onError: (_err, _, context?: TSFixMe) => {

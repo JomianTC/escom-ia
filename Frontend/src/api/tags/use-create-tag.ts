@@ -16,7 +16,7 @@ async function createTag (tag: { nombre: string }) {
 
 export function useCreateTag () {
   const queryClient = useQueryClient()
-  const queryKey = tagQueryKeys.all
+  const queryKey = tagQueryKeys.pagination(1)
   return useMutation(
     {
       mutationFn: createTag,

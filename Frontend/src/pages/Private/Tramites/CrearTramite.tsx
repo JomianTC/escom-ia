@@ -1,7 +1,7 @@
 import { useCreateProcedure } from '@/api/procedures/use-create-procedure'
 import { useUpdateProcedure } from '@/api/procedures/use-update-procedure'
 import { useGetRequirments } from '@/api/requirments/use-get-requirmets'
-import { AddProcedure, DeleteProcedure } from '@/components/icons/Icons'
+import { AddProcedure, DeleteProcedure, EditTagIcon } from '@/components/icons/Icons'
 import { MyTextInput } from '@/components/InputText'
 import { procedureEsquema } from '@/pages/Schemas'
 import { useAppSelector } from '@/store/hooks/useAppSelector'
@@ -11,7 +11,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { useParams } from 'react-router-dom'
+import { useParams, NavLink } from 'react-router-dom'
 import { CustomSelect } from '../Profesores/components/MultipleSelect'
 import { ReturnButton } from '@/components/ReturnButton'
 import { useState } from 'react'
@@ -60,11 +60,9 @@ const MyDatePicker = ({ name = '', title = '' }) => {
 //   )
 // }
 
-export function CrearTramite () {
+export function CrearTramite ({ children }: { children?: React.ReactNode }) {
   const { id } = useParams()
   const { data, isLoading } = useGetRequirments()
-  console.log(data)
-
   const isEditting = id !== undefined
   const getTramiteToEdit = useAppSelector((state) => state.procedure)
   const [showAddLink, setShowAddLink] = useState(false)
@@ -95,7 +93,8 @@ export function CrearTramite () {
     <div className='flex overflow-y-scroll h-full py-1 w-full custom-scrollbar relative procedure-form z-[500]'>
       <div className='mx-auto'>
         <div className='flex justify-between items-center'>
-          <h1 className='font-bold text-accent_100 text-center'>{isEditting ? 'Editar' : 'Crear Nuevo'}</h1>
+          <h1 className='font-bold text-accent_100 grow '>{isEditting ? 'Editar' : 'Crear Nuevo'}</h1>
+          { children }
           <ReturnButton styles='-top-10 -left-8' />
         </div>
         <Formik initialValues={{ ...initialData }}
@@ -153,13 +152,18 @@ export function CrearTramite () {
                     {isLoading
                       ? <p>Cargando...</p>
                       : (
-                        <Field name='requerimentos'
-                          component={CustomSelect}
-                          options={data}
-                          isMulti
-                          isCreatable
-                          placeholder='Requerimientos'
-                        />
+                        <div className='flex items-center gap-6'>
+                          <Field name='requerimentos'
+                            component={CustomSelect}
+                            options={data}
+                            isMulti
+                            isCreatable
+                            placeholder='Selecciona o crea uno nuevo'
+                          />
+                          <NavLink to='/private/dashboardadmin/editarTags' className='text-primary_200 font-semibold hover:underline'>
+                            <EditTagIcon styles='w-6 h-6 fill-none stroke-primary_300  hover:stroke-primary_100 inline-block' />
+                          </NavLink>
+                        </div>
                         )}
                     <Field name="descripcion">
                       {({ field }: FieldProps) => <ReactQuill placeholder='Los 2 primeros renglones son los que se muestran en la ventana anterior. ¡Hazlos llamativos!' value={field.value} onChange={field.onChange(field.name)} className='h-36 mb-4' />}

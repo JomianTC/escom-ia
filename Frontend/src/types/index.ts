@@ -54,6 +54,7 @@ export interface TeacherFormData {
 export interface TeacherData extends TeacherFormData {
   id: string
   foto_perfil: string
+  calificacion: number
 }
 export type Tag = {
   id: string

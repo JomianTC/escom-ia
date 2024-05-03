@@ -545,6 +545,7 @@ input[type="text"].input-procedure {
     }
 
     nav ul.active a:nth-child(6) {
+        background-color: red;
         transform: translateY(-480px);
         transition-delay: 0.4s;
         opacity: 1;
@@ -571,10 +572,20 @@ input[type="text"].input-procedure {
         transition: transform 0.25s, opacity 0.25s;
         transition-delay: 0.1s;
     }
-    nav ul.active .log-out-button {
+    nav ul.active .log-out-button,
+    nav ul.active .invited-button {
         transform: translateY(-410px);
         transition-delay: 0.2s;
         opacity: 1;
+    }
+
+    .invited-button {
+        background-color: var(--accent_200);
+        border: 2px solid var(--primary_300);
+    }
+
+    .invited-button span:nth-child(2){
+        filter: drop-shadow(1px 1px 0.1rem var(--primary_300));
     }
 
     nav ul.active li:not(:has(a.active)) {
@@ -954,5 +965,46 @@ background: linear-gradient(    to bottom,
     100% {
         box-shadow: 0 0 0 13px var(--bg_300);
         rotate: 0;
+    }
+}
+
+.response--loader {
+    position: relative;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.response--loader span {
+    padding-top: 1px;
+    margin-top: 4px;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--accent_200) !important;
+    background: var(--primary_200);
+    border-radius: 50%;
+    display: inline-block;
+    @screen md {
+        width: 16px;
+        height: 16px;
+    }
+}
+.response--loader span:nth-child(1) {
+    animation: loader 1.2s 0.2s infinite alternate;
+}
+.response--loader span:nth-child(2) {
+    animation: loader 1.5s 0.4s infinite alternate;
+}
+.response--loader span:nth-child(3) {
+    animation: loader 1.8s 0.6s infinite alternate;
+}
+
+@keyframes loader {
+    0% {
+        transform: scale(0) translateY(-2px);
+    }
+    100% {
+        transform: scale(1) translateY(-2px);
     }
 }

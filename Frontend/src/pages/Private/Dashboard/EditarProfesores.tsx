@@ -29,7 +29,7 @@ export const EditarProfesores = () => {
         <div className='grow flex gap-2 flex-wrap justify-start items-start content-start h-full overflow-y-scroll custom-scrollbar'>
           <header className='w-full flex'>
             <h3 className='text-lg grow font-semibold  text-primary_200 bg-primary_op_100/20 px-4 py-1 '>Selecciona un Profesor para actualizar</h3>
-            <ReturnButton styles='sm:w-8 sm:h-8 ' />
+            <ReturnButton styles='w-8 h-8 sm:w-8 sm:h-8 ' />
           </header>
           <input type="text" placeholder='Profesor' value={search} onChange={(e) => { setSearch(e.target.value) }} className='text-text_accent mb-4 w-full max-w-lg ' />
           <div className='w-full flex gap-2 flex-wrap h-full  content-start '>

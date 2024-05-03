@@ -14,7 +14,6 @@ const createComment = async (data: CommentStructure) => {
     if (validateResponse.data.valid === false) {
       throw new Error('El comentario no es válido')
     }
-    console.log('Comenario info', data)
 
     const response = await commentsClient.post(API_URLS.commentsClient.createComment, { ...data })
     const { data: commentResponse }: { data: CommentCreatedResponse } = response

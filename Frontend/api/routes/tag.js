@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const waitTime = (wait) => new Promise((resolve) => setTimeout(resolve, wait));
 /* GET users listing. */
 // Este se vuelve el home del contexto principal de cual venimos, el cual se trata de / users
 // Este archivo se encuentra en app.js
@@ -76,13 +76,17 @@ router.get("/", function (req, res, next) {
     "total": 24});
 })
 
-router.post("/", function (req, res, next) { 
+router.post("/", async function (req, res, next) { 
+    console.log(req.headers);
     const { body } = req;
     const { nombre } = body;
+    console.log(nombre);
+    await waitTime(6000);
     const newTag = {
         id: Math.random().toString(16).slice(2),
         nombre
     }
+    tags.push(newTag);
     res.status(201).json({ mensaje: "Creado" });
 })
 router.delete("/:id", function (req, res, next) { 

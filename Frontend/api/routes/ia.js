@@ -91,9 +91,11 @@ router.post('/coment/validate', async function (req, res, next) {
     
 router.post('/askSomething', async function (req, res, next) { 
     const { body } = req;
-    const { message } = body;
+    const { consulta } = body;
+    console.log(consulta);
+
     // await waitTime(10000);
-    const response = responses.find(response => response.pregunta.toLowerCase() === message.toLowerCase());
+    const response = responses.find(response => response.pregunta.toLowerCase() === consulta[consulta.length - 1].toLowerCase());
     
     if (!response) { 
         return res.status(200).json({ mensaje: 'Oops aún no cuento con esa información, ayudame a saber más' });

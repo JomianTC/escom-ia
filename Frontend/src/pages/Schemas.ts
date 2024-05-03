@@ -63,7 +63,7 @@ export const administradorEsquema = yup.object().shape({
 })
 
 export const administradorEsquemaRegistro = yup.object().shape({
-  identificador: yup.string().min(10).required('El identificador es requerido'), email: yup.string().email().required('El email es requerido')
+  identificador: yup.string().min(3).required('El identificador es requerido'), email: yup.string().email().required('El email es requerido')
 })
 
 export const comentarioEsquema = yup.object().shape({
@@ -92,5 +92,14 @@ export const requirementEsquema = yup.object().shape({
 })
 
 export const tagCreateShecma = yup.object().shape({
-  nombre: yup.string().min(2).required('El nombre es requerido')
+  nombre: yup.string().min(2, 'Al menos debe tener 2 caracteres').trim().required('El nombre es requerido')
+})
+
+export const tagCreateSchemaAndEdit = yup.object().shape({
+  tag: yup.string().min(2, 'Al menos debe tener 2 caracteres').trim().required('El nombre es requerido')
+})
+
+export const updateSchema = yup.object().shape({
+  label: yup.string().required('Debes selccionar algún valor de la lista'),
+  nombre: yup.string().trim().min(2, 'Debes contar con un mínimo de 2 carácteres').required('Un nuevo valor es requerido')
 })

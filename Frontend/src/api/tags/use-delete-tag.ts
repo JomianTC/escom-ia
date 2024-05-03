@@ -4,6 +4,9 @@ import { toast } from 'react-toastify'
 import { tagQueryKeys } from './tags-query-keys'
 
 async function deleteTag (id: string) {
+  const token = JSON.parse(localStorage.getItem('token') ?? '{}')
+  console.log(token)
+  tagsClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   try {
     const response = await tagsClient.delete(API_URLS.tagClient.deleteTag + id)
     return response.data
@@ -32,8 +35,11 @@ export function useDeleteTag () {
       toast.error('Error al eliminar tag')
       console.error('onError', error)
     },
-    onSettled: (data, error, variables
+    onSettled: async (data, error, variables
     ) => {
+      await queryClient.invalidateQueries({
+        queryKey: tagQueryKeys.all
+      })
       console.log('onSettled', data, error, variables)
     }
 

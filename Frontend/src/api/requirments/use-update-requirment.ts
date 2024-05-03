@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
-import { tagsClient } from '../axios'
+import { requirmentClient } from '../axios'
 import { API_URLS } from './../axios'
-import { tagQueryKeys } from './tags-query-keys'
+import { requirmentsQueryKeys } from './requirments-query-keys'
 
-const updateTag = async (newTag: { nombre: string, id: string }) => {
+const updateRequirement = async (newRequirement: { nombre: string, id: string }) => {
   // Call the API to update the tag
   try {
-    const { nombre } = newTag
-    const response = await tagsClient.put(API_URLS.tagClient.updateTags + newTag.id, { nombre })
+    const { nombre } = newRequirement
+    const response = await requirmentClient.put(API_URLS.requirmentClient.updateRequirments + newRequirement.id, { nombre })
     return response.data
   } catch (error) {
     console.log(error)
@@ -16,10 +16,10 @@ const updateTag = async (newTag: { nombre: string, id: string }) => {
   }
 }
 
-export function useUpdateTag () {
+export function useUpdateRequirment () {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: updateTag,
+    mutationFn: updateRequirement,
     onMutate: async (newTag) => {
       // A mutation is about to happen!
       // Optionally return a context containing data to use when rolling back
@@ -28,13 +28,13 @@ export function useUpdateTag () {
     onError: (error, _newTag, context) => {
       console.log(error)
       // An error happened!
-      toast.error('Error al actualizar el tag')
+      toast.error('Error al actualizar el dato')
       // Use the context to roll back the mutation
       return context
     },
     onSuccess: async (_data, _variables, _context) => {
-      await queryClient.invalidateQueries({ queryKey: tagQueryKeys.all })
-      toast.success('Tag actualizado')
+      await queryClient.invalidateQueries({ queryKey: requirmentsQueryKeys.all })
+      toast.success('Requisito actualizado')
       // The mutation was successful!
       // Use the context to do something with the data
     },

@@ -42,7 +42,7 @@ export function ProfesorCard ({ nombre, email, area, id = '/', detail, foto_perf
         <img
           className={'rounded-full border-4 border-primary_200 shadow-2xl  w-16 h-16'}
           src={fotoPerfil}
-          alt={nombre}
+          alt={`image-${nombre}`}
         />
         <div className={'flex flex-col leading-8 justify-around'}>
         <Link to={id} >

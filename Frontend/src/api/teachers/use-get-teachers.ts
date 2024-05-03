@@ -61,7 +61,7 @@ export function useTeachers (resultLimit = 100) {
   const { data, isLoading, isError } = useQuery({
     queryKey: teacherQueryKeys.all,
     queryFn: async () => await getTeachers(Number(page), limit),
-    staleTime: 1000 * 60 * 5, // 5 minutes,
+    staleTime: 1000,
     placeholderData
   })
   const handlePageChange = (page: number) => {

@@ -29,10 +29,9 @@ export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {
       return
     }
     await createAdmin.mutateAsync(values).then(() => {
-      console.log('Admin creado')
       navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
     }).catch(() => {
-      console.log('Oops something went wrong')
+      dispatch(changeState())
     })
   }
 

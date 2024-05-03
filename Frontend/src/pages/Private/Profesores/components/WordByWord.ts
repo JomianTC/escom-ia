@@ -40,7 +40,7 @@ export function useWordByWord (type = 'comment') {
   }
   type ProcedureIA = {
     type: 'procedure'
-    values: string
+    values: string[]
   }
 
   type IAFunctionResponse = CommentIa | ProcedureIA

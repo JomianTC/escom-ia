@@ -232,7 +232,7 @@ export function ProfesorForm ({ action = 'create', styles = '', data = defaultVa
   const initialValues: MyFormValues = { sexo: 'masculino', ...data }
   const teacher = useCreateTeacher()
   const teacherUpdate = useEditTeacher()
-  const handleCreateTeacher = async (values: TeacherFormData & { sexo: 'masculino' | 'femenino' }) => {
+  const handleCreateTeacher = async (values: TeacherFormData & { sexo: 'masculino' | 'femenino', id: string, foto_perfil: string, calificacion: number }) => {
     if (action === 'update') {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       await teacherUpdate.mutateAsync(values)
@@ -246,8 +246,8 @@ export function ProfesorForm ({ action = 'create', styles = '', data = defaultVa
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={async (values, actions) => {
-        await handleCreateTeacher({ sexo: 'masculino', ...values })
+      onSubmit={async function (values, actions) {
+        await handleCreateTeacher({ sexo: 'masculino', foto_perfil: '', calificacion: 10, id: '', ...values })
         handleClose()
         // Reinitialize the form
         actions.resetForm()

@@ -6,11 +6,12 @@ import { toast } from 'react-toastify'
 
 const createUserFn = async (newUser: Student) => {
   const { foto_perfil: fotoPerfil, ...user } = newUser
+  console.log(user)
+
   try {
     const response = await apiClient.post(API_URLS.apiClient.registerUser, user)
 
     const data: StudentCreatedResponse = response.data
-    console.log(data)
     return data
   } catch (err) {
     throw new Error('Algo salio mal')

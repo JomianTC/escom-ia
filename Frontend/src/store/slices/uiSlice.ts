@@ -1,19 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
-interface Tramite {
+interface UIState {
   isModalOpen: boolean
   isEditMode: boolean
   changeState: boolean
   deleteModalState: boolean
   isDeleteModalOpen: boolean
-  infoModal: { id: string, nombre: string, type: string }
+  infoModal: { id: string, nombre: string, type: string, estado?: boolean }
+  isShareModalOpen: boolean
+  chatHistory: any[]
+  isActivateModalOpen: boolean
 }
-const DEFAULT_INITIAL_STATE: Tramite = {
+const DEFAULT_INITIAL_STATE: UIState = {
   isModalOpen: false,
   isEditMode: false,
   changeState: false,
   isDeleteModalOpen: false,
   deleteModalState: false,
-  infoModal: { id: '', nombre: '', type: '' }
+  infoModal: { id: '', nombre: '', type: '' },
+  isShareModalOpen: false,
+  chatHistory: [],
+  isActivateModalOpen: false
 }
 
 // Retorna las acciones del objeto como un objeto
@@ -42,9 +48,27 @@ export const uiSlice = createSlice({
     },
     closeDeleteModal: (state) => {
       return { ...state, isDeleteModalOpen: false, infoModal: { id: '', nombre: '', type: '' } }
+    },
+    // Share modal controls
+    openShareModal: (state) => {
+      return { ...state, isShareModalOpen: true }
+    },
+    closeShareModal: (state) => {
+      return { ...state, isShareModalOpen: false }
+    },
+    setChatHistory: (state, action) => {
+      return { ...state, chatHistory: action.payload }
+    },
+    openActivateModal: (state) => {
+      return { ...state, isActivateModalOpen: true }
+    },
+    closeActivateModal: (state) => {
+      return {
+        ...state, isActivateModalOpen: false, infoModal: { id: '', nombre: '', type: '' }
+      }
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { showModal, closeModal, setEditMode, changeState, closeDeleteModal, openDeleteModal, setInfoModal } = uiSlice.actions
+export const { showModal, closeModal, setEditMode, changeState, closeDeleteModal, openDeleteModal, setInfoModal, openShareModal, closeShareModal, setChatHistory, openActivateModal, closeActivateModal } = uiSlice.actions

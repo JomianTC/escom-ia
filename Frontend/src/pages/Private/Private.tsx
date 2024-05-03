@@ -8,8 +8,10 @@ import { lazy } from 'react'
 import { Navigate, Route } from 'react-router-dom'
 import { Bubble } from '../Home/components/Bubble'
 import { DashboardAdmin } from './Dashboard/DashboardAdmin'
-import { EditarTags } from './Dashboard/EditarTags'
 import { EditarProfesores, EditProfesor } from './Dashboard/EditarProfesores'
+import { EditarRequerimientos } from './Dashboard/EditarRequerimientos'
+import { EditarTags } from './Dashboard/EditarTags'
+import { CreateTagComponent } from './Dashboard/components/CreateTagComponent'
 const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashboard'))
 
 export default function Private () {
@@ -33,9 +35,10 @@ export default function Private () {
           <Route element={<RoleGuard rol={'admin'} />}>
             <Route path={'dashboardadmin'} element={<DashboardAdmin />} >
             <Route path={'/dashboardadmin'} element={<h1>Perfil del administrador</h1>} />
-              <Route path={'editarTags'} element={<EditarTags/>} />
+              <Route path={'editarTags'} element={<EditarTags><CreateTagComponent/></EditarTags>} />
               <Route path={'profesores-editar'} element={<EditarProfesores/>} />
               <Route path={'profesores-editar/:id'} element={<EditProfesor/>} />
+              <Route path={'requerimientos'} element={<EditarRequerimientos/>} />
               <Route path={'*'} element={<Navigate to={'/private/dashboardadmin/editarTags'}/>} />
               </Route>
           </Route>

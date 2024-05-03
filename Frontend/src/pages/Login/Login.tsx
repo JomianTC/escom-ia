@@ -17,6 +17,7 @@ export default function Login () {
   // Si el usuario accede a la ruta de login y ya esta logueado, hacemos que se desloguee
   useEffect(() => {
     clearLocalStorage(USER_KEY)
+    clearLocalStorage('token')
     dispatch(resetUser())
     navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
   }, [])

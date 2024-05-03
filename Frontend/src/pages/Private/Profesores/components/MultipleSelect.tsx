@@ -46,10 +46,11 @@ export const CustomSelect = ({
   if (isCreatable && isMulti) {
     return (
       <CreatableSelect
-        className='max-w-[300px]'
+        className='max-w-[300px] grow'
         isMulti
         name={field.name}
-      options={options ?? defaultOptions}
+        options={options ?? defaultOptions}
+        placeholder={placeholder}
       value={getValue()}
       onChange={onChange}
       onBlur={field.onBlur}
@@ -73,7 +74,7 @@ export const CustomSelect = ({
   } else {
     return (
             <Select
-                className="react-select-container"
+                className="react-select-container w-full grow"
                 classNamePrefix="react-select"
                 name={field.name}
                 value={getValue()}

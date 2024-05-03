@@ -3,18 +3,21 @@ import Loader from '@/components/Loader'
 import { useSearch } from '@/pages/hooks/useSearch'
 import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { setProcedure } from '@/store/slices/procedureModalSlice'
+import { openActivateModal, setInfoModal } from '@/store/slices/uiSlice'
 import { type Procedure, type ProcedureContent } from '@/types/api-responses'
 import { LEVEL_ACCESS } from '@/types/index'
 import { createMarkup } from '@/utilities/sanitize'
 import { useDispatch } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { ActivateModal } from './components/Modal'
 
 export function Tramites () {
+  console.log('Tramites')
+
   const { rol } = useAppSelector((state) => state.auth)
   const canCreateAndEdit = rol === LEVEL_ACCESS.ADMIN
   const dispatch = useDispatch()
   const handleDetails = (procedure: Procedure, requerimientos: string[]) => {
-    console.log(procedure)
     dispatch(setProcedure({ ...procedure, requerimientos }))
     // dispatch(showModal())
   }
@@ -57,33 +60,43 @@ export function Tramites () {
         </article>
       </div>
       {filteredData.length > 0
-        ? filteredData.map((procedure: ProcedureContent) => (
-          <div key={procedure.tramite.id} className={`  p-2
-          self-start  white-border rounded-xl flex flex-col justify-between my-2 ${procedure.tramite.estado ? 'bg-bg_300' : 'bg-accent_100 select-none opacity-80'}`}>
-            { }
-            {procedure.tramite.estado
-              ? <NavLink to={`detalles/${procedure.tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(procedure.tramite, procedure.requerimientos) }}>{procedure.tramite.nombre}</NavLink>
-              : <h1 className='text-center text-xl font-bold mb-2' >{procedure.tramite.nombre }</h1>
+        ? filteredData.map(({ tramite, requerimientos }: ProcedureContent) => {
+          const isAvailable = tramite.estado
+          return (
+            <div key={tramite.id} className={`  p-2
+          self-start  white-border rounded-xl flex flex-col justify-between my-2 ${isAvailable ? 'bg-bg_300' : 'bg-accent_100 select-none opacity-80'}`}>
+            {isAvailable
+              ? <NavLink to={`detalles/${tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(tramite, requerimientos) }}>{tramite.nombre}</NavLink>
+              : <h1 className='text-center text-xl font-bold mb-2' >{tramite.nombre }</h1>
             }
-            <p className='text-nowrap overflow-hidden text-ellipsis' dangerouslySetInnerHTML={createMarkup(procedure.tramite.descripcion.substring(0, 140))}></p>
+            <p className='text-nowrap overflow-hidden text-ellipsis' dangerouslySetInnerHTML={createMarkup(tramite.descripcion.substring(0, 140))}></p>
             <div className='flex justify-between py-4'>
               {
-                procedure.tramite.estado
-                  ? <button className='border-4 px-4 py-1 rounded-lg font-bold' disabled={!procedure.tramite.estado} onClick={() => {
-                    handleDetails(procedure.tramite, procedure.requerimientos)
-                    handleRedirect(procedure.tramite.id)
+                isAvailable
+                  ? <button className='border-4 px-4 py-1 rounded-lg font-bold' disabled={!isAvailable} onClick={() => {
+                    handleDetails(tramite, requerimientos)
+                    handleRedirect(tramite.id)
                   }}>Detalles</button>
-                  : <button className='border-4 px-4 py-1 rounded-lg font-bold' disabled={!procedure.tramite.estado} onClick={() => {
-                    handleDetails(procedure.tramite, procedure.requerimientos)
+                  : <button className='border-4 px-4 py-1 rounded-lg font-bold' disabled={!isAvailable} onClick={() => {
+                    handleDetails(tramite, requerimientos)
                   }}>Detalles</button>
               }
-              {canCreateAndEdit && (<NavLink to={`editar/${procedure.tramite.id}` } onClick={() => { handleDetails(procedure.tramite, procedure.requerimientos) }} className='flex items-center justify-center w-fit h-fit py-2 px-3  text-white bg-primary_300 rounded-lg hover:bg-primary_400'>Editar Trámite</NavLink>)}
+              {canCreateAndEdit && (<>
+                <NavLink to={`editar/${tramite.id}`} onClick={() => { handleDetails(tramite, requerimientos) }} className='flex items-center justify-center w-fit h-fit py-2 px-3  text-white bg-primary_300 rounded-lg hover:bg-primary_400 ml-auto mr-2 '>Editar</NavLink>
+                  <button onClick={() => {
+                    dispatch(setInfoModal({ id: tramite.id, type: 'tramite', nombre: tramite.nombre, estado: tramite.estado }))
+                    dispatch(openActivateModal())
+                  }} className={`flex items-center justify-center w-fit h-fit py-2 px-3  text-white bg-primary_300 rounded-lg hover:bg-primary_400 ${isAvailable ? 'hover:bg-red-500' : 'hover:bg-primary_200 text-bold'}`}>{
+                    isAvailable ? 'Desactivar' : 'Activar'
+                  }</button>
+              </>)}
             </div>
           </div>
-        ))
+          )
+        })
         : <div className='flex items-center justify-center w-full h-24 text-lg text-gray-500'>No se encontraron trámites</div>
       }
-      {/* {isModalOpen && <ModalTramite />} */}
+    <ActivateModal />
     </section>
   )
 }

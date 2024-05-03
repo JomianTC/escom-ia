@@ -83,9 +83,7 @@ export const userSlice = createSlice({
       clearLocalStorage(USER_KEY)
       return DEFAULT_INITIAL_STATE
     },
-    showUserInfo: (state, action) => {
-      console.log(state)
-      console.log(action)
+    showUserInfo: (_state, _action) => {
     }
   }
 })

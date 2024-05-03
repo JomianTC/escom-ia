@@ -49,8 +49,6 @@ export function CommentFormikForm ({ data }: CommentFormikFormProps) {
   const { iaClicked, setIaClicked, partialResponse, showingPartial, startIASubmit, handleStateReset } = useWordByWord()
 
   const startSubmit = async (values: { comentario: string, tags: string[] | never[], puntuacion: number, id_profesor?: string }) => {
-    console.log(data)
-
     const comment: {
       id_profesor: string
       puntuacion: number

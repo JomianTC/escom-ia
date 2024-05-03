@@ -14,8 +14,6 @@ export default function AdminLogin () {
   const navigate = useNavigate()
   const adminQuery = useGetAdmin()
   const startLogin = async (rol: LevelAccess, loginData: any) => {
-    console.log(loginData)
-
     const sessionInfo = {
       loggedIn: true,
       rol

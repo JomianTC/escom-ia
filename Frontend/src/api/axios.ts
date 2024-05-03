@@ -1,8 +1,10 @@
 import axios from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import { useRefreshToken } from './users/use-refresh-token'
+import { getLocalStorage } from '@/utilities/localStorage.utlity'
 const BASE_URL = 'http://localhost:3000'
 // const BASE_URL = 'https://escom-ia.onrender.com'
+// const BASE_URL = 'https://31nkm0vc-8080.usw3.devtunnels.ms'
 export const API_URLS = {
   apiClient: {
     client: BASE_URL + '/api/auth',
@@ -88,15 +90,17 @@ export const API_URLS = {
   procedures: {
     client: BASE_URL + '/api/procedure',
     // ?page=1&limit=10
-    getProcedures: 'admin/findAll',
+    getProceduresAdmin: '/admin/findAll',
+    getProceduresUser: '',
     // +id
     getProcedure: '/',
     // +id
     updateProcedure: '/',
     createProcedure: '/',
     // +id
-    deleteProcedure: '/'
-
+    deleteProcedure: '/',
+    givePermission: 'admin/',
+    revokePermission: 'admin/'
   }
 }
 export const apiClient = axios.create({
@@ -118,42 +122,47 @@ createAuthRefreshInterceptor(teacherClient, useRefreshToken, {
 export const commentsClient = axios.create({
   baseURL: API_URLS.commentsClient.client,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
   }
 })
 export const tagsClient = axios.create({
   baseURL: API_URLS.tagClient.client,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
   }
 })
 
 export const imageClient = axios.create({
   baseURL: API_URLS.userPictureClient.client,
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data',
+    Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
   }
 })
 export const iaClient = axios.create({
   baseURL: API_URLS.ia.client,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
   }
 
 })
 export const procedureClient = axios.create({
   baseURL: API_URLS.procedures.client,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
   }
 
 })
 export const requirmentClient = axios.create({
   baseURL: API_URLS.requirmentClient.client,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
   }
-
 })
 
 export const API_METHODS = {

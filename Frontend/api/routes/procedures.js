@@ -9,7 +9,7 @@ const response = {
         fechaTermino: '',
         esInformativo: true,
         links: ["https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG, Registro SS presencial", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_fuera_de_la_ESCOM.JPG, Registro SS a distancia"],
-        estado: true
+        estado: false
       },
       requerimientos: ["Boleta", "Varía dependiendo si es presencial o a distancia", "Constancia de Servicio Social", "Prestador asegurado"]
     },
@@ -20,7 +20,7 @@ const response = {
         "descripcion": "Recopilatorio de los documentos generales para subir a la plataforma del SISS. Mantente atento al llenado de los formatos y a la fecha de entrega de los mismos, recuerda que si es a distancia <b>NO LLEVAN FIRMAS</b>. Si estan consciente de que <b>no podrás cargar el reporte posterior a los 5 días despues de tu ultima fecha valida debes enviar un correo a  <a href='mailto:servicio_social_escom@ipn.mx'></a> </b>  ",
         "fechaInicio": "",
         "fechaTermino": "",
-        "estado": true,
+        estado: true,
         "esInformativo": true,
         "links": ['https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Mensual.docx, Formato reporte mensual', "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Formato_Reporte_Global.docx, Formato Reporte Global", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Reporte_de_Desempeno_o_Evaluacion.docx , Formato reporte de desempeno o evaluación", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_para_la_liberacion_del_servicio_social.pdf, Proceso liberación del servicio social", "https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Procedimiento_de_baja_de_servicio_social.pdf, ¿Problemas? Consulta como realizar la baja de tu servicio social"]
       },
@@ -36,7 +36,7 @@ const response = {
         "descripcion": "Enlace a lista de prestatarios disponible para realizar tu servicio social. Recuerda que debes de tener en cuenta la fecha de inicio y termino de tu servicio social, así como los requerimientos de cada prestatario. Si tienes dudas, acude a la oficina de Servicio Social de la ESCOM",
         "fechaInicio": "",
         "fechaTermino": "",
-        "estado": true,
+        estado: false,
         "esInformativo": true,
         "links": ["https://serviciosocial.ipn.mx/infoServSoc/InfoServSocListaPrsttrPerf.do?cvePerfil=36"]
       },
@@ -50,7 +50,7 @@ const response = {
         "descripcion": "El siguiente formulario es únicamente para los alumnos de la Escuela Superior de Cómputo que deseen justificar su(s) falta(s) por medio de un soporte médico. NOTA: Si la fecha de la receta médica y las faltas que deseas justificar tienen más de una semana, NO PROCEDERÁ. **Las recetas médicas de servicio particular (que no sean expedidas por IMSS, ISSSTE u otro servicio médico público), deberán ser llevadas primero al servicio médico de la ESCOM con nombre, firma, sello y notas del médico para su validación y posteriormente anexarla a este formulario.** El horario deberá adjuntarse completo donde se incluya el (los) GRUPO(S), PROFESOR(ES) y DÍA (S) a justificar, de no ser así, no se elaborará el justificante. Una vez recibida la información, se elaborará el justificante y se enviará por correo a los profesores al correo institucional. Solamente nos pondremos en contacto contigo al correo que dejas de referencia, únicamente si hubiera alguna duda sobre la información proporcionada para la elaboración del mismo. SOLO SE ELABORARÁN JUSTIFICANTES POR CUESTIONES MÉDICAS (con soporte médico y validado por el servicio médico de ESCOM), ACADÉMICAS (que representes a la ESCOM o IPN en algún evento y con la invitación oficial como soporte) y POR CAUSAS DE FUERZA MAYOR (fallecimiento de familiar directo), NO SE REALIZAN JUSTIFICANTES POR CUESTIONES LABORALES Y/O PERSONALES, DEBERÁS CONSULTARLO CON EL O LOS DOCENTES Y ES A CONSIDERACIÓN DE CADA UNO.",
         "fechaInicio": "2024-02-01T06:00:00.000Z",
         "fechaTermino": "2024-03-22T06:00:00.000Z",
-        "estado": true,
+        estado: false,
         "esInformativo": true,
         "links": ["https://docs.google.com/forms/d/e/1FAIpQLSdA5w0hig1SviBkxWsH19wqd4wiqDpyD9bgy4fOANAkIuMHkw/viewform?embedded=true, Formulario de Justificante Médico"]
       },
@@ -75,7 +75,7 @@ const response = {
         `,
         fechaInicio: "",
         fechaTermino: "",
-        estado: true,
+        estado: false,
         esInformativo: true,
         links: ["https://docs.google.com/forms/d/e/1FAIpQLSesltmSfnHYW-K4Yj5sLYJOfmjwweCHHLAJAJjX7bsvU86AKQ/viewform, Formulario de Seguro de Vida y Accidentes", "https://docs.google.com/forms/d/e/1FAIpQLSesltmSfnHYW-K4Yj5sLYJOfmjwweCHHLAJAJjX7bsvU86AKQ/viewform, Formulario de Seguro de Vida y Accidentes"]
       },
@@ -90,7 +90,7 @@ const response = {
         fechaTermino: '2024-04-25T06:00:00.000Z',
         esInformativo: true,
         links: [],
-        estado: true
+        estado: false
       },
       requerimientos: [ 'b51e40dab3a9b85f4f4c268bd67f4f48' ]
     }
@@ -119,6 +119,23 @@ router.get('/admin/findAll', async function (req, res, next) {
   await waitTime(1000);
   return res.status(200).json({ tramites: withNewIdData, total: withNewIdData.length });
 });
+
+router.get('/', async function (req, res, next) {
+  const withNewIdData = response.tramites.map((tramite, index) => {
+    tramite.tramite.id = crypto.randomBytes(16).toString('hex');
+    return tramite;
+  });
+  await waitTime(1000);
+  return res.status(200).json({ tramites: withNewIdData, total: withNewIdData.length });
+});
+
+router.post('/admin/:id', async function (req, res, next) {
+  console.log(req.body);
+  const { email } = req.body;
+  const { id } = req.params;
+  console.log(email , id);
+  return res.status(200).json({ mensaje: 'El tramite ha sido eliminado', id });
+ });
 
 router.post('/', function (req, res, next) {
   const {id,
@@ -185,6 +202,14 @@ router.put('/:id', function (req, res, next) {
     mensaje: "Creado correctamente",
     id: req.params.id
   })
+})
+
+router.delete('/:id', function (req, res, next) {
+  const { id } = req.params;
+  console.log(id);
+  const deletedTramiteIndex = response.tramites.findIndex(tramite => tramite.tramite.id === id);
+  response.tramites[deletedTramiteIndex].tramite.estado = !response.tramites[deletedTramiteIndex].tramite.estado;
+  return res.status(200).json({ mensaje: 'Tramite eliminado' });
 })
 
 module.exports = router;

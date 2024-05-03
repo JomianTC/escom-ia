@@ -1,5 +1,5 @@
 const response = {
-    "requirementos": [
+    "requerimientos": [
         {
             "id": "0ee21885-715a-4527-92bc-92d31d4c093d",
             "nombre": "Nombre Completo",
@@ -74,6 +74,22 @@ router.post('/', async function (req, res, next) {
     }
     response.requirementos.push(newRequirement);
     return res.status(201).json({ message: 'Requerimiento creado', requirement: newRequirement });
+})
+
+router.put('/:id', async function (req, res, next) { 
+    const { body } = req;
+    const { nombre, descripcion } = body;
+    const { id } = req.params;
+    const index = response.requirementos.findIndex(requirement => requirement.id === id);
+    response.requirementos.splice(index, 1, { id, nombre, descripcion });
+    return res.status(200).json({ message: 'Requerimiento actualizado' });
+})
+router.delete('/:id', async function (req, res, next) { 
+    const { id } = req.params;
+    console.log(id);
+    const deletedRequirementIndex = response.requirementos.findIndex(requirement => requirement.id === id);
+    response.requirementos.splice(deletedRequirementIndex, 1);
+    return res.status(200).json({ message: 'Requerimiento eliminado' });
 })
 
 module.exports = router;

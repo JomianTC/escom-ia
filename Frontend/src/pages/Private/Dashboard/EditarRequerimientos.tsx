@@ -1,15 +1,19 @@
-import { useTags } from '@/api/tags/use-get-tags'
-import { useUpdateTag } from '@/api/tags/use-update-tag'
+import { useGetRequirments } from '@/api/requirments/use-get-requirmets'
+import { useUpdateRequirment } from '@/api/requirments/use-update-requirment'
 import { ApiLoader } from '@/components/ApiLoader'
-import { ReturnButton } from '@/components/ReturnButton'
-import { updateSchema } from '@/pages/Schemas'
+import { AdminDashboardLayout } from '@/pages/layouts/AdminDashboardLayout'
 import { useAppDispatch } from '@/store/hooks/useAppSelector'
 import { openDeleteModal, setInfoModal } from '@/store/slices/uiSlice'
 import { useFormik } from 'formik'
-import { type ReactNode, useEffect } from 'react'
-
-export const EditarTags = ({ children }: { children: ReactNode }) => {
-  const updateTag = useUpdateTag()
+import { type ReactNode } from 'react'
+type RequirmentType = {
+  value: string
+  label: string
+}
+export function EditarRequerimientos ({ children }: { children: ReactNode }) {
+  const { data: requirments } = useGetRequirments()
+  const updateRequirment = useUpdateRequirment()
+  const dispatch = useAppDispatch()
   const formik = useFormik({
     initialValues: {
       value: '',
@@ -17,46 +21,22 @@ export const EditarTags = ({ children }: { children: ReactNode }) => {
       nombre: ''
     },
     onSubmit: async (values) => {
-      await updateTag.mutateAsync({
+      await updateRequirment.mutateAsync({
         nombre: values.nombre,
         id: values.value
       }).then((_res) => {
-
-      }).finally(() => {
         formik.resetForm()
       })
-    },
-    validationSchema: updateSchema
+    }
   })
-
-  const handleSelect = async (value: string, id: string) => {
+  async function handleSelect (value: string, id: string) {
     await formik.setFieldValue('value', value)
     await formik.setFieldValue('label', id)
+    console.log(formik.values)
   }
-
-  const tags = useTags()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (formik.errors.value != null && formik.touched.nombre === true) {
-      const timeOut = setTimeout(() => {
-        formik.resetForm({
-          errors: {}
-        })
-      }, 3000)
-      return () => {
-        clearTimeout(timeOut)
-      }
-    }
-  }, [formik.errors.label])
-
   return (
-    <section className='grow flex flex-col gap-6 mt-0'>
-      <header className='w-full flex'>
-        <h3 className='text-lg grow font-semibold  text-primary_200 bg-primary_op_100/20 px-4 py-1 '>Selecciona un Tag para actualizar</h3>
-        <ReturnButton styles='w-8 h-8 sm:w-8 sm:h-8 ' />
-      </header>
-      <form onSubmit={formik.handleSubmit} className="flex flex-col sm:flex-row gap-2  sm:items-end w-full">
+      <AdminDashboardLayout title='Editar Requerimientos'>
+        <form onSubmit={formik.handleSubmit} className="flex flex-col sm:flex-row gap-2  sm:items-end w-full">
         <div className='flex flex-col'>
           <label htmlFor="label" className='font-semibold '>Tag seleccionado:</label>
           {(formik.errors.label != null && (formik.touched.nombre === true)) && <p className='text-red-600 font font-semibold inline-block '> {formik.errors.label} </p>
@@ -93,8 +73,8 @@ export const EditarTags = ({ children }: { children: ReactNode }) => {
           value={formik.values.value}
           className="bg-bg_300 py-1 rounded-lg border-2 border-primary_200"
         />
-        <button type="submit" className="px-4 py-1 mt-6 border-2 border-primary_200 font-semibold h-fit sm:self-center rounded-lg shadow-lg shadow-primary_100 disabled:opacity-60" disabled={ updateTag.isPending}>
-        {(updateTag.isPending)
+        <button type="submit" className="px-4 py-1 mt-6 border-2 border-primary_200 font-semibold h-fit sm:self-center rounded-lg shadow-lg shadow-primary_100 disabled:opacity-60" disabled={ updateRequirment.isPending}>
+        {(updateRequirment.isPending)
           ? <ApiLoader/>
           : 'Actualizar'
          }
@@ -102,20 +82,20 @@ export const EditarTags = ({ children }: { children: ReactNode }) => {
 
       </form>
       {/* Formulario de creación */}
-      {children }
+      {children}
       <div className='grow flex gap-2 flex-wrap justify-start items-start content-start h-full  overflow-y-scroll custom-scrollbar max-h-80'>
-        {tags.data?.map((tag) => (
-          <div key={tag.value} className='tag px-3 flex gap-2 py-1 rounded-lg sm:text-lg '>
-            <button onClick={async () => { await handleSelect(tag.value, tag.label) }} >{tag.label}</button>
+              {requirments?.map((requirment: RequirmentType) => (
+          <div key={requirment.value} className='tag px-3 flex gap-2 py-1 rounded-lg sm:text-lg '>
+            <button onClick={async () => { await handleSelect(requirment.value, requirment.label) }} >{requirment.label}</button>
             <button className='hover:text-primary_100 font-bold px-4'
               onClick={() => {
                 dispatch(openDeleteModal())
-                dispatch(setInfoModal({ id: tag.value, nombre: tag.label, type: 'tag' }))
+                dispatch(setInfoModal({ id: requirment.value, nombre: requirment.label, type: 'requirement' }))
               }}
             >x</button>
           </div>
-        ))}
+              ))}
       </div>
-    </section>
+          </AdminDashboardLayout>
   )
 }

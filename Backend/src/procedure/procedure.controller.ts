@@ -39,11 +39,25 @@ export class ProcedureController {
 
 			const enlaces = links.split("-----");
 			enlaces.pop();
-			
-			return { ...procedureData, links: enlaces };
+
+			const requirements = await this.reqProService.findStack( procedure );
+			return { tramite: { ...procedureData, links: enlaces }, requerimientos: requirements };
 		});
 
 		return { tramites: await Promise.all( tramites ), total };
+
+		// const fullProcedures = await Promise.all( adminProceduresFound.map( async ( procedure ) => {
+
+		// 	const { links, ...procedureData } = procedure;
+
+		// 	const enlaces = links.split("-----");
+		// 	enlaces.pop();
+
+		// 	const requirements = await this.reqProService.findStack( procedure );
+		// 	return { tramite: { ...procedureData, links: enlaces }, requerimientos: requirements };
+		// }));
+
+		// return { tramites: fullProcedures, total };
 
 		// const { procedures, total } = await this.procedureService.findAll( paginationDto );
 
@@ -194,7 +208,6 @@ export class ProcedureController {
 		@Param( "id", ParseUUIDPipe ) id: string,
 		@Body() updateProcedureDto: UpdateProcedureDto
 	){
-		console.log( id );
 		const estado = await this.procedureService.update( id, updateProcedureDto );
 		const { mensaje } = await this.procedureService.updateDate( id, updateProcedureDto );
 

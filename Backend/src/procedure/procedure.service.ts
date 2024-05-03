@@ -45,7 +45,6 @@ export class ProcedureService {
 	async findOne( id: string ) {
 		
 		try {
-			console.log(id);
 			const procedure = await this.procedureRepository.findOneBy({ id });
 
 			if ( !procedure ) 
@@ -132,7 +131,6 @@ export class ProcedureService {
 
 				if ( procedureFound && procedureFound.id !== id ) 
 					throw new BadRequestException({ mensaje: "Ya existe un trámite con ese nombre" });
-
 			}
 
 			if ( links ) {
@@ -166,7 +164,6 @@ export class ProcedureService {
 		try {
 
 			const procedure = await this.procedureRepository.findOneBy({ id });
-			console.log(procedure);
 			const newFechaInicio = new Date( fechaInicio ).toISOString().slice(0, 19).replace('T', ' ');
 			const newFechaTermino = new Date( fechaTermino ).toISOString().slice(0, 19).replace('T', ' ');
 

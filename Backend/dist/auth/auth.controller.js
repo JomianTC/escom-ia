@@ -26,7 +26,6 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     loginUser(loginUserDto) {
-        console.log(loginUserDto);
         return this.authService.loginUser(loginUserDto);
     }
     registerUser(registerUserDto) {

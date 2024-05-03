@@ -41,7 +41,8 @@ let ProcedureController = class ProcedureController {
             const { links, ...procedureData } = procedure;
             const enlaces = links.split("-----");
             enlaces.pop();
-            return { ...procedureData, links: enlaces };
+            const requirements = await this.reqProService.findStack(procedure);
+            return { tramite: { ...procedureData, links: enlaces }, requerimientos: requirements };
         });
         return { tramites: await Promise.all(tramites), total };
     }
@@ -112,7 +113,6 @@ let ProcedureController = class ProcedureController {
         return { mensaje: "Permisos revocados correctamente" };
     }
     async update(id, updateProcedureDto) {
-        console.log(id);
         const estado = await this.procedureService.update(id, updateProcedureDto);
         const { mensaje } = await this.procedureService.updateDate(id, updateProcedureDto);
         if (estado && mensaje !== "X")

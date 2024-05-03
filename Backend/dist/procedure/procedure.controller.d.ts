@@ -16,16 +16,19 @@ export declare class ProcedureController {
     constructor(procedureService: ProcedureService, reqProService: RequirementProcedureService, userService: UserService, adminProService: AdminProcedureService, notificationService: NotificationService);
     findAll(paginationDto: PaginationDto): Promise<{
         tramites: {
-            links: string[];
-            id: string;
-            nombre: string;
-            descripcion: string;
-            fechaInicio: Date;
-            fechaTermino: Date;
-            estado: boolean;
-            esInformativo: boolean;
-            requirement_procedure: import("../requirement_procedure/entities/requirement_procedure.entity").RequirementProcedure[];
-            admin_procedure: import("../admin_procedure/entities/admin_procedure.entity").AdminProcedure[];
+            tramite: {
+                links: string[];
+                id: string;
+                nombre: string;
+                descripcion: string;
+                fechaInicio: Date;
+                fechaTermino: Date;
+                estado: boolean;
+                esInformativo: boolean;
+                requirement_procedure: import("../requirement_procedure/entities/requirement_procedure.entity").RequirementProcedure[];
+                admin_procedure: import("../admin_procedure/entities/admin_procedure.entity").AdminProcedure[];
+            };
+            requerimientos: string[];
         }[];
         total: number;
     }>;

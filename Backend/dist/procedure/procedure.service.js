@@ -44,7 +44,6 @@ let ProcedureService = class ProcedureService {
     }
     async findOne(id) {
         try {
-            console.log(id);
             const procedure = await this.procedureRepository.findOneBy({ id });
             if (!procedure)
                 throw new common_1.BadRequestException({ mensaje: "No se encontró el trámite" });
@@ -130,7 +129,6 @@ let ProcedureService = class ProcedureService {
         const { fechaInicio = null, fechaTermino = null } = updateProcedureDto;
         try {
             const procedure = await this.procedureRepository.findOneBy({ id });
-            console.log(procedure);
             const newFechaInicio = new Date(fechaInicio).toISOString().slice(0, 19).replace('T', ' ');
             const newFechaTermino = new Date(fechaTermino).toISOString().slice(0, 19).replace('T', ' ');
             if (fechaInicio === null && fechaTermino === null)

@@ -35,7 +35,7 @@ export class GptAiController {
 		@Body() createGptAiDto: CreateGptAiDto
 	){
 
-		await this.userService.findByEmail( email );
+		await this.userService.findByEmailUserAdmin( email );
 		
 		const { procedures } = await this.procedureService.findAll({ page: 1, limit: 100 });
 		const fullProcedures = await Promise.all( procedures.map( async ( procedure ) => {

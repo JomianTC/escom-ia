@@ -32,11 +32,27 @@ let UserService = class UserService {
     async findByEmail(email) {
         try {
             const userFound = await this.userRepository.findOne({
-                where: { email_academico: email }
+                where: { email_academico: email.toLowerCase() }
             });
             if (!userFound)
                 throw new common_1.BadRequestException({ mensaje: "Usuario no encontrado" });
             return userFound;
+        }
+        catch (error) {
+            (0, handle_errors_1.HandleErrors)(error);
+        }
+    }
+    async findByEmailUserAdmin(email) {
+        try {
+            const userFound = await this.userRepository.findOne({
+                where: { email_academico: email.toLowerCase() }
+            });
+            const adminFound = await this.adminRepository.findOne({
+                where: { email: email.toLowerCase() }
+            });
+            if (!userFound && !adminFound)
+                throw new common_1.BadRequestException({ mensaje: "Usuario o Administrador no encontrado" });
+            return;
         }
         catch (error) {
             (0, handle_errors_1.HandleErrors)(error);
@@ -81,7 +97,7 @@ let UserService = class UserService {
     async findByEmailAdmin(email) {
         try {
             const adminFound = await this.adminRepository.findOne({
-                where: { email }
+                where: { email: email.toLowerCase() }
             });
             if (!adminFound)
                 throw new common_1.BadRequestException({ mensaje: "Administrador no encontrado" });

@@ -12,6 +12,7 @@ export declare class UserService {
     private readonly mailerService;
     constructor(userRepository: Repository<User>, adminRepository: Repository<Administrator>, cloudinaryService: CloudinaryService, mailerService: MailerService);
     findByEmail(email: string): Promise<User>;
+    findByEmailUserAdmin(email: string): Promise<void>;
     resetPassword(email_recuperacion: string): Promise<{
         mensaje: string;
     }>;

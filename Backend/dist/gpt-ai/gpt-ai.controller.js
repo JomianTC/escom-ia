@@ -33,7 +33,7 @@ let GptAiController = class GptAiController {
         return this.gptAiService.createComent(createGptAiDto);
     }
     async askSomething(email, createGptAiDto) {
-        await this.userService.findByEmail(email);
+        await this.userService.findByEmailUserAdmin(email);
         const { procedures } = await this.procedureService.findAll({ page: 1, limit: 100 });
         const fullProcedures = await Promise.all(procedures.map(async (procedure) => {
             const requirements = await this.reqProService.findStack(procedure);

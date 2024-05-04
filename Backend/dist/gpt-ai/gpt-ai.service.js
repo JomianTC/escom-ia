@@ -50,8 +50,14 @@ let GptAiService = class GptAiService {
                 informacion += `{\n`;
                 informacion += `Tramite: ${procedure.tramite.nombre}\n`;
                 informacion += `Descripcion: ${procedure.tramite.descripcion}\n`;
-                informacion += `Fecha de inicio: ${procedure.tramite.fechaInicio.toDateString()}\n`;
-                informacion += `Fecha de Termino: ${procedure.tramite.fechaTermino.toDateString()}\n`;
+                if (procedure.tramite.fechaInicio === null && procedure.tramite.fechaTermino === null) {
+                    informacion += `Fecha de inicio: SIN FECHA\n`;
+                    informacion += `Fecha de Termino: SIN FECHA\n`;
+                }
+                else {
+                    informacion += `Fecha de inicio: ${procedure.tramite.fechaInicio.toDateString()}\n`;
+                    informacion += `Fecha de Termino: ${procedure.tramite.fechaTermino.toDateString()}\n`;
+                }
                 informacion += `Requerimientos: \n`;
                 procedure.requerimientos.forEach(requerimiento => {
                     informacion += `${requerimiento}\n`;

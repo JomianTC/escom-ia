@@ -25,13 +25,32 @@ export class UserService {
 		
 		try {
 			const userFound = await this.userRepository.findOne({ 
-				where: { email_academico: email }
+				where: { email_academico: email.toLowerCase() }
 			});
 
 			if ( !userFound )
 				throw new BadRequestException({ mensaje: "Usuario no encontrado" });
 
 			return userFound;
+
+		} catch ( error ) { HandleErrors( error ); }
+	}
+
+	async findByEmailUserAdmin( email: string ) {
+		
+		try {
+			const userFound = await this.userRepository.findOne({ 
+				where: { email_academico: email.toLowerCase() }
+			});
+
+			const adminFound = await this.adminRepository.findOne({ 
+				where: { email: email.toLowerCase() }
+			});
+
+			if ( !userFound && !adminFound )
+				throw new BadRequestException({ mensaje: "Usuario o Administrador no encontrado" });
+
+			return;
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -85,7 +104,7 @@ export class UserService {
 		try {
 
 			const adminFound = await this.adminRepository.findOne({ 
-				where: { email }
+				where: { email: email.toLowerCase() }
 			});
 
 			if ( !adminFound )

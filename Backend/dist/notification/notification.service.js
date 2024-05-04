@@ -160,7 +160,7 @@ let NotificationService = class NotificationService {
             await Promise.all(notify);
         }
         catch (error) {
-            (0, handle_errors_1.HandleErrors)(error);
+            console.log(error);
         }
     }
     async remove(userID, procedureID) {

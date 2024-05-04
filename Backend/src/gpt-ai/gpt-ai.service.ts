@@ -149,7 +149,11 @@ export class GptAiService {
 				}
 			]);
 
-			return { mensaje: responseGTP };
+			if ( responseGTP.includes( "Buen Comentario" ) )
+				return { valid: true };
+			
+			if ( responseGTP.includes( "Mal Comentario" ) )
+				return { valid: false };
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}

@@ -121,14 +121,14 @@ let ProcedureController = class ProcedureController {
         await this.reqProService.update({ id_requirements: updateProcedureDto.requerimentos, procedure });
         return { mensaje: "Trámite actualizado correctamente" };
     }
-    async remove(id, estado) {
+    async remove(id) {
         const procedure = await this.procedureService.findOne(id);
-        const { mensaje } = await this.procedureService.remove(id, estado);
+        const { mensaje } = await this.procedureService.remove(id, !procedure.estado);
         if (!this.nonNewProcedures.includes(id)) {
             await this.notificationService.sendAllNotification(`El tramite ${procedure.nombre} ahora esta disponible`);
             this.nonNewProcedures.push(id);
         }
-        if (estado)
+        if (!procedure.estado)
             await this.notificationService.sendNotification(id, "Activacion de Tramite", `El tramite: ${procedure.nombre} esta activo`);
         else
             await this.notificationService.sendNotification(id, "Activacion de Tramite", `El tramite: ${procedure.nombre} esta inactivo`);
@@ -254,9 +254,8 @@ __decorate([
     (0, common_1.Delete)(":id"),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
-    __param(1, (0, common_1.Body)("estado")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Boolean]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ProcedureController.prototype, "remove", null);
 exports.ProcedureController = ProcedureController = __decorate([

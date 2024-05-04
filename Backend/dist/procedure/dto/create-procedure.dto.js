@@ -23,14 +23,14 @@ __decorate([
     __metadata("design:type", String)
 ], CreateProcedureDto.prototype, "descripcion", void 0);
 __decorate([
-    (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], CreateProcedureDto.prototype, "fechaInicio", void 0);
 __decorate([
-    (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], CreateProcedureDto.prototype, "fechaTermino", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)(),

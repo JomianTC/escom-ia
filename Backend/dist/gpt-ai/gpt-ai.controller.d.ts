@@ -16,6 +16,6 @@ export declare class GptAiController {
         mensaje: any;
     }>;
     validateComent(email: string, createGptAiDto: CreateGptAiDto): Promise<{
-        mensaje: any;
+        valid: boolean;
     }>;
 }

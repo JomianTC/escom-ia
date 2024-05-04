@@ -66,21 +66,30 @@ let ProcedureService = class ProcedureService {
         }
     }
     async create(createProcedureDto) {
-        const { nombre, fechaInicio = "2024-01-01", fechaTermino = "2024-01-01", links = [], ...procedureData } = createProcedureDto;
+        const { nombre, fechaInicio, fechaTermino, links = [], ...procedureData } = createProcedureDto;
         try {
             const procedureFound = await this.procedureRepository.findOneBy({
                 nombre: nombre.toLowerCase()
             });
             if (procedureFound)
                 throw new common_1.BadRequestException({ mensaje: "Ya existe un trámite con ese nombre" });
-            const newFechaInicio = new Date(fechaInicio).toISOString().slice(0, 19).replace('T', ' ');
-            const newFechaTermino = new Date(fechaTermino).toISOString().slice(0, 19).replace('T', ' ');
             let enlaces = "";
             if (links.length > 0) {
                 links.forEach((link) => {
                     enlaces += `${link}-----`;
                 });
             }
+            if (fechaInicio === "" && fechaTermino === "") {
+                const newProcedure = this.procedureRepository.create({
+                    nombre,
+                    ...procedureData,
+                    links: enlaces,
+                });
+                const procedure = await this.procedureRepository.save(newProcedure);
+                return procedure;
+            }
+            const newFechaInicio = new Date(fechaInicio).toISOString().slice(0, 19).replace('T', ' ');
+            const newFechaTermino = new Date(fechaTermino).toISOString().slice(0, 19).replace('T', ' ');
             const newProcedure = this.procedureRepository.create({
                 nombre,
                 ...procedureData,
@@ -92,6 +101,7 @@ let ProcedureService = class ProcedureService {
             return procedure;
         }
         catch (error) {
+            console.log(error);
             (0, handle_errors_1.HandleErrors)(error);
         }
     }

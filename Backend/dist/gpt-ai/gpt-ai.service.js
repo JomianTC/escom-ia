@@ -113,7 +113,10 @@ let GptAiService = class GptAiService {
                     content: `${consultaGPT}\n${comentario}`
                 }
             ]);
-            return { mensaje: responseGTP };
+            if (responseGTP.includes("Buen Comentario"))
+                return { valid: true };
+            if (responseGTP.includes("Mal Comentario"))
+                return { valid: false };
         }
         catch (error) {
             (0, handle_errors_1.HandleErrors)(error);

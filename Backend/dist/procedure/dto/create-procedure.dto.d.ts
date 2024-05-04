@@ -1,8 +1,8 @@
 export declare class CreateProcedureDto {
     nombre: string;
     descripcion: string;
-    fechaInicio: Date;
-    fechaTermino: Date;
+    fechaInicio: string;
+    fechaTermino: string;
     esInformativo: boolean;
     estado: boolean;
     links: string[];

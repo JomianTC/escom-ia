@@ -225,18 +225,17 @@ export class ProcedureController {
 	@UseGuards( AuthGuard )
 	async remove( 
 		@Param( "id", ParseUUIDPipe ) id: string,
-		@Body( "estado" ) estado: boolean
 	) {
 
 		const procedure = await this.procedureService.findOne( id );
-		const { mensaje } = await this.procedureService.remove( id, estado );
+		const { mensaje } = await this.procedureService.remove( id, !procedure.estado );
 
 		if ( !this.nonNewProcedures.includes( id ) ){
 			await this.notificationService.sendAllNotification( `El tramite ${ procedure.nombre } ahora esta disponible` );
 			this.nonNewProcedures.push( id );
 		}
 		
-		if ( estado )
+		if ( !procedure.estado )
 			await this.notificationService.sendNotification( 
 				id, "Activacion de Tramite", `El tramite: ${ procedure.nombre } esta activo` );
 		else

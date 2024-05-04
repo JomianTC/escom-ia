@@ -35,11 +35,11 @@ __decorate([
     __metadata("design:type", String)
 ], Procedure.prototype, "descripcion", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Date)
 ], Procedure.prototype, "fechaInicio", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", Date)
 ], Procedure.prototype, "fechaTermino", void 0);
 __decorate([

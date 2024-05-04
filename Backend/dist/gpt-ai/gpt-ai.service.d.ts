@@ -13,7 +13,7 @@ export declare class GptAiService {
         mensaje: any;
     }>;
     validateComent(createGptAiDto: CreateGptAiDto): Promise<{
-        mensaje: any;
+        valid: boolean;
     }>;
 }
 export {};

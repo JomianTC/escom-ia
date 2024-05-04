@@ -227,7 +227,7 @@ export class NotificationService {
 
 			// await Promise.all( notify );
 			
-		} catch ( error ) { HandleErrors( error ); }
+		} catch ( error ) { console.log(error);  }
 	}
 
 	async remove( userID: string, procedureID: string ) {

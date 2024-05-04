@@ -88,7 +88,7 @@ export declare class ProcedureController {
     update(id: string, updateProcedureDto: UpdateProcedureDto): Promise<{
         mensaje: string;
     }>;
-    remove(id: string, estado: boolean): Promise<{
+    remove(id: string): Promise<{
         mensaje: string;
     }>;
     checkPermission(email: string, id: string): Promise<{

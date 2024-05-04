@@ -14,10 +14,10 @@ export class Procedure {
 	@Column()
 	descripcion: string;
 
-	@Column()
+	@Column({ nullable: true })
 	fechaInicio: Date;
 	
-	@Column()
+	@Column({ nullable: true })
 	fechaTermino: Date;
 	
 	@Column({ default: false })

@@ -9,7 +9,7 @@ type CommentBoxProps = {
 }
 export default function CommentBox ({ comment }: CommentBoxProps) {
   const [active, setActive] = useState(false)
-  const showTags = comment.tags.length > 2
+  const showTags = comment.tags.length > 0
 
   return (
     <article key={uuid()} className='white-border flex relative h-48  text-white comment-box overflow-hidden z-30 gap-2 sm:gap-4'>

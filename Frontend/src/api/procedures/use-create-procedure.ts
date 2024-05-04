@@ -10,7 +10,7 @@ async function createProcedure (procedure: CreateProcedure) {
   const token = getLocalStorage('token')
   procedureClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   const formattedLinks = formatLinks(procedure.links)
-  const { id, estado, links, ...procedureInfo } = procedure
+  const { id, links, ...procedureInfo } = procedure
   try {
     const response = await procedureClient.post(API_URLS.procedures.createProcedure, { ...procedureInfo, links: formattedLinks })
     const data: OneProcedureAdminResponse = response.data

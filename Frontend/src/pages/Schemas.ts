@@ -58,8 +58,8 @@ export const tramiteEsquema = yup.object().shape({
 export const administradorEsquema = yup.object().shape({
   nombre: nombresSchema,
   email: yup.string().email().required('El email es requerido'),
-  area: yup.string().min(10).required('El contacto es requerido'),
-  identificador: yup.string().min(10).required('El identificador es requerido')
+  area: yup.string().min(4).required('El contacto es requerido'),
+  identificador: yup.string().min(4).required('El identificador es requerido')
 })
 
 export const administradorEsquemaRegistro = yup.object().shape({

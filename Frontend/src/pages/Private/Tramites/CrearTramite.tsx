@@ -11,7 +11,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { useParams, NavLink } from 'react-router-dom'
+import { useParams, NavLink, useNavigate } from 'react-router-dom'
 import { CustomSelect } from '../Profesores/components/MultipleSelect'
 import { ReturnButton } from '@/components/ReturnButton'
 import { useState } from 'react'
@@ -82,12 +82,12 @@ export function CrearTramite ({ children }: { children?: React.ReactNode }) {
         fechaTermino: '',
         esInformativo: false,
         requerimentos: [],
-        links: [],
-        estado: true
+        links: []
       }
 
   const createProcedure = useCreateProcedure()
   const updateProcedure = useUpdateProcedure(id ?? '')
+  const navigate = useNavigate()
 
   return (
     <div className='flex overflow-y-scroll h-full py-1 w-full custom-scrollbar relative procedure-form z-[500]'>
@@ -99,12 +99,16 @@ export function CrearTramite ({ children }: { children?: React.ReactNode }) {
         </div>
         <Formik initialValues={{ ...initialData }}
           validationSchema={procedureEsquema}
-          onSubmit={(values, actions) => {
+          onSubmit={async (values, actions) => {
             if (isEditting) {
               updateProcedure.mutate(values as unknown as Procedure)
             } else {
-              createProcedure.mutate(values as unknown as CreateProcedure)
-              actions.resetForm()
+              await createProcedure.mutateAsync(values as unknown as CreateProcedure).then(() => {
+                actions.resetForm()
+                navigate('/private/tramites')
+              }).catch((err) => {
+                console.log(err)
+              })
             }
           }}
         >

@@ -16,13 +16,13 @@ async function createTag (tag: { nombre: string }) {
 
 export function useCreateTag () {
   const queryClient = useQueryClient()
-  const queryKey = tagQueryKeys.pagination(1)
+  const queryKey = tagQueryKeys.all
   return useMutation(
     {
       mutationFn: createTag,
       onSuccess: async () => {
-        toast.success('Tag creado con éxito')
         await queryClient.invalidateQueries({ queryKey })
+        toast.success('Tag creado con éxito')
       },
       onError: (error) => {
         toast.error(error.message)

@@ -1,9 +1,10 @@
+// Invalidar query de tags, hacer una vista para mostrar comentarios que has hecho
 import axios from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import { useRefreshToken } from './users/use-refresh-token'
 import { getLocalStorage } from '@/utilities/localStorage.utlity'
-const BASE_URL = 'http://localhost:3000'
-// const BASE_URL = 'https://escom-ia.onrender.com'
+// const BASE_URL = 'http://localhost:3000'
+const BASE_URL = 'https://escom-ia.onrender.com'
 // const BASE_URL = 'https://31nkm0vc-8080.usw3.devtunnels.ms'
 export const API_URLS = {
   apiClient: {
@@ -112,7 +113,8 @@ export const apiClient = axios.create({
 export const teacherClient = axios.create({
   baseURL: API_URLS.teacherClient.client,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
   }
 })
 createAuthRefreshInterceptor(teacherClient, useRefreshToken, {

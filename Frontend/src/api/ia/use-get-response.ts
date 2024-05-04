@@ -5,7 +5,7 @@ async function useGetResponse (message: string[]) {
   try {
     console.log(message)
 
-    const response = await iaClient.post(API_URLS.ia.askSomething, { consulta: message })
+    const response = await iaClient.post(API_URLS.ia.askSomething, { consultas: message })
     const data = response.data
     return data
   } catch (error) {

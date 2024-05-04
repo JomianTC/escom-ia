@@ -2,6 +2,7 @@ import { Bubble } from '@/pages/Home/components/Bubble'
 import { useAppDispatch } from '@/store/hooks/useAppSelector'
 import { setSession } from '@/store/slices/authSlice'
 import { LEVEL_ACCESS } from '@/types/index'
+import { clearLocalStorage } from '@/utilities'
 import { useNavigate } from 'react-router-dom'
 
 type VALID_ROUTES = 'login' | 'register' | 'private'
@@ -9,6 +10,8 @@ type VALID_ROUTES = 'login' | 'register' | 'private'
 export function Home () {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  clearLocalStorage('token')
+
   const handleRedirect = (route: VALID_ROUTES) => {
     dispatch(setSession({ rol: LEVEL_ACCESS.INVITED }))
     navigate(`/${route}`)

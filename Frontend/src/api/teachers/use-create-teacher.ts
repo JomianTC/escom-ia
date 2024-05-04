@@ -9,10 +9,7 @@ import { teacherQueryKeys } from './teachers-query-keys'
 type ValidSex = 'masculino' | 'femenino'
 
 const createTeacher = async (values: (TeacherFormData & { sexo: ValidSex })) => {
-  const { sexo, ...teacherData } = values
-  const token = JSON.parse(localStorage.getItem('token') ?? '{}')
-  console.log(token)
-  teacherClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
+  const { sexo, foto_perfil, calificacion, id, ...teacherData } = values
   const response = await teacherClient.post(API_URLS.teacherClient.createTeacher, teacherData)
   const { profesor } = response.data
   const avatarURL = getRandomAvatar(sexo)

@@ -114,6 +114,18 @@ let ComentService = class ComentService {
             (0, handle_errors_1.HandleErrors)(error);
         }
     }
+    async trueRemove(id) {
+        try {
+            const comentFound = await this.comentRepository.findOneBy({ id });
+            if (!comentFound)
+                throw new common_1.NotFoundException({ mensaje: "El comentario no existe" });
+            await this.comentRepository.delete(id);
+            return;
+        }
+        catch (error) {
+            (0, handle_errors_1.HandleErrors)(error);
+        }
+    }
 };
 exports.ComentService = ComentService;
 exports.ComentService = ComentService = __decorate([

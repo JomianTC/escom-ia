@@ -4,11 +4,16 @@ import { CreateTeacherDto } from "./dto/create-teacher.dto";
 import { UpdateTeacherDto } from "./dto/update-teacher.dto";
 import { AuthGuard } from "../auth/guards/auth.guard";
 import { TeacherService } from "./teacher.service";
+import { HandleErrors } from 'src/common/handle-errors';
+import { ComentService } from 'src/coment/coment.service';
 
 @Controller( "teacher" )
 export class TeacherController {
 
-	constructor( private readonly teacherService: TeacherService ) { }
+	constructor( 
+		private readonly teacherService: TeacherService,
+		private readonly comentService: ComentService
+	) { }
 
 	@Post( "" )
 	@UseGuards( AuthGuard )
@@ -34,8 +39,22 @@ export class TeacherController {
 
 	@Delete( ":id" )
 	@UseGuards( AuthGuard )
-	remove( @Param( "id", ParseUUIDPipe ) id: string ) {
-		return this.teacherService.remove( id );
+	async remove( @Param( "id", ParseUUIDPipe ) id: string ) {
+
+		try {
+
+			const { comentsFound, total } = await this.comentService.findAll( id, { page: 1, limit: 1000 } );
+
+			if ( !comentsFound )
+				return this.teacherService.remove( id );
+
+			comentsFound.forEach( async coment => {					
+				await this.comentService.trueRemove( coment.id );
+			});				
+				
+			return this.teacherService.remove( id );
+
+		} catch ( error ) { HandleErrors( error ); }
 	}
 
 	@Put( "profile-picture/:id" )

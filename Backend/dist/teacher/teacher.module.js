@@ -15,18 +15,26 @@ const teacher_entity_1 = require("./entities/teacher.entity");
 const teacher_service_1 = require("./teacher.service");
 const auth_module_1 = require("../auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
+const tag_coment_service_1 = require("../tag_coment/tag_coment.service");
+const coment_service_1 = require("../coment/coment.service");
+const tag_coment_module_1 = require("../tag_coment/tag_coment.module");
+const coment_module_1 = require("../coment/coment.module");
+const tag_module_1 = require("../tag/tag.module");
 let TeacherModule = class TeacherModule {
 };
 exports.TeacherModule = TeacherModule;
 exports.TeacherModule = TeacherModule = __decorate([
     (0, common_1.Module)({
         controllers: [teacher_controller_1.TeacherController],
-        providers: [teacher_service_1.TeacherService],
+        providers: [teacher_service_1.TeacherService, tag_coment_service_1.TagComentService, coment_service_1.ComentService],
         imports: [
             config_1.ConfigModule,
             typeorm_1.TypeOrmModule.forFeature([teacher_entity_1.Teacher]),
             cloudinary_module_1.CloudinaryModule,
-            auth_module_1.AuthModule
+            auth_module_1.AuthModule,
+            tag_coment_module_1.TagComentModule,
+            tag_module_1.TagModule,
+            (0, common_1.forwardRef)(() => coment_module_1.ComentModule)
         ],
         exports: [typeorm_1.TypeOrmModule]
     })

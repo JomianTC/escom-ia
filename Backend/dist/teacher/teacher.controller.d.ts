@@ -2,9 +2,11 @@ import { PaginationDto } from "../common/dto/pagination.dto";
 import { CreateTeacherDto } from "./dto/create-teacher.dto";
 import { UpdateTeacherDto } from "./dto/update-teacher.dto";
 import { TeacherService } from "./teacher.service";
+import { ComentService } from 'src/coment/coment.service';
 export declare class TeacherController {
     private readonly teacherService;
-    constructor(teacherService: TeacherService);
+    private readonly comentService;
+    constructor(teacherService: TeacherService, comentService: ComentService);
     create(createTeacherDto: CreateTeacherDto): Promise<{
         mensaje: string;
         profesor: import("./entities/teacher.entity").Teacher;

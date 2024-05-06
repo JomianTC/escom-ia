@@ -19,9 +19,12 @@ const create_teacher_dto_1 = require("./dto/create-teacher.dto");
 const update_teacher_dto_1 = require("./dto/update-teacher.dto");
 const auth_guard_1 = require("../auth/guards/auth.guard");
 const teacher_service_1 = require("./teacher.service");
+const handle_errors_1 = require("../common/handle-errors");
+const coment_service_1 = require("../coment/coment.service");
 let TeacherController = class TeacherController {
-    constructor(teacherService) {
+    constructor(teacherService, comentService) {
         this.teacherService = teacherService;
+        this.comentService = comentService;
     }
     create(createTeacherDto) {
         return this.teacherService.create(createTeacherDto);
@@ -35,8 +38,19 @@ let TeacherController = class TeacherController {
     update(id, updateTeacherDto) {
         return this.teacherService.update(id, updateTeacherDto);
     }
-    remove(id) {
-        return this.teacherService.remove(id);
+    async remove(id) {
+        try {
+            const { comentsFound, total } = await this.comentService.findAll(id, { page: 1, limit: 1000 });
+            if (!comentsFound)
+                return this.teacherService.remove(id);
+            comentsFound.forEach(async (coment) => {
+                await this.comentService.trueRemove(coment.id);
+            });
+            return this.teacherService.remove(id);
+        }
+        catch (error) {
+            (0, handle_errors_1.HandleErrors)(error);
+        }
     }
     async updateProfilePicture(id, url) {
         return this.teacherService.updateProfilePicture(id, url);
@@ -83,7 +97,7 @@ __decorate([
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TeacherController.prototype, "remove", null);
 __decorate([
     (0, common_1.Put)("profile-picture/:id"),
@@ -104,6 +118,7 @@ __decorate([
 ], TeacherController.prototype, "removeProfilePicture", null);
 exports.TeacherController = TeacherController = __decorate([
     (0, common_1.Controller)("teacher"),
-    __metadata("design:paramtypes", [teacher_service_1.TeacherService])
+    __metadata("design:paramtypes", [teacher_service_1.TeacherService,
+        coment_service_1.ComentService])
 ], TeacherController);
 //# sourceMappingURL=teacher.controller.js.map

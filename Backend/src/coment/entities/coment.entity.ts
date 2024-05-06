@@ -30,6 +30,7 @@ export class Coment {
 	@OneToMany(
 		() => TagComent,
 		tagComent => tagComent.id,
+		{ onDelete: "CASCADE" }
 	)
 	tagComent: TagComent[];	
 }

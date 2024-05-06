@@ -129,6 +129,21 @@ export class ComentService {
 			};
 
 		} catch ( error ) { HandleErrors( error ); }
+	}
 
+	async trueRemove( id: string ) {
+
+		try {
+			
+			const comentFound = await this.comentRepository.findOneBy({ id });
+
+			if ( !comentFound ) 
+				throw new NotFoundException({ mensaje: "El comentario no existe" });
+
+			await this.comentRepository.delete( id );
+			
+			return;
+
+		} catch ( error ) { HandleErrors( error ); }
 	}
 }

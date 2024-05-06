@@ -22,4 +22,5 @@ export declare class ComentService {
         teacherID: string;
         mensaje: string;
     }>;
+    trueRemove(id: string): Promise<void>;
 }

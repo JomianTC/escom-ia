@@ -297,6 +297,6 @@ export class ProcedureController {
 		try {
 			const { procedures } = await this.procedureService.findAll({ limit: 1000, page: 1 });
 			procedures.forEach( procedure => { this.nonNewProcedures.push( procedure.id ) });
-		} catch ( error ) { console.log( error.message ); }
+		} catch ( error ) { /*console.log( "'ERROR' en las notificaciones por que no hay tramites" );*/ }
 	}
 }

@@ -1,6 +1,6 @@
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { TagComentService } from "../tag_coment/tag_coment.service";
 import { CloudinaryModule } from "../cloudinary/cloudinary.module";
 import { TagComentModule } from "../tag_coment/tag_coment.module";
@@ -19,8 +19,15 @@ import { TagModule } from "../tag/tag.module";
 	imports: [ 
 		ConfigModule, 
 		TypeOrmModule.forFeature([ Coment ]), 
-		AuthModule, CloudinaryModule, TeacherModule, TagModule, TagComentModule
-	]
+		AuthModule,
+		CloudinaryModule,
+		
+		forwardRef( () => TeacherModule ), 
+		
+		TagModule,
+		TagComentModule
+	],
+	exports: [ TypeOrmModule ]
 })
 
 export class ComentModule { }

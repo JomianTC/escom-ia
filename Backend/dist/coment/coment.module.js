@@ -31,8 +31,13 @@ exports.ComentModule = ComentModule = __decorate([
         imports: [
             config_1.ConfigModule,
             typeorm_1.TypeOrmModule.forFeature([coment_entity_1.Coment]),
-            auth_module_1.AuthModule, cloudinary_module_1.CloudinaryModule, teacher_module_1.TeacherModule, tag_module_1.TagModule, tag_coment_module_1.TagComentModule
-        ]
+            auth_module_1.AuthModule,
+            cloudinary_module_1.CloudinaryModule,
+            (0, common_1.forwardRef)(() => teacher_module_1.TeacherModule),
+            tag_module_1.TagModule,
+            tag_coment_module_1.TagComentModule
+        ],
+        exports: [typeorm_1.TypeOrmModule]
     })
 ], ComentModule);
 //# sourceMappingURL=coment.module.js.map

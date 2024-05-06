@@ -1,7 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { CloudinaryService } from "../cloudinary/cloudinary.service";
 import { PaginationDto } from "../common/dto/pagination.dto";
 import { CreateTeacherDto } from "./dto/create-teacher.dto";
 import { UpdateTeacherDto } from "./dto/update-teacher.dto";

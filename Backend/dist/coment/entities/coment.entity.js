@@ -41,7 +41,7 @@ __decorate([
     __metadata("design:type", user_entity_1.User)
 ], Coment.prototype, "id_usuario", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => tag_coment_entity_1.TagComent, tagComent => tagComent.id),
+    (0, typeorm_1.OneToMany)(() => tag_coment_entity_1.TagComent, tagComent => tagComent.id, { onDelete: "CASCADE" }),
     __metadata("design:type", Array)
 ], Coment.prototype, "tagComent", void 0);
 exports.Coment = Coment = __decorate([

@@ -10,7 +10,7 @@ type RequirmentType = {
   value: string
   label: string
 }
-export function EditarRequerimientos ({ children }: { children: ReactNode }) {
+export function EditarRequerimientos ({ children }: { children?: ReactNode }) {
   const { data: requirments } = useGetRequirments()
   const updateRequirment = useUpdateRequirment()
   const dispatch = useAppDispatch()

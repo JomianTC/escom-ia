@@ -2,9 +2,14 @@ import { useNavBarActions } from '@/pages/hooks/useNavBarActions'
 import { NavLink, Outlet } from 'react-router-dom'
 import { DeleteProfesorModal } from './Modal'
 import { CloseIcon, MenuIcon } from '@/components/icons/Icons'
+import { useEffect } from 'react'
+import { setToken } from '@/api/useAuthToken'
 
 export function DashboardAdmin () {
   const { handleToggleNavBar, showNav } = useNavBarActions()
+  useEffect(() => {
+    setToken()
+  }, [])
 
   return (
     <section className="container p-8 w-full h-full my-0 mx-auto grid relative grid-cols-6 z-50">

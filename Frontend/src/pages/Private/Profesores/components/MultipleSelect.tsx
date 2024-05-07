@@ -1,4 +1,5 @@
 import { useCreateRequirment } from '@/api/requirments/use-create-requirment'
+import { useCreateTag } from '@/api/tags/use-create-tag'
 import { type FieldProps } from 'formik'
 import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable'
@@ -15,6 +16,7 @@ interface CustomSelectProps extends FieldProps {
   isMulti?: boolean
   placeholder?: string
   isCreatable?: boolean
+  isTagSelection?: boolean
 }
 
 export const CustomSelect = ({
@@ -23,11 +25,16 @@ export const CustomSelect = ({
   form,
   options = defaultOptions,
   isMulti = false,
-  placeholder = 'Select'
+  placeholder = 'Select',
+  isTagSelection = false
 }: CustomSelectProps) => {
   const createRequirment = useCreateRequirment()
+  const createTag = useCreateTag()
   const handleCreate = async (inputValue: string) => {
     await createRequirment.mutateAsync(inputValue)
+  }
+  const handleCreateTag = async (inputValue: string) => {
+    await createTag.mutateAsync({ nombre: inputValue })
   }
   async function onChange (option: any) {
     await form.setFieldValue(field.name, option !== undefined ? (option).map((item: OptionType) => item.value) : [])
@@ -41,6 +48,22 @@ export const CustomSelect = ({
     } else {
       return isMulti ? [] : ('')
     }
+  }
+  if (isCreatable && isMulti && isTagSelection) {
+    return (
+      <CreatableSelect
+        className='w-full'
+        isMulti
+        name={field.name}
+        options={options ?? defaultOptions}
+        placeholder={placeholder}
+      value={getValue()}
+      onChange={onChange}
+      onBlur={field.onBlur}
+        onCreateOption={handleCreateTag}
+        isLoading={createRequirment.isPending}
+    />
+    )
   }
 
   if (isCreatable && isMulti) {

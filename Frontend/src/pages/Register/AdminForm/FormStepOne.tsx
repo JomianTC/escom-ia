@@ -1,8 +1,10 @@
 import { MyTextInput } from '@/components/InputText'
+import { AREAS } from '@/pages/Schemas'
+import { Field } from 'formik'
 
 export function FormStepOneAdmin () {
   return (
-      <>
+        <>
             <MyTextInput
                 label="Nombre"
                 name="nombre"
@@ -13,12 +15,15 @@ export function FormStepOneAdmin () {
                     label="Email"
                     name="email"
                     type="email"
-                />
-                <MyTextInput
-                    label="area"
-                    name="area"
-                    type="text"
               />
+              <label className="text-text_accent">
+                <span>Área</span>
+                <Field id='area' as="select" name="area" className="text-text_accent h-fit">
+                    {AREAS.map((area) => (
+                        <option key={area} value={area}>{area}</option>
+                    ))}
+                </Field>
+              </label>
                 <MyTextInput
                     label="Identificador"
                     name="identificador"
@@ -26,6 +31,6 @@ export function FormStepOneAdmin () {
                     className=" col-span-2"
                 />
             </div>
-      </>
+        </>
   )
 }

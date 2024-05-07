@@ -1,4 +1,10 @@
+import { setToken } from '@/api/useAuthToken'
+import { useEffect } from 'react'
+
 export default function Dashboard () {
+  useEffect(() => {
+    setToken()
+  }, [])
   return (
     <section className="w-full h-full max-w-screen-lg mx-auto vento p-8 sm:p-2 relative z-40 overflow-y-scroll hide-scrollbar ">
       <article className="rounded-xl p-4 border-4 relative">

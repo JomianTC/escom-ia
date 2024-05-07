@@ -1,10 +1,13 @@
+import { type Student, type TSFixMe } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { API_URLS, apiClient, userQueryKeys } from '../index'
-import { type TSFixMe, type Student } from '@/types/index'
 import { toast } from 'react-toastify'
+import { API_URLS, imageClient, userQueryKeys } from '../index'
 
 const updateUser = async (newUser: Student) => {
-  const response = await apiClient.post(API_URLS.apiClient.registerUser, newUser)
+  const { foto_perfil: fotoPerfil, contrasena, boleta, ...rest } = newUser
+  console.log(rest)
+
+  const response = await imageClient.put(API_URLS.userPictureClient.updateInfo, rest)
   return response.data
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates

@@ -1,8 +1,8 @@
 import { useCreateTeacher } from '@/api/teachers/use-create-teacher'
 import { useEditTeacher } from '@/api/teachers/use-edit-teacher'
-import { profesorEsquema } from '@/pages/Schemas'
+import { AREAS, GRADOS_ACADEMICOS, profesorEsquema } from '@/pages/Schemas'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
-import { closeModal } from '@/store/slices/uiSlice'
+import { changeState, closeModal } from '@/store/slices/uiSlice'
 import { type TeacherFormData } from '@/types/index'
 import { Field, Form, Formik } from 'formik'
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -23,26 +23,20 @@ interface ModalProps {
 export default function Modal ({ children, type = 'default', open = false, trigger }: ModalProps) {
   const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(open)
-  const { changeState } = useAppSelector((state) => state.ui)
+  const { changeState: changeModalState } = useAppSelector((state) => state.ui)
 
   const handleClose = () => {
-    // if (isModalOpen) {
-    //   dispatch(closeModal())
-    // } else {
-    //   dispatch(showModal())
-    // }
-    setIsOpen(prev => {
-      return !prev
-    })
-
+    dispatch(changeState())
     document.querySelector('#root')?.classList.toggle('open')
   }
 
   useEffect(() => {
-    if (changeState) {
-      setIsOpen(!changeState)
+    if (changeModalState) {
+      setIsOpen(true)
+    } else {
+      setIsOpen(false)
     }
-  }, [changeState])
+  }, [changeModalState])
 
   useEffect(() => {
     const closeModalOnResize = () => {
@@ -190,7 +184,7 @@ export function StudentInfo () {
   } = useAppSelector((state) => state.user)
   return (
     <div className='flex flex-col w-full'>
-      <img src={fotoPerfil} alt="" className='w-12 h-12 sm:w-28 sm:h-28 self-center' />
+      <img src={fotoPerfil} alt={nombres + apellidos } className='w-12 h-12 sm:w-28 sm:h-28 self-center' />
       <p className='text-text_200 text-lg text-left' >
         <span className="font-bold text-text_accent block">Nombre:</span>
         {nombres} {apellidos}</p>
@@ -214,7 +208,7 @@ export function StudentInfo () {
 interface MyFormValues {
   nombre: string
   area: string
-  grado_academico: string
+  grado_academico: typeof GRADOS_ACADEMICOS[number]
   email: string
   contacto: string
   sexo?: 'masculino' | 'femenino'
@@ -222,8 +216,8 @@ interface MyFormValues {
 type Action = 'create' | 'update'
 const defaultValues: MyFormValues = {
   nombre: 'Profesor Cordero',
-  area: 'Humanisticas',
-  grado_academico: 'Ingeniero',
+  area: '',
+  grado_academico: '',
   email: 'profecordero@gmail.com',
   contacto: 'profecordero@gmail.com',
   sexo: 'masculino'
@@ -269,9 +263,18 @@ export function ProfesorForm ({ action = 'create', styles = '', data = defaultVa
                 F
               </label>
           </div>
-
-          <MyTextInput label="Area" name="area" type="text" placeholder="Matemáticas" />
-          <MyTextInput label="Grado Acádemico" name="grado_academico" type="text" placeholder="Maestra en Ciencias" />
+          <label htmlFor='area' >Area</label>
+          <Field id='area' as="select" name="area" className="text-text_accent py-2 -mt-3">
+            {AREAS.map((area) => (
+              <option key={area} value={area}>{area}</option>
+            ))}
+          </Field>
+          <label htmlFor='grado' >Grado Academico</label>
+          <Field id='grado' as="select" name="grado_academico" className="text-text_accent py-2 -mt-3">
+            {GRADOS_ACADEMICOS.map((grado) => (
+              <option key={grado} value={grado}>{grado}</option>
+            ))}
+          </Field>
           <MyTextInput label="Email" name="email" type="text" placeholder="victoria@outlook.ipn.mx" />
           <MyTextInput label="Contacto" name="contacto" type="text" placeholder="5543456534" />
           <button type='submit' className='white-border w-fit' >Confirmar</button>

@@ -3,6 +3,7 @@ import { useTags } from '@/api/tags/use-get-tags'
 import { useTeacher } from '@/api/teachers/get-teacher'
 import { CommentFormikForm } from '@/components/CommentForm'
 import Loader from '@/components/Loader'
+import { ReturnButton } from '@/components/ReturnButton'
 import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { LEVEL_ACCESS } from '@/types/index'
 import { useQueryErrorResetBoundary } from '@tanstack/react-query'
@@ -11,7 +12,6 @@ import { useNavigate } from 'react-router-dom'
 import uuid from 'react-uuid'
 import CommentBox from './components/CommentBox'
 import { DetailProfessor } from './components/DetailProfessor'
-import { ReturnButton } from '@/components/ReturnButton'
 
 export function Profesor () {
   const { data, isError, isLoading, isFetching, isRefetching } = useTeacher()
@@ -83,7 +83,7 @@ export function Profesor () {
 
               {comments?.pages.map((page) => (
                 page.comentarios.map((comment) => (
-                  <CommentBox key={uuid()} comment={comment} />
+                  <CommentBox key={uuid()} comment={comment} owner={false} />
                 ))
               ))}
                 {(hasComments)

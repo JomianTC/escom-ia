@@ -5,40 +5,40 @@ import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { teacherQueryKeys } from './teachers-query-keys'
 
-const placeholderData = {
-  profesores: [
-    {
-      id: '0376f5be-d608-4da8-98cd-831dg255592a',
-      nombre: 'Edgardo Adrian Franco',
-      area: 'Sistemas Computacionales',
-      grado_academico: 'Doctor',
-      email: 'eafranco154@gmail.com',
-      contacto: '55123456121',
-      foto_perfil: '/icons/placeholderuser.png',
-      calificacion: '0.00'
-    },
-    {
-      id: '0376f5be-d608-4da8-98cd-831de255532a',
-      nombre: 'Marta Rosa Cordero López',
-      area: '',
-      grado_academico: 'Maestra',
-      email: 'profesoraCordero@gmail.com',
-      contacto: '55123456121',
-      foto_perfil: '/icons/placeholderuser.png',
-      calificacion: '0.00'
-    },
-    {
-      id: '0376f5be-d608-4da8-98cd-831de255592d',
-      nombre: 'Jose Asunción Enriquez Zárate',
-      area: 'Subdirección de Servicios Educativos',
-      grado_academico: 'Maestro en Ciencias',
-      email: 'asuncionez@gmail.com',
-      contacto: '57296000 Ext. 52012',
-      foto_perfil: '/icons/placeholderuser.png',
-      calificacion: '0.00'
-    }],
-  total: 20
-}
+// const placeholderData = {
+//   profesores: [
+//     {
+//       id: '0376f5be-d608-4da8-98cd-831dg255592a',
+//       nombre: 'Edgardo Adrian Franco',
+//       area: 'Sistemas Computacionales',
+//       grado_academico: 'Doctor',
+//       email: 'eafranco154@gmail.com',
+//       contacto: '55123456121',
+//       foto_perfil: '/icons/placeholderuser.png',
+//       calificacion: '0.00'
+//     },
+//     {
+//       id: '0376f5be-d608-4da8-98cd-831de255532a',
+//       nombre: 'Marta Rosa Cordero López',
+//       area: '',
+//       grado_academico: 'Maestra',
+//       email: 'profesoraCordero@gmail.com',
+//       contacto: '55123456121',
+//       foto_perfil: '/icons/placeholderuser.png',
+//       calificacion: '0.00'
+//     },
+//     {
+//       id: '0376f5be-d608-4da8-98cd-831de255592d',
+//       nombre: 'Jose Asunción Enriquez Zárate',
+//       area: 'Subdirección de Servicios Educativos',
+//       grado_academico: 'Maestro en Ciencias',
+//       email: 'asuncionez@gmail.com',
+//       contacto: '57296000 Ext. 52012',
+//       foto_perfil: '/icons/placeholderuser.png',
+//       calificacion: '0.00'
+//     }],
+//   total: 20
+// }
 
 const getTeachers = async (page = 1, limit = 100) => {
   // const token = getLocalStorage('token')
@@ -61,8 +61,7 @@ export function useTeachers (resultLimit = 100) {
   const { data, isLoading, isError } = useQuery({
     queryKey: teacherQueryKeys.all,
     queryFn: async () => await getTeachers(Number(page), limit),
-    staleTime: 1000,
-    placeholderData
+    staleTime: 1000
   })
   const handlePageChange = (page: number) => {
     if (page < 1) return

@@ -35,6 +35,7 @@ const MyDatePicker = ({ name = '', title = '' }) => {
           onChange={async (date) => await setValue(date)}
           className='input-procedure w-full px-2 py-1 border-2 border-accent_100  text-text_100 font-semibold  valid:border-accent_200 valid:text-text_200 focus:bg-primary_op_100/10 focus:border-primary_200 focus:text-primary_200'
         />
+        <ErrorMessage name={field.name} />
       </label>
     </div>
   )
@@ -69,6 +70,7 @@ export function CrearTramite ({ children }: { children?: React.ReactNode }) {
   const initialData = isEditting
     ? {
         ...getTramiteToEdit,
+        requerimentos: [],
         links: getTramiteToEdit.links.map(value => {
           const [link, title] = value.split(',')
           return { link, title }
@@ -100,8 +102,13 @@ export function CrearTramite ({ children }: { children?: React.ReactNode }) {
         <Formik initialValues={{ ...initialData }}
           validationSchema={procedureEsquema}
           onSubmit={async (values, actions) => {
+            console.log(values)
             if (isEditting) {
-              updateProcedure.mutate(values as unknown as Procedure)
+              updateProcedure.mutateAsync(values as unknown as Procedure).then(() => {
+                navigate('/private/tramites')
+              }).catch((err) => {
+                console.log(err)
+              })
             } else {
               await createProcedure.mutateAsync(values as unknown as CreateProcedure).then(() => {
                 actions.resetForm()
@@ -156,7 +163,7 @@ export function CrearTramite ({ children }: { children?: React.ReactNode }) {
                     {isLoading
                       ? <p>Cargando...</p>
                       : (
-                        <div className='flex items-center gap-6'>
+                        <div className='flex items-center gap-4 flex-wrap'>
                           <Field name='requerimentos'
                             component={CustomSelect}
                             options={data}
@@ -167,10 +174,16 @@ export function CrearTramite ({ children }: { children?: React.ReactNode }) {
                           <NavLink to='/private/dashboardadmin/editarTags' className='text-primary_200 font-semibold hover:underline'>
                             <EditTagIcon styles='w-6 h-6 fill-none stroke-primary_300  hover:stroke-primary_100 inline-block' />
                           </NavLink>
+                          <ErrorMessage className='grow w-full text-red-500 font-bold -mt-4  ' component={'p'} name='requerimentos' />
                         </div>
                         )}
                     <Field name="descripcion">
-                      {({ field }: FieldProps) => <ReactQuill placeholder='Los 2 primeros renglones son los que se muestran en la ventana anterior. ¡Hazlos llamativos!' value={field.value} onChange={field.onChange(field.name)} className='h-36 mb-4' />}
+                      {({ field }: FieldProps) => (
+                        <>
+                          <ReactQuill placeholder='Los 2 primeros renglones son los que se muestran en la ventana anterior. ¡Hazlos llamativos!' value={field.value} onChange={field.onChange(field.name)} className='h-36 mb-4' />
+                          <ErrorMessage name={field.name} />
+                        </>
+                      )}
                     </Field>
                   </>
                   )}

@@ -36,7 +36,7 @@ export default function AdminLogin () {
   return (
     <>
         <Formik
-            initialValues={{ email: 'tonyayala_01@hotmail.com', identificador: '1010101010' }}
+            initialValues={{ email: 'supersuadmin@ipn.mx', identificador: '1010101010' }}
             validationSchema={administradorEsquemaRegistro}
             onSubmit={async (values) => {
               await startLogin('admin', values)

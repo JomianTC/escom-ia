@@ -41,8 +41,8 @@ export const estudianteEsquemaIngreso = yup.object().shape({
 
 export const profesorEsquema = yup.object().shape({
   nombre: nombresSchema,
-  area: yup.string().min(2).required('El area es requerida'),
-  grado_academico: yup.string().min(2).required('El grado academico es requerido'),
+  area: yup.string().required('El area es requerida'),
+  grado_academico: yup.string().required('El grado academico es requerido'),
   email: yup.string().email().required('El email es requerido'),
   contacto: yup.string().min(10).required('El contacto es requerido')
 })
@@ -74,10 +74,10 @@ export const comentarioEsquema = yup.object().shape({
 export const procedureEsquema = yup.object().shape({
   nombre: yup.string().min(2).required('El nombre es requerido'),
   descripcion: yup.string().min(2).required('La descripcion es requerida'),
-  fechaInicio: yup.date(),
-  fechaTermino: yup.date().min(yup.ref('fechaInicio'), 'No puedes elegir una fecha anterior a la de inicio'),
+  fechaInicio: yup.date().optional().nullable(),
+  fechaTermino: yup.date().min(yup.ref('fechaInicio'), 'No puedes elegir una fecha anterior a la de inicio').optional().nullable(),
   // esInformativo: yup.boolean().required('El estado es requerido'),
-  requerimentos: yup.array().min(1).optional(),
+  requerimentos: yup.array().min(0, 'Ingresa un requisito o selecciona la opcion -No necesita ').optional(),
   links: yup.array().optional()
 })
 
@@ -103,3 +103,41 @@ export const updateSchema = yup.object().shape({
   label: yup.string().required('Debes selccionar algún valor de la lista'),
   nombre: yup.string().trim().min(2, 'Debes contar con un mínimo de 2 carácteres').required('Un nuevo valor es requerido')
 })
+
+export const AREAS = [
+  'Dirección',
+  'Consejo Técnico Consultivo Escolar',
+  'Decanato',
+  'Comité Interno de Proyectos',
+  'Coordinación de Enlace y Gestión Técnica',
+  'Unidad de Informática',
+  'Subdirección Académica',
+  'Departamento de Formación Básica',
+  'Departamento de Ciencias e Ingeniería de la Computación',
+  'Departamento de Ingeniería en Sistemas Computacionales',
+  'Departamento de Fórmacion Integral e Institucional',
+  'Departamento de Evaluación y Seguimiento Académico',
+  'departamento de Innovación Educativa',
+  'Unidad de Tecnología Educativa y Campus Virtual',
+  'Sección de Estudios de Posgrado e Investigación',
+  'Colegio de Profesores',
+  'Departamento de Posgrado',
+  'Departamento de Investigación',
+  'Subdirección de Servicios Educativos e Integración Social',
+  'Departamento de Gestión Escolar',
+  'Departamento de Servicos Estudiantiles',
+  'Departamento de Extensión y Apoyos Educativos',
+  'Unidad Politécnica de Integración Social',
+  'Subdirección Administrativa',
+  'Departamento de Capital Huano',
+  'Departamento de Recursos  Financieros',
+  'Departamento de Recursos Materiales y Servicios'
+]
+
+export const GRADOS_ACADEMICOS = ['Doctor',
+  'Maestro en Ciencias',
+  'Ingeniero',
+  'Licenciado',
+  'Investigador',
+  'Maestro'
+]

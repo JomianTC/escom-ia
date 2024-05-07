@@ -10,7 +10,10 @@ async function deleteTag (id: string) {
   try {
     const response = await tagsClient.delete(API_URLS.tagClient.deleteTag + id)
     return response.data
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response.status === 500) {
+      throw new Error('El tag esta en uso')
+    }
     throw new Error('Algo salio mal')
   }
 }
@@ -20,7 +23,7 @@ export function useDeleteTag () {
   return useMutation({
     mutationKey: ['delete-tag'],
     mutationFn: deleteTag,
-    onMutate: async (variables) => {
+    onMutate: async () => {
       toast.info('Eliminando tag')
       await queryClient.cancelQueries({
         queryKey: tagQueryKeys.all
@@ -29,19 +32,15 @@ export function useDeleteTag () {
         queryKey: tagQueryKeys.all
       })
       await queryClient.invalidateQueries()
-      console.log('onMutate', variables)
     },
     onError: (error) => {
-      toast.error('Error al eliminar tag')
-      console.error('onError', error)
+      toast.error(error.message)
     },
-    onSettled: async (data, error, variables
+    onSettled: async (_data, _error, _variables
     ) => {
       await queryClient.invalidateQueries({
         queryKey: tagQueryKeys.all
       })
-      console.log('onSettled', data, error, variables)
     }
-
   })
 }

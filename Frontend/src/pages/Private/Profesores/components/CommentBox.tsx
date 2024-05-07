@@ -4,15 +4,25 @@ import { getProfilePicture } from '@/utilities/userFormatter'
 import { useState } from 'react'
 import uuid from 'react-uuid'
 import Tag from './Tag'
+import { useAppDispatch } from '@/store/hooks/useAppSelector'
+import { openDeleteCommentModal, setInfoModal } from '@/store/slices/uiSlice'
 type CommentBoxProps = {
   comment: CommentByTeacher
+  owner?: boolean
+  id?: string
 }
-export default function CommentBox ({ comment }: CommentBoxProps) {
+export default function CommentBox ({ comment, owner = false, id = '' }: CommentBoxProps) {
   const [active, setActive] = useState(false)
   const showTags = comment.tags.length > 0
+  const dispatch = useAppDispatch()
+  const handleDelete = () => {
+    console.log('Borrando comentario', id)
+    dispatch(openDeleteCommentModal())
+    dispatch(setInfoModal({ id }))
+  }
 
   return (
-    <article key={uuid()} className='white-border flex relative h-48  text-white comment-box overflow-hidden z-30 gap-2 sm:gap-4'>
+    <article key={uuid()} className='white-border flex relative h-48  text-white comment-box overflow-hidden z-30 gap-2 sm:gap-4 '>
       {/* Columna Izquierda - Imagen y Tags */}
       <div className='flex flex-col gap-2 basis-20 sm:basis-32 min-w-20 md:min-w-32 '>
         <img className='w-14 h-14 md:w-16 md:h-16' src={getProfilePicture(comment.usuario.foto_perfil)} alt={comment.usuario.nombres} />
@@ -42,6 +52,7 @@ export default function CommentBox ({ comment }: CommentBoxProps) {
           <StarComponent rating={comment.comentario.puntuacion} />
         </div>
       </div>
+      {owner && <button className='absolute right-0 top-0 w-8 h-8 bg-bg_200  hover:bg-red-500 rounded-full font-bold transition-all' onClick={() => { handleDelete() } }>X</button> }
     </article>
   )
 }

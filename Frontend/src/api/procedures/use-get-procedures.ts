@@ -66,7 +66,11 @@ export function useProcedures (resultLimit = 10) {
         return data
       }
     } catch (error) {
-
+      return {
+        tramites: [],
+        total: 0
+      }
+      // return placeHolderProcedures
     }
   }
 

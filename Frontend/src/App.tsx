@@ -16,6 +16,7 @@ import { Login } from './pages/Login'
 import Private from './pages/Private/Private'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ToastContainer } from 'react-toastify'
+import Loader from './components/Loader'
 // LAZYLOADING DE LOGIN Y LAS PARTES PRIVADAS
 
 const queryClient = new QueryClient()
@@ -24,7 +25,7 @@ function App () {
   return (
         <>
             <QueryClientProvider client={queryClient} >
-                <Suspense fallback={<>Loading ...</>}>
+                <Suspense fallback={<Loader/>}>
                     <Provider store={store}>
                         {/* <h3 >Este elemento se visualiza en todas partes</h3> */}
                         <RoutesWithNotFound>

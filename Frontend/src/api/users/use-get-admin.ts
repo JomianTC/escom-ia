@@ -1,6 +1,7 @@
 import { type LoginAdminData, type LoginAdminResponse, type TSFixMe } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { adminQueryKeys, API_URLS, apiClient } from '../index'
+import { toast } from 'react-toastify'
 
 const getAdminDetails = async (data: LoginAdminData) => {
   try {
@@ -9,9 +10,7 @@ const getAdminDetails = async (data: LoginAdminData) => {
     return dataAdmin
   } catch (err) {
     console.error(err)
-    return {
-      error: 'No se ha podido iniciar sesión'
-    }
+    throw new Error('Contraseña o email incorrecto')
   }
 }
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
@@ -27,6 +26,7 @@ export function useGetAdmin () {
       return data
     },
     onError: (_err, _, context?: TSFixMe) => {
+      toast.error('El usuario no existe')
       return { ...context }
     },
     onSettled: () => {

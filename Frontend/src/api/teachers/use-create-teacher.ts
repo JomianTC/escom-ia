@@ -8,14 +8,21 @@ import { teacherQueryKeys } from './teachers-query-keys'
 
 type ValidSex = 'masculino' | 'femenino'
 
-const createTeacher = async (values: (TeacherFormData & { sexo: ValidSex })) => {
-  const { sexo, foto_perfil, calificacion, id, ...teacherData } = values
-  const response = await teacherClient.post(API_URLS.teacherClient.createTeacher, teacherData)
-  const { profesor } = response.data
-  const avatarURL = getRandomAvatar(sexo)
-  const profilePicture = await teacherClient.put(API_URLS.teacherClient.updateProfilePicture + profesor.id, { url: avatarURL })
-  console.log(profilePicture.data)
-  return response.data
+const createTeacher = async (values: (TeacherFormData & { sexo: ValidSex, foto_perfil: string, calificacion: number, id: string })) => {
+  const { sexo, foto_perfil: fotoPerfil, calificacion, id, ...teacherData } = values
+  console.log(teacherData)
+
+  try {
+    const response = await teacherClient.post(API_URLS.teacherClient.createTeacher, teacherData)
+    const { profesor } = response.data
+    const avatarURL = getRandomAvatar(sexo)
+    const profilePicture = await teacherClient.put(API_URLS.teacherClient.updateProfilePicture + profesor.id, { url: avatarURL })
+    console.log(profilePicture.data)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw new Error('Error al crear profesor')
+  }
 }
 
 export function useCreateTeacher () {
@@ -44,7 +51,7 @@ export function useCreateTeacher () {
       }
 
       queryClient.setQueryData(teacherQueryKeys.all, () => {
-        profesores.unshift(mockTeacher)
+        profesores.unshift({ ...mockTeacher, calificacion: 5 })
         return { profesores }
       })
       return { profesores }

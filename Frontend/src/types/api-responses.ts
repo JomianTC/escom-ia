@@ -38,6 +38,13 @@ export interface CommentByTeacher {
   usuario: StudentComment
   tags: string[]
 }
+
+export interface AllUserComments {
+  comentario: Comentario & { id: string }
+  usuario: StudentComment
+  tags: string[]
+}
+
 export interface CommentStructure {
   comentario: string
   id_profesor: string

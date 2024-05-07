@@ -1,5 +1,6 @@
 import { Home } from '@/pages/Home/Home'
 import { ChatbotPage } from '@/pages/Private/Chatbot/ChatbotPage'
+import { ComentariosPage } from '@/pages/Private/Comentarios/ComentariosPage'
 import ProfesoresPage from '@/pages/Private/Profesores/ProfesoresPage'
 
 import { TramitesPage } from '@/pages/Private/Tramites/TramitesPage'
@@ -76,11 +77,18 @@ export const PRIVATE_ROUTES_MODEL: Record<string, IRoute> = {
     component: ChatbotPage,
     navPath: 'ia',
     name: 'Chatbot',
-    imageUri: '/icons/robot.webp'
+    imageUri: '/icons/placeholderuser.png'
+  },
+  COMMENTS: {
+    path: 'comments',
+    component: ComentariosPage,
+    navPath: 'comments',
+    name: 'Comentarios',
+    imageUri: '/icons/placeholderuser.png'
   }
 }
 
-const ROUTES_TO_IGNORE = ['private', 'home']
+const ROUTES_TO_IGNORE = ['private', 'home', 'comments']
 
 export const PRIVATE_ROUTES = Object.keys(PRIVATE_ROUTES_MODEL).map(key => PRIVATE_ROUTES_MODEL[key])
 export const NAV_ROUTES = PRIVATE_ROUTES.filter(route => !ROUTES_TO_IGNORE.includes(route.navPath))

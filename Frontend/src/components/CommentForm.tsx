@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { MyTextInput } from './InputText'
 import { StarRating } from './StarRating'
-import TagForm from './TagForm'
 
 interface CommentFormikFormProps {
   data: Array<{
@@ -42,7 +41,6 @@ interface CommentFormikFormProps {
 // ]
 export function CommentFormikForm ({ data }: CommentFormikFormProps) {
   const [showComment, setShowComment] = useState(false)
-  const [createTag, setShowCreateTag] = useState(false)
   const { id } = useParams()
   const createComment = useCreateComment()
 
@@ -73,20 +71,10 @@ export function CommentFormikForm ({ data }: CommentFormikFormProps) {
   return (createComment.isPending
     ? <h1 className='text-4xl '> CARGANDO</h1>
     : <div className='flex gap-6'>
-      <div className={` ${showComment ? 'my-4 w-full h-fit px-4 flex flex-col gap-4 relative z-[700] comment-box max-w-xl py-1 active ' : 'w-32 h-12  rounded-lg bg-bg_200 border-2 border-primary_200 relative overflow-hidden deactivated'} comment-form `}>
+      <div className={` ${showComment ? 'my-4 w-full h-fit px-4 flex flex-col gap-4 relative z-[700] comment-box  md:max-w-xl py-1 active ' : 'w-32 h-12  rounded-lg bg-bg_200 border-2 border-primary_200 relative overflow-hidden deactivated'} comment-form `}>
         <span onClick={() => {
           setShowComment(!showComment)
-          setShowCreateTag(false)
         }} className={`absolute  font-bold uppercase cursor-pointer ${showComment ? '-top-2 -right-4 w-10 h-10 rounded-full border-4 bg-accent_100 text-black border-primary_100 flex justify-center items-center' : 'top-[20%] left-[18%] w-full h-full'}`}>{showComment ? 'X' : 'Comentar'}</span>
-        {createTag
-          ? (
-            <TagForm>
-                  <button className='h-min self-center' onClick={() => {
-                    setShowCreateTag(false)
-                  }}>Cancelar</button>
-              </TagForm>
-            )
-          : (
             <Formik
                 initialValues={{
                   comentario: '',
@@ -113,7 +101,7 @@ export function CommentFormikForm ({ data }: CommentFormikFormProps) {
               validateOnChange={true}
               validateOnBlur={true}
               >
-                {({ handleSubmit, resetForm, isSubmitting, isValid }) => (
+                {({ handleSubmit, isSubmitting, isValid }) => (
                 <Form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                   {showComment && (
                     <>
@@ -131,13 +119,11 @@ export function CommentFormikForm ({ data }: CommentFormikFormProps) {
                         name="tags"
                         options={data}
                         component={CustomSelect}
-                        placeholder="Selecciona algún tag..."
-                        isMulti={true}
+                        placeholder="Selecciona algún tag... o crea uno nuevo"
+                          isMulti={true}
+                          isTagSelection={true}
+                          isCreatable={true}
                         />
-                        <button className='border-2 bg-accent_200 mt-2 rounded-lg font-bold border-primary_200 text-black px-2 py-1 ' onClick={() => {
-                          setShowCreateTag(!createTag)
-                          resetForm()
-                        }}>Crear Tag </button>
                       </div>
                       <StarRating name={'puntuacion'} />
                       <div className="flex gap-4 -z-10 w-full">
@@ -154,7 +140,6 @@ export function CommentFormikForm ({ data }: CommentFormikFormProps) {
                   </Form>
                 )}
             </Formik>
-            ) }
       </div>
       </div>
   )

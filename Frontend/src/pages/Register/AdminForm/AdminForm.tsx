@@ -14,7 +14,7 @@ const adminValues = {
   identificador: '1010101010',
   nombre: 'Super SU Admin',
   email: 'superSuAdmin@ipn.mx',
-  area: 'Servicios SU'
+  area: 'Departamento de Recursos  Financieros'
 }
 const FORM_STEPS = [<FormStepOneAdmin key={'stfa1'} />]
 export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {
@@ -67,7 +67,7 @@ export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {
                 <div className="flex justify-between flex-row-reverse">
                     <button
                         type="submit"
-                        className="white-border disabled:opacity-50"
+                        className="white-border opacity-100 disabled:opacity-50"
                     >
                         {canAdvance ? 'Siguiente' : isUpdate ? 'Actualizar' : 'Registrarse'}
                     </button>
@@ -75,7 +75,7 @@ export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {
                         <button
                             type="button"
                             onClick={handleBack}
-                            className="white-border"
+                            className="white-border opacity-100"
                         >
                             Anterior
                         </button>
@@ -93,8 +93,6 @@ export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {
           ¿Ya tienes cuenta? Inicia sesión
       </Link>
       ) }
-    {/* <button onClick={async () => { await startLogin() }}>Login</button> */}
-    {/* <button onClick={async () => { await startLogin('ADMIN') }}>LoginUsingRole</button> */}
 </>
   )
 }

@@ -7,7 +7,11 @@ async function getComments () {
     console.log(response.data)
     return response.data
   } catch (error) {
-
+    console.error(error)
+    return {
+      comentarios: [],
+      total: 0
+    }
   }
 }
 export function useGetComments () {

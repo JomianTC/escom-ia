@@ -2,7 +2,7 @@
 import { ExpirationPlugin } from 'workbox-expiration'
 import { createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies'
+import { StaleWhileRevalidate } from 'workbox-strategies'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 precacheAndRoute(self.__WB_MANIFEST || [])

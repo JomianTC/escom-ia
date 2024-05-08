@@ -1,13 +1,13 @@
 import { useDeleteTeacher } from '@/api/teachers/use-delete-teacher'
 import { useTeachers } from '@/api/teachers/use-get-teachers'
 import Loader from '@/components/Loader'
-import Modal, { ModalTrigger } from '@/components/Modal'
 import { useSearch } from '@/pages/hooks/useSearch'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { closeDeleteModal, setEditMode } from '@/store/slices/uiSlice'
 import { LEVEL_ACCESS } from '@/types/index'
 import { useEffect } from 'react'
 import uuid from 'react-uuid'
+import { AddProfesorModal } from './components/Modal'
 import { ProfesorCard } from './components/ProfesorCard'
 
 export function Profesores () {
@@ -83,19 +83,7 @@ export function Profesores () {
         </div>
       ) }
         {rol === 'student' && (
-            <Modal trigger={
-                  <ModalTrigger
-                    className='w-20 h-20 bg-primary_200 rounded-full fixed bottom-8 right-10 opacity-80  flex items-center justify-center text-white font-bold text-2xl hover:opacity-100 hover:bg-primary_300 hover:text-black cursor-pointer'
-                  >
-                    +
-                  </ModalTrigger>
-                }>
-            <Modal.Body>
-                  <Modal.Title title={'Agrega Profesor'} />
-                  <Modal.Profesor/>
-            </Modal.Body>
-                  <Modal.Controls />
-          </Modal>
+          <AddProfesorModal/>
         )}
 
       </section>

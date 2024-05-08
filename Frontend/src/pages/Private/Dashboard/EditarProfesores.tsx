@@ -2,12 +2,12 @@ import { useTeacher } from '@/api/teachers/get-teacher'
 import { useTeachers } from '@/api/teachers/use-get-teachers'
 import ImageLoader from '@/components/ImageLoader'
 import Loader from '@/components/Loader'
-import { ProfesorForm } from '@/components/Modal'
 import { ReturnButton } from '@/components/ReturnButton'
 import { useSearch } from '@/pages/hooks/useSearch'
 import { useAppDispatch } from '@/store/hooks/useAppSelector'
 import { openDeleteModal, setInfoModal } from '@/store/slices/uiSlice'
 import { NavLink } from 'react-router-dom'
+import { ProfesorForm } from '../Profesores/components/Form'
 
 export const EditarProfesores = () => {
   const { data, isLoading } = useTeachers()

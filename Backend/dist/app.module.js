@@ -26,6 +26,7 @@ const user_module_1 = require("./user/user.module");
 const tag_module_1 = require("./tag/tag.module");
 const gpt_ai_module_1 = require("./gpt-ai/gpt-ai.module");
 const mailer_1 = require("@nestjs-modules/mailer");
+const status_module_1 = require("./status/status.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -78,6 +79,7 @@ exports.AppModule = AppModule = __decorate([
             admin_procedure_module_1.AdminProcedureModule,
             notification_module_1.NotificationModule,
             gpt_ai_module_1.GptAiModule,
+            status_module_1.StatusModule,
         ],
         controllers: [],
         providers: [],

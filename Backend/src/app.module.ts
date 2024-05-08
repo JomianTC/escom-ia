@@ -17,6 +17,7 @@ import { UserModule } from "./user/user.module";
 import { TagModule } from "./tag/tag.module";
 import { GptAiModule } from "./gpt-ai/gpt-ai.module";
 import { MailerModule } from "@nestjs-modules/mailer";
+import { StatusModule } from './status/status.module';
 
 @Module({
 	imports: [
@@ -94,6 +95,8 @@ import { MailerModule } from "@nestjs-modules/mailer";
 		NotificationModule,
 
 		GptAiModule,
+
+		StatusModule,
 	],
 	controllers: [],
 	providers: [],

@@ -35,18 +35,12 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot(),
             typeorm_1.TypeOrmModule.forRoot({
-                type: "postgres",
+                type: "mysql",
                 host: process.env.DB_HOST,
                 port: +process.env.DB_PORT,
                 username: process.env.DB_USERNAME,
                 password: process.env.DB_PASSWORD,
                 database: process.env.DB_NAME,
-                ssl: true,
-                extra: {
-                    ssl: {
-                        rejectUnauthorized: false,
-                    },
-                },
                 autoLoadEntities: true,
                 synchronize: true,
             }),

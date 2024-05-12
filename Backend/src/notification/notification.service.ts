@@ -27,17 +27,40 @@ export class NotificationService {
 			if ( notificationExists ) 
 				throw new BadRequestException( { mensaje: "El dispositivo ya esta registrado" } );
 
-			const registerNotification = this.notificationRepository.create({
-				userID,
-				procedureID,
-				endpoint,
-				expirationTime,
-				...keys,
+			const endpoints = await this.notificationRepository
+				.createQueryBuilder( "usuarioEndpoint" )
+				.select( "DISTINCT usuarioEndpoint.endpoint", "endpoint" )
+				.where( "usuarioEndpoint.userID = :userID ", { userID })
+				.getRawMany();
+
+			if ( endpoints.length < 2 ) {
+
+				const registerNotification = this.notificationRepository.create({
+					userID,
+					procedureID,
+					endpoint,
+					expirationTime,
+					...keys,
+				});
+
+				await this.notificationRepository.save( registerNotification );
+				
+				return { mensaje: "Notificaciones activadas correctamente" };
+			}
+
+			endpoints.forEach( async ( endpoint ) => {
+
+
+				const registerNotification = this.notificationRepository.create({
+					userID,
+					procedureID,
+					endpoint: endpoint.endpoint,
+					expirationTime,
+					...keys,
+				});
+
+				await this.notificationRepository.save( registerNotification );
 			});
-
-			await this.notificationRepository.save( registerNotification );
-
-			return { mensaje: "Notificaciones activadas correctamente" };
 
 		} catch ( error ) { HandleErrors( error ); }
 	}

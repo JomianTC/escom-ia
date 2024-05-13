@@ -32,7 +32,7 @@ export class CreateTeacherDto {
 		"Departamento de Extensión y Apoyos Educativos",
 		"Unidad Politécnica de Integración Social",
 		"Subdirección Administrativa",
-		"Departamento de Capital Huano",
+		"Departamento de Capital Humano",
 		"Departamento de Recursos  Financieros",
 		"Departamento de Recursos Materiales y Servicios"
 	])
@@ -41,7 +41,7 @@ export class CreateTeacherDto {
 	@IsString()
 	@IsIn([	
 		"Doctor",
-		"Maestro en Ciencias",
+		"Maestro",
 		"Ingeniero",
 		"Licenciado",
 		"Investigador"

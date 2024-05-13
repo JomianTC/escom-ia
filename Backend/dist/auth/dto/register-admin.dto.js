@@ -58,7 +58,7 @@ __decorate([
         "Departamento de Extensión y Apoyos Educativos",
         "Unidad Politécnica de Integración Social",
         "Subdirección Administrativa",
-        "Departamento de Capital Huano",
+        "Departamento de Capital Humano",
         "Departamento de Recursos  Financieros",
         "Departamento de Recursos Materiales y Servicios"
     ]),

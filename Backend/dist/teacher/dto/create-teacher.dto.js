@@ -46,7 +46,7 @@ __decorate([
         "Departamento de Extensión y Apoyos Educativos",
         "Unidad Politécnica de Integración Social",
         "Subdirección Administrativa",
-        "Departamento de Capital Huano",
+        "Departamento de Capital Humano",
         "Departamento de Recursos  Financieros",
         "Departamento de Recursos Materiales y Servicios"
     ]),
@@ -56,7 +56,7 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsIn)([
         "Doctor",
-        "Maestro en Ciencias",
+        "Maestro",
         "Ingeniero",
         "Licenciado",
         "Investigador"

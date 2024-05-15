@@ -24,10 +24,13 @@ let ComentService = class ComentService {
     }
     async create(user, createComentDto) {
         try {
+            const fechaActualUTC = new Date();
+            const desplazamientoTiempo = new Date().toLocaleString("en-US", { timeZone: "America/Mexico_City" });
+            const fechaActualMexico = new Date(fechaActualUTC.valueOf() + new Date(desplazamientoTiempo).getTimezoneOffset() * 60 * 1000);
             const coment = this.comentRepository.create({
                 ...createComentDto,
                 id_usuario: user,
-                fecha: new Date()
+                fecha: fechaActualMexico
             });
             await this.comentRepository.save(coment);
             return coment;

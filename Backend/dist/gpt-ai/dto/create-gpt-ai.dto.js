@@ -15,6 +15,11 @@ class CreateGptAiDto {
 }
 exports.CreateGptAiDto = CreateGptAiDto;
 __decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CreateGptAiDto.prototype, "nombre", void 0);
+__decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Array)

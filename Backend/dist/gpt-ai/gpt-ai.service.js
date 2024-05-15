@@ -18,8 +18,8 @@ let GptAiService = class GptAiService {
         this.g4f = new g4f_1.G4F();
     }
     async createComent(createGptAiDto) {
-        const { tags } = createGptAiDto;
-        let consultaGPT = create_coment_query_1.createComentQuery;
+        const { tags, nombre } = createGptAiDto;
+        let consultaGPT = `Crea un comentario sobre el/la docente ${nombre}` + create_coment_query_1.createComentQuery;
         try {
             if (tags.length === 0)
                 throw new common_1.BadRequestException({ message: "Los tags son requeridos" });

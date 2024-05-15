@@ -23,8 +23,8 @@ export class GptAiService {
 
 	async createComent( createGptAiDto: CreateGptAiDto ) {
 
-		const { tags } = createGptAiDto;
-		let consultaGPT = createComentQuery;
+		const { tags, nombre } = createGptAiDto;
+		let consultaGPT = `Crea un comentario sobre el/la docente ${ nombre }` + createComentQuery;
 
 		try {
 

@@ -145,8 +145,6 @@ export class GptAiService {
 
 		const { comentario } = createGptAiDto;
 
-		let consultaGPT = validateComentQuery;
-
 		try {
 
 			if ( !comentario )
@@ -154,15 +152,19 @@ export class GptAiService {
 
 			const responseGTP = await this.g4f.chatCompletion([
 				{
+					role: "assistant", 
+					content: validateComentQuery
+				},
+				{
 					role: "user", 
-					content: `${ consultaGPT }\n${ comentario }`
+					content: comentario
 				}
-			]);
+			], { model: "gpt-4" });
 
-			if ( responseGTP.includes( "Buen Comentario" ) )
+			if ( responseGTP.includes( "Buen Comentario" ) || responseGTP.includes( "Buen comentario" ) || responseGTP.includes( "buen comentario" ) )
 				return { valid: true };
 			
-			if ( responseGTP.includes( "Mal Comentario" ) )
+			if ( responseGTP.includes( "Mal Comentario", "Mal comentario", "mal comentario" ) || responseGTP.includes( "Mal comentario") || responseGTP.includes( "mal comentario" ) )
 				return { valid: false };
 			
 		} catch ( error ) { HandleErrors( error ); }

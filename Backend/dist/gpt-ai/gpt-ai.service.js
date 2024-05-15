@@ -109,19 +109,22 @@ let GptAiService = class GptAiService {
     }
     async validateComent(createGptAiDto) {
         const { comentario } = createGptAiDto;
-        let consultaGPT = validate_coment_query_1.validateComentQuery;
         try {
             if (!comentario)
                 throw new common_1.BadRequestException({ message: "El comentario es requerido" });
             const responseGTP = await this.g4f.chatCompletion([
                 {
+                    role: "assistant",
+                    content: validate_coment_query_1.validateComentQuery
+                },
+                {
                     role: "user",
-                    content: `${consultaGPT}\n${comentario}`
+                    content: comentario
                 }
-            ]);
-            if (responseGTP.includes("Buen Comentario"))
+            ], { model: "gpt-4" });
+            if (responseGTP.includes("Buen Comentario") || responseGTP.includes("Buen comentario") || responseGTP.includes("buen comentario"))
                 return { valid: true };
-            if (responseGTP.includes("Mal Comentario"))
+            if (responseGTP.includes("Mal Comentario", "Mal comentario", "mal comentario") || responseGTP.includes("Mal comentario") || responseGTP.includes("mal comentario"))
                 return { valid: false };
         }
         catch (error) {

@@ -1,10 +1,10 @@
+import { MenuIcon } from '@/components/icons/Icons'
 import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
 import uuid from 'react-uuid'
-import { useWordByWord } from '../Profesores/components/WordByWord'
-import { MenuIcon } from '@/components/icons/Icons'
+import { useWordByWord } from '../../hooks/useWordByWord'
 
-export function ChatbotPage () {
+export function ChatbotPage() {
   const [recentQuestions, setRecentQuestions] = useState<string[]>([] as string[])
   const [chatResponses, setChatResponses] = useState([] as string[])
   const [answerResponse, setAnswerResponse] = useState([] as string[])
@@ -42,7 +42,7 @@ export function ChatbotPage () {
     }
   }, [])
   return (
-    <section className="container p-8 w-full h-full my-0 mx-auto grid  relative  z-50 ">
+    <section className="container p-8 w-full h-full my-0 mx-auto grid  relative  z-50  ">
       {/* Lado preguntas recientes */}
       {/* <aside className={`border-4 border-accent_200 -right-4 ${expand ? 'absolute w-full h-full top-0 left-0 z-[50] bg-bg_200' : 'hidden sm:block scale-95'}`}>
         {
@@ -63,7 +63,7 @@ export function ChatbotPage () {
         <header className="chatbot__header bg-primary_200 p-4 flex items-center justify-between rounded-md">
           <h1 className="text-2xl font-bold text-white">Chatbot</h1>
           <button onClick={handleExpand} className="bg-primary_100 p-2 rounded-full block md:hidden ">
-            <MenuIcon styles='stroke-2 w-10 h-10 fill-primary_200'/>
+            <MenuIcon styles='stroke-2 w-10 h-10 fill-primary_200' />
           </button>
         </header>
         <main className=" p-4 grow ">
@@ -73,19 +73,19 @@ export function ChatbotPage () {
               {recentQuestions.map((question, index) => (
                 <div key={uuid()} className="chatbot__message">
                   <p className="font-bold py-2">{question}</p>
-                  { index === chatResponses.length - 1 ? <p></p> : <p className="italic">{chatResponses[index]}</p>}
+                  {index === chatResponses.length - 1 ? <p></p> : <p className="italic">{chatResponses[index]}</p>}
                 </div>
               ))}
-              <p>{partialResponse }</p>
+              <p>{partialResponse}</p>
             </div>
           </div>
         </main>
         <footer className="">
           <form onSubmit={formik.handleSubmit} className="chatbot__form flex gap-8">
             <input autoComplete='off' type="text" name='message' onChange={formik.handleChange}
-         onBlur={formik.handleBlur}
-         value={formik.values.message} placeholder="Escribe tu mensaje aquí" className="chatbot__input" />
-            <button type="submit" disabled={isIALoading || showingPartial } className="chatbot__button bg-bg_200 drop-shadow-md  rounded-full w-14 h-12 disabled:opacity-40">
+              onBlur={formik.handleBlur}
+              value={formik.values.message} placeholder="Escribe tu mensaje aquí" className="chatbot__input" />
+            <button type="submit" disabled={isIALoading || showingPartial} className="chatbot__button bg-bg_200 drop-shadow-md  rounded-full w-14 h-12 disabled:opacity-40">
               <img src="/icons/send.webp" width={32} className='mx-auto invert' alt="send" />
             </button>
           </form>

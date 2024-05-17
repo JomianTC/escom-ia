@@ -1,13 +1,14 @@
 import { useGetAdmin } from '@/api/users/use-get-admin'
 import { MyTextInput } from '@/components/InputText'
+import { SubmitButton } from '@/components/SubmitButton'
 import { PRIVATE_ROUTES_MODEL } from '@/models'
 import { useAppDispatch } from '@/store/hooks/useAppSelector'
 import { setSession } from '@/store/slices/authSlice'
 import { login } from '@/store/slices/userSlice'
+import { type LevelAccess } from '@/types/index'
 import { Form, Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { administradorEsquemaRegistro } from '../Schemas'
-import { type LevelAccess } from '@/types/index'
 
 export default function AdminLogin () {
   const dispatch = useAppDispatch()
@@ -42,7 +43,7 @@ export default function AdminLogin () {
               await startLogin('admin', values)
             }}
         >
-            {() => (
+        {({ isSubmitting }) => (
                 <Form
                     className="flex flex-col gap-2 w-full sm:px-10"
                     noValidate
@@ -59,19 +60,10 @@ export default function AdminLogin () {
                         type="password"
                         className="input-border"
                     />
-                    <button
-                        type="submit"
-                        className="white-border"
-                    >
-                        Submit
-                    </button>
+                <SubmitButton disabled={isSubmitting} text="Iniciar Sesión" />
                 </Form>
-            )}
+        )}
         </Formik>
-        {/* <button onClick={async () => { await startLogin() }}>Login</button> */}
-{/* <button onClick={async () => { await startLogin('ADMIN') }}>LoginUsingRole</button> */}
-{/* {userQuery.isPending && <div>Loading...</div>} */}
-{/* {userQuery.isError && <div>Oops prueba de nuevo</div>} */}
     </>
   )
 }

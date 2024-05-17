@@ -20,15 +20,18 @@ export default function Modal ({ children, type = 'default', open = false, trigg
   const { changeState: changeModalState } = useAppSelector((state) => state.ui)
 
   const handleClose = () => {
+    if (!changeModalState) document.querySelector('#root')?.classList.add('open')
+    else document.querySelector('#root')?.classList.remove('open')
     dispatch(changeState())
-    document.querySelector('#root')?.classList.toggle('open')
   }
 
   useEffect(() => {
     if (changeModalState) {
       setIsOpen(true)
+      document.querySelector('#root')?.classList.add('open')
     } else {
       setIsOpen(false)
+      document.querySelector('#root')?.classList.remove('open')
     }
   }, [changeModalState])
 

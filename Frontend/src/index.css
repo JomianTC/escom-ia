@@ -29,7 +29,7 @@
         var(--accent_200) 180%
     );
 
-    color-scheme: light dark;
+    /* color-scheme: light dark; */
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
     background: var(--gradiend);
@@ -115,6 +115,7 @@ body {
     overflow: hidden;
     scroll-behavior: smooth;
     height: 100%;
+    max-height: 100vh;
 }
 #root.open {
     overflow: hidden;
@@ -126,6 +127,7 @@ body {
 #root:has(nav ul.active) main.main__container section {
     scale: 0.8;
     user-select: none;
+    pointer-events: none;
 }
 #root:has(nav ul.active) main.main__container section,
 #root:has(nav ul.active) main.main__container .container {
@@ -288,6 +290,16 @@ input[type="text"].input-procedure {
 .profesores__grid {
     /* background-color: var(--bg_200); */
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    grid-template-rows: repeat(3,1fr);
+}
+
+.profesores__grid .profesor__item {
+    display: grid;
+    padding: 0.2rem 0.2rem;
+    border: 0px;
+}
+.profesor__item article {
+    grid-template-rows: subgrid;
 }
 
 .profesor__detail__grid {
@@ -314,12 +326,14 @@ input[type="text"].input-procedure {
     /* overflow: hidden; */
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: transform 0.25s;
+    padding: 1rem 1rem;
+    transition: transform 0.25s shadow 0.50s;
 }
 
 .profesor__card div a h2 {
     transition: color 0.25s;
     text-shadow: 1px 1px 6px var(--black);
+    line-height: normal;
 }
 
 .profesor__card div a:hover h2 {
@@ -1007,4 +1021,31 @@ background: linear-gradient(    to bottom,
     100% {
         transform: scale(1) translateY(-2px);
     }
+}
+
+.button-reset:focus,
+.button-reset:active,
+.button-reset:focus-within,
+.button-reset:focus-visible {
+    /* background: inherit; */
+    /* font: inherit; */
+    cursor: pointer;
+    outline: inherit;
+    outline: none;
+    outline-offset: 0px;
+}
+.button-reset:active {
+    transform: scale(0.95);
+}
+
+
+.text-area {
+    resize: none;
+    border: 2px solid var(--primary_200);
+    box-shadow: 2px 4px 0px 0px var(--primary_200);
+    width: 100%;
+    transition: box-shadow 0.25s;
+    padding: 0.4rem 1.2rem;   
+    height: 20px;
+    max-height: 140px;
 }

@@ -1,18 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { API_URLS, iaClient } from '../axios'
-import { getLocalStorage } from '@/utilities/localStorage.utlity'
-async function getIAComment (tags: string[]) {
+async function getIAComment (values: { tags: string[], nombre: string }) {
   try {
-    console.log({ tags })
-    console.log(getLocalStorage('token'))
-
-    const response = await iaClient.post(API_URLS.ia.createComment, { tags })
+    const response = await iaClient.post(API_URLS.ia.createComment, {
+      tags: values.tags,
+      nombre: values.nombre
+    })
 
     return response.data
   } catch (error) {
-    console.log(error)
-
+    console.error(error)
     throw new Error('Oops esto es por nosotros no por ti, intenta de nuevo más tarde')
   }
 }

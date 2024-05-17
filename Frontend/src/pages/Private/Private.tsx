@@ -4,7 +4,7 @@ import { PRIVATE_ROUTES } from '@/models'
 import { type IRoute } from '@/types/index'
 import { RoleGuard } from '@guards/index.ts'
 import RoutesWithNotFound from '@utils/RoutesWithNotFound'
-import { lazy } from 'react'
+import { lazy, useEffect } from 'react'
 import { Navigate, Route } from 'react-router-dom'
 import { Bubble } from '../Home/components/Bubble'
 import { DashboardAdmin } from './Dashboard/DashboardAdmin'
@@ -12,9 +12,13 @@ import { EditarProfesores, EditProfesor } from './Dashboard/EditarProfesores'
 import { EditarRequerimientos } from './Dashboard/EditarRequerimientos'
 import { EditarTags } from './Dashboard/EditarTags'
 import { CreateTagComponent } from './Dashboard/components/CreateTagComponent'
+import { setToken } from '../hooks/useAuthToken'
 const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashboard'))
 
 export default function Private () {
+  useEffect(() => {
+    setToken()
+  }, [])
   return (
     <>
       <NavBar>
@@ -35,7 +39,10 @@ export default function Private () {
           <Route element={<RoleGuard rol={'admin'} />}>
             <Route path={'dashboardadmin'} element={<DashboardAdmin />} >
             <Route path={'/dashboardadmin'} element={<h1>Perfil del administrador</h1>} />
-              <Route path={'editarTags'} element={<EditarTags><CreateTagComponent/></EditarTags>} />
+              <Route path={'editarTags'} element={
+                <EditarTags>
+                <CreateTagComponent />
+              </EditarTags>} />
               <Route path={'profesores-editar'} element={<EditarProfesores/>} />
               <Route path={'profesores-editar/:id'} element={<EditProfesor/>} />
               <Route path={'requerimientos'} element={<EditarRequerimientos/>} />

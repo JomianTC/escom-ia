@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 
 export function CreateTagComponent () {
   const createTag = useCreateTag()
+
   const createFormik = useFormik({
     initialValues: {
       tag: ''
@@ -20,7 +21,7 @@ export function CreateTagComponent () {
         createFormik.resetForm()
         await createFormik.setFieldValue('tag', '')
       }).catch((err) => {
-        console.log(err)
+        console.error(err)
       }).finally(() => {
         createFormik.resetForm()
       })
@@ -36,11 +37,12 @@ export function CreateTagComponent () {
       }, 3000)
       return () => {
         clearTimeout(timeOut)
+        createFormik.resetForm()
       }
     }
   }, [createFormik.values.tag, createTag.isSuccess, createTag.isError, createTag.isIdle])
   return (
-    <form onSubmit={createFormik.handleSubmit} className="flex flex-col sm:flex-row gap-2 sm:items-center flex-wrap w-full">
+    <form onSubmit={createFormik.handleSubmit} className="flex flex-col sm:flex-row gap-2 sm:items-center flex-wrap w-full -mt-4">
     <div className='flex flex-col'>
       <label htmlFor="tag" className='font-semibold '>Crea un nuevo Tag</label>
       {(createFormik.errors.tag != null && (createFormik.touched.tag === true)) && <p className='text-red-600 font-semibold inline-block '> {createFormik.errors.tag} </p>

@@ -11,7 +11,6 @@ export function useEditTeacher () {
   const naviagate = useNavigate()
   async function updateTeacher (values: TeacherData & { sexo: ValidSex }) {
     const { calificacion, foto_perfil: fotoPerfil, sexo, id: formId, ...filteredValues } = values
-    console.log(filteredValues)
 
     try {
       const response = await teacherClient.put(API_URLS.teacherClient.updateTeacher + id, filteredValues)

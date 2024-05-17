@@ -5,7 +5,6 @@ import { tagQueryKeys } from './tags-query-keys'
 
 async function deleteTag (id: string) {
   const token = JSON.parse(localStorage.getItem('token') ?? '{}')
-  console.log(token)
   tagsClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   try {
     const response = await tagsClient.delete(API_URLS.tagClient.deleteTag + id)

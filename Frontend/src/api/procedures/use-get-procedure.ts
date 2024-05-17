@@ -18,8 +18,6 @@ type ProcedureResponse = { id: string
 export function useGetOneProcedure () {
   const { id } = useParams()
   const navigate = useNavigate()
-  console.log(id)
-
   if (id == null) {
     navigate('/private/tramites')
   }

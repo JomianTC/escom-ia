@@ -11,7 +11,6 @@ const updateRequirement = async (newRequirement: { nombre: string, id: string })
     const response = await requirmentClient.put(API_URLS.requirmentClient.updateRequirments + newRequirement.id, { nombre })
     return response.data
   } catch (error) {
-    console.log(error)
     throw new Error('Oops esto es por nosotros no por ti, intenta de nuevo más tarde')
   }
 }
@@ -26,7 +25,7 @@ export function useUpdateRequirment () {
       return newTag
     },
     onError: (error, _newTag, context) => {
-      console.log(error)
+      console.error(error)
       // An error happened!
       toast.error('Error al actualizar el dato')
       // Use the context to roll back the mutation

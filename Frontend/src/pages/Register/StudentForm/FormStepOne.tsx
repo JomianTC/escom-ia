@@ -1,10 +1,10 @@
 import { MyTextInput } from '../../../components/InputText'
 import { InputTypeFile } from '../../../components/InputTypeFile'
 
-export function FormStepOne () {
+export function FormStepOne ({ canUpload = false }) {
   return (
         <>
-            <InputTypeFile name="foto_perfil" />
+          {canUpload && <InputTypeFile name="foto_perfil" />}
             <MyTextInput
                 label="Nombre"
                 name="nombres"

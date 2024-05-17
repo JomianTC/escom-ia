@@ -12,8 +12,6 @@ async function deleteTeacher (id: Pick<TeacherData, 'id'>) {
   try {
     const response = await teacherClient.delete(`${API_URLS.teacherClient.deleteTeacher}/${id.id}`)
     const data: TeacherRemovedRespose = response.data
-    console.log(data)
-    console.log(response)
     return data
   } catch (err: any) {
     throw new Error('No se ha podido eliminar el profesor')

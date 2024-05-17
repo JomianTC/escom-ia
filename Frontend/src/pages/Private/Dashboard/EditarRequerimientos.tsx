@@ -32,7 +32,6 @@ export function EditarRequerimientos ({ children }: { children?: ReactNode }) {
   async function handleSelect (value: string, id: string) {
     await formik.setFieldValue('value', value)
     await formik.setFieldValue('label', id)
-    console.log(formik.values)
   }
   return (
       <AdminDashboardLayout title='Editar Requerimientos'>

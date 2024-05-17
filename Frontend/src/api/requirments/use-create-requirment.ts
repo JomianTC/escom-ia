@@ -9,7 +9,7 @@ async function createRequirment (requirment: string) {
   requirmentClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   try {
     const response = await requirmentClient.post(API_URLS.requirmentClient.createRequirment, { nombre: requirment, descripcion: '' })
-    console.log(response.data)
+    return response.data
   } catch (error) {
     throw new Error('No se pudo crear el requerimiento')
   }
@@ -19,9 +19,6 @@ export function useCreateRequirment () {
   const client = useQueryClient()
   return useMutation({
     mutationFn: createRequirment,
-    onMutate: async (requirment) => {
-      console.log(requirment)
-    },
     onSuccess: async () => {
       toast.success('Requerimiento creado')
       await client.invalidateQueries({ queryKey: requirmentsQueryKeys.all })

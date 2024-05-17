@@ -10,13 +10,13 @@ import { createMarkup } from '@/utilities/sanitize'
 import { useDispatch } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ActivateModal } from './components/Modal'
-import { NotificationIcon } from '@/components/icons/Icons'
 
 export function Tramites () {
   const { rol } = useAppSelector((state) => state.auth)
   const canCreateAndEdit = rol === LEVEL_ACCESS.ADMIN
-  const isStudent = rol === LEVEL_ACCESS.STUDENT
+  // const isStudent = rol === LEVEL_ACCESS.STUDENT
   const dispatch = useDispatch()
+  // const notifications = useSubscribe()
   const handleDetails = (procedure: Procedure, requerimientos: string[]) => {
     dispatch(setProcedure({ ...procedure, requerimientos }))
     // dispatch(showModal())
@@ -90,11 +90,12 @@ export function Tramites () {
                       isAvailable ? 'Desactivar' : 'Activar'
                     }</button>
                 </>)}
-                {isStudent && (
-                  <button onClick={() => {
+                {/* {isStudent && (
+                  <button onClick={async () => {
                     dispatch(setInfoModal({ id: tramite.id, type: 'tramite', nombre: tramite.nombre, estado: tramite.estado }))
-                  }} className={'flex items-center justify-center w-fit h-fit py-2 px-3  text-white  rounded-lg hover:bg-primary_100 transition-colors '}> <NotificationIcon styles='h-6 w-6 fill-none stroke-primary_200 stroke-2 hover:stroke-primary_300'/> </button>
-                )}
+                    await notifications.mutateAsync(tramite.id)
+                  }} className={'flex items-center justify-center w-fit h-fit py-2 px-3  text-white  rounded-lg hover:bg-primary_100 transition-colors '} > <NotificationIcon styles='h-6 w-6 fill-none stroke-primary_200 stroke-2 hover:stroke-primary_300' /> </button>
+                )} */}
               </div>
             </div>
           )

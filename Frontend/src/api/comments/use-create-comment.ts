@@ -10,8 +10,8 @@ import { commentsQueryKeys } from './comments-query-keys'
 const createComment = async (data: CommentStructure) => {
   try {
     const validateResponse = await iaClient.post(API_URLS.ia.validate, { comentario: data.comentario })
-    console.log(validateResponse)
-    console.log(data)
+    // console.log(validateResponse)
+    // console.log(data)
 
     if (validateResponse.data.valid === false) {
       throw new Error('El comentario no es válido')

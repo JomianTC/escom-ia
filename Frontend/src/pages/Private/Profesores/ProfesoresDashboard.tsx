@@ -45,7 +45,7 @@ export function Profesores () {
   }
 
   return (
-      <section className='profesores__grid container p-8 w-full h-full my-0 mx-auto grid gap-2 sm:gap-6 relative z-40 overflow-y-scroll custom-scrollbar auto-rows-min'>
+      <section className='profesores__grid container p-8 w-full h-full my-0 mx-auto grid gap-2 sm:gap-6 relative z-40 overflow-y-scroll custom-scrollbar auto-rows-min '>
         <div className="controls col-span-full">
           <h1 className='grid__title'>Profesores</h1>
         <div className='flex items-center gap-2 flex-wrap'>
@@ -54,7 +54,7 @@ export function Profesores () {
               <input type="text" id='profesor-search' placeholder='Cortez Duarte ...' value={search} onChange={(e) => { setSearch(e.target.value) }} name='profesor-search' className='text-text_accent my-2 py-1 px-4 w-full ' />
           </div>
             <div className='grow flex justify-end  '>
-            {(rol === LEVEL_ACCESS.ADMIN && data?.total !== 0) && (<button className={`w-max px-4 py-1 bg-bg_200 rounded-full font-bold cursor-pointer border-accent_200 border-2 outline-none active:border-0  focus:border-0 border-none focus:outline-accent_200 focus-visible:outline-accent_200 ring-accent_100  ${isEditMode ? 'bg-primary_200 text-black hover:bg-primary_op_100/80' : 'hover:bg-primary_op_100/40'}` } onClick={handleEditMode}>Editar profesores</button>)}
+            {(rol === LEVEL_ACCESS.ADMIN && data?.total !== 0) && (<button className={`w-max px-4 py-1 bg-bg_200 rounded-full font-bold cursor-pointer border-accent_200 border-2 outline-none active:border-0  focus:border-0 border-none focus:outline-accent_200 focus-visible:outline-accent_200 ring-accent_100  ${isEditMode ? 'bg-primary_200 text-black hover:bg-primary_op_100/80' : 'hover:bg-primary_op_100/40'}` } onClick={handleEditMode}>Eliminar profesores</button>)}
             </div>
           </div>
           {/* <div className='flex flex-col items-end gap-2'>

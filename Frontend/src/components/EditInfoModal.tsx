@@ -3,24 +3,29 @@ import { StudentForm } from '@/pages/Register/StudentForm/StudentForm'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { changeState } from '@/store/slices/uiSlice'
 import { LEVEL_ACCESS } from '@/types/index'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Modal, { AdminInfo, ModalTrigger, StudentInfo } from './Modal'
 
 export default function EditInfoModal () {
   const { rol } = useAppSelector((state) => state.auth)
   const { nombres, foto_perfil: fotoPerfil } = useAppSelector((state) => state.user)
+  const { changeState: changeModalState } = useAppSelector((state) => state.ui)
   const [modify, setModify] = useState(false)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const handlePageChange = () => {
     dispatch(changeState())
+    setModify(false)
     navigate('/private/comments')
   }
+  useEffect(() => {
+    setModify(false)
+  }, [changeModalState])
   const isStudent = rol === LEVEL_ACCESS.STUDENT
   return (
     <>
-      <Modal trigger={<ModalTrigger className={'profile-icon w-12 h-12 absolute bottom-0 sm:relative opacity-100'}>
+      <Modal trigger={<ModalTrigger className={'profile-icon w-9 h-9 absolute bottom-0 sm:relative opacity-100 overflow-hidden rounded-full hover:scale-110 transition-transform'}>
       {rol === LEVEL_ACCESS.STUDENT && (<img src={fotoPerfil} alt={nombres} />)}
     </ModalTrigger>
       }>

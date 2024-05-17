@@ -21,11 +21,10 @@ export function ShareModal () {
             <div >
               <Formik initialValues={{ email: '' }}
                 onSubmit={async (values, actions) => {
-                  console.log(values)
                   await grantAccess.mutateAsync(values).then(() => {
                     dispatch(closeShareModal())
                   }).catch((err) => {
-                    console.log(err)
+                    console.error(err)
                     actions.resetForm()
                   })
                 }}

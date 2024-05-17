@@ -3,8 +3,7 @@ import { toast } from 'react-toastify'
 import { API_URLS, procedureClient } from '../axios'
 import { proceduresQueryKeys } from './procedures-query-keys'
 
-async function changeState ({ id, estado }: { id: string, estado: boolean }) {
-  console.log({ id, estado })
+async function changeState ({ id }: { id: string, estado: boolean }) {
   try {
     const response = await procedureClient.delete(API_URLS.procedures.deleteProcedure + id)
     return response.data

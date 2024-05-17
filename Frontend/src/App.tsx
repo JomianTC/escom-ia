@@ -17,6 +17,8 @@ import Private from './pages/Private/Private'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ToastContainer } from 'react-toastify'
 import Loader from './components/Loader'
+import { Recover } from './pages/Login/Recover'
+import { ChangePassword } from './pages/Login/ChangePassword'
 // LAZYLOADING DE LOGIN Y LAS PARTES PRIVADAS
 
 const queryClient = new QueryClient()
@@ -44,6 +46,14 @@ function App () {
                             <Route
                                 path={PUBLIC_ROUTES_MODEL.HOME.path}
                                 element={<Home />}
+                          />
+                            <Route
+                                path={PUBLIC_ROUTES_MODEL.RECOVER.path}
+                                element={<Recover/>}
+                          />
+                            <Route
+                                path={PUBLIC_ROUTES_MODEL.CHANGE_PASSWORD.path}
+                                element={<ChangePassword/>}
                             />
 
                             <Route

@@ -17,7 +17,6 @@ export function useGrantAccess () {
     mutationFn: grantAccess,
     onSuccess: async () => {
       toast.success('Permiso concedido correctamente')
-      console.log('Permiso concedido')
     },
     onError: (error) => {
       toast.error('Error al conceder permiso')

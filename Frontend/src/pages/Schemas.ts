@@ -104,6 +104,10 @@ export const updateSchema = yup.object().shape({
   nombre: yup.string().trim().min(2, 'Debes contar con un mínimo de 2 carácteres').required('Un nuevo valor es requerido')
 })
 
+export const recoverPasswordSchema = yup.object().shape({
+  email_recuperacion: yup.string().email('Correo no valido').required('El email es requerido')
+})
+
 export const AREAS = [
   'Dirección',
   'Consejo Técnico Consultivo Escolar',
@@ -117,7 +121,7 @@ export const AREAS = [
   'Departamento de Ingeniería en Sistemas Computacionales',
   'Departamento de Fórmacion Integral e Institucional',
   'Departamento de Evaluación y Seguimiento Académico',
-  'departamento de Innovación Educativa',
+  'Departamento de Innovación Educativa',
   'Unidad de Tecnología Educativa y Campus Virtual',
   'Sección de Estudios de Posgrado e Investigación',
   'Colegio de Profesores',
@@ -129,7 +133,7 @@ export const AREAS = [
   'Departamento de Extensión y Apoyos Educativos',
   'Unidad Politécnica de Integración Social',
   'Subdirección Administrativa',
-  'Departamento de Capital Huano',
+  'Departamento de Capital Humano',
   'Departamento de Recursos  Financieros',
   'Departamento de Recursos Materiales y Servicios'
 ]
@@ -141,3 +145,8 @@ export const GRADOS_ACADEMICOS = ['Doctor',
   'Investigador',
   'Maestro'
 ]
+
+export const changePasswordSchema = yup.object().shape({
+  contrasena: passwordSchema,
+  email_recuperacion: yup.string().email('El email no es valido').required('El email de recuperacion es requerido')
+})

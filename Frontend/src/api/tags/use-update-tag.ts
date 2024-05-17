@@ -11,7 +11,6 @@ const updateTag = async (newTag: { nombre: string, id: string }) => {
     const response = await tagsClient.put(API_URLS.tagClient.updateTags + newTag.id, { nombre })
     return response.data
   } catch (error) {
-    console.log(error)
     throw new Error('Oops esto es por nosotros no por ti, intenta de nuevo más tarde')
   }
 }
@@ -26,7 +25,7 @@ export function useUpdateTag () {
       return newTag
     },
     onError: (error, _newTag, context) => {
-      console.log(error)
+      console.error(error)
       // An error happened!
       toast.error('Error al actualizar el tag')
       // Use the context to roll back the mutation

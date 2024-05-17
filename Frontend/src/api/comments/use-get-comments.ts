@@ -10,8 +10,6 @@ export const useGetComments = (readyToFetch: boolean) => {
   const getAllComments = async ({ pageParam }: { pageParam: number }) => {
     const response = await commentsClient.get(`teacher/${id}?page=${pageParam}`)
     const data: CommentsByTeacherResponse = response.data
-    console.log(data)
-
     return data
   }
 

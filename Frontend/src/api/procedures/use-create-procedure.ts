@@ -33,11 +33,7 @@ export function useCreateProcedure () {
       toast.success('Trámite creado')
       return data
     },
-    onError: (_err, procedure, context) => {
-      console.log(procedure)
-      console.log(context)
-      console.log(_err)
-
+    onError: (_err, _procedure, _context) => {
       toast.error('No se pudo crear el trámite')
     }
 

@@ -52,9 +52,6 @@ export default function Login () {
                 <Link to="/register" className="text-primary_300">
                     ¿No tienes una cuenta? ¡Unete Ahora!
                 </Link>
-                {/* <button onClick={async () => { await startLogin() }}>Login</button> */}
-        {/* <button onClick={async () => { await startLogin('ADMIN') }}>LoginUsingRole</button> */}
-
             </>
         </FormLayout>
   )

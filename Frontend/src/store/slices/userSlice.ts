@@ -52,7 +52,7 @@ export const userSlice = createSlice({
   reducers: {
     login: (_, action) => {
       const payload: LoginAction = action.payload
-      const defaultImg = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+      const defaultImg = 'https://cdn.icon-icons.com/icons2/933/PNG/512/round-account-button-with-user-inside_icon-icons.com_72596.png'
 
       if (payload.type === 'admin') {
         const data = { ...payload.user.admin, loggedIn: true, rol: 'admin', foto_perfil: defaultImg, nombres: payload.user.admin.nombre, apellidos: '' }
@@ -62,7 +62,7 @@ export const userSlice = createSlice({
       }
 
       if (payload.type === 'student') {
-        const data = { ...payload.user.usuario, loggedIn: true, rol: 'student', foto_perfil: defaultImg }
+        const data = { ...payload.user.usuario, loggedIn: true, rol: 'student', foto_perfil: payload.user.usuario.foto_perfil === '' ? defaultImg : payload.user.usuario.foto_perfil }
         setLocalStorage('token', payload.user.token)
         setLocalStorage(USER_KEY, { ...data, rol: '8a91328c-cfe0-2148-9318-801d55f7b529' })
         return data

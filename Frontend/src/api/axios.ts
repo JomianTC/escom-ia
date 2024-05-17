@@ -3,7 +3,8 @@ import axios from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import { useRefreshToken } from './users/use-refresh-token'
 // const BASE_URL = 'http://localhost:3000'
-const BASE_URL = 'https://escom-ia.onrender.com'
+// const BASE_URL = 'https://escom-ia.onrender.com'
+const BASE_URL = import.meta.env.VITE_API
 // const BASE_URL = 'https://31nkm0vc-8080.usw3.devtunnels.ms'
 export const API_URLS = {
   apiClient: {
@@ -20,6 +21,7 @@ export const API_URLS = {
     updateProfilePicture: '/update/profile-picture',
     deleteProfilePicture: '/delete-picture',
     updatePassword: '/new/password',
+    resetPassword: '/reset/password',
     updateInfo: '/update'
   },
   teacherClient: {
@@ -169,6 +171,14 @@ export const requirmentClient = axios.create({
   }
 })
 
+export const notificationClient = axios.create({
+  baseURL: API_URLS.notificationRoutes.client,
+  headers: {
+    'Content-Type': 'application/json'
+    // Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
+  }
+
+})
 export const API_METHODS = {
   GET: 'GET',
   POST: 'POST',

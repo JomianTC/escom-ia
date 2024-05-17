@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { administradorEsquema } from '../../Schemas'
 import { FormStepOneAdmin } from './FormStepOne'
+import { SubmitButton } from '@/components/SubmitButton'
 
 const adminValues = {
   identificador: '1010101010',
@@ -50,49 +51,44 @@ export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {
   return (
     <>
       {createAdmin.isError && <div>Hubo un error</div>}
-    <Formik
+      <Formik
         initialValues={adminValues}
         validateOnChange={false}
         validationSchema={
-            administradorEsquema
+          administradorEsquema
         }
         onSubmit={handleSubmit}
-    >
-        {() => (
-            <Form
-                className="flex flex-col gap-2 w-full sm:px-10"
-                noValidate
-            >
-                {FORM_STEPS[0]}
-                <div className="flex justify-between flex-row-reverse">
-                    <button
-                        type="submit"
-                        className="white-border opacity-100 disabled:opacity-50"
-                    >
-                        {canAdvance ? 'Siguiente' : isUpdate ? 'Actualizar' : 'Registrarse'}
-                    </button>
-                    {canGoBack && (
-                        <button
-                            type="button"
-                            onClick={handleBack}
-                            className="white-border opacity-100"
-                        >
-                            Anterior
-                        </button>
-                    )}
-                </div>
-            </Form>
+      >
+        {({ isSubmitting }) => (
+          <Form
+            className="flex flex-col gap-2 w-full sm:px-10"
+            noValidate
+          >
+            {FORM_STEPS[0]}
+            <div className="flex justify-between flex-row-reverse">
+              <SubmitButton disabled={isSubmitting} text={canAdvance ? 'Siguiente' : isUpdate ? 'Actualizar' : 'Registrarse'} />
+              {canGoBack && (
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="white-border opacity-100"
+                >
+                  Anterior
+                </button>
+              )}
+            </div>
+          </Form>
         )}
       </Formik>
       {!isUpdate && (
-      <Link
+        <Link
           to={`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`}
           className="text-primary_300"
           replace
-      >
+        >
           ¿Ya tienes cuenta? Inicia sesión
-      </Link>
-      ) }
-</>
+        </Link>
+      )}
+    </>
   )
 }

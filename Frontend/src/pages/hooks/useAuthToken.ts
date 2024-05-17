@@ -1,11 +1,10 @@
 import { getLocalStorage } from '@/utilities/localStorage.utlity'
-import { apiClient, commentsClient, iaClient, imageClient, procedureClient, requirmentClient, tagsClient, teacherClient } from './axios'
 import { toast } from 'react-toastify'
+import { apiClient, commentsClient, iaClient, imageClient, notificationClient, procedureClient, requirmentClient, tagsClient, teacherClient } from '../../api/axios'
 
-export function setToken () {
-  const token = getLocalStorage('token').value ?? ''
+export function setToken (tokenReceived = '') {
+  const token = getLocalStorage('token').value?.trim() ?? tokenReceived.trim()
   if (token !== '') {
-    apiClient.defaults.headers.common.Authorization = `Bearer ${token}`
     apiClient.defaults.headers.common.Authorization = `Bearer ${token}`
     teacherClient.defaults.headers.common.Authorization = `Bearer ${token}`
     commentsClient.defaults.headers.common.Authorization = `Bearer ${token}`
@@ -14,7 +13,8 @@ export function setToken () {
     iaClient.defaults.headers.common.Authorization = `Bearer ${token}`
     procedureClient.defaults.headers.common.Authorization = `Bearer ${token}`
     requirmentClient.defaults.headers.common.Authorization = `Bearer ${token}`
+    notificationClient.defaults.headers.common.Authorization = `Bearer ${token}`
   } else {
-    toast.error('No se ha iniciado sesión')
+    toast.info('No se ha iniciado sesión')
   }
 }

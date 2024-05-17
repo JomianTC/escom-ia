@@ -13,13 +13,11 @@ function initSW () {
   window.addEventListener('load', () => {
     if ('serviceWorker' in navigator) {
       void navigator.serviceWorker.register('/sw.js')
-
       if (navigator.serviceWorker.controller != null) {
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           window.location.reload()
         })
       }
-
       void navigator.serviceWorker.ready.then(async (registration) => {
         if ('periodicSync' in registration) {
           const status = await navigator.permissions.query({
@@ -33,7 +31,6 @@ function initSW () {
             })
           }
         }
-
         if (window.matchMedia('(display-mode: standalone)').matches) {
           document.addEventListener('visibilitychange', () => {
             if (document.visibilityState !== 'hidden') {
@@ -41,6 +38,17 @@ function initSW () {
               void registration.update()
             }
           })
+        }
+        // Revisando si las notificaciones son soportadas
+        if (!('showNotification' in registration)) {
+          alert('Notifications aren\'t supported.')
+          console.warn('Notifications aren\'t supported.')
+          return
+        }
+        // Revisando si las notificaciones están permitidas
+        if (Notification.permission === 'denied') {
+          alert('The user has blocked notifications.')
+          console.warn('The user has blocked notifications.')
         }
       })
     }

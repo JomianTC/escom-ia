@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function ImageLoader ({ externalUrl = '', localUrl = '/icons/placeholderuser.png' }: { externalUrl: string, localUrl?: string }) {
+function ImageLoader ({ externalUrl = '', localUrl = '/icons/placeholderuser.png', extraStyles = '', smallCard = false }: { externalUrl: string, localUrl?: string, extraStyles?: string, smallCard?: boolean }) {
   const [loading, setLoading] = useState(true)
   const [imageUrl, setImageUrl] = useState(localUrl)
 
@@ -14,15 +14,15 @@ function ImageLoader ({ externalUrl = '', localUrl = '/icons/placeholderuser.png
   }, [externalUrl])
 
   return (
-    <div>
+    <>
       {loading
         ? (
-        <img src={localUrl} alt="Local Image" className='w-52' />
+          <img src={localUrl} alt="Local Image" className={`${smallCard ? extraStyles : 'w-52'}` }/>
           )
         : (
-        <img src={imageUrl} alt="External Image" className='w-52' />
+        <img src={imageUrl} alt="External Image" className={`${smallCard ? extraStyles : 'w-52'}` }/>
           )}
-    </div>
+    </>
   )
 }
 

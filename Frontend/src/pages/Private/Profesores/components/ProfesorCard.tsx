@@ -1,5 +1,6 @@
 import { teacherQueryKeys } from '@/api/teachers/teachers-query-keys'
 import { RemoveIcon } from '@/components/icons/Icons'
+import ImageLoader from '@/components/ImageLoader'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { openDeleteModal, setInfoModal } from '@/store/slices/uiSlice'
 import { LEVEL_ACCESS } from '@/types/index'
@@ -32,25 +33,26 @@ export function ProfesorCard ({ nombre, email, area, id = '/', detail, foto_perf
 
   const canDelete = (!detail && rol === LEVEL_ACCESS.ADMIN && isEditMode)
   return (
-    <article className={`relative h-full mt-8 ${deleteTeacher[0] === 'success' ? 'bg-red-500 hidden' : ''}`}>
+    <article className={`profesor__item relative h-full ${deleteTeacher[0] === 'success' ? 'bg-red-500 hidden' : ''}`}>
           {(canDelete) && (
                       <button onClick={() => { handleTriggerModal() }} className='w-10 h-10 bg-primary_op_100/90 border-2 border-accent_100 shadow-xl rounded-full font-bold absolute -top-2 -left-4 text-center tilt z-50 flex justify-center items-center'>
                       <RemoveIcon styles='w-8 h-8 stroke-bg_200 fill-bg_300 stroke-primary_200 drop-shadow-lg' />
                     </button >
           )}
-      <article className={'bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 relative white-border grid h-min overflow-hidden hover:scale-105 profesor__card '}>
-        <img
+      <article className={'bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 relative white-border grid h-min overflow-hidden hover:shadow-lg profesor__card transition-all '}>
+        {/* <img
           className={'rounded-full border-4 border-primary_200 shadow-2xl  w-16 h-16'}
           src={fotoPerfil}
           alt={`image-${nombre}`}
-        />
-        <div className={'flex flex-col leading-8 justify-around'}>
+        /> */}
+        <ImageLoader externalUrl={fotoPerfil ?? ''} extraStyles='rounded-full border-4 border-primary_200 shadow-2xl  w-16 h-16' smallCard/>
+        <div className={'flex flex-col  justify-around'}>
         <Link to={id} >
           <article>
-          <h2 className='text-xl sm:text-2xl text-text_100 hover:text-primary_300 font-bold '>
+          <h2 className='text-xl sm:text-2xl leading-none text-text_100 hover:text-primary_300 font-bold text-wrap'>
           {nombre}</h2>
-          <p className='text-base text-wrap font-bold text-peimary_300 '>Areá: <span className='text-accent_100'>{area}</span> </p>
-          <p className='text-base text-wrap font-bold text-peimary_300 '>Email: <span className='text-accent_100'>{email}</span> </p>
+          <p className='text-base text-wrap font-bold text-peimary_300 '>Areá: <span className='text-accent_100 text-sm text-wrap'>{area}</span> </p>
+          <p className='text-base text-wrap font-bold text-peimary_300 '>Email: <span className='text-accent_100 text-sm text-wrap'>{email}</span> </p>
             </article>
             </Link>
         </div>

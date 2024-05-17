@@ -20,7 +20,7 @@ const placeHolderProcedures: AllProceduresAdminResponse = {
         link: 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG',
         title: 'Registro de SS presencial dentro de la ESCOM'
       },
-      estado: true
+      estado: false
     },
     requerimientos: ['Boleta', 'Varía dependiendo si es presencial o a distancia', 'Constancia de Servicio Social', 'Prestador asegurado']
   },
@@ -31,7 +31,7 @@ const placeHolderProcedures: AllProceduresAdminResponse = {
       descripcion: "Recopilatorio de los documentos generales para subir a la plataforma del SISS. Mantente atento al llenado de los formatos y a la fecha de entrega de los mismos, recuerda que si es a distancia <b>NO LLEVAN FIRMAS</b>. Si estan consciente de que <b>no podrás cargar el reporte posterior a los 5 días despues de tu ultima fecha valida debes enviar un correo a  <a href='mailto:servicio_social_escom@ipn.mx'></a> </b>  ",
       fechaInicio: '',
       fechaTermino: '',
-      estado: true,
+      estado: false,
       esInformativo: true,
       links: {
         link: 'https://www.escom.ipn.mx/SSEIS/apoyoseducativos/docs/Registro_de_SS_presencial_dentro_de_la_ESCOM.JPG',

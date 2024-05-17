@@ -102,19 +102,18 @@ export function CrearTramite ({ children }: { children?: React.ReactNode }) {
         <Formik initialValues={{ ...initialData }}
           validationSchema={procedureEsquema}
           onSubmit={async (values, actions) => {
-            console.log(values)
             if (isEditting) {
               updateProcedure.mutateAsync(values as unknown as Procedure).then(() => {
                 navigate('/private/tramites')
               }).catch((err) => {
-                console.log(err)
+                console.error(err)
               })
             } else {
               await createProcedure.mutateAsync(values as unknown as CreateProcedure).then(() => {
                 actions.resetForm()
                 navigate('/private/tramites')
               }).catch((err) => {
-                console.log(err)
+                console.error(err)
               })
             }
           }}

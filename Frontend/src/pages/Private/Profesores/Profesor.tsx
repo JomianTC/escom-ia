@@ -77,12 +77,12 @@ export function Profesor () {
           <div className='overflow-y-scroll grid gap-8 p-4 custom-scrollbar max-h-[640px] relative z-[600] '>
             {canComment && (
               <>
-                <CommentFormikForm data={tags ?? []} />
+                <CommentFormikForm data={tags ?? []} profesorName={data?.nombre ?? ''} />
               </>
             )}
 
               {comments?.pages.map((page) => (
-                page.comentarios.map((comment) => (
+                page.comentarios.reverse().map((comment) => (
                   <CommentBox key={uuid()} comment={comment} owner={false} />
                 ))
               ))}

@@ -9,8 +9,6 @@ async function getAllRequirments () {
   try {
     const response = await requirmentClient.get(API_URLS.requirmentClient.getRequirments)
     const data = response.data
-    console.log(data)
-
     const formattedResponse = data?.requerimientos
       .map((requirment: { nombre: string, id: string }) => {
         return {

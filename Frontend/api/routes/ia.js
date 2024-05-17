@@ -92,7 +92,7 @@ router.post('/coment/validate', async function (req, res, next) {
 router.post('/askSomething', async function (req, res, next) { 
     const { body } = req;
     const { consulta } = body;
-    console.log(consulta);
+    // console.log(consulta);
 
     // await waitTime(10000);
     const response = responses.find(response => response.pregunta.toLowerCase() === consulta[consulta.length - 1].toLowerCase());

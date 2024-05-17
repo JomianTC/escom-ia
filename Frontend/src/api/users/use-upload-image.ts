@@ -1,9 +1,11 @@
 import { useMutation } from '@tanstack/react-query'
 import { API_URLS, imageClient } from '../axios'
+import { toast } from 'react-toastify'
 
 async function uploadImage (file: File) {
   const fileFormData = new FormData()
   fileFormData.append('file', file)
+  console.log(file)
 
   const response = await imageClient.put(API_URLS.userPictureClient.updateProfilePicture, fileFormData)
 
@@ -12,7 +14,11 @@ async function uploadImage (file: File) {
 
 export function useUploadImage () {
   return useMutation({
-    mutationFn: uploadImage
+    mutationFn: uploadImage,
+    onSuccess: () => {
+      console.log('Image uploaded')
+      toast.success('Foto actualizada correctamente')
+    }
   }
   )
 }

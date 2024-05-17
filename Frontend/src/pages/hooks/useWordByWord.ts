@@ -36,7 +36,10 @@ export function useWordByWord (type = 'comment') {
 
   type CommentIa = {
     type: 'comment'
-    values: string[]
+    values: {
+      tags: string[]
+      nombre: string
+    }
   }
   type ProcedureIA = {
     type: 'procedure'

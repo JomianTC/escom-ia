@@ -10,6 +10,7 @@ import {
 import { FormStepOne } from './FormStepOne'
 import { FormStepTwo } from './FormStepTwo'
 import { useAppSelector } from '@/store/hooks/useAppSelector'
+import { SubmitButton } from '@/components/SubmitButton'
 
 const studentValues = {
   nombres: 'Erick',
@@ -21,11 +22,11 @@ const studentValues = {
   email_recuperacion: 'erick@gmail.com',
   programa_academico: 'ISC-2009'
 }
-const FORM_STEPS = [<FormStepOne key={'stf1'} />, <FormStepTwo key={'stf2'} />]
 
 export function StudentForm ({ isUpdate = false }: { isUpdate?: boolean }) {
+  const FORM_STEPS = [<FormStepOne key={'stf1'} canUpload = {isUpdate} />, <FormStepTwo key={'stf2'} />]
   const { rol, loggedIn, id, foto_perfil: fotoPerfil, ...user } = useAppSelector((state) => state.user)
-  const initialValues = isUpdate ? user : studentValues
+  const initialValues = isUpdate ? { ...user, contrasena: '' } : studentValues
   const navigate = useNavigate()
   const {
     formStep,
@@ -64,22 +65,14 @@ export function StudentForm ({ isUpdate = false }: { isUpdate?: boolean }) {
                 }
                 onSubmit={handleSubmit}
             >
-                {() => (
+          {({ isSubmitting }) => (
                     <Form
                         className="flex flex-col gap-2 w-full sm:px-10"
                         noValidate
                     >
               {step}
                         <div className="flex justify-between flex-row-reverse">
-                            <button
-                                type="submit"
-                                className="white-border opacity-100 disabled:opacity-50"
-                            >
-                  {canAdvance
-                    ? 'Siguiente'
-                    : isUpdate ? 'Actualizar' : 'Registrarse'
-                  }
-                            </button>
+                        <SubmitButton disabled={isSubmitting} text={canAdvance ? 'Siguiente' : isUpdate ? 'Actualizar' : 'Registrarse'} />
                             {canGoBack && (
                                 <button
                                     type="button"
@@ -91,19 +84,19 @@ export function StudentForm ({ isUpdate = false }: { isUpdate?: boolean }) {
                             )}
                         </div>
                     </Form>
-                )}
+          )}
             </Formik>
         {!isUpdate && (
+          <>
           <Link
           to={`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`}
-          className="text-primary_300"
+          className="text-primary_300 mt-3 underline underline-offset-4"
           replace
       >
           ¿Ya tienes cuenta? Inicia sesión
-      </Link>
+          </Link>
+          </>
         )}
-            {/* <button onClick={async () => { await startLogin() }}>Login</button> */}
-            {/* <button onClick={async () => { await startLogin('ADMIN') }}>LoginUsingRole</button> */}
         </>
       )
 }

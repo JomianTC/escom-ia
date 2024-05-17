@@ -40,7 +40,7 @@ export function NavBar ({ children }: NavBarProps) {
               : (
                   children
                 ) }
-          <button type='button' className='log-out-button rounded-full border-2 p-2 bg-accent_100 sm:border-none absolute bottom-0 sm:relative ' onClick={handleLogOut}>
+          <button type='button' className='log-out-button rounded-full border-2 p-2 bg-accent_100 sm:border-none absolute bottom-0 sm:relative hover:bg-red-800 transition-colors ' onClick={handleLogOut}>
             <img className='w-8 h-8 sm:w-8 sm:h-8 -hue-rotate-180' src='/icons/logout.webp' alt='logout' />
             </button>
           </>

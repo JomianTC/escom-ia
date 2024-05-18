@@ -61,7 +61,7 @@ export function StudentFormLogin () {
           <SubmitButton disabled={isSubmitting} text="Iniciar Sesión" />
           <Link
             to={`/${PUBLIC_ROUTES_MODEL.RECOVER.path}`}
-            className="text-primary_300 mt-3 underline underline-offset-4"
+            className="text-primary_300 mt-3 underline underline-offset-4  mx-auto self-center"
         >
             ¿Olvidaste tu contraseña?
         </Link>

@@ -82,7 +82,7 @@ export function EditarRequerimientos ({ children }: { children?: ReactNode }) {
       </form>
       {/* Formulario de creación */}
       {children}
-      <div className='grow flex gap-2 flex-wrap justify-start items-start content-start h-full  overflow-y-scroll custom-scrollbar max-h-80'>
+      <div className='grow flex gap-2 flex-wrap justify-start items-start content-start h-full  overflow-y-scroll hide-scrollbar max-h-80'>
               {requirments?.map((requirment: RequirmentType) => (
           <div key={requirment.value} className='tag px-3 flex gap-2 py-1 rounded-lg sm:text-lg '>
             <button onClick={async () => { await handleSelect(requirment.value, requirment.label) }} >{requirment.label}</button>

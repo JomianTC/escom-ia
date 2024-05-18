@@ -1,46 +1,39 @@
-import { MenuIcon } from '@/components/icons/Icons'
 import { useFormik } from 'formik'
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import uuid from 'react-uuid'
 import { useWordByWord } from '../../hooks/useWordByWord'
 
-export function ChatbotPage() {
-  const [recentQuestions, setRecentQuestions] = useState<string[]>([] as string[])
-  const [chatResponses, setChatResponses] = useState([] as string[])
+export function ChatbotPage () {
+  // const [recentQuestions, setRecentQuestions] = useState<string[]>([] as string[])
+  // const [chatResponses, setChatResponses] = useState([] as string[])
+  // const [expand, setExpand] = useState(false)
   const [answerResponse, setAnswerResponse] = useState([] as string[])
-  const [expand, setExpand] = useState(false)
   const { setIaClicked, startIASubmit, isIALoading, showingPartial, partialResponse } = useWordByWord('procedure')
+  const propmptRef = useRef<HTMLInputElement>(null)
   const formik = useFormik({
     initialValues: {
-      message: ''
+      message: '',
+      second: ''
     },
     onSubmit: async (values) => {
-      setRecentQuestions((prev) => {
-        return [...prev, values.message]
-      })
+      if (propmptRef.current != null) propmptRef.current.value = ''
+      const userPrompt = values.message
+      await formik.setFieldValue('second', userPrompt)
+      if (userPrompt.trim() === '') {
+        return
+      }
       setIaClicked(true)
-      setAnswerResponse((prev) => [...prev, values.message])
+      // setAnswerResponse((prev) => [...prev, userPrompt])
 
-      const response = await startIASubmit({ type: 'procedure', values: [...answerResponse, values.message] })
-      setChatResponses((prev) => [...prev, response])
-      setAnswerResponse((prev) => [...prev, response])
-      formik.resetForm()
+      await startIASubmit({ type: 'procedure', values: [...answerResponse, userPrompt] }).then((res) => {
+        setAnswerResponse((prev) => [...prev, userPrompt, res])
+        // setChatResponses((prev) => [...prev, res])
+        formik.resetForm()
+      })
     }
   })
-  const handleExpand = () => {
-    setExpand(!expand)
-  }
-  useEffect(() => {
-    const resetStateOnResize = () => {
-      if (window.innerWidth > 640) {
-        setExpand(false)
-      }
-    }
-    window.addEventListener('resize', resetStateOnResize)
-    return () => {
-      setExpand(false)
-    }
-  }, [])
+  // console.log({ recentQuestions, chatResponses, answerResponse, partialResponse })
+
   return (
     <section className="container p-8 w-full h-full my-0 mx-auto grid  relative  z-50  ">
       {/* Lado preguntas recientes */}
@@ -62,21 +55,22 @@ export function ChatbotPage() {
       <article className="chatbot__container col-span-full sm:col-span-3  p-4 rounded-lg flex flex-col h-full justify-between glass ">
         <header className="chatbot__header bg-primary_200 p-4 flex items-center justify-between rounded-md">
           <h1 className="text-2xl font-bold text-white">Chatbot</h1>
-          <button onClick={handleExpand} className="bg-primary_100 p-2 rounded-full block md:hidden ">
+          {/* <button onClick={handleExpand} className="bg-primary_100 p-2 rounded-full block md:hidden ">
             <MenuIcon styles='stroke-2 w-10 h-10 fill-primary_200' />
-          </button>
+          </button> */}
         </header>
         <main className=" p-4 grow ">
           <div className="max-h-[300px] sm:max-h-[500px] custom-scrollbar overflow-y-scroll chatbot__messages">
             <div className="chatbot__message">
               <p className="chatbot__text">Hola, soy tu asistente virtual, ¿En qué puedo ayudarte?</p>
-              {recentQuestions.map((question, index) => (
+              {answerResponse.map((_, index) => (
                 <div key={uuid()} className="chatbot__message">
-                  <p className="font-bold py-2">{question}</p>
-                  {index === chatResponses.length - 1 ? <p></p> : <p className="italic">{chatResponses[index]}</p>}
+                  <p className={index % 2 !== 0 ? 'font-bold' : 'font-light' }>{answerResponse[index - 1]}</p>
+                  {/* <p className="font-bold">{answerResponse[index - 1]}</p> */}
                 </div>
               ))}
-              <p>{partialResponse}</p>
+              <p className='font-light'>{partialResponse}</p>
+              {formik.isSubmitting && <p className='font-bold'>{formik.values.message }</p>}
             </div>
           </div>
         </main>
@@ -84,7 +78,10 @@ export function ChatbotPage() {
           <form onSubmit={formik.handleSubmit} className="chatbot__form flex gap-8">
             <input autoComplete='off' type="text" name='message' onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.message} placeholder="Escribe tu mensaje aquí" className="chatbot__input" />
+              value={formik.values.message} placeholder="Escribe tu mensaje aquí" className={`chatbot__input ${(isIALoading || showingPartial) ? 'white' : 'black'}`}
+              disabled={isIALoading || showingPartial}
+            ref= {propmptRef}
+            />
             <button type="submit" disabled={isIALoading || showingPartial} className="chatbot__button bg-bg_200 drop-shadow-md  rounded-full w-14 h-12 disabled:opacity-40">
               <img src="/icons/send.webp" width={32} className='mx-auto invert' alt="send" />
             </button>

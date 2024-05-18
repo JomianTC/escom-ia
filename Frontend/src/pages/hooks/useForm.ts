@@ -35,7 +35,7 @@ export const useForm = (components: Components, isUpdate = false) => {
         }
         console.log('Valores por actualizar', infoToSend)
 
-        await updateUser.mutateAsync(infoToSend).then((data) => {
+        await updateUser.mutateAsync(infoToSend).then((_data) => {
           setCanRedirect(true)
           dispatch(closeModal())
         })

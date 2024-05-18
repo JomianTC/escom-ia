@@ -1,13 +1,13 @@
 import { useGetAdmin } from '@/api/users/use-get-admin'
 import { MyTextInput } from '@/components/InputText'
 import { SubmitButton } from '@/components/SubmitButton'
-import { PRIVATE_ROUTES_MODEL } from '@/models'
+import { PRIVATE_ROUTES_MODEL, PUBLIC_ROUTES_MODEL } from '@/models'
 import { useAppDispatch } from '@/store/hooks/useAppSelector'
 import { setSession } from '@/store/slices/authSlice'
 import { login } from '@/store/slices/userSlice'
 import { type LevelAccess } from '@/types/index'
 import { Form, Formik } from 'formik'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { administradorEsquemaRegistro } from '../Schemas'
 
 export default function AdminLogin () {
@@ -60,7 +60,13 @@ export default function AdminLogin () {
                         type="password"
                         className="input-border"
                     />
-                <SubmitButton disabled={isSubmitting} text="Iniciar Sesión" />
+            <SubmitButton disabled={isSubmitting} text="Iniciar Sesión" />
+            <Link
+            to={`/${PUBLIC_ROUTES_MODEL.RECOVER.path}`}
+            className="text-primary_300 mt-3 underline underline-offset-4 mx-auto self-center"
+        >
+            ¿Olvidaste tu contraseña?
+        </Link>
                 </Form>
         )}
         </Formik>

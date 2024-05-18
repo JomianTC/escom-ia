@@ -290,7 +290,7 @@ input[type="text"].input-procedure {
 .profesores__grid {
     /* background-color: var(--bg_200); */
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-    grid-template-rows: repeat(3,1fr);
+    /* grid-template-rows: repeat(3,1fr); */
 }
 
 .profesores__grid .profesor__item {
@@ -1048,4 +1048,12 @@ background: linear-gradient(    to bottom,
     padding: 0.4rem 1.2rem;   
     height: 20px;
     max-height: 140px;
+}
+
+input[type = 'text'].black {
+    color: black;
+}
+
+input[type = 'text'].white {
+    font-size: 0;
 }

@@ -8,13 +8,15 @@ export function FormStepOneAdmin () {
             <MyTextInput
                 label="Nombre"
                 name="nombre"
-                type="text"
+              type="text"
+              placeholder='Ana Rivera'
             />
             <div className="grid grid-cols-2 grid-rows-2 gap-2">
                 <MyTextInput
                     label="Email"
                     name="email"
-                    type="email"
+                  type="email"
+                  placeholder='serviciosocial@gmail.com'
               />
               <label className="text-text_accent">
                 <span>Área</span>
@@ -28,7 +30,8 @@ export function FormStepOneAdmin () {
                     label="Identificador"
                     name="identificador"
                     type="password"
-                    className=" col-span-2"
+                  className=" col-span-2"
+                  placeholder='1205938574'
                 />
             </div>
         </>

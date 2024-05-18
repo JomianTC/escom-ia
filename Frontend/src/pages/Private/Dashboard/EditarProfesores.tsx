@@ -26,7 +26,7 @@ export const EditarProfesores = () => {
 
   return (
       <div className='grow flex flex-col  mt-0 overflow-hidden'>
-        <div className='grow flex gap-2 flex-wrap justify-start items-start content-start h-full overflow-y-scroll custom-scrollbar'>
+        <div className='grow flex gap-2 flex-wrap justify-start items-start content-start h-full overflow-y-scroll hide-scrollbar'>
           <header className='w-full flex'>
             <h3 className='text-lg grow font-semibold  text-primary_200 bg-primary_op_100/20 px-4 py-1 '>Selecciona un Profesor para actualizar</h3>
             <ReturnButton styles='w-8 h-8 sm:w-8 sm:h-8 ' />

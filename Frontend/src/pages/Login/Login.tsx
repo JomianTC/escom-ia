@@ -22,10 +22,15 @@ export default function Login () {
     navigate(`/${PUBLIC_ROUTES_MODEL.LOGIN.path}`, { replace: true })
   }, [])
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelected(prev => {
-      setForm(prev === 'administrador' ? <StudentFormLogin /> : <AdminLogin />)
+    setSelected((prev) => {
+      setForm(
+        prev === 'administrador' ? <StudentFormLogin /> : <AdminLogin />
+      )
       return e.target.value
     })
+  }
+  const handleReturnToHome = () => {
+    navigate('/home')
   }
   return (
         <FormLayout>
@@ -33,19 +38,32 @@ export default function Login () {
                 <img
                     src="/icons/escomNegro.webp"
                     alt="escom plus"
-                  className="w-40"
-                  loading="lazy"
-        />
-                        <div className='flex gap-4'>
-                  <label className='flex justify-center items-center form-selector'>
-                      <span className='text-lg p-2'>Estudiante</span>
-                      <input className='input-form-selector' type="radio" onChange={handleChange} value={'estudiante'} checked={selected === 'estudiante' } />
-                      <div className='w-6 h-6 rounded-full radio-checked'></div>
+                    className="w-40 cursor-pointer"
+                    loading="lazy"
+                    onClick={handleReturnToHome}
+                />
+                <div className="flex gap-4">
+                    <label className="flex justify-center items-center form-selector">
+                        <span className="text-lg p-2">Estudiante</span>
+                        <input
+                            className="input-form-selector"
+                            type="radio"
+                            onChange={handleChange}
+                            value={'estudiante'}
+                            checked={selected === 'estudiante'}
+                        />
+                        <div className="w-6 h-6 rounded-full radio-checked"></div>
                     </label>
-                    <label className='flex justify-center items-center form-selector'>
-                    <span className='text-lg p-2'>Administrador</span>
-                      <input className='input-form-selector' type="radio" value={'administrador'} onChange={handleChange} checked={selected === 'administrador'} />
-                      <div className='w-6 h-6 rounded-full radio-checked'></div>
+                    <label className="flex justify-center items-center form-selector">
+                        <span className="text-lg p-2">Administrador</span>
+                        <input
+                            className="input-form-selector"
+                            type="radio"
+                            value={'administrador'}
+                            onChange={handleChange}
+                            checked={selected === 'administrador'}
+                        />
+                        <div className="w-6 h-6 rounded-full radio-checked"></div>
                     </label>
                 </div>
                 {form}

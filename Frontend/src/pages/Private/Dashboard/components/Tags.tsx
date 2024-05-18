@@ -18,7 +18,7 @@ const Tags = memo(function Tags ({ handleSelect }: {
     )
   }
 
-  return (<div className='grow flex gap-2 flex-wrap justify-start items-start content-start h-full  overflow-y-scroll custom-scrollbar max-h-80'>
+  return (<div className='grow flex gap-2 flex-wrap justify-start items-start content-start h-full  overflow-y-scroll hide-scrollbar max-h-80'>
         {tags.data?.map((tag) => (
             <div key={tag.value} className='tag px-3 flex gap-2 py-1 rounded-lg sm:text-lg '>
                 <button onClick={async () => {

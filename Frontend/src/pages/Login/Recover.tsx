@@ -29,7 +29,8 @@ export function Recover () {
                                 label="Correo Electrónico"
                                 name="email_recuperacion"
                                 type="email"
-                                className="input-border"
+                              className="input-border"
+                              placeholder='fernandoincreible@gmail.com'
                             />
                             <SubmitButton disabled={isSubmitting || recoverPassword.isPending} text="Recuperar contraseña" />
                         </Form>

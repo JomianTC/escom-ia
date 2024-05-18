@@ -1,7 +1,7 @@
 import { CloseIcon, MenuIcon } from '@/components/icons/Icons'
 import { setToken } from '@/pages/hooks/useAuthToken'
 import { useNavBarActions } from '@/pages/hooks/useNavBarActions'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { DeleteProfesorModal } from './Modal'
 
@@ -10,6 +10,8 @@ export function DashboardAdmin () {
   useEffect(() => {
     setToken()
   }, [])
+
+  const containerRef = useRef<HTMLDivElement>(null)
 
   return (
     <section className="container p-8 w-full h-full my-0 mx-auto grid relative grid-cols-6 z-50">
@@ -31,13 +33,13 @@ export function DashboardAdmin () {
           Requerimientos</NavLink>
       </aside>
       {/* Lado chatbot */}
-      <article className="chatbot__container col-span-full sm:col-span-5  p-4 rounded-r-lg flex flex-col h-full glass overflow-hidden custom-scrollbar overflow-y-scroll">
+      <article className="chatbot__container col-span-full sm:col-span-5  p-4 rounded-r-lg flex flex-col h-full glass overflow-hidden custom-scrollbar overflow-y-scroll" ref={containerRef}>
         <header className="chatbot__header p-2 flex items-center justify-between rounded-md">
           <button onClick={() => { handleToggleNavBar() }} className=" block sm:hidden ">
             <MenuIcon styles='stroke-2 w-10 h-10 fill-primary_200' />
           </button>
         </header>
-        <Outlet />
+        <Outlet context={{ element: containerRef }}/>
       </article>
       <DeleteProfesorModal />
       {/* <DeleteProfesorModal /> */}

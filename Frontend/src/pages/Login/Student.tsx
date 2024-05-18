@@ -35,7 +35,7 @@ export function StudentFormLogin () {
   }
   return (
     <Formik
-      initialValues={{ contrasena: '@200120Tm', boleta: '2020630319' }}
+      initialValues={{ contrasena: '', boleta: '' }}
       validationSchema={estudianteEsquemaIngreso}
       onSubmit={async (values) => {
         await startLogin('student', values)
@@ -51,17 +51,19 @@ export function StudentFormLogin () {
             name="boleta"
             type="text"
             className="input-border"
+            placeholder='2020539546'
           />
           <MyTextInput
             label="Contraseña"
             name="contrasena"
             type="password"
+            placeholder='contraseña2'
             className="input-border"
           />
           <SubmitButton disabled={isSubmitting} text="Iniciar Sesión" />
           <Link
             to={`/${PUBLIC_ROUTES_MODEL.RECOVER.path}`}
-            className="text-primary_300 mt-3 underline underline-offset-4"
+            className="text-primary_300 mt-3 underline underline-offset-4  mx-auto self-center"
         >
             ¿Olvidaste tu contraseña?
         </Link>

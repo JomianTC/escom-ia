@@ -3,7 +3,8 @@ import { ApiLoader } from '@/components/ApiLoader'
 import { ReturnButton } from '@/components/ReturnButton'
 import { updateSchema } from '@/pages/Schemas'
 import { useFormik } from 'formik'
-import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import { type ReactNode, type RefObject, useCallback, useEffect, useRef, useState } from 'react'
+import { useOutletContext } from 'react-router-dom'
 import Tags from './components/Tags'
 
 export const EditarTags = ({ children }: { children: ReactNode }) => {
@@ -31,11 +32,14 @@ export const EditarTags = ({ children }: { children: ReactNode }) => {
     validationSchema: updateSchema
   })
 
+  const { element } = useOutletContext<{ element: RefObject<HTMLDivElement> }>()
+
   const [isEdit, setIsEdit] = useState(false)
   const handleSelect = useCallback(async (value: string, id: string) => {
     await formik.setFieldValue('value', value)
     await formik.setFieldValue('label', id)
-    topPage?.current?.scrollIntoView({ behavior: 'smooth' })
+    console.log(element)
+    element.current?.scroll({ top: 0, behavior: 'smooth' })
     inputEditTag.current?.focus()
   }, [])
 

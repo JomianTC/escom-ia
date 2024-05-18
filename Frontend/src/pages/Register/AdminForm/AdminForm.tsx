@@ -12,10 +12,10 @@ import { FormStepOneAdmin } from './FormStepOne'
 import { SubmitButton } from '@/components/SubmitButton'
 
 const adminValues = {
-  identificador: '1010101010',
-  nombre: 'Super SU Admin',
-  email: 'superSuAdmin@ipn.mx',
-  area: 'Departamento de Recursos  Financieros'
+  identificador: '',
+  nombre: '',
+  email: '',
+  area: ''
 }
 const FORM_STEPS = [<FormStepOneAdmin key={'stfa1'} />]
 export function AdminForm ({ isUpdate = false }: { isUpdate?: boolean }) {

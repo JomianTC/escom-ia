@@ -13,14 +13,14 @@ import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { SubmitButton } from '@/components/SubmitButton'
 
 const studentValues = {
-  nombres: 'Erick',
-  boleta: '2020630318',
+  nombres: '',
+  boleta: '',
   foto_perfil: '',
-  apellidos: 'Mora',
-  contrasena: '@200120Tm',
-  email_academico: 'erick@alumno.ipn.mx',
-  email_recuperacion: 'erick@gmail.com',
-  programa_academico: 'ISC-2009'
+  apellidos: '',
+  contrasena: '',
+  email_academico: '',
+  email_recuperacion: '',
+  programa_academico: ''
 }
 
 export function StudentForm ({ isUpdate = false }: { isUpdate?: boolean }) {

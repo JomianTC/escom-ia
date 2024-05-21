@@ -51,7 +51,6 @@ export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
         <a href={link} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Dame click</a>
         {getTypeOfLink(link) === 'doc' &&
           <>
-          <h1>Hola</h1>
           <a href={link} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Descargar Archivo</a>
         </>
       }
@@ -75,14 +74,12 @@ export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
         </a>}
       {getTypeOfLink(toLink) === 'pdf' &&
         <>
-                <h1>Hola</h1>
           <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Visualizar en otra ventana</a>
           <embed src={toLink} type="application/pdf" width="100%" height="500px" />
         </>
       }
     {getTypeOfLink(toLink) === 'doc' &&
         <>
-        <h1>Hola</h1>
           <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Descargar Archivo</a>
         </>
       }

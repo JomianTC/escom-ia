@@ -17,7 +17,7 @@ export function useSubscribe () {
       // toast.info('Avisando...')
     },
     onSuccess: () => {
-      // toast.success('¡Funciono!')
+      toast.success('¡Listo! Ahora recibirás notificaciones')
     },
     onError: () => {
       toast.error('Oops hubo un error...')

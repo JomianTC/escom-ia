@@ -4,10 +4,9 @@ import ImageLoader from '@/components/ImageLoader'
 import Loader from '@/components/Loader'
 import { ReturnButton } from '@/components/ReturnButton'
 import { useSearch } from '@/pages/hooks/useSearch'
-import { useAppDispatch } from '@/store/hooks/useAppSelector'
-import { openDeleteModal, setInfoModal } from '@/store/slices/uiSlice'
 import { NavLink } from 'react-router-dom'
 import { ProfesorForm } from '../Profesores/components/Form'
+import Element from './components/Element'
 
 export const EditarProfesores = () => {
   const { data, isLoading } = useTeachers()
@@ -15,8 +14,6 @@ export const EditarProfesores = () => {
     type: 'profesor',
     data: data?.profesores ?? []
   })
-
-  const dispatch = useAppDispatch()
 
   if (isLoading) {
     return (
@@ -33,15 +30,11 @@ export const EditarProfesores = () => {
           </header>
           <input type="text" placeholder='Profesor' value={search} onChange={(e) => { setSearch(e.target.value) }} className='text-text_accent mb-4 w-full max-w-lg ' />
           <div className='w-full flex gap-2 flex-wrap h-full  content-start '>
-            {filteredData?.map((profesor) => (
-              <div key={profesor.id} className='tag h-fit sm:px-3 flex gap-2 py-1 rounded-lg text-sm sm:text-lg ' >
+          {filteredData?.map((profesor) => (
+            <Element key={profesor.value} value={profesor.id} label={profesor.nombre} type='profesor' handleSelect={async () => { await Promise.resolve() }}>
               <NavLink to={`${profesor.id}`} className='px-3 py-1 rounded-lg hover:font-bold'>{profesor.nombre}</NavLink>
-                <button className='hover:text-red-400 hover:scale-125 font-bold px-4 text-lg overflow-hidden' onClick={() => {
-                  dispatch(setInfoModal({ id: profesor.id, nombre: profesor.nombre, type: 'profesor' }))
-                  dispatch(openDeleteModal())
-                }}>x</button>
-            </div>
-            ))}
+            </Element>
+          ))}
 
           </div>
         </div>
@@ -59,7 +52,7 @@ export const EditProfesor = () => {
       </div>
       {/* Columna profesor */}
       <div className='w-full h-full bg-primary_300 flex flex-col  justify-center content-center items-center text-white py-4'>
-        <ImageLoader externalUrl={data?.foto_perfil ?? ''} />
+        <ImageLoader alt={`Avatar del profesor ${data?.nombre}` } externalUrl={data?.foto_perfil ?? ''} />
         <p className='text-xl px-2 sm:text-3xl font-semibold mt-8 text-center'>{data?.area}</p>
         <p className='text-base sm:text-xl italic'>{data?.grado_academico}</p>
         <p className='text-base sm:text-xl mt-8'>{data?.email}</p>

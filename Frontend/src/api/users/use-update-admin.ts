@@ -11,7 +11,6 @@ const updateAdmin = async (admin: Admin) => {
     throw new Error('Error al actualizar el usuario')
   }
 }
-// https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 export function useUpdateAdmin () {
   const queryClient = useQueryClient()
 

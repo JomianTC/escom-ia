@@ -7,6 +7,8 @@ import { Field, Form, Formik } from 'formik'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { ActionButton } from './ActionButton'
+import { ApiLoader } from './ApiLoader'
 import { MyTextArea } from './InputText'
 import { StarRating } from './StarRating'
 
@@ -71,10 +73,9 @@ export function CommentFormikForm ({ data, profesorName }: CommentFormikFormProp
   }
 
   return (createComment.isPending
-    ? <h1 className='text-4xl '> CARGANDO</h1>
+    ? <h1 className='text-4xl '> <ApiLoader /></h1>
     : <div className='flex gap-6'>
       <div className={` ${showComment ? 'my-4 w-full h-fit px-4 flex flex-col gap-4 relative z-[700] comment-box  md:max-w-xl py-1 active ' : 'w-32 h-12  rounded-lg bg-bg_200 border-2 border-primary_200 relative overflow-hidden deactivated'} comment-form `}>
-
         <Formik
           initialValues={{
             comentario: '',
@@ -103,46 +104,51 @@ export function CommentFormikForm ({ data, profesorName }: CommentFormikFormProp
         >
           {({ handleSubmit, isSubmitting, isValid, resetForm }) => (
             <>
-            <span onClick={() => {
-              setShowComment(!showComment)
-              resetForm()
-            }} className={`absolute  font-bold uppercase cursor-pointer ${showComment ? '-top-2 -right-4 w-10 h-10 rounded-full border-4 bg-accent_100 text-black border-primary_100 flex justify-center items-center' : 'top-[20%] left-[18%] w-full h-full'}`}>{showComment ? 'X' : 'Comentar'}</span>
-            <Form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-              {showComment && (
-                <>
-                  <MyTextArea label="Comentario" name="comentario" type="text" placeholder="Escribe un comentario..." className='mt-4' />
-                  {showingPartial && <p className='italic font-bold '>Te recomiendo lo siguiente: (Aún puedes utilizar un comentario personalizado) </p>}
-                  {showingPartial &&
-                    <>
-                      <p className='italic'> &#34; {partialResponse} &rdquo; </p>
-                      <button className='border-2 border-primary_200 px-2 py-1 font-bold w-fit rounded-lg' onClick={() => { handleStateReset() }}>Cancelar</button>
-                    </>
-                  }
-                  <div>
-                    <Field
-                      className="grow"
-                      name="tags"
-                      options={data}
-                      component={CustomSelect}
-                      placeholder="Selecciona algún tag... o crea uno nuevo"
-                      isMulti={true}
-                      isTagSelection={true}
-                      isCreatable={true}
-                    />
-                  </div>
-                  <StarRating name={'puntuacion'} />
-                  <div className="flex gap-4 -z-10 w-full">
-                    <button className={`outline-none w-fit self-start px-4 py-2 rounded-lg font-bold bg-bg_300 relative white-border ${(isSubmitting) ? 'opacity-50' : ''}`} type='submit' disabled={isSubmitting} >
-                      {showingPartial ? 'Usar respuesta' : 'Confirmar'}
-                    </button>
-                    <button className={`outline-none w-fit self-start px-4 py-2 rounded-lg font-bold bg-bg_300 relative white-border ${(isSubmitting) ? 'opacity-50' : ''}`} type='submit' disabled={isSubmitting} onClick={async () => {
-                      isValid && setIaClicked(true)
-                    }}>Utilizar IA</button>
-                    {isSubmitting && <div className='text-2xl'>Cargando...</div>}
-                  </div>
-                </>
-              )}
-            </Form>
+              <ActionButton callback={() => {
+                setShowComment(!showComment)
+                resetForm()
+              }} text={showComment ? 'X' : 'Comentar'}
+                extraStyles={`p-0 border-none absolute  font-bold uppercase cursor-pointer  ${showComment ? '-top-2 -right-4 w-10 h-10  border-4  text-black flex justify-center items-center button-reset bg-primary_op_100/60  hover:bg-primary_100 rounded-lg active ' : 'top-[0%] left-[0%] w-full h-full'}`}
+              />
+              <Form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+                {showComment && (
+                  <>
+                    <MyTextArea label="Comentario" name="comentario" type="text" placeholder="Escribe un comentario..." className='mt-4' />
+                    {showingPartial && <p className='italic font-bold '>Te recomiendo lo siguiente: (Aún puedes utilizar un comentario personalizado) </p>}
+                    {showingPartial &&
+                      <>
+                        <p className='italic'> &#34; {partialResponse} &rdquo; </p>
+                        <button className='border-2 border-primary_200 px-2 py-1 font-bold w-fit rounded-lg' onClick={() => { handleStateReset() }}>Cancelar</button>
+                      </>
+                    }
+                    <div>
+                      <Field
+                        className="grow"
+                        name="tags"
+                        options={data}
+                        component={CustomSelect}
+                        placeholder="Selecciona algún tag... o crea uno nuevo"
+                        isMulti={true}
+                        isTagSelection={true}
+                        isCreatable={true}
+                      />
+                    </div>
+                    <StarRating name={'puntuacion'} />
+                    <div className="flex gap-4 -z-10 w-full">
+
+                      <button className={`outline-none w-fit self-start px-4 py-2 rounded-lg font-bold bg-bg_300 relative white-border ${(isSubmitting) ? 'opacity-50' : ''}`} type='submit' disabled={isSubmitting} >
+                        {showingPartial ? 'Usar respuesta' : 'Confirmar'}
+                      </button>
+
+                      <button className={`outline-none w-fit self-start px-4 py-2 rounded-lg font-bold bg-bg_300 relative white-border hover:shadow-none hover:bg-primary_200 hover:text-black transition-colors ${(isSubmitting) ? 'opacity-50' : ''}`} type='submit' disabled={isSubmitting} onClick={async () => {
+                        isValid && setIaClicked(true)
+                      }}>Utilizar IA</button>
+
+                      {isSubmitting && <div className='text-2xl'><ApiLoader/> </div>}
+                    </div>
+                  </>
+                )}
+              </Form>
             </>
           )}
         </Formik>

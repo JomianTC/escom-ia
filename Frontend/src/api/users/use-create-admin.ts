@@ -22,7 +22,7 @@ export function useCreateAdmin () {
       await queryClient.cancelQueries({ queryKey: userQueryKeys.all })
     },
     onSuccess: (data) => {
-      toast.info('Admin creado')
+      toast.info('Bienvenido administrador')
       return data
     },
     onError: (_err, _newUser, context?: TSFixMe) => {

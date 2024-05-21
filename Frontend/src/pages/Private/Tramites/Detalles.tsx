@@ -10,9 +10,12 @@ import { diffDays } from '@formkit/tempo'
 import uuid from 'react-uuid'
 import { Link } from './components/Link'
 import { NotificationButton } from './components/NotificationButton'
+import { useAppSelector } from '@/store/hooks/useAppSelector'
 
 export function Detalles () {
   const { data, isLoading } = useGetOneProcedure()
+  const { rol } = useAppSelector((state) => state.auth)
+  const isStudent = rol === 'student'
 
   if (isLoading) {
     return (
@@ -113,8 +116,8 @@ export function Detalles () {
                         </div>
                     </div>
                     {/* Columna descripción */}
-                    <div className=" grow overflow-y-scroll hide-scrollbar mt-8 px-4 py-2 w-full relative">
-                        <NotificationButton />
+                  <div className=" grow overflow-y-scroll hide-scrollbar mt-8 px-4 py-2 w-full relative">
+                      {isStudent && <NotificationButton /> }
 
                         <h3 className="text-2xl md:text-4xl">
                             Detalles del trámite

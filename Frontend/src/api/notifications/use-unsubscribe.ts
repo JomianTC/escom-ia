@@ -26,7 +26,7 @@ export function useUnsubscribe () {
       await queryClient.invalidateQueries({
         queryKey: notificationsQueryKeys.detail(id ?? '')
       })
-      toast.success('¡Funciono!')
+      toast.success('Ya no recibiras notificaciones')
     },
     onError: () => {
       toast.error('Oops hubo un error...')

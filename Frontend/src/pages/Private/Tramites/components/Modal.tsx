@@ -70,8 +70,10 @@ export function ActivateModal () {
             <p>Al confirmar se les mandará una notificación a los estudiantes del cambio de estado de este trámite</p>
             <div >
               <div className='flex gap-4 justify-end mt-8'>
-                <button onClick={async () => { dispatch(closeActivateModal()) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg px-3'>Cancelar</button>
-                <button onClick={async () => { await handleConfirm() }} className='bg-accent_200 text-bg_300 p-2 rounded-lg px-3'>Confirmar</button>
+                <button onClick={async () => { dispatch(closeActivateModal()) }} className='bg-accent_100 text-bg_100 font-semibold p-2 rounded-lg px-3'>Cancelar</button>
+                <button onClick={async () => { await handleConfirm() }} className='bg-accent_200 text-text_100 p-2 rounded-lg px-3 hover:bg-bg_200 font-semibold hover:font-bold transition-colors disabled:bg-slate-500 disabled:text-bg_100' disabled={changeProcedureState.isPending}>
+                  {changeProcedureState.isPending ? 'Cargando...' : 'Confirmar'}
+                </button>
               </div>
             </div>
           </>

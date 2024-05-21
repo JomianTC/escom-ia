@@ -5,7 +5,6 @@ import { API_URLS } from './../axios'
 import { tagQueryKeys } from './tags-query-keys'
 
 const updateTag = async (newTag: { nombre: string, id: string }) => {
-  // Call the API to update the tag
   try {
     const { nombre } = newTag
     const response = await tagsClient.put(API_URLS.tagClient.updateTags + newTag.id, { nombre })

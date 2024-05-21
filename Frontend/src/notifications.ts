@@ -21,7 +21,7 @@ export async function showNotificationToUser (id: string) {
     if (result === 'granted') {
       await navigator.serviceWorker.ready.then(async (registration) => {
         // Mostrar anuncio de notificacion
-        await registration.showNotification('Wohoo siempre enterado', {
+        await registration.showNotification('Wohoo', {
           body: 'Obtendras notificaciones!',
           icon: '/icons/logo.webp'
         })
@@ -47,7 +47,7 @@ export async function showNotificationToUser (id: string) {
           userVisibleOnly: true,
           applicationServerKey: urlB64ToUint8Array(key)
         }).then(async (sub) => {
-          toast.success('Subscribed')
+          toast.success('Te has suscrito correctamente')
           try {
             const response = await notificationClient.post(API_URLS.notificationRoutes.createProcedureSubscription + id, sub, {
               headers: {

@@ -1,10 +1,10 @@
 import { type Procedure } from '@/types/api-responses'
+import { formatLinks } from '@/utilities/formatted-links'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { API_URLS, procedureClient } from '../axios'
 import { proceduresQueryKeys } from './procedures-query-keys'
-import { formatLinks } from '@/utilities/formatted-links'
 
 export function useUpdateProcedure (_id: string) {
   const navigate = useNavigate()

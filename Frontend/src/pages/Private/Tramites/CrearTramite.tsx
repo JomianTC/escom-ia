@@ -3,18 +3,19 @@ import { useUpdateProcedure } from '@/api/procedures/use-update-procedure'
 import { useGetRequirments } from '@/api/requirments/use-get-requirmets'
 import { AddProcedure, DeleteProcedure, EditTagIcon } from '@/components/icons/Icons'
 import { MyTextInput } from '@/components/InputText'
+import { ReturnButton } from '@/components/ReturnButton'
 import { procedureEsquema } from '@/pages/Schemas'
 import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { type CreateProcedure, type Procedure } from '@/types/api-responses'
 import { ErrorMessage, Field, FieldArray, type FieldProps, Form, Formik, useField } from 'formik'
+import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { useParams, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { CustomSelect } from '../Profesores/components/MultipleSelect'
-import { ReturnButton } from '@/components/ReturnButton'
-import { useState } from 'react'
+import { SubmitButton } from '@/components/SubmitButton'
 
 const MyDatePicker = ({ name = '', title = '' }) => {
   const [field, meta, helpers] = useField(name)
@@ -28,7 +29,7 @@ const MyDatePicker = ({ name = '', title = '' }) => {
         <span className='font-semibold'>{title}</span>
         <DatePicker
           autoComplete='off'
-          minDate={new Date()}
+          minDate={new Date('01/01/2024')}
           {...field}
           selected={value}
           name={field.name}
@@ -189,7 +190,7 @@ export function CrearTramite ({ children }: { children?: React.ReactNode }) {
               <button className='mt-20 md:mt-6  border-4 border-primary_100 py-1 font-semibold ' type='button' onClick={() => { setShowAddLink(!showAddLink) }}>{
                 showAddLink ? 'Regresar a detalles' : 'Agregar Links'
               }</button>
-              <button className='mt-2 white-border w-fit self-center' type='submit'>Confirmar</button>
+              <SubmitButton text='Confirmar' disabled={ createProcedure.isPending || updateProcedure.isPending} styles='w-fit self-center'/>
             </Form>
           )}
         </Formik>

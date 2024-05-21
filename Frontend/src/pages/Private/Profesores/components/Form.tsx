@@ -1,6 +1,7 @@
 import { useCreateTeacher } from '@/api/teachers/use-create-teacher'
 import { useEditTeacher } from '@/api/teachers/use-edit-teacher'
 import { MyTextInput } from '@/components/InputText'
+import { SubmitButton } from '@/components/SubmitButton'
 import { AREAS, GRADOS_ACADEMICOS, profesorEsquema } from '@/pages/Schemas'
 import { useAppDispatch } from '@/store/hooks/useAppSelector'
 import { closeCreateTeacherModal } from '@/store/slices/uiSlice'
@@ -17,11 +18,11 @@ interface MyFormValues {
 }
   type Action = 'create' | 'update'
 const defaultValues: MyFormValues = {
-  nombre: 'Profesor Cordero',
+  nombre: '',
   area: '',
   grado_academico: '',
-  email: 'profecordero@gmail.com',
-  contacto: 'profecordero@gmail.com',
+  email: '',
+  contacto: '',
   sexo: 'masculino'
 }
 export function ProfesorForm ({ action = 'create', styles = '', data = defaultValues }: { action?: Action, styles?: string, data?: MyFormValues }) {
@@ -83,8 +84,8 @@ export function ProfesorForm ({ action = 'create', styles = '', data = defaultVa
               ))}
             </Field>
             <MyTextInput label="Email" name="email" type="text" placeholder="victoria@outlook.ipn.mx" />
-            <MyTextInput label="Contacto" name="contacto" type="text" placeholder="5543456534" />
-            <button type='submit' className='white-border w-fit' >Confirmar</button>
+          <MyTextInput label="Contacto" name="contacto" type="text" placeholder="5543456534" />
+          <SubmitButton text={isUpdating ? 'Actualizar' : 'Crear'} disabled={teacher.isPending || teacherUpdate.isPending } />
           </Form>
         )}
       </Formik>

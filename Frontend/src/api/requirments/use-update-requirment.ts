@@ -5,7 +5,6 @@ import { API_URLS } from './../axios'
 import { requirmentsQueryKeys } from './requirments-query-keys'
 
 const updateRequirement = async (newRequirement: { nombre: string, id: string }) => {
-  // Call the API to update the tag
   try {
     const { nombre } = newRequirement
     const response = await requirmentClient.put(API_URLS.requirmentClient.updateRequirments + newRequirement.id, { nombre })

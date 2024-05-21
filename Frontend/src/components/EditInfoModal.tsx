@@ -3,9 +3,10 @@ import { StudentForm } from '@/pages/Register/StudentForm/StudentForm'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { changeState } from '@/store/slices/uiSlice'
 import { LEVEL_ACCESS } from '@/types/index'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Modal, { AdminInfo, ModalTrigger, StudentInfo } from './Modal'
+import { ActionButton } from './ActionButton'
 
 export default function EditInfoModal () {
   const { rol } = useAppSelector((state) => state.auth)
@@ -14,6 +15,8 @@ export default function EditInfoModal () {
   const [modify, setModify] = useState(false)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
   const handlePageChange = () => {
     dispatch(changeState())
     setModify(false)
@@ -25,17 +28,15 @@ export default function EditInfoModal () {
   const isStudent = rol === LEVEL_ACCESS.STUDENT
   return (
     <>
-      <Modal trigger={<ModalTrigger className={'profile-icon w-9 h-9 absolute bottom-0 sm:relative opacity-100 overflow-hidden rounded-full hover:scale-110 transition-transform'}>
+      <Modal trigger={<ModalTrigger className={'profile-icon w-9 h-9 absolute bottom-0 sm:relative opacity-100 overflow-hidden rounded-full hover:scale-110 transition-transform'} ref={buttonRef}>
       {rol === LEVEL_ACCESS.STUDENT && (<img src={fotoPerfil} alt={nombres} />)}
     </ModalTrigger>
       }>
         <Modal.Title title='Perfil' />
         <Modal.Body>
           <div className='flex gap-4'>
-            <button className='mt-4 mb-4  px-2 py-1 border-2 border-primary_200 text-text_accent opacity-100' onClick={() => { setModify(!modify) }}>
-              {modify ? 'Cancelar' : 'Modificar'}
-            </button>
-          <button className='mt-4 mb-4  px-2 py-1 border-2 border-primary_200 text-text_accent opacity-100' onClick={handlePageChange}>Mis comentarios</button>
+            <ActionButton extraStyles='mt-4 mb-4' callback={() => { setModify(!modify) }} text={modify ? 'Cancelar' : 'Modificar'} />
+            <ActionButton extraStyles='mt-4 mb-4' callback={handlePageChange} text='Mis comentarios' />
           </div>
             {modify
               ? (

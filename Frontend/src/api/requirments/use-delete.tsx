@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { API_URLS, requirmentClient } from '../axios'
 import { toast } from 'react-toastify'
+import { API_URLS, requirmentClient } from '../axios'
 import { requirmentsQueryKeys } from './requirments-query-keys'
 
 async function deleteRequirement (id: string) {
-  const token = JSON.parse(localStorage.getItem('token') ?? '{}')
-  requirmentClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   try {
     const response = await requirmentClient.delete(API_URLS.requirmentClient.deleteRequirment + id)
     return response.data

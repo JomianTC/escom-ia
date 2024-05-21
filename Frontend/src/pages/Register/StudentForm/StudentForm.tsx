@@ -11,6 +11,7 @@ import { FormStepOne } from './FormStepOne'
 import { FormStepTwo } from './FormStepTwo'
 import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { SubmitButton } from '@/components/SubmitButton'
+import { ActionButton } from '@/components/ActionButton'
 
 const studentValues = {
   nombres: '',
@@ -73,15 +74,9 @@ export function StudentForm ({ isUpdate = false }: { isUpdate?: boolean }) {
               {step}
                         <div className="flex justify-between flex-row-reverse">
                         <SubmitButton disabled={isSubmitting} text={canAdvance ? 'Siguiente' : isUpdate ? 'Actualizar' : 'Registrarse'} />
-                            {canGoBack && (
-                                <button
-                                    type="button"
-                                    onClick={handleBack}
-                                    className="white-border opacity-100"
-                                >
-                                    Anterior
-                                </button>
-                            )}
+                {canGoBack && (
+                    <ActionButton callback={handleBack} text="Anterior" extraStyles='white-border opacity-100 hover:shadow-none transition-all'/>
+                )}
                         </div>
                     </Form>
           )}

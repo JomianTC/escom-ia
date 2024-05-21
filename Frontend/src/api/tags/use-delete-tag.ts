@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { API_URLS, tagsClient } from '../axios'
 import { toast } from 'react-toastify'
+import { API_URLS, tagsClient } from '../axios'
 import { tagQueryKeys } from './tags-query-keys'
 
 async function deleteTag (id: string) {
-  const token = JSON.parse(localStorage.getItem('token') ?? '{}')
-  tagsClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   try {
     const response = await tagsClient.delete(API_URLS.tagClient.deleteTag + id)
     return response.data
@@ -35,11 +33,13 @@ export function useDeleteTag () {
     onError: (error) => {
       toast.error(error.message)
     },
-    onSettled: async (_data, _error, _variables
-    ) => {
+    onSettled: async (_data, _error, _variables) => {
       await queryClient.invalidateQueries({
         queryKey: tagQueryKeys.all
       })
+    },
+    onSuccess: () => {
+      toast.success('Tag eliminado')
     }
   })
 }

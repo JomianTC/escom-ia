@@ -6,7 +6,6 @@ import { imageClient } from './../axios'
 export const useChangePassword = () => {
   return useMutation({
     mutationFn: async (data: { email_recuperacion: string, contrasena: string }) => {
-      console.log(data)
       const response = await imageClient.put(API_URLS.userPictureClient.resetPassword, data)
       return response.data
     },

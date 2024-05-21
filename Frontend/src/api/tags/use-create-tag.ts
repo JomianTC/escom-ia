@@ -1,8 +1,8 @@
 import { type TagsCreatedResponse } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 import { API_URLS, tagsClient } from '../axios'
 import { tagQueryKeys } from './tags-query-keys'
-import { toast } from 'react-toastify'
 
 async function createTag (tag: { nombre: string }) {
   try {

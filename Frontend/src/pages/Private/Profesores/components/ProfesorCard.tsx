@@ -40,21 +40,15 @@ export function ProfesorCard ({ nombre, email, area, id = '/', detail, foto_perf
                     </button >
           )}
       <article className={'bg-bg_300 rounded-lg border-4 border-text_100 px-4 py-4 relative white-border grid h-min overflow-hidden hover:shadow-lg profesor__card transition-all '}>
-        {/* <img
-          className={'rounded-full border-4 border-primary_200 shadow-2xl  w-16 h-16'}
-          src={fotoPerfil}
-          alt={`image-${nombre}`}
-        /> */}
-        <ImageLoader externalUrl={fotoPerfil ?? ''} extraStyles='rounded-full border-4 border-primary_200 shadow-2xl  w-16 h-16' smallCard/>
+        <ImageLoader alt={`Avatar del profesor ${nombre}` } externalUrl={fotoPerfil ?? ''} extraStyles='rounded-full border-4 border-primary_200 shadow-2xl  w-16 h-16' smallCard/>
         <div className={'flex flex-col  justify-around'}>
-        <Link to={id} >
           <article>
+        <Link to={id} aria-label={`${nombre}`} ></Link>
           <h2 className='text-xl sm:text-2xl leading-none text-text_100 hover:text-primary_300 font-bold text-wrap'>
           {nombre}</h2>
           <p className='text-base text-wrap font-bold text-peimary_300 '>Areá: <span className='text-accent_100 text-sm text-wrap'>{area}</span> </p>
           <p className='text-base text-wrap font-bold text-peimary_300 '>Email: <span className='text-accent_100 text-sm text-wrap'>{email}</span> </p>
             </article>
-            </Link>
         </div>
       </article>
     </article>

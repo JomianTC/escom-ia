@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { API_URLS, imageClient } from '../axios'
 import { toast } from 'react-toastify'
+import { API_URLS, imageClient } from '../axios'
 
 async function uploadImage (file: File) {
   const fileFormData = new FormData()

@@ -1,14 +1,11 @@
 import { type CreateProcedure, type OneProcedureAdminResponse } from '@/types/api-responses'
+import { formatLinks } from '@/utilities/formatted-links'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { API_URLS, procedureClient } from '../axios'
 import { proceduresQueryKeys } from './procedures-query-keys'
-import { getLocalStorage } from '@/utilities/localStorage.utlity'
-import { formatLinks } from '@/utilities/formatted-links'
 
 async function createProcedure (procedure: CreateProcedure) {
-  const token = getLocalStorage('token')
-  procedureClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   const formattedLinks = formatLinks(procedure.links)
   const { id, links, ...procedureInfo } = procedure
   try {

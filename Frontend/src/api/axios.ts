@@ -2,6 +2,7 @@
 import axios from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 import { useRefreshToken } from './users/use-refresh-token'
+import { getLocalStorage } from '@/utilities/localStorage.utlity'
 // const BASE_URL = 'http://localhost:3000'
 // const BASE_URL = 'https://escom-ia.onrender.com'
 const BASE_URL = import.meta.env.VITE_API
@@ -187,3 +188,16 @@ export const API_METHODS = {
   DELETE: 'DELETE',
   OPTIONS: 'OPTIONS'
 } as const
+
+const axiosInstances = [apiClient, teacherClient, commentsClient, tagsClient, imageClient, iaClient, procedureClient, requirmentClient, notificationClient]
+
+axiosInstances.forEach((instance) => {
+  instance.interceptors.response.use((config) => {
+    const token = getLocalStorage('token').value ?? ''
+    config.headers.Authorization = `Bearer ${token}`
+    return config
+  }, async (error) => {
+    console.log('Error')
+    return await Promise.reject(error)
+  })
+})

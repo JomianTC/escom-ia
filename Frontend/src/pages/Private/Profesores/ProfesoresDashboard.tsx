@@ -57,13 +57,6 @@ export function Profesores () {
             {(rol === LEVEL_ACCESS.ADMIN && data?.total !== 0) && (<button className={`w-max px-4 py-1 bg-bg_200 rounded-full font-bold cursor-pointer border-accent_200 border-2 outline-none active:border-0  focus:border-0 border-none focus:outline-accent_200 focus-visible:outline-accent_200 ring-accent_100  ${isEditMode ? 'bg-primary_200 text-black hover:bg-primary_op_100/80' : 'hover:bg-primary_op_100/40'}` } onClick={handleEditMode}>Eliminar profesores</button>)}
             </div>
           </div>
-          {/* <div className='flex flex-col items-end gap-2'>
-            <span>Mostrando página: {page} de { totalPages }</span>
-            <div className="flex">
-              <button className='flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700  disabled:opacity-40' onClick={() => { handlePageChange(page - 1) }} disabled={page === 1}>Anterior</button>
-              <button className='flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-40 ' onClick={() => { handlePageChange(page + 1) }} disabled={page === totalPages }>Siguiente</button>
-            </div>
-          </div> */}
         </div>
         {filteredData?.map((profesor) => (
           <ProfesorCard key={uuid()} {...profesor} detail={false}/>

@@ -1,4 +1,4 @@
-const initialValuesLogin = {{ contrasena: '@200120Tm', boleta: '2020630319' }}
+const initialValuesLogin = { contrasena: '@200120Tm', boleta: '2020630319' }
 const adminValues = {
     identificador: '1010101010',
     nombre: 'Super SU Admin',
@@ -16,10 +16,3 @@ const studentValues = {
     email_recuperacion: 'erick@gmail.com',
     programa_academico: 'ISC-2009'
 }
-  
-const adminValues = {
-    identificador: '1010101010',
-    nombre: 'Super SU Admin',
-    email: 'superSuAdmin@ipn.mx',
-    area: 'Departamento de Recursos  Financieros'
-  }

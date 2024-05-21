@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { changeState, closeModal } from '@/store/slices/uiSlice'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, forwardRef, useContext, useEffect, useRef, useState } from 'react'
 
 const initialModalState = {
   isOpen: false,
@@ -18,12 +18,7 @@ export default function Modal ({ children, type = 'default', open = false, trigg
   const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(open)
   const { changeState: changeModalState } = useAppSelector((state) => state.ui)
-
-  const handleClose = () => {
-    if (!changeModalState) document.querySelector('#root')?.classList.add('open')
-    else document.querySelector('#root')?.classList.remove('open')
-    dispatch(changeState())
-  }
+  const outsideContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (changeModalState) {
@@ -32,6 +27,22 @@ export default function Modal ({ children, type = 'default', open = false, trigg
     } else {
       setIsOpen(false)
       document.querySelector('#root')?.classList.remove('open')
+    }
+    const closeModalOnEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && changeModalState) {
+        handleClose()
+      }
+    }
+    const closeOnOutsideClick = (e: MouseEvent) => {
+      if (outsideContainerRef.current === e.target) {
+        handleClose()
+      }
+    }
+    window.addEventListener('keydown', closeModalOnEscape)
+    window.addEventListener('click', closeOnOutsideClick)
+    return () => {
+      window.removeEventListener('keydown', closeModalOnEscape)
+      window.removeEventListener('click', closeOnOutsideClick)
     }
   }, [changeModalState])
 
@@ -42,24 +53,25 @@ export default function Modal ({ children, type = 'default', open = false, trigg
       document.querySelector('#root')?.classList.remove('open')
       // dispatch(closeModal())
     }
-    const closeModalOnEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsOpen(false)
-        dispatch(closeModal())
-        document.querySelector('#root')?.classList.remove('open')
-        // dispatch(closeModal())
-      }
-    }
+
     window.addEventListener('resize', closeModalOnResize)
-    window.addEventListener('keydown', closeModalOnEscape)
-    return () => { window.removeEventListener('resize', closeModalOnResize) }
+    return () => {
+      window.removeEventListener('resize', closeModalOnResize)
+    }
   }, [type])
+
+  const handleClose = () => {
+    if (!changeModalState) document.querySelector('#root')?.classList.add('open')
+    else document.querySelector('#root')?.classList.remove('open')
+    dispatch(changeState())
+    console.log(changeModalState)
+  }
 
   return (
     <ModalContext.Provider value={{ handleClose, isOpen }}>
       <>
         {trigger}
-        <div id="crud-modal" tabIndex={-1} aria-hidden="true" className={`bg-red-300 flex justify-center items-center  ${!isOpen ? 'hidden' : 'h-screen w-screen bg-zinc-800/60 fixed top-0 left-0 open p-4 overflow-y-scroll z-[1000]'}`}>
+        <div id="crud-modal" tabIndex={-1} aria-hidden="true" className={`bg-red-300 flex justify-center items-center  ${!isOpen ? 'hidden' : 'h-screen w-screen bg-zinc-800/60 fixed top-0 left-0 open p-4 overflow-y-scroll z-[1000]'}`} ref={outsideContainerRef}>
           <div className="modal-content relative p-4
                      w-full md:w-[460px]  sm:max-h-full bg-bg_300  rounded-xl text-primary_300 flex flex-col justify-center items-center z-[99999999]">
             {children}
@@ -121,15 +133,18 @@ export function ModalForm ({ children, handleSubmit }: { children: React.ReactNo
     </form>
   )
 }
-
-export function ModalTrigger ({ children, className }: { children: React.ReactNode, className?: string }) {
+interface ModalTriggerProps {
+  children: React.ReactNode
+  className?: string
+}
+export const ModalTrigger = forwardRef(function ModalTrigger ({ children, className }: ModalTriggerProps, ref?: React.Ref<HTMLButtonElement>) {
   const { handleClose } = useContext(ModalContext)
   return (
-    <button onClick={() => { handleClose() }} className={className}>
+    <button onClick={() => { handleClose() }} className={className} ref={ref}>
       {children}
     </button>
   )
-}
+})
 
 export function ModalImageCover ({ src = '/placeholder-docs.png', alt }: { src?: string, alt: string }) {
   return <div className='w-full max-h-44 overflow-hidden bg-cover'>

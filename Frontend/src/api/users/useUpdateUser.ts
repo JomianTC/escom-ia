@@ -5,7 +5,7 @@ import { API_URLS, imageClient, userQueryKeys } from '../index'
 
 const updateUser = async (newUser: Student) => {
   const { foto_perfil: fotoPerfil, contrasena, boleta, ...rest } = newUser
-  console.log('informacionMandada', rest)
+
   const response = await imageClient.put(API_URLS.userPictureClient.updateInfo, { ...rest }, {
     headers: {
       'Content-Type': 'application/json'

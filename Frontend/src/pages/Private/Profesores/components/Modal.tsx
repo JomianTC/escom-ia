@@ -1,33 +1,48 @@
 import { ModalLayout } from '@/pages/layouts/ModalLayout'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { closeCreateTeacherModal, openCreateTeacherModal } from '@/store/slices/uiSlice'
+import { useEffect, useRef } from 'react'
 import { ProfesorForm } from './Form'
-import { useEffect } from 'react'
 
 export function AddProfesorModal () {
   const { isCreateTeacherModalOpen } = useAppSelector(state => state.ui)
   const dispatch = useAppDispatch()
+  const modalRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (isCreateTeacherModalOpen) {
+      const closeModalOnOutsideClick = (e: MouseEvent) => {
+        if (e.target !== buttonRef.current) dispatch(closeCreateTeacherModal())
+      }
+      window.addEventListener('click', closeModalOnOutsideClick)
+      return () => {
+        window.removeEventListener('click', closeModalOnOutsideClick)
+      }
+    }
+  }, [isCreateTeacherModalOpen])
   useEffect(() => {
     const handleCloseModal = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && isCreateTeacherModalOpen) {
         dispatch(closeCreateTeacherModal())
       }
     }
+
     window.addEventListener('keydown', handleCloseModal)
     return () => {
-    //   dispatch(closeCreateTeacherModal())
       window.removeEventListener('keydown', handleCloseModal)
     }
-  }, [])
+  }, [isCreateTeacherModalOpen])
   return (
     <>
-      <button className='w-20 h-20 bg-primary_200 rounded-full fixed bottom-8 right-10 opacity-80  flex items-center justify-center text-white font-bold text-2xl hover:opacity-100 hover:bg-primary_300 hover:text-black cursor-pointer' onClick={() => dispatch(openCreateTeacherModal())}>+</button>
-          {isCreateTeacherModalOpen && (
+      <button className='w-20 h-20 bg-primary_200 border-4 add__button rounded-full fixed bottom-8 right-10 opacity-80  flex items-center justify-center text-white font-bold text-2xl hover:opacity-100 hover:bg-primary_300 hover:text-black cursor-pointer hover:text-6xl' onClick={() => dispatch(openCreateTeacherModal())} ref={buttonRef}>+</button>
+      {isCreateTeacherModalOpen && (
+        <div ref={modalRef}>
               <ModalLayout>
                     <ProfesorForm />
                     <button onClick={async () => { dispatch(closeCreateTeacherModal()) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg px-3'>Cancelar</button>
               </ModalLayout>
-          )
+        </div>
+      )
 }
       </>
   )

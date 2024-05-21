@@ -1,6 +1,7 @@
 import { useDeleteRequirment } from '@/api/requirments/use-delete'
 import { useDeleteTag } from '@/api/tags/use-delete-tag'
 import { useDeleteTeacher } from '@/api/teachers/use-delete-teacher'
+import { ApiLoader } from '@/components/ApiLoader'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { closeDeleteModal } from '@/store/slices/uiSlice'
 
@@ -32,6 +33,8 @@ export function DeleteProfesorModal () {
       await handleRemoveRequirment()
     }
   }
+  const isLoading = removeTeacher.isPending || removeTag.isPending || removeRequirment.isPending
+  // const isLoading = true
   const mainText = infoModal.type === 'profesor' ? 'al Profesor' : infoModal.type === 'tag' ? 'el Tag' : 'el Requisito'
   const dispatch = useAppDispatch()
   return (
@@ -44,8 +47,18 @@ export function DeleteProfesorModal () {
               <div >
                 <p className='text-base md:text-lg '>¿Estas seguro de eliminar a {infoModal?.nombre}?</p>
                 <div className='flex gap-4 justify-end mt-8'>
-                  <button onClick={async () => { await handleDeleteAction() }} className='bg-accent_200 text-bg_300 p-2 rounded-lg'>Eliminar</button>
-                  <button onClick={async () => { dispatch(closeDeleteModal()) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg px-3'>Cancelar</button>
+                  <button onClick={async () => { await handleDeleteAction() }} className='bg-accent_200 text-bg_300 p-2 rounded-lg disabled:bg-slate-400' disabled={
+                    isLoading
+                  }>
+                    {isLoading
+                      ? <ApiLoader />
+                      : 'Eliminar'}
+              </button>
+                  <button onClick={async () => { dispatch(closeDeleteModal()) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg px-3 disabled:bg-slate-400' disabled={
+                    isLoading
+                  }>
+                    Cancelar
+                  </button>
                 </div>
               </div>
             </>

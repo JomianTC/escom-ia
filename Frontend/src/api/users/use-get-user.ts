@@ -1,6 +1,7 @@
 import { type LoginData, type TSFixMe } from '@/types/index'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { API_URLS, apiClient, userQueryKeys } from '../index'
+import { toast } from 'react-toastify'
 
 const getUserDetails = async (data: LoginData) => {
   const response = await apiClient.post(API_URLS.apiClient.loginUser, { ...data })
@@ -19,6 +20,7 @@ export function useGetUser () {
       return data
     },
     onError: (_err, _, _context?: TSFixMe) => {
+      toast.error('El usuario no existe')
       return []
     },
     onSettled: () => {

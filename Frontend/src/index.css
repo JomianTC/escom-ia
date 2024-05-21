@@ -291,6 +291,7 @@ input[type="text"].input-procedure {
     /* background-color: var(--bg_200); */
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
     /* grid-template-rows: repeat(3,1fr); */
+    /* grid-template-rows: repeat(3,1fr); */
 }
 
 .profesores__grid .profesor__item {

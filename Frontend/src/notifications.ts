@@ -43,6 +43,24 @@ export async function showNotificationToUser (id: string) {
           setLocalStorage('vapid', key)
         }
         const key: string = getLocalStorage('vapid').value
+        // Revisando si tenemos una llave publica para el dispositivo
+        const savedKey = getLocalStorage('vapid')
+
+        if (savedKey.value === null) {
+          const vapidResponse = await notificationClient.get(API_URLS.notificationRoutes.getVapidKey, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
+            }
+          })
+          const key: string = await vapidResponse.data.llave_publica ?? ''
+          if (key === '') {
+            toast.error('Error al hacer la suscripción')
+            return
+          }
+          setLocalStorage('vapid', key)
+        }
+        const key: string = getLocalStorage('vapid').value
         await registration.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: urlB64ToUint8Array(key)

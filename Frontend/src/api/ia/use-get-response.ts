@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { type AxiosError } from 'axios'
 import { API_URLS, iaClient } from '../axios'
-import { type AxiosError } from 'axios'
 
 async function useGetResponse (message: string[]) {
   try {

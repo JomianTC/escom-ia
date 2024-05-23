@@ -1,4 +1,4 @@
-import { BuildIcon, CommentIcon, MailIcon } from '@/components/icons/Icons'
+import { BuildIcon, MailIcon } from '@/components/icons/Icons'
 import { Bubble } from '@/pages/Home/components/Bubble'
 import { useState } from 'react'
 
@@ -10,8 +10,9 @@ interface DetailProfesorProps {
   detail: boolean
   totalComments?: number
   foto_perfil?: string
+  contacto?: string
 }
-export function DetailProfessor ({ area, email, nombre, totalComments, foto_perfil: fotoPerfil = 'https://via.placeholder.com/150' }: DetailProfesorProps) {
+export function DetailProfessor ({ area, email, nombre, contacto, foto_perfil: fotoPerfil = 'https://via.placeholder.com/150' }: DetailProfesorProps) {
   const [showForm, setShowForm] = useState(false)
   return (
     <div className={`flip-card h-full relative ${showForm ? 'active' : ''}`} >
@@ -30,15 +31,19 @@ export function DetailProfessor ({ area, email, nombre, totalComments, foto_perf
         <div className="flip-card-back justify-center  z-[6000]">
           <article className='grid grid-cols-2 md:grid-cols-2 gap-3 p-2 md:gap-4    items-start mx-auto '>
 
-            <CardIcon text={totalComments} cols='' color='bg-primary_op_100/50'>
+            {/* <CardIcon text={totalComments} cols='' color='bg-primary_op_100/50'>
               <CommentIcon styles='w-6 h-6 md:w-12 md:h-12 stroke-bg_300 fill-accent_100 drop-shadow-lg' />
-            </CardIcon>
+            </CardIcon> */}
 
             <CardIcon text={email} cols='' color='bg-primary_op_100/50'>
               <MailIcon styles='w-6 h-6 md:w-12 md:h-12 stroke-bg_300 fill-accent_100 drop-shadow-lg' />
             </CardIcon>
 
-            <CardIcon text={area ?? ''} cols='col-span-2' color='bg-primary_op_100/50'>
+            <CardIcon text={contacto} cols='' color='bg-primary_op_100/50' extraStyles='w-full'>
+              <MailIcon styles='w-6 h-6 md:w-12 md:h-12 stroke-bg_300 fill-accent_100 drop-shadow-lg' />
+            </CardIcon>
+
+            <CardIcon text={area ?? ''} cols='' color='bg-primary_op_100/50' extraStyles='w-full'>
               <BuildIcon styles='w-6 h-6 md:w-12 md:h-12 stroke-bg_300 fill-accent_100 drop-shadow-lg' />
             </CardIcon>
 
@@ -56,14 +61,15 @@ interface CardIconProps {
   children: React.ReactNode
   cols?: string
   color?: string
+  extraStyles?: string
 }
-const CardIcon = ({ text = '', children, cols = '', color = '' }: CardIconProps) => {
+const CardIcon = ({ text = '', children, cols = '', color = '', extraStyles = '' }: CardIconProps) => {
   return (
     <div className={`flex flex-col gap-4 items-center ${cols}` }>
       <div className={`flex flex-col rounded-full bg-primary_100 border-4 justify-center w-fit p-2 sm:p-4 ${color}` }>
       {children}
     </div>
-    <span className='bg-primary_op_100/40 shadow-lg rounded-sm w-full px-2  text-xs text-black tracking-wider italic  '>{text}</span>
+    <span className={`bg-primary_op_100/40 shadow-lg rounded-sm w-full px-2  text-xs text-black tracking-wider italic text-wrap ${extraStyles}`}>{text}</span>
   </div>
   )
 }

@@ -12,7 +12,12 @@ export function AddProfesorModal () {
   useEffect(() => {
     if (isCreateTeacherModalOpen) {
       const closeModalOnOutsideClick = (e: MouseEvent) => {
-        if (e.target !== buttonRef.current) dispatch(closeCreateTeacherModal())
+        if (e.target === buttonRef.current) {
+          dispatch(openCreateTeacherModal())
+        } else {
+          if ((modalRef.current?.contains(e.target as Node)) ?? false) return
+          dispatch(closeCreateTeacherModal())
+        }
       }
       window.addEventListener('click', closeModalOnOutsideClick)
       return () => {
@@ -26,7 +31,6 @@ export function AddProfesorModal () {
         dispatch(closeCreateTeacherModal())
       }
     }
-
     window.addEventListener('keydown', handleCloseModal)
     return () => {
       window.removeEventListener('keydown', handleCloseModal)
@@ -36,12 +40,12 @@ export function AddProfesorModal () {
     <>
       <button className='w-20 h-20 bg-primary_200 border-4 add__button rounded-full fixed bottom-8 right-10 opacity-80  flex items-center justify-center text-white font-bold text-2xl hover:opacity-100 hover:bg-primary_300 hover:text-black cursor-pointer hover:text-6xl' onClick={() => dispatch(openCreateTeacherModal())} ref={buttonRef}>+</button>
       {isCreateTeacherModalOpen && (
-        <div ref={modalRef}>
-              <ModalLayout>
+        <ModalLayout>
+                <div ref={modalRef}>
                     <ProfesorForm />
-                    <button onClick={async () => { dispatch(closeCreateTeacherModal()) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg px-3'>Cancelar</button>
+                    <button onClick={async () => { dispatch(closeCreateTeacherModal()) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg px-3 mt-4'>Cancelar</button>
+              </div>
               </ModalLayout>
-        </div>
       )
 }
       </>

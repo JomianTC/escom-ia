@@ -5,17 +5,47 @@ import { ModalLayout } from '@/pages/layouts/ModalLayout'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { closeActivateModal, closeShareModal, openShareModal } from '@/store/slices/uiSlice'
 import { Formik } from 'formik'
+import { useEffect, useRef } from 'react'
 
 export function ShareModal () {
   const { isShareModalOpen } = useAppSelector(state => state.ui)
   const dispatch = useAppDispatch()
+  const shareModalContainerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const grantAccess = useGrantAccess()
+  useEffect(() => {
+    const handleCloseModal = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isShareModalOpen) {
+        dispatch(closeShareModal())
+      }
+    }
+    window.addEventListener('keydown', handleCloseModal)
+    return () => {
+      window.removeEventListener('keydown', handleCloseModal)
+    }
+  }, [isShareModalOpen])
+  useEffect(() => {
+    if (isShareModalOpen) {
+      const closeModalOnOutsideClick = (e: MouseEvent) => {
+        if (e.target === buttonRef.current || (buttonRef.current?.contains(e.target as Node) ?? false)) {
+          dispatch(openShareModal())
+        } else {
+          if ((shareModalContainerRef.current?.contains(e.target as Node)) ?? false) return
+          dispatch(closeShareModal())
+        }
+      }
+      window.addEventListener('click', closeModalOnOutsideClick)
+      return () => {
+        window.removeEventListener('click', closeModalOnOutsideClick)
+      }
+    }
+  }, [isShareModalOpen])
   return (
     <>
-      <button className='px-2 py-2 ' onClick={() => dispatch(openShareModal())}> <ShareIcon styles='w-7 h-7 stroke-2 stroke-accent_100 fill-none hover:stroke-primary_300' /> </button>
+      <button ref={buttonRef} className='rounded-lg px-2 py-2 hover:bg-accent_200 group z-10 overflow-hidden transition-colors' onClick={() => dispatch(openShareModal())}> <ShareIcon styles='w-7 h-7 stroke-2 stroke-accent_100 fill-none  select-none group-hover:stroke-primary_300' /> </button>
       {isShareModalOpen && (
         <ModalLayout>
-          <>
+          <div ref={shareModalContainerRef}>
             <h2 className='font-semibold text text-2xl md:text-3xl  '>Compartir</h2>
             <p>Al compartir estre trámite das beneficios de edición</p>
             <div >
@@ -41,7 +71,7 @@ export function ShareModal () {
                 <button onClick={async () => { dispatch(closeShareModal()) }} className='bg-accent_100 text-bg_300 p-2 rounded-lg px-3'>Cancelar</button>
               </div>
             </div>
-          </>
+          </div>
         </ModalLayout>
       )}
     </>

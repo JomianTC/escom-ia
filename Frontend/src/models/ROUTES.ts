@@ -1,4 +1,5 @@
 import { Home } from '@/pages/Home/Home'
+import { ChangePassword } from '@/pages/Login/ChangePassword'
 import { Recover } from '@/pages/Login/Recover'
 import { ChatbotPage } from '@/pages/Private/Chatbot/ChatbotPage'
 import { ComentariosPage } from '@/pages/Private/Comentarios/ComentariosPage'
@@ -40,7 +41,7 @@ export const PUBLIC_ROUTES_MODEL: Record<string, IRoute> = {
   },
   CHANGE_PASSWORD: {
     path: 'recover/new',
-    component: Recover,
+    component: ChangePassword,
     navPath: 'private',
     name: 'Private'
   }

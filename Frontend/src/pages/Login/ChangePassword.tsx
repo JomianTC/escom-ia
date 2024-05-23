@@ -16,8 +16,9 @@ export function ChangePassword () {
                       initialValues={{ email_recuperacion: '', contrasena: '' }}
                       validationSchema={changePasswordSchema}
                       onSubmit={async (values) => {
-                        recoverPassword.mutate({ email_recuperacion: values.email_recuperacion, contrasena: values.contrasena })
-                        recoverPassword.isSuccess && navigate('/login')
+                        await recoverPassword.mutateAsync({ email_recuperacion: values.email_recuperacion, contrasena: values.contrasena }).then(() => {
+                          navigate('/home')
+                        })
                       }}
                   >
                       {({ isSubmitting }) => (
@@ -26,15 +27,15 @@ export function ChangePassword () {
                               noValidate
                           >
                               <MyTextInput
-                                  label="Correo Electrónico"
+                                  label="Correo Electrónico de recuperación"
                                   name="email_recuperacion"
                                   type="email"
                                   className="input-border"
                           />
                             <MyTextInput
                                   label="Nueva contraseña"
-                                  name="contrsena"
-                                  type="email"
+                                  name="contrasena"
+                                  type="password"
                                   className="input-border"
                               />
                               <SubmitButton disabled={isSubmitting || recoverPassword.isPending} text="Cambiar contraseña" />

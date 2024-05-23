@@ -42,7 +42,6 @@ export function DashboardAdmin () {
         <Outlet context={{ element: containerRef }}/>
       </article>
       <DeleteProfesorModal />
-      {/* <DeleteProfesorModal /> */}
     </section>
   )
 }

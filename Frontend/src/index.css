@@ -691,8 +691,10 @@ li {
     visibility: visible;
     opacity: 1;
 }
-
-
+.tag {
+    user-select: none;
+    cursor: auto;
+}
 .tag:nth-child(even) {
     background-color: var(--primary_300);
     color: var(--black);
@@ -702,11 +704,7 @@ li {
     color: var(--bg_300);
 }
 
-.tag:hover {
-    background-color: var(--accent_200);
-    color: var(--text_100);
-    font: bold;
-}
+
 
 
 .rs-checkbox-label {
@@ -769,6 +767,9 @@ li {
     animation: none;
 }
 
+.remove_icon:hover {
+    animation: tilt 500ms ease-in-out infinite;
+}
 @keyframes tilt {
     0% {
         transform: rotate(0deg);
@@ -994,6 +995,7 @@ background: linear-gradient(    to bottom,
     border-width: 0 0.15em 0.15em 0;
     transform: rotate(45deg);
 }
+
 
 @keyframes pulse {
     0% {

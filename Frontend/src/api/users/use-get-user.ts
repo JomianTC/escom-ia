@@ -20,7 +20,7 @@ export function useGetUser () {
       return data
     },
     onError: (_err, _, _context?: TSFixMe) => {
-      toast.error('El usuario no existe')
+      toast.error('Contraseña o usuario incorrecto')
       return []
     },
     onSettled: () => {

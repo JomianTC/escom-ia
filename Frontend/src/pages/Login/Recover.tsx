@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FormLayout } from '../layouts/FormLayout'
 import { recoverPasswordSchema } from '../Schemas'
 import { useRecoverPassword } from '@/api/users/use-recover-password'
+import { PUBLIC_ROUTES_MODEL } from '@/models'
 
 export function Recover () {
   const recoverPassword = useRecoverPassword()
@@ -26,17 +27,17 @@ export function Recover () {
                             noValidate
                         >
                             <MyTextInput
-                                label="Correo Electrónico"
+                                label="Correo Electrónico de Recuperación"
                                 name="email_recuperacion"
                                 type="email"
                               className="input-border"
-                              placeholder='fernandoincreible@gmail.com'
+                              placeholder='fernandoherreragod@gmail.com'
                             />
                             <SubmitButton disabled={isSubmitting || recoverPassword.isPending} text="Recuperar contraseña" />
                         </Form>
                     )}
                 </Formik>
-                <Link to="/register" className="text-primary_300 mt-4 hover:text-primary_200 hover:font-bold transition-all">
+                <Link to={`/${PUBLIC_ROUTES_MODEL.HOME.path}`} className="text-primary_300 mt-4 hover:text-primary_200 hover:font-bold transition-all">
                     Regresar
                 </Link>
             </>

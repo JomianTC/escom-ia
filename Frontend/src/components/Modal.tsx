@@ -167,21 +167,23 @@ export function AdminInfo () {
     id
   } = useAppSelector((state) => state.user)
   return (
-    <div className='flex flex-col w-full'>
-      <img src={fotoPerfil} alt={nombres } />
-      <p className='text-text_200 text-lg text-left' >
-        <span className="font-bold text-text_accent block">Nombre:</span>
-        {nombres}</p>
-      <p className='text-text_200 text-lg text-left' >
-        <span className="font-bold text-text_accent block">Id:</span>
-        {id}</p>
-      <p className='text-text_200 text-lg text-left' >
-        <span className="font-bold text-text_accent block ">Area:</span>
-        {area}</p>
-      <p className='text-text_200 text-lg text-left' >
-        <span className="font-bold text-text_accent block">Email </span>
-        {email}</p>
-    </div>)
+    <article className='flex flex-col w-full md:justify-center items-center  h-full'>
+      <img src={fotoPerfil} alt={nombres} className='w-12 h-12 sm:w-28 sm:h-28 self-center' />
+      <div className='max-w-screen-sm w-full '>
+        <p className='text-text_200 text-lg text-left' >
+          <span className="font-bold text-text_accent block">Nombre:</span>
+          {nombres}</p>
+        <p className='text-text_200 text-lg text-left' >
+          <span className="font-bold text-text_accent block">Id:</span>
+          {id}</p>
+        <p className='text-text_200 text-lg text-left' >
+          <span className="font-bold text-text_accent block ">Area:</span>
+          {area}</p>
+        <p className='text-text_200 text-lg text-left' >
+          <span className="font-bold text-text_accent block">Email </span>
+          {email}</p>
+      </div>
+    </article>)
 }
 
 export function StudentInfo () {

@@ -18,7 +18,7 @@ export default function Element ({ value, label, type, handleSelect, children }:
         dispatch(openDeleteModal())
         dispatch(setInfoModal({ id: value, nombre: label, type }))
       }}>
-          <RemoveIcon styles='w-6 h-6 stroke-red-400 fill-bg_300 stroke-primary_200 drop-shadow-lg hover:fill-primary_300 transition-colors' />
+          <RemoveIcon styles='w-6 h-6 stroke-red-400 fill-bg_300 stroke-primary_200 drop-shadow-lg hover:fill-red-800 transition-colors remove_icon' />
           </button>
   </div>
   )

@@ -17,16 +17,6 @@ registerRoute(
   ({ request }) => request.mode === 'navigate',
   createHandlerBoundToURL('/index.html')
 )
-
-// registerRoute(
-//   ({ url }) => url.pathname.startsWith('/api/teacher'),
-//   new StaleWhileRevalidate({
-//     cacheName: 'api-teacher-cache',
-//     cacheabkeResponse: { statuses: [0, 200] },
-//     plugins: [new ExpirationPlugin({ maxEntries: 50 })]
-//   })
-// )
-
 // eslint-disable-next-line no-void
 self.addEventListener('install', () => void self.skipWaiting())
 // eslint-disable-next-line no-void
@@ -44,12 +34,10 @@ self.addEventListener('activate', async (event) => {
 // Revisando si tenemos los archivos en la cache
 self.addEventListener('fetch', (event) => {
   const request = event.request
-
   // Ignorar las peticiones a los datos de Axios
   if (request.url.includes('/api/') || request.url.includes('https://avataaars.io/')) {
     return
   }
-
   // Indicamos que nosotros queremos dar respuesta a esa petición
   event.respondWith(
     // Si tenemos una respuesta en la cache la devolvemos
@@ -77,8 +65,6 @@ self.addEventListener('fetch', (event) => {
   )
 })
 self.addEventListener('notificationclick', (event) => {
-  // console.log('Notification clicked')
-  // console.log(event)
   event.waitUntil(self.clients.openWindow(event.notification.tag))
   event.notification.close()
 })

@@ -1,3 +1,5 @@
+import { useAppSelector } from '@/store/hooks/useAppSelector'
+import { LEVEL_ACCESS } from '@/types/index'
 import { useFormik } from 'formik'
 import { useRef, useState } from 'react'
 import uuid from 'react-uuid'
@@ -10,6 +12,8 @@ export function ChatbotPage () {
   const [answerResponse, setAnswerResponse] = useState([] as string[])
   const { setIaClicked, startIASubmit, isIALoading, showingPartial, partialResponse } = useWordByWord('procedure')
   const propmptRef = useRef<HTMLInputElement>(null)
+  const isInvited = useAppSelector(state => state.auth.rol === LEVEL_ACCESS.INVITED)
+
   const formik = useFormik({
     initialValues: {
       message: '',
@@ -61,16 +65,13 @@ export function ChatbotPage () {
         </header>
         <main className=" p-4 grow ">
           <div className="max-h-[300px] sm:max-h-[500px] custom-scrollbar overflow-y-scroll chatbot__messages">
-            <div className="chatbot__message">
+            <div className="chatbot__message flex flex-col gap-2">
               <p className="chatbot__text">Hola, soy tu asistente virtual, ¿En qué puedo ayudarte?</p>
               {answerResponse.map((_, index) => (
-                <div key={uuid()} className="chatbot__message">
-                  <p className={index % 2 !== 0 ? 'font-bold' : 'font-light' }>{answerResponse[index - 1]}</p>
-                  {/* <p className="font-bold">{answerResponse[index - 1]}</p> */}
-                </div>
+                  <p key={uuid()} className={index % 2 !== 0 ? 'font-bold w-fit self-end text-right mr-6 sm:mr-12 px-8  bg-primary_op_100/30 rounded-full transition-all' : 'font-light' }>{answerResponse[index - 1]}</p>
               ))}
               <p className='font-light'>{partialResponse}</p>
-              {formik.isSubmitting && <p className='font-bold'>{formik.values.message }</p>}
+              {formik.isSubmitting && <p className='font-bold w-fit self-end text-right mr-6 sm:mr-12 px-8  bg-primary_op_100/30 rounded-full transition-all'>{formik.values.message }</p>}
             </div>
           </div>
         </main>
@@ -78,11 +79,13 @@ export function ChatbotPage () {
           <form onSubmit={formik.handleSubmit} className="chatbot__form flex gap-8">
             <input autoComplete='off' type="text" name='message' onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.message} placeholder="Escribe tu mensaje aquí" className={`chatbot__input ${(isIALoading || showingPartial) ? 'white' : 'black'}`}
-              disabled={isIALoading || showingPartial}
+              value={formik.values.message} placeholder={
+                isInvited ? 'Registrate para chatear' : 'Escribe tu mensaje'
+              } className={`chatbot__input ${(isIALoading || showingPartial) ? 'white' : 'black'}`}
+              disabled={isIALoading || showingPartial || isInvited}
             ref= {propmptRef}
             />
-            <button type="submit" disabled={isIALoading || showingPartial} className="chatbot__button bg-bg_200 drop-shadow-md  rounded-full w-14 h-12 disabled:opacity-40">
+            <button type="submit" disabled={isIALoading || showingPartial || isInvited} className="chatbot__button bg-bg_200 drop-shadow-md  rounded-full w-14 h-12 disabled:opacity-40">
               <img src="/icons/send.webp" width={32} className='mx-auto invert' alt="send" />
             </button>
           </form>

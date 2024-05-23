@@ -13,6 +13,7 @@ import { EditarRequerimientos } from './Dashboard/EditarRequerimientos'
 import { EditarTags } from './Dashboard/EditarTags'
 import { CreateTagComponent } from './Dashboard/components/CreateTagComponent'
 import { setToken } from '../hooks/useAuthToken'
+import { AdminInfo } from '@/components/Modal'
 const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashboard'))
 
 export default function Private () {
@@ -38,7 +39,7 @@ export default function Private () {
           }
           <Route element={<RoleGuard rol={'admin'} />}>
             <Route path={'dashboardadmin'} element={<DashboardAdmin />} >
-            <Route path={'/dashboardadmin'} element={<h1>Perfil del administrador</h1>} />
+            <Route path={'/dashboardadmin'} element={<AdminInfo/>} />
               <Route path={'editarTags'} element={
                 <EditarTags>
                 <CreateTagComponent />

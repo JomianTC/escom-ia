@@ -9,6 +9,8 @@ const validateFileSize = (value: any) => {
   }
 }
 
+const emailNotAllowedDomain = /^[^\s@]+@[^\s@]+\.[^\s@]+(?<!@alumno\.ipn\.mx)$/
+
 const passwordSchema = yup.string()
   .min(8, 'La contraseña debe tener al menos 8 caracteres')
   .max(20, 'La contraseña no puede tener más de 20 caracteres')
@@ -35,8 +37,8 @@ export const estudianteEsquemaRegistroSecondStep = yup.object().shape({
 })
 
 export const estudianteEsquemaIngreso = yup.object().shape({
-  contrasena: passwordSchema,
-  boleta: yup.string().min(10).required('La boleta es requerida')
+  contrasena: yup.string().required('Debes ingresar tu contraseña'),
+  boleta: yup.string().min(10, 'Recuerda que la boleta tiene al menos 10 numeros').required('La boleta es requerida')
 })
 
 export const profesorEsquema = yup.object().shape({
@@ -105,7 +107,8 @@ export const updateSchema = yup.object().shape({
 })
 
 export const recoverPasswordSchema = yup.object().shape({
-  email_recuperacion: yup.string().email('Correo no valido').required('El email es requerido')
+  email_recuperacion: yup.string().email('Correo no valido').matches(emailNotAllowedDomain, 'El correo no puede ser el institucional')
+    .required('El email es requerido')
 })
 
 export const AREAS = [

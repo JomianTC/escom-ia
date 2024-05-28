@@ -40,6 +40,10 @@ export function Tramites () {
     )
   }
 
+  const formattedTitle = (title: string) => {
+    return title.charAt(0).toUpperCase() + title.slice(1)
+  }
+
   return (
     <section className='profesores__grid container p-8 w-full h-full my-0 mx-auto grid sm:gap-6 relative z-40 overflow-y-scroll custom-scrollbar auto-rows-min gap-8'>
       <div className="controls col-span-full h-fit flex flex-wrap justify-center  sm:items-center flex-col sm:flex-row ">
@@ -60,8 +64,8 @@ export function Tramites () {
           return (
               <div key={tramite.id} className={`p-2  self-start  white-border rounded-xl flex-col justify-between my-2 grid tramite__subgrid h-full ${isAvailable ? 'bg-bg_300' : 'bg-accent_100 select-none opacity-80'}`}>
                 {isAvailable
-                  ? <NavLink to={`detalles/${tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(tramite, requerimientos) }}>{tramite.nombre}</NavLink>
-                  : <h1 className='text-center text-xl font-bold mb-2' >{tramite.nombre}</h1>
+                  ? <NavLink to={`detalles/${tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(tramite, requerimientos) }}>{formattedTitle(tramite.nombre)}</NavLink>
+                  : <h1 className='text-center text-xl font-bold mb-2' >{formattedTitle(tramite.nombre)}</h1>
                 }
                 <p className='text-nowrap overflow-hidden text-ellipsis' dangerouslySetInnerHTML={createMarkup(tramite.descripcion.substring(0, 140))}></p>
                 <div className='flex justify-between py-4 items-center'>

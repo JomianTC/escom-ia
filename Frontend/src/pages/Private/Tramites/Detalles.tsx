@@ -48,7 +48,7 @@ export function Detalles () {
             <div className="backdrop-blur-3xl h-full rounded-lg overflow-hidden overflow-y-scroll hide-scrollbar">
                 <div className="flex w-full justify-between ">
                     <h1 className="mx-auto font-bold text-center text-4xl sm:text-5xl md:text-6xl  text-accent_100 drop-shadow-lg">
-                        {data?.nombre}
+                        {data?.nombre !== undefined && data.nombre.charAt(0).toUpperCase() + data.nombre.slice(1)}
                     </h1>
                     <ReturnButton styles=" " />
                 </div>

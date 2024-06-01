@@ -1,4 +1,5 @@
 import EditInfoModal from '@/components/EditInfoModal'
+import { AdminInfo } from '@/components/Modal'
 import { NavBar } from '@/components/NavBar'
 import { PRIVATE_ROUTES } from '@/models'
 import { type IRoute } from '@/types/index'
@@ -7,13 +8,12 @@ import RoutesWithNotFound from '@utils/RoutesWithNotFound'
 import { lazy, useEffect } from 'react'
 import { Navigate, Route } from 'react-router-dom'
 import { Bubble } from '../Home/components/Bubble'
+import { setToken } from '../hooks/useAuthToken'
 import { DashboardAdmin } from './Dashboard/DashboardAdmin'
 import { EditarProfesores, EditProfesor } from './Dashboard/EditarProfesores'
 import { EditarRequerimientos } from './Dashboard/EditarRequerimientos'
 import { EditarTags } from './Dashboard/EditarTags'
 import { CreateTagComponent } from './Dashboard/components/CreateTagComponent'
-import { setToken } from '../hooks/useAuthToken'
-import { AdminInfo } from '@/components/Modal'
 const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashboard'))
 
 export default function Private () {

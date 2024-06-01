@@ -35,7 +35,7 @@ self.addEventListener('activate', async (event) => {
 self.addEventListener('fetch', (event) => {
   const request = event.request
   // Ignorar las peticiones a los datos de Axios
-  if (request.url.includes('/api/') || request.url.includes('https://avataaars.io/')) {
+  if (request.url.includes('api') || request.url.includes('https://avataaars.io/')) {
     return
   }
   // Indicamos que nosotros queremos dar respuesta a esa petición

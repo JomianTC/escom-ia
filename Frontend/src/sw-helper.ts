@@ -41,14 +41,14 @@ function initSW () {
         }
         // Revisando si las notificaciones son soportadas
         if (!('showNotification' in registration)) {
-          alert('Notifications aren\'t supported.')
-          console.warn('Notifications aren\'t supported.')
+          alert('Que lastima tu dispositivo no admite notificaciones :( por navegador.')
+          console.warn('Que lastima tu dispositivo no admite notificaciones :( por navegador.')
           return
         }
         // Revisando si las notificaciones están permitidas
         if (Notification.permission === 'denied') {
-          alert('The user has blocked notifications.')
-          console.warn('The user has blocked notifications.')
+          alert('No permitiste las notificaciones :( .')
+          console.warn('No permitiste las notificaciones :( .')
         }
       })
     }

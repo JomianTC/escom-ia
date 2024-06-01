@@ -11,6 +11,8 @@ export function NotificationButton () {
   const addSubscription = useSubscribe()
 
   const handleNotification = async (action: NotificationAction) => {
+    console.log(action)
+
     if (action === 'eliminar') {
       await removeSubscription.mutateAsync()
     } else {

@@ -1,12 +1,14 @@
-import { requestPermission, showNotificationToUser } from '@/notifications'
-import { useMutation } from '@tanstack/react-query'
+import { showNotificationToUser } from '@/notifications'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { notificationsQueryKeys } from './notification-query'
 
 export function useSubscribe () {
   const { id } = useParams()
+  const queryClient = useQueryClient()
   const subscribe = async () => {
-    await requestPermission()
+    // await requestPermission()
     // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
     const response = await showNotificationToUser(id ?? '')
     console.log('Respuesta de la suscripción', response)
@@ -16,7 +18,10 @@ export function useSubscribe () {
     onMutate: () => {
       // toast.info('Avisando...')
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: notificationsQueryKeys.detail(id ?? '')
+      })
       toast.success('¡Listo! Ahora recibirás notificaciones')
     },
     onError: () => {

@@ -56,6 +56,10 @@ let AuthService = class AuthService {
             });
             if (userFound)
                 throw new common_1.BadRequestException({ mensaje: "Usuario ya registrado" });
+            if (!(/^(19|20)/).test(userData.boleta.toString()))
+                throw new common_1.BadRequestException({ mensaje: "Boleta no valida" });
+            if (!(/^\d{4}(630|631)/).test(userData.boleta.toString()))
+                throw new common_1.BadRequestException({ mensaje: "La boleta no es de ESCOM" });
             const user = this.userRepository.create({
                 ...userData,
                 contrasena: bcrypt_adapter_1.BcryptAdapter.hash(contrasena)

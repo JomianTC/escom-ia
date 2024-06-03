@@ -60,9 +60,15 @@ export class AuthService {
 			const userFound = await this.userRepository.findOne({
 				where: { boleta: userData.boleta }
 			});
-	
+
 			if ( userFound )
 				throw new BadRequestException({ mensaje: "Usuario ya registrado" });
+
+			if ( !( /^(19|20)/ ).test( userData.boleta.toString()) )
+				throw new BadRequestException({ mensaje: "Boleta no valida" });
+
+			if ( !( /^\d{4}(630|631)/ ).test( userData.boleta.toString()) )
+				throw new BadRequestException({ mensaje: "La boleta no es de ESCOM" });
 			
 			const user = this.userRepository.create({
 				...userData,

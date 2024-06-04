@@ -1110,3 +1110,10 @@ input[type = 'text'].white {
     transform: scale(0.9);
     border-radius: 100%;
 }
+
+ol {
+    list-style-type: decimal;
+    counter-reset: item;
+    padding: 0;
+    margin-right: 2px;
+}

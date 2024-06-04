@@ -67,7 +67,7 @@ export function Tramites () {
                   ? <NavLink to={`detalles/${tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(tramite, requerimientos) }}>{formattedTitle(tramite.nombre)}</NavLink>
                   : <h1 className='text-center text-xl font-bold mb-2' >{formattedTitle(tramite.nombre)}</h1>
                 }
-                <p className='text-nowrap overflow-hidden text-ellipsis' dangerouslySetInnerHTML={createMarkup(tramite.descripcion.substring(0, 140))}></p>
+                <p className='text-nowrap overflow-hidden text-ellipsis' dangerouslySetInnerHTML={createMarkup(tramite.descripcion.substring(0, 140).trim().replace('<p><br></p>', ''))}></p>
                 <div className='flex justify-between py-4 items-center'>
                   {
                     isAvailable

@@ -11,9 +11,9 @@ function getTypeOfLink (link: string) {
   // Revisando si el link es una images
   const allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i
   // Revisando si el link es un formulario de google
-  const googleForms = /forms/gi
+  const googleForms = /(forms|file)/gi
   // Revisando si el link es un pdf
-  const pdf = /pdf/gi
+  const pdf = /(pdf)/gi
   // Revisando si el link es un documento de word
   const doc = /doc/gi
 
@@ -55,17 +55,16 @@ export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
         </>
       }
       </details>
-      ) : (<details className='cursor-pointer px-2  rounded-lg py-1 italic select-none'>
+      ) : (
+      <details className='cursor-pointer px-2  rounded-lg py-1 italic select-none'>
       <summary className='px-2 py-2 flex flex-row-reverse items-end justify-start rounded-lg w-fit bg-primary_op_100/20 font-semibold gap-2' > {tiulo} {ICONS[summaryText]}
       </summary>
-      {(link.includes('forms') || link.includes('forms')) &&
+      { getTypeOfLink(toLink) === 'googleForm' &&
         (
-          <div>
+          <>
             {/* Agregando vista de google forms */}
-            <iframe src={toLink} width="100%" height="500px" />
-            ¿No puedes verlo?
-            <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">   Dame click</a>
-          </div>
+            <iframe src={toLink.replace(/\bview\b/g, 'preview')} width="100%" height="500px" allow='autoplay' />
+          </>
         )
       }
       {getTypeOfLink(toLink) === 'image' &&
@@ -83,8 +82,11 @@ export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
           <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Descargar Archivo</a>
         </>
       }
-      <p>¿No puedes verlo?</p>
+      <p className='font-bold'>¿No puedes verlo?</p>
       <p>Ingresa al tipo de archivo desde este link: <a className='underline underline-offset-2 font-bold' href={link}>Click {tiulo }</a>  </p>
     </details>
       )
 }
+
+// <iframe src="https://drive.google.com/file/d/10EbucvagLomfz-h_iscs3HF81brbnhXu/preview" width="640" height="480" allow="autoplay"></iframe>
+// https://drive.google.com/file/d/10EbucvagLomfz-h_iscs3HF81brbnhXu/view

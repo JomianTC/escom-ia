@@ -11,7 +11,9 @@ export class Procedure {
 	@Column()
 	nombre: string;
 
-	@Column()
+	@Column(
+		{ length: 10000 }
+	)
 	descripcion: string;
 
 	@Column({ nullable: true })
@@ -26,7 +28,7 @@ export class Procedure {
 	@Column({ default: true })
 	esInformativo: boolean;
 
-	@Column({ default: "" })
+	@Column({ default: "", length: 5000 })
 	links: string;
 
 	@OneToMany(

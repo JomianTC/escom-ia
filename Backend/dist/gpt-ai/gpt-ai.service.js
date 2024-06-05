@@ -50,6 +50,7 @@ let GptAiService = class GptAiService {
                 informacion += `{\n`;
                 informacion += `Tramite: ${procedure.tramite.nombre}\n`;
                 informacion += `Descripcion: ${procedure.tramite.descripcion}\n`;
+                informacion += `Estado: ${procedure.tramite.estado}\n`;
                 if (procedure.tramite.fechaInicio === null && procedure.tramite.fechaTermino === null) {
                     informacion += `Fecha de inicio: SIN FECHA\n`;
                     informacion += `Fecha de Termino: SIN FECHA\n`;

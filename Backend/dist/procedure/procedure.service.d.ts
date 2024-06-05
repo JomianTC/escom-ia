@@ -10,6 +10,10 @@ export declare class ProcedureService {
         procedures: Procedure[];
         total: number;
     }>;
+    findEverything(paginationDto: PaginationDto): Promise<{
+        procedures: Procedure[];
+        total: number;
+    }>;
     findOne(id: string): Promise<Procedure>;
     findStack(adminProccedures: string[]): Promise<Procedure[]>;
     create(createProcedureDto: CreateProcedureDto): Promise<Procedure>;

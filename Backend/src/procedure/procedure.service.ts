@@ -41,6 +41,26 @@ export class ProcedureService {
 			
 		} catch ( error ) { HandleErrors( error ); }
 	}
+
+	async findEverything( paginationDto: PaginationDto ) {
+		
+		const { limit = 10, page = 1 } = paginationDto;
+
+		try {
+
+			const procedures = await this.procedureRepository.find({
+				order: { nombre: "ASC" },
+				take: limit,
+				skip: ( page - 1 ) * limit
+			});
+			
+			if ( !procedures.length ) 
+				throw new BadRequestException({ mensaje: "No se encontraron trámites" });
+
+			return { procedures, total: 10 };
+			
+		} catch ( error ) { HandleErrors( error ); }
+	}
 	
 	async findOne( id: string ) {
 		

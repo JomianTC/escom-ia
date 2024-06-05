@@ -37,7 +37,7 @@ export class GptAiController {
 
 		await this.userService.findByEmailUserAdmin( email );
 		
-		const { procedures } = await this.procedureService.findAll({ page: 1, limit: 100 });
+		const { procedures } = await this.procedureService.findEverything({ page: 1, limit: 100 });
 		const fullProcedures = await Promise.all( procedures.map( async ( procedure ) => {
 			const requirements = await this.reqProService.findStack( procedure );
 			return { tramite: procedure, requerimientos: requirements };

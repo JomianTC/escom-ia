@@ -51,7 +51,7 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Procedure.prototype, "esInformativo", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: "" }),
+    (0, typeorm_1.Column)({ default: "", length: 5000 }),
     __metadata("design:type", String)
 ], Procedure.prototype, "links", void 0);
 __decorate([

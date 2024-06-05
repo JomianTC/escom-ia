@@ -42,6 +42,22 @@ let ProcedureService = class ProcedureService {
             (0, handle_errors_1.HandleErrors)(error);
         }
     }
+    async findEverything(paginationDto) {
+        const { limit = 10, page = 1 } = paginationDto;
+        try {
+            const procedures = await this.procedureRepository.find({
+                order: { nombre: "ASC" },
+                take: limit,
+                skip: (page - 1) * limit
+            });
+            if (!procedures.length)
+                throw new common_1.BadRequestException({ mensaje: "No se encontraron trámites" });
+            return { procedures, total: 10 };
+        }
+        catch (error) {
+            (0, handle_errors_1.HandleErrors)(error);
+        }
+    }
     async findOne(id) {
         try {
             const procedure = await this.procedureRepository.findOneBy({ id });

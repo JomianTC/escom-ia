@@ -20,7 +20,7 @@ export class CreateTeacherDto {
 		"Departamento de Ingeniería en Sistemas Computacionales",
 		"Departamento de Fórmacion Integral e Institucional",
 		"Departamento de Evaluación y Seguimiento Académico",
-		"departamento de Innovación Educativa",
+		"Departamento de Innovación Educativa",
 		"Unidad de Tecnología Educativa y Campus Virtual",
 		"Sección de Estudios de Posgrado e Investigación",
 		"Colegio de Profesores",

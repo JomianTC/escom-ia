@@ -14,12 +14,25 @@ import { EditarProfesores, EditProfesor } from './Dashboard/EditarProfesores'
 import { EditarRequerimientos } from './Dashboard/EditarRequerimientos'
 import { EditarTags } from './Dashboard/EditarTags'
 import { CreateTagComponent } from './Dashboard/components/CreateTagComponent'
+import { requestPermission } from '@/notifications'
+import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
+import { activeNotifications } from '@/store/slices/uiSlice'
 const Dashboard = lazy(async () => await import('@/pages/Private/Dashboard/Dashboard'))
 
 export default function Private () {
+  const { areNotificationsActive } = useAppSelector(state => state.ui)
+  const dispatch = useAppDispatch()
   useEffect(() => {
     setToken()
   }, [])
+  useEffect(() => {
+    if (areNotificationsActive) return
+    requestPermission().then(() => {
+      dispatch(activeNotifications())
+    }).catch(error => {
+      console.log(error)
+    })
+  }, [areNotificationsActive])
   return (
     <>
       <NavBar>

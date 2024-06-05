@@ -33,7 +33,6 @@ export const useForm = (components: Components, isUpdate = false) => {
         if (values.email_recuperacion === user.email_recuperacion) {
           delete infoToSend.email_recuperacion
         }
-        console.log('Valores por actualizar', infoToSend)
 
         await updateUser.mutateAsync(infoToSend).then((_data) => {
           setCanRedirect(true)

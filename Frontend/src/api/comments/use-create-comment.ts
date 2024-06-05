@@ -45,7 +45,6 @@ export function useCreateComment () {
       }) ?? ['loading', 'loading']
 
       // Aqui colocar el comentario que se va a agregar
-      // console.log(newData)
       const fecha = new Date().toLocaleDateString()
 
       const mockComment = {

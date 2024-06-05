@@ -11,8 +11,6 @@ export const EditarTags = ({ children }: { children: ReactNode }) => {
   const topPage = useRef<HTMLDivElement>(null)
   const inputEditTag = useRef<HTMLInputElement>(null)
   const updateTag = useUpdateTag()
-  console.log('Render')
-
   const formik = useFormik({
     initialValues: {
       value: '',
@@ -38,7 +36,6 @@ export const EditarTags = ({ children }: { children: ReactNode }) => {
   const handleSelect = useCallback(async (value: string, id: string) => {
     await formik.setFieldValue('value', value)
     await formik.setFieldValue('label', id)
-    console.log(element)
     element.current?.scroll({ top: 0, behavior: 'smooth' })
     inputEditTag.current?.focus()
   }, [])

@@ -64,7 +64,6 @@ export default function Modal ({ children, type = 'default', open = false, trigg
     if (!changeModalState) document.querySelector('#root')?.classList.add('open')
     else document.querySelector('#root')?.classList.remove('open')
     dispatch(changeState())
-    console.log(changeModalState)
   }
 
   return (

@@ -6,7 +6,6 @@ import { type AxiosError } from 'axios'
 export function useRecoverPassword () {
   return useMutation({
     mutationFn: async (email: string) => {
-      console.log(email)
       const response = await imageClient.post(API_URLS.userPictureClient.resetPassword, {
         email_recuperacion: email
       }, {

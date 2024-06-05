@@ -11,6 +11,7 @@ interface UIState {
   isActivateModalOpen: boolean
   isDeleteCoomentModalOpen: boolean
   isCreateTeacherModalOpen: boolean
+  areNotificationsActive: boolean
 }
 const DEFAULT_INITIAL_STATE: UIState = {
   isModalOpen: false,
@@ -23,7 +24,8 @@ const DEFAULT_INITIAL_STATE: UIState = {
   chatHistory: [],
   isActivateModalOpen: false,
   isDeleteCoomentModalOpen: false,
-  isCreateTeacherModalOpen: false
+  isCreateTeacherModalOpen: false,
+  areNotificationsActive: false
 }
 
 // Retorna las acciones del objeto como un objeto
@@ -82,9 +84,12 @@ export const uiSlice = createSlice({
     },
     closeCreateTeacherModal: (state) => {
       return { ...state, isCreateTeacherModalOpen: false }
+    },
+    activeNotifications: (state) => {
+      return { ...state, areNotificationsActive: !state.areNotificationsActive }
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { showModal, closeModal, setEditMode, changeState, closeDeleteModal, openDeleteModal, setInfoModal, openShareModal, closeShareModal, setChatHistory, openActivateModal, closeActivateModal, closeDeleteCommentModal, openDeleteCommentModal, closeCreateTeacherModal, openCreateTeacherModal } = uiSlice.actions
+export const { showModal, closeModal, setEditMode, changeState, closeDeleteModal, openDeleteModal, setInfoModal, openShareModal, closeShareModal, setChatHistory, openActivateModal, closeActivateModal, closeDeleteCommentModal, openDeleteCommentModal, closeCreateTeacherModal, openCreateTeacherModal, activeNotifications } = uiSlice.actions

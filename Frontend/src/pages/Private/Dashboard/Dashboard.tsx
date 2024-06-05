@@ -1,14 +1,4 @@
-import { requestPermission } from '@/notifications'
-import { useEffect } from 'react'
-
 export default function Dashboard () {
-  useEffect(() => {
-    requestPermission().then(() => {
-      console.log('Permitidas')
-    }).catch(error => {
-      console.log(error)
-    })
-  }, [])
   return (
     <section className="w-full max-h-fit max-w-screen-lg mx-auto vento p-2 sm:p-2 relative z-40  hide-scrollbar overflow-y-scroll">
       <article className="rounded-xl p-4 border-4 relative">

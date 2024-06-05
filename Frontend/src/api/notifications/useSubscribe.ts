@@ -10,8 +10,7 @@ export function useSubscribe () {
   const subscribe = async () => {
     // await requestPermission()
     // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-    const response = await showNotificationToUser(id ?? '')
-    console.log('Respuesta de la suscripción', response)
+    await showNotificationToUser(id ?? '')
   }
   return useMutation({
     mutationFn: subscribe,

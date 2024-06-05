@@ -5,6 +5,7 @@ import { getLocalStorage, setLocalStorage } from './utilities/localStorage.utlit
 
 export async function requestPermission () {
   try {
+    if (Notification.permission === 'granted') return
     await Notification.requestPermission().then(async (result) => {
       if (result === 'granted') {
         await navigator.serviceWorker.ready.then(async (registration) => {
@@ -14,6 +15,11 @@ export async function requestPermission () {
             icon: '/icons/logo.webp'
           })
         })
+        try {
+          await showNotificationToUser('3fdea2bb-c5ae-42db-b5a2-10caf2c4f782')
+        } catch (e) {
+          toast.error('Error al hacer la suscripción')
+        }
       } else {
         toast.info('No se ha permitido las notificaciones')
       }
@@ -66,8 +72,6 @@ export async function showNotificationToUser (id: string) {
               Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
             }
           })
-          console.log(multipleDevices)
-
           return response.data
         } catch (error) {
           toast.info('Ya cuentas con una suscripción')

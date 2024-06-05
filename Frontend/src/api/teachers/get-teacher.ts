@@ -8,7 +8,6 @@ import { teacherQueryKeys } from './teachers-query-keys'
 // https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 export function useTeacher () {
   const token = getLocalStorage('token')
-  // console.log(token)
   teacherClient.defaults.headers.common.Authorization = `Bearer ${token.value}`
   const { id } = useParams()
   const getTeacher = async () => {

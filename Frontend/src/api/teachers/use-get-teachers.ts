@@ -40,7 +40,7 @@ import { teacherQueryKeys } from './teachers-query-keys'
 //   total: 20
 // }
 
-const getTeachers = async (page = 1, limit = 100) => {
+const getTeachers = async (page = 1, limit = 1000) => {
   const response = await teacherClient.get(API_URLS.teacherClient.getTeachers, {
     params: {
       page,
@@ -50,7 +50,7 @@ const getTeachers = async (page = 1, limit = 100) => {
   const { data }: TeachersDataResponse = response
   return data
 }
-export function useTeachers (resultLimit = 100) {
+export function useTeachers (resultLimit = 1000) {
   const [searchParams, setSearchParams] = useSearchParams()
   const [page, setPage] = useState(searchParams.get('page') ?? 1)
   const [limit, setLimit] = useState(resultLimit)

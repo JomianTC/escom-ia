@@ -42,7 +42,7 @@ export function EditarRequerimientos ({ children }: { children?: ReactNode }) {
             type="text"
             id="label"
             name="label"
-            placeholder='Selecciona algún tag'
+            placeholder='Selecciona algún requisito'
             onChange={formik.handleChange}
             value={formik.values.label}
             disabled

@@ -10,7 +10,7 @@ const defaultValue = [{
 }]
 
 const getTags = async (page = 1, limit = 1000) => {
-  const response = await tagsClient.get(API_URLS.tagClient.getTags, {
+  const response = await tagsClient.get(API_URLS.tagClient.getTags + '?page=1&limit=10000', {
     params: {
       page,
       limit

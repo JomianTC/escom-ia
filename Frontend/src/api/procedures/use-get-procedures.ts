@@ -47,7 +47,7 @@ const placeHolderProcedures: AllProceduresAdminResponse = {
   total: 2
 }
 
-export function useProcedures (resultLimit = 10) {
+export function useProcedures (resultLimit = 10000) {
   const [searchParams, setSearchParams] = useSearchParams()
   const [page, setPage] = useState(searchParams.get('page') ?? 1)
   const [limit, setLimit] = useState(resultLimit)

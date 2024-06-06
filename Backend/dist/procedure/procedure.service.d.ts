@@ -20,6 +20,10 @@ export declare class ProcedureService {
     update(id: string, updateProcedureDto: UpdateProcedureDto): Promise<boolean>;
     updateDate(id: string, updateProcedureDto: UpdateProcedureDto): Promise<{
         mensaje: string;
+        nombre: string;
+    } | {
+        mensaje: string;
+        nombre?: undefined;
     }>;
     remove(id: string, estado: boolean): Promise<{
         mensaje: string;

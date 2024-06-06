@@ -158,7 +158,7 @@ let ProcedureService = class ProcedureService {
             const newFechaInicio = new Date(fechaInicio).toISOString().slice(0, 19).replace('T', ' ');
             const newFechaTermino = new Date(fechaTermino).toISOString().slice(0, 19).replace('T', ' ');
             if (fechaInicio === null && fechaTermino === null)
-                return { mensaje: "X" };
+                return { mensaje: "X", nombre: procedure.nombre };
             if (fechaInicio && fechaTermino) {
                 await this.procedureRepository.update(id, {
                     fechaInicio: new Date(newFechaInicio),

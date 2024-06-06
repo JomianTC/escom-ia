@@ -202,7 +202,7 @@ export class ProcedureService {
 			const newFechaTermino = new Date( fechaTermino ).toISOString().slice(0, 19).replace('T', ' ');
 
 			if ( fechaInicio === null && fechaTermino === null )
-				return { mensaje: "X" };
+				return { mensaje: "X", nombre: procedure.nombre };
 
 			if ( fechaInicio && fechaTermino ){
 

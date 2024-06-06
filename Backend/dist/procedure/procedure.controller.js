@@ -114,7 +114,9 @@ let ProcedureController = class ProcedureController {
     }
     async update(id, updateProcedureDto) {
         const estado = await this.procedureService.update(id, updateProcedureDto);
-        const { mensaje } = await this.procedureService.updateDate(id, updateProcedureDto);
+        const { mensaje, nombre } = await this.procedureService.updateDate(id, updateProcedureDto);
+        if (estado && mensaje === "X")
+            await this.notificationService.sendNotification(id, "Actualizacion", `El tramite ${nombre} ha sido modificado`);
         if (estado && mensaje !== "X")
             await this.notificationService.sendNotification(id, "Modificacion de Fechas", mensaje);
         const procedure = await this.procedureService.findOne(id);
@@ -127,6 +129,8 @@ let ProcedureController = class ProcedureController {
         if (!this.nonNewProcedures.includes(id)) {
             await this.notificationService.sendAllNotification(`El tramite ${procedure.nombre} ahora esta disponible`);
             this.nonNewProcedures.push(id);
+            console.log("Tramites actualizados");
+            console.log(this.nonNewProcedures);
         }
         if (!procedure.estado)
             await this.notificationService.sendNotification(id, "Activacion de Tramite", `El tramite: ${procedure.nombre} esta activo`);
@@ -173,6 +177,7 @@ let ProcedureController = class ProcedureController {
         try {
             const { procedures } = await this.procedureService.findAll({ limit: 1000, page: 1 });
             procedures.forEach(procedure => { this.nonNewProcedures.push(procedure.id); });
+            console.log(this.nonNewProcedures);
         }
         catch (error) { }
     }

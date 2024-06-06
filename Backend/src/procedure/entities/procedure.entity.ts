@@ -12,7 +12,7 @@ export class Procedure {
 	nombre: string;
 
 	@Column(
-		{ length: 10000 }
+		// { length: 10000 }
 	)
 	descripcion: string;
 

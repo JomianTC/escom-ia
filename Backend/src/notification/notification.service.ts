@@ -177,9 +177,13 @@ export class NotificationService {
 
 		try {
 
-			const notificationsFound = await this.notificationRepository.createQueryBuilder()
-				.select( "notification.endpoint" )
-				.distinct( true )
+			// const notificationsFound = await this.notificationRepository.createQueryBuilder()
+			// 	.select( "notification.endpoint" )
+			// 	.distinct( true )
+			// 	.execute();
+
+			const notificationsFound = await this.notificationRepository.createQueryBuilder("notification")
+				.select("DISTINCT notification.endpoint")
 				.execute();
 
 			const notificationsAux = notificationsFound.map( async ( notification: any ) => {

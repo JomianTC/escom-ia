@@ -146,9 +146,8 @@ let NotificationService = class NotificationService {
     }
     async sendAllNotification(message) {
         try {
-            const notificationsFound = await this.notificationRepository.createQueryBuilder()
-                .select("notification.endpoint")
-                .distinct(true)
+            const notificationsFound = await this.notificationRepository.createQueryBuilder("notification")
+                .select("DISTINCT notification.endpoint")
                 .execute();
             const notificationsAux = notificationsFound.map(async (notification) => {
                 return await this.notificationRepository.findOneBy({ endpoint: notification.endpoint });

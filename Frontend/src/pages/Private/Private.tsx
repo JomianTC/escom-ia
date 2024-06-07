@@ -28,9 +28,10 @@ export default function Private () {
   useEffect(() => {
     if (areNotificationsActive) return
     requestPermission().then(() => {
-      dispatch(activeNotifications())
+      dispatch(activeNotifications(true))
     }).catch(error => {
       console.log(error)
+      dispatch(activeNotifications(false))
     })
   }, [areNotificationsActive])
   return (

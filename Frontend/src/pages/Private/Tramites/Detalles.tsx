@@ -4,13 +4,13 @@ import {
   Clock
 } from '@/components/icons/Icons'
 import { ReturnButton } from '@/components/ReturnButton'
+import { useAppSelector } from '@/store/hooks/useAppSelector'
 import { getDate } from '@/utilities/dateFormatter'
 import { createMarkup, getAnchorTags } from '@/utilities/sanitize'
 import { diffDays } from '@formkit/tempo'
 import uuid from 'react-uuid'
 import { Link } from './components/Link'
 import { NotificationButton } from './components/NotificationButton'
-import { useAppSelector } from '@/store/hooks/useAppSelector'
 
 export function Detalles () {
   const { data, isLoading } = useGetOneProcedure()
@@ -45,7 +45,7 @@ export function Detalles () {
 
   return (
         <div className="container form-glass bg-bg_200 relative mx-auto h-full z-[100] p-4">
-            <div className="backdrop-blur-3xl h-full rounded-lg overflow-hidden overflow-y-scroll hide-scrollbar">
+            <div className="backdrop-blur-3xl h-full rounded-lg overflow-hidden hide-scrollbar">
                 <div className="flex w-full justify-between ">
                     <h1 className="mx-auto font-bold text-center text-4xl sm:text-5xl md:text-6xl  text-accent_100 drop-shadow-lg">
                         {data?.nombre !== undefined && data.nombre.charAt(0).toUpperCase() + data.nombre.slice(1)}
@@ -57,7 +57,7 @@ export function Detalles () {
                     <div
                         className={`flex flex-row justify-between xs:justify-center sm:justify-around gap-1 sm:gap-2  md:border-r-4 border-r-accent_100  sm:grow-0 grow h-fit sm:h-full  flex-wrap  items-start content-start sm:max-w-[320px] w-full  ${
                             data !== undefined &&
-                            data?.requerimientos?.length <= 0 &&
+                            data?.requerimientos?.length <= 1 &&
                             'grow-0'
                         }`}
                     >
@@ -118,7 +118,6 @@ export function Detalles () {
                     {/* Columna descripción */}
                   <div className=" grow overflow-y-scroll hide-scrollbar mt-8 px-4 py-2 w-full relative">
                       {isStudent && <NotificationButton /> }
-
                         <h3 className="text-2xl md:text-4xl">
                             Detalles del trámite
                         </h3>
@@ -129,7 +128,7 @@ export function Detalles () {
                             )}
                         ></div>
                         <h3 className="text-2xl md:text-4xl">Links:</h3>
-                        <div className="flex flex-col">
+                        <div className="h-full">
                             {/* Si viene con links subidos por aparte */}
                             {data?.links?.map((link: string) => (
                                 <Link key={uuid()} link={link} />

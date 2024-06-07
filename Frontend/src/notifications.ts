@@ -16,7 +16,7 @@ export async function requestPermission () {
           })
         })
         try {
-          await showNotificationToUser('3fdea2bb-c5ae-42db-b5a2-10caf2c4f782')
+          await showNotificationToUser('3fdea2bb-c5ae-42db-b5a2-10caf2c4f782', true)
         } catch (e) {
           toast.error('Error al hacer la suscripción')
         }
@@ -30,7 +30,7 @@ export async function requestPermission () {
   }
 }
 
-export async function showNotificationToUser (id: string) {
+export async function showNotificationToUser (id: string, firstTime = false) {
   // Revisando si tenemos permisos
   const hasPermission = Notification.permission === 'granted'
 
@@ -60,13 +60,15 @@ export async function showNotificationToUser (id: string) {
       }).then(async (sub) => {
         toast.success('Te has suscrito correctamente')
         try {
+          if (firstTime) {
+            await notificationClient.post(API_URLS.notificationRoutes.checkDeviceNotification, sub, {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
+              }
+            })
+          }
           const response = await notificationClient.post(API_URLS.notificationRoutes.createProcedureSubscription + id, sub, {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
-            }
-          })
-          const multipleDevices = await notificationClient.post(API_URLS.notificationRoutes.checkDeviceNotification, sub, {
             headers: {
               'Content-Type': 'application/json',
               Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''

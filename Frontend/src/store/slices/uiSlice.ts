@@ -85,8 +85,8 @@ export const uiSlice = createSlice({
     closeCreateTeacherModal: (state) => {
       return { ...state, isCreateTeacherModalOpen: false }
     },
-    activeNotifications: (state) => {
-      return { ...state, areNotificationsActive: !state.areNotificationsActive }
+    activeNotifications: (state, action) => {
+      return { ...state, areNotificationsActive: action.payload }
     }
   }
 })

@@ -29,12 +29,12 @@ export class NotificationService {
 
 			const endpoints = await this.notificationRepository
 				.createQueryBuilder( "usuarioEndpoint" )
-				.select( "DISTINCT usuarioEndpoint.endpoint", "endpoint" )
+				.select( "DISTINCT usuarioEndpoint.endpoint" )
 				.where( "usuarioEndpoint.userID = :userID ", { userID })
 				.getRawMany();
 
 			console.log( endpoints );
-			console.log( endpoints.length < 2 );
+			console.log( endpoints.length );
 
 			if ( endpoints.length < 2 ) {
 
@@ -52,7 +52,6 @@ export class NotificationService {
 			}
 
 			endpoints.forEach( async ( endpoint ) => {
-
 
 				const registerNotification = this.notificationRepository.create({
 					userID,

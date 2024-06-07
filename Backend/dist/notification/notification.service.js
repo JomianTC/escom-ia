@@ -33,11 +33,11 @@ let NotificationService = class NotificationService {
                 throw new common_1.BadRequestException({ mensaje: "El dispositivo ya esta registrado" });
             const endpoints = await this.notificationRepository
                 .createQueryBuilder("usuarioEndpoint")
-                .select("DISTINCT usuarioEndpoint.endpoint", "endpoint")
+                .select("DISTINCT usuarioEndpoint.endpoint")
                 .where("usuarioEndpoint.userID = :userID ", { userID })
                 .getRawMany();
             console.log(endpoints);
-            console.log(endpoints.length < 2);
+            console.log(endpoints.length);
             if (endpoints.length < 2) {
                 const registerNotification = this.notificationRepository.create({
                     userID,

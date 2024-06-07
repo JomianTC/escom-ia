@@ -91,8 +91,10 @@ let NotificationService = class NotificationService {
                 const notifyKey = `${notification.userID}-${notification.procedureID}`;
                 if (!notificationsAux.has(notifyKey))
                     notificationsAux.set(notifyKey, notification);
+                console.log(notificationsAux);
             });
             const notificationsData = Array.from(notificationsAux.values());
+            console.log(notificationsData);
             notificationsData.forEach(async (notification) => {
                 await this.create(notification.userID, notification.procedureID, createNotificationDto);
             });

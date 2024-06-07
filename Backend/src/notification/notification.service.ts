@@ -27,13 +27,13 @@ export class NotificationService {
 			if ( notificationExists ) 
 				throw new BadRequestException( { mensaje: "El dispositivo ya esta registrado" } );
 
-			const endpoints = await this.notificationRepository
-				.createQueryBuilder( "usuarioEndpoint" )
-				.select( "DISTINCT usuarioEndpoint.endpoint", "endpoint" )
-				.where( "usuarioEndpoint.userID = :userID ", { userID })
-				.getRawMany();
+			// const endpoints = await this.notificationRepository
+			// 	.createQueryBuilder( "usuarioEndpoint" )
+			// 	.select( "DISTINCT usuarioEndpoint.endpoint", "endpoint" )
+			// 	.where( "usuarioEndpoint.userID = :userID ", { userID })
+			// 	.getRawMany();
 
-			if ( endpoints.length < 2 ) {
+			// if ( endpoints.length < 2 ) {
 
 				const registerNotification = this.notificationRepository.create({
 					userID,
@@ -46,21 +46,21 @@ export class NotificationService {
 				await this.notificationRepository.save( registerNotification );
 				
 				return { mensaje: "Notificaciones activadas correctamente" };
-			}
+			// }
 
-			endpoints.forEach( async ( endpoint ) => {
+			// endpoints.forEach( async ( endpoint ) => {
 
 
-				const registerNotification = this.notificationRepository.create({
-					userID,
-					procedureID,
-					endpoint: endpoint.endpoint,
-					expirationTime,
-					...keys,
-				});
+			// 	const registerNotification = this.notificationRepository.create({
+			// 		userID,
+			// 		procedureID,
+			// 		endpoint: endpoint.endpoint,
+			// 		expirationTime,
+			// 		...keys,
+			// 	});
 
-				await this.notificationRepository.save( registerNotification );
-			});
+			// 	await this.notificationRepository.save( registerNotification );
+			// });
 
 		} catch ( error ) { HandleErrors( error ); }
 	}
@@ -104,12 +104,9 @@ export class NotificationService {
 			
 				if ( !notificationsAux.has( notifyKey ) )
 					notificationsAux.set( notifyKey, notification );
-
-				console.log( notificationsAux );
-				});
+			});
 				
 			const notificationsData = Array.from( notificationsAux.values() );
-			console.log( notificationsData );
 
 			notificationsData.forEach( async ( notification ) => {
 				await this.create( notification.userID, notification.procedureID, createNotificationDto );

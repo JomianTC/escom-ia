@@ -31,32 +31,15 @@ let NotificationService = class NotificationService {
             });
             if (notificationExists)
                 throw new common_1.BadRequestException({ mensaje: "El dispositivo ya esta registrado" });
-            const endpoints = await this.notificationRepository
-                .createQueryBuilder("usuarioEndpoint")
-                .select("DISTINCT usuarioEndpoint.endpoint", "endpoint")
-                .where("usuarioEndpoint.userID = :userID ", { userID })
-                .getRawMany();
-            if (endpoints.length < 2) {
-                const registerNotification = this.notificationRepository.create({
-                    userID,
-                    procedureID,
-                    endpoint,
-                    expirationTime,
-                    ...keys,
-                });
-                await this.notificationRepository.save(registerNotification);
-                return { mensaje: "Notificaciones activadas correctamente" };
-            }
-            endpoints.forEach(async (endpoint) => {
-                const registerNotification = this.notificationRepository.create({
-                    userID,
-                    procedureID,
-                    endpoint: endpoint.endpoint,
-                    expirationTime,
-                    ...keys,
-                });
-                await this.notificationRepository.save(registerNotification);
+            const registerNotification = this.notificationRepository.create({
+                userID,
+                procedureID,
+                endpoint,
+                expirationTime,
+                ...keys,
             });
+            await this.notificationRepository.save(registerNotification);
+            return { mensaje: "Notificaciones activadas correctamente" };
         }
         catch (error) {
             (0, handle_errors_1.HandleErrors)(error);
@@ -91,10 +74,8 @@ let NotificationService = class NotificationService {
                 const notifyKey = `${notification.userID}-${notification.procedureID}`;
                 if (!notificationsAux.has(notifyKey))
                     notificationsAux.set(notifyKey, notification);
-                console.log(notificationsAux);
             });
             const notificationsData = Array.from(notificationsAux.values());
-            console.log(notificationsData);
             notificationsData.forEach(async (notification) => {
                 await this.create(notification.userID, notification.procedureID, createNotificationDto);
             });

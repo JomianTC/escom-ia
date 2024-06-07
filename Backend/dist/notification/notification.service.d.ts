@@ -7,6 +7,9 @@ export declare class NotificationService {
     create(userID: string, procedureID: string, createNotificationDto: CreateNotificationDto): Promise<{
         mensaje: string;
     }>;
+    createCheck(userID: string, procedureID: string, createNotificationDto: CreateNotificationDto): Promise<{
+        mensaje: string;
+    }>;
     findNotification(procedureID: string): Promise<Notification[]>;
     checkNotifications(userID: string, createNotificationDto: CreateNotificationDto): Promise<{
         mensaje: string;

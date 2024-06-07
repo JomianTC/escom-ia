@@ -235,8 +235,6 @@ export class ProcedureController {
 		if ( !this.nonNewProcedures.includes( id ) ){
 			await this.notificationService.sendAllNotification( `El tramite ${ procedure.nombre } ahora esta disponible` );
 			this.nonNewProcedures.push( id );
-			console.log( "Tramites actualizados" );
-			console.log( this.nonNewProcedures );
 		}
 		
 		if ( !procedure.estado )
@@ -301,7 +299,6 @@ export class ProcedureController {
 		try {
 			const { procedures } = await this.procedureService.findAll({ limit: 1000, page: 1 });
 			procedures.forEach( procedure => { this.nonNewProcedures.push( procedure.id ) });
-			console.log( this.nonNewProcedures );
 		} catch ( error ) { /*console.log( "'ERROR' en las notificaciones por que no hay tramites" );*/ }
 	}
 }

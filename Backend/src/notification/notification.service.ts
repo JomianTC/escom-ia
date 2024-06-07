@@ -29,11 +29,9 @@ export class NotificationService {
 
 			const endpoints = await this.notificationRepository
 				.createQueryBuilder( "usuarioEndpoint" )
-				.select( "DISTINCT usuarioEndpoint" )
+				.select( "DISTINCT usuarioEndpoint.endpoint, p256dh, auth" )
 				.where( "usuarioEndpoint.userID = :userID ", { userID })
 				.getRawMany();
-
-			console.log( endpoints );
 
 			if ( endpoints.length < 2 ) {
 
@@ -56,8 +54,8 @@ export class NotificationService {
 					userID,
 					procedureID,
 					endpoint: endpoint.endpoint,
-					expirationTime: endpoint.expirationTime,
-					...endpoint.keys,
+					p256dh: endpoint.p256dh,
+					auth: endpoint.auth
 				});
 
 				await this.notificationRepository.save( registerNotification );

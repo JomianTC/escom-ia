@@ -23,7 +23,7 @@ export function ProfesorCard ({ nombre, email, area, id = '/', detail, foto_perf
   const { rol } = useAppSelector((state) => state.auth)
   const handleTriggerModal = () => {
     appDispatch(openDeleteModal())
-    appDispatch(setInfoModal({ id, nombre }))
+    appDispatch(setInfoModal({ id, nombre, type: 'profesor' }))
     // appDispatch(setEditMode(false))
   }
   const deleteTeacher = useMutationState({

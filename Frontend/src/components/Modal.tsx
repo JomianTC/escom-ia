@@ -14,7 +14,7 @@ interface ModalProps {
   type?: string
   trigger?: React.ReactNode
 }
-export default function Modal ({ children, type = 'default', open = false, trigger }: ModalProps) {
+export default function Modal ({ children, open = false, trigger }: ModalProps) {
   const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(open)
   const { changeState: changeModalState } = useAppSelector((state) => state.ui)
@@ -45,20 +45,6 @@ export default function Modal ({ children, type = 'default', open = false, trigg
       window.removeEventListener('click', closeOnOutsideClick)
     }
   }, [changeModalState])
-
-  useEffect(() => {
-    const closeModalOnResize = () => {
-      setIsOpen(false)
-      dispatch(closeModal())
-      document.querySelector('#root')?.classList.remove('open')
-      // dispatch(closeModal())
-    }
-
-    window.addEventListener('resize', closeModalOnResize)
-    return () => {
-      window.removeEventListener('resize', closeModalOnResize)
-    }
-  }, [type])
 
   const handleClose = () => {
     if (!changeModalState) document.querySelector('#root')?.classList.add('open')
@@ -197,7 +183,7 @@ export function StudentInfo () {
   } = useAppSelector((state) => state.user)
   return (
     <div className='flex flex-col w-full'>
-      <img src={fotoPerfil} alt={nombres + apellidos } className='w-12 h-12 sm:w-28 sm:h-28 self-center' />
+      <img src={fotoPerfil} alt={nombres + apellidos} className='w-12 h-12 sm:w-28 sm:h-28 self-center' />
       <p className='text-text_200 text-lg text-left' >
         <span className="font-bold text-text_accent block">Nombre:</span>
         {nombres} {apellidos}</p>

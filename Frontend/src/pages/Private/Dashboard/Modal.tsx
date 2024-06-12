@@ -4,8 +4,11 @@ import { useDeleteTeacher } from '@/api/teachers/use-delete-teacher'
 import { ApiLoader } from '@/components/ApiLoader'
 import { useAppDispatch, useAppSelector } from '@/store/hooks/useAppSelector'
 import { closeDeleteModal } from '@/store/slices/uiSlice'
+import { useEffect, useRef } from 'react'
 
 export function DeleteProfesorModal () {
+  const modalRef = useRef<HTMLDivElement>(null)
+
   const { isDeleteModalOpen, infoModal } = useAppSelector((state) => state.ui)
   const removeTeacher = useDeleteTeacher()
   const removeTag = useDeleteTag()
@@ -14,6 +17,21 @@ export function DeleteProfesorModal () {
     await removeTeacher.mutateAsync({ id: infoModal.id })
     dispatch(closeDeleteModal())
   }
+  useEffect(() => {
+    if (!isDeleteModalOpen) return
+    const handleClose = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        dispatch(closeDeleteModal())
+      }
+    }
+    document.addEventListener('keydown', handleClose)
+    return () => {
+      removeTeacher.reset()
+      removeTag.reset()
+      removeRequirment.reset()
+      document.removeEventListener('keydown', handleClose)
+    }
+  }, [isDeleteModalOpen])
   const handleRemoveTag = async () => {
     await removeTag.mutateAsync(infoModal.id)
     dispatch(closeDeleteModal())
@@ -40,8 +58,14 @@ export function DeleteProfesorModal () {
   return (
     <>
       {isDeleteModalOpen && (
-        <div className='fixed w-full h-screen top-0 left-0 flex justify-center items-center bg-zinc-400/80  z-[9000] p-8'>
-          <div className='bg-bg_300 p-4 rounded-lg text-text_100 flex flex-col gap-8'>
+        <div className='fixed w-full h-screen top-0 left-0 flex justify-center items-center bg-zinc-400/80  z-[9000] p-8' onClick={
+          (e) => {
+            if (e.target === modalRef.current) {
+              dispatch(closeDeleteModal())
+            }
+          }
+        } ref={modalRef}>
+          <div className='bg-bg_300 p-4 rounded-lg text-text_100 flex flex-col gap-8' >
             <>
               <h2 className='font-semibold text text-2xl md:text-3xl  '>¿Seguro que quieres eliminar {mainText }?</h2>
               <div >

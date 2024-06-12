@@ -13,6 +13,7 @@ export function DeleteCommentModal () {
       dispatch(closeDeleteCommentModal())
     })
   }
+
   return (
     <>
       {isDeleteCoomentModalOpen && (

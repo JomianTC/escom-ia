@@ -127,7 +127,7 @@ export function Detalles () {
                               data?.descripcion ?? ''
                             )}
                         ></div>
-                        <h3 className="text-2xl md:text-4xl">Links:</h3>
+                      {data?.links?.length !== 0 && <h3 className="text-2xl md:text-4xl">Links:</h3>}
                         <div className="h-full">
                             {/* Si viene con links subidos por aparte */}
                             {data?.links?.map((link: string) => (

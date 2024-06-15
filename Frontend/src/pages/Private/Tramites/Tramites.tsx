@@ -7,7 +7,6 @@ import { setProcedure } from '@/store/slices/procedureModalSlice'
 import { openActivateModal, setInfoModal } from '@/store/slices/uiSlice'
 import { type Procedure, type ProcedureContent } from '@/types/api-responses'
 import { LEVEL_ACCESS } from '@/types/index'
-import { createMarkup } from '@/utilities/sanitize'
 import { useDispatch } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ActivateModal } from './components/Modal'
@@ -25,7 +24,7 @@ export function Tramites () {
   const navigate = useNavigate()
   const { data, isLoading } = useProcedures()
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const { search, setSearch, filteredData } = useSearch({
+  const { search, setSearch, filteredData, changeFilter, buttonMessage } = useSearch({
     type: 'tramite',
     data: data ?? []
   })
@@ -54,7 +53,10 @@ export function Tramites () {
 
         {/* Creation controls */}
         {canCreateAndEdit && (
-          <NavLink to='crear' className='flex items-center justify-center w-fit h-fit py-2 px-3 text-white bg-primary_300 rounded-lg hover:bg-primary_200 transition-colors'>Crear Trámite</NavLink>
+          <div className='flex justify-between'>
+            <NavLink to='crear' className='flex items-center justify-center w-fit h-fit py-2 px-3 text-white bg-primary_300 rounded-lg hover:bg-primary_200 transition-colors'>Crear Trámite</NavLink>
+            <button onClick={changeFilter} className='flex items-center justify-center w-fit h-fit  sm:ml-3 py-2 px-3 text-text_100 font-bold bg-primary_100 rounded-lg hover:bg-primary_200 hover:text-white transition-colors'>{buttonMessage }</button>
+          </div>
         )}
         {/* </article> */}
       </div>
@@ -62,32 +64,32 @@ export function Tramites () {
         ? filteredData.map(({ tramite, requerimientos }: ProcedureContent) => {
           const isAvailable = tramite.estado
           return (
-              <div key={tramite.id} className={`p-2  self-start  white-border rounded-xl flex-col justify-between my-2 grid tramite__subgrid h-full ${isAvailable ? 'bg-bg_300' : 'bg-accent_100 select-none opacity-80'}`}>
-                {isAvailable
-                  ? <NavLink to={`detalles/${tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(tramite, requerimientos) }}>{formattedTitle(tramite.nombre)}</NavLink>
-                  : <h1 className='text-center text-xl font-bold mb-2' >{formattedTitle(tramite.nombre)}</h1>
+            <div key={tramite.id} className={`p-2  self-start  white-border rounded-xl flex-col justify-between my-2 flex h-full ${isAvailable ? 'bg-bg_300' : 'bg-accent_100 select-none opacity-80'}`}>
+              {isAvailable
+                ? <NavLink to={`detalles/${tramite.id}`} className='text-center text-xl font-bold mb-2' onClick={() => { handleDetails(tramite, requerimientos) }}>{formattedTitle(tramite.nombre)}</NavLink>
+                : <h1 className='text-center text-xl font-bold mb-2' >{formattedTitle(tramite.nombre)}</h1>
+              }
+              {/* <p className='text-nowrap overflow-hidden text-ellipsis' dangerouslySetInnerHTML={createMarkup(tramite.descripcion.substring(0, 140).trim().replace('<p><br></p>', ''))}></p> */}
+              <div className='flex justify-between py-4 items-center'>
+                {
+                  isAvailable
+                    ? <ActionButton callback={() => {
+                      handleDetails(tramite, requerimientos)
+                      handleRedirect(tramite.id)
+                    }} text='Detalles' extraStyles='border-2 px-4 py-1 rounded-lg font-bold h-fit' disabled={!isAvailable} />
+                    : <ActionButton callback={() => { handleDetails(tramite, requerimientos) }} text='Detalles' extraStyles='border-2 px-4 py-1 rounded-lg font-bold h-fit' disabled={!isAvailable} />
                 }
-                <p className='text-nowrap overflow-hidden text-ellipsis' dangerouslySetInnerHTML={createMarkup(tramite.descripcion.substring(0, 140).trim().replace('<p><br></p>', ''))}></p>
-                <div className='flex justify-between py-4 items-center'>
-                  {
-                    isAvailable
-                      ? <ActionButton callback={() => {
-                        handleDetails(tramite, requerimientos)
-                        handleRedirect(tramite.id)
-                      }} text='Detalles' extraStyles='border-2 px-4 py-1 rounded-lg font-bold h-fit' disabled={!isAvailable} />
-                      : <ActionButton callback={() => { handleDetails(tramite, requerimientos) } } text='Detalles' extraStyles='border-2 px-4 py-1 rounded-lg font-bold h-fit' disabled={!isAvailable} />
-                  }
-                  {canCreateAndEdit && (<>
-                    <NavLink to={`editar/${tramite.id}`} onClick={() => { handleDetails(tramite, requerimientos) }} className='flex items-center justify-center w-fit h-fit py-2 px-3  text-white bg-primary_300 rounded-lg  ml-auto mr-2 hover:bg-bg_200 hover:text-text_100 transition-colors hover:font-bold '>Editar</NavLink>
-                    <button onClick={() => {
-                      dispatch(setInfoModal({ id: tramite.id, type: 'tramite', nombre: tramite.nombre, estado: tramite.estado }))
-                      dispatch(openActivateModal())
-                    }} className={`flex items-center justify-center w-fit h-fit py-2 px-3  text-white bg-primary_300 rounded-lg hover:bg-primary_400 transition-colors ${isAvailable ? 'hover:bg-red-500' : 'hover:bg-primary_200 text-bold'}`}>{
-                        isAvailable ? 'Desactivar' : 'Activar'
-                      }</button>
-                  </>)}
-                </div>
+                {canCreateAndEdit && (<>
+                  <NavLink to={`editar/${tramite.id}`} onClick={() => { handleDetails(tramite, requerimientos) }} className='flex items-center justify-center w-fit h-fit py-2 px-3  text-white bg-primary_300 rounded-lg  ml-auto mr-2 hover:bg-bg_200 hover:text-text_100 transition-colors hover:font-bold '>Editar</NavLink>
+                  <button onClick={() => {
+                    dispatch(setInfoModal({ id: tramite.id, type: 'tramite', nombre: tramite.nombre, estado: tramite.estado }))
+                    dispatch(openActivateModal())
+                  }} className={`flex items-center justify-center w-fit h-fit py-2 px-3  text-white bg-primary_300 rounded-lg hover:bg-primary_400 transition-colors ${isAvailable ? 'hover:bg-red-500' : 'hover:bg-primary_200 text-bold'}`}>{
+                      isAvailable ? 'Desactivar' : 'Activar'
+                    }</button>
+                </>)}
               </div>
+            </div>
           )
         })
         : <div className='flex items-center justify-center w-full h-24 text-lg text-gray-500'>No se encontraron trámites</div>

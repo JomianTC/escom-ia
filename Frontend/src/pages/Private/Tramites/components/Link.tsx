@@ -9,13 +9,14 @@ interface LinkProps {
 
 function getTypeOfLink (link: string) {
   // Revisando si el link es una images
-  const allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i
+  const allowedExtensions = /\.(jpg|jpeg|png|gif|bmp|webp|tiff)(\?.*)?$/i
   // Revisando si el link es un formulario de google
   const googleForms = /(forms|file)/gi
   // Revisando si el link es un pdf
   const pdf = /(pdf)/gi
   // Revisando si el link es un documento de word
   const doc = /doc/gi
+  console.log(allowedExtensions.exec(link))
 
   if (allowedExtensions.exec(link) != null) {
     return 'image'
@@ -39,6 +40,8 @@ const ICONS = {
 }
 
 export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
+  console.log(getTypeOfLink(link))
+
   const summaryText = getTypeOfLink(link)
   const [toLink, tiulo] = link.split(',')
 
@@ -68,17 +71,17 @@ export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
         )
       }
       {getTypeOfLink(toLink) === 'image' &&
-        <a href={toLink} target='_blank' rel="noreferrer">
+          <a href={toLink} target='_blank' rel="noreferrer">
           <img src={toLink} alt={contenido} className='w-full h-full' />
         </a>}
       {getTypeOfLink(toLink) === 'pdf' &&
-        <>
+          <>
           <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Visualizar en otra ventana</a>
           <embed src={toLink} type="application/pdf" width="100%" height="500px" />
         </>
       }
     {getTypeOfLink(toLink) === 'doc' &&
-        <>
+          <>
           <a href={toLink} target='_blank' className='text-lg text-accent_100 font-bold hover:text-primary_200' rel="noreferrer">Descargar Archivo</a>
         </>
       }

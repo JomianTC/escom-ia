@@ -58,7 +58,7 @@ export async function showNotificationToUser (id: string, firstTime = false) {
         userVisibleOnly: true,
         applicationServerKey: urlB64ToUint8Array(key)
       }).then(async (sub) => {
-        toast.success('Te has suscrito correctamente')
+        // toast.success('Te has suscrito correctamente')
         try {
           if (firstTime) {
             await notificationClient.post(API_URLS.notificationRoutes.checkDeviceNotification, sub, {
@@ -76,11 +76,13 @@ export async function showNotificationToUser (id: string, firstTime = false) {
           })
           return response.data
         } catch (error) {
-          toast.info('Ya cuentas con una suscripción')
+          // toast.info('Ya cuentas con una suscripción')
+          throw new Error('Ya cuentas con una suscripción')
         }
       }).catch((error) => {
         console.error('Error al suscribirse', error)
-        toast.error('Error al suscribirse')
+        // toast.error('Error al suscribirse')
+        throw new Error('Error al suscribirse')
       })
     })
   } else {

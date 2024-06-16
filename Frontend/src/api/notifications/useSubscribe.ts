@@ -9,8 +9,12 @@ export function useSubscribe () {
   const queryClient = useQueryClient()
   const subscribe = async () => {
     // await requestPermission()
-    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-    await showNotificationToUser(id ?? '')
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+      await showNotificationToUser(id ?? '')
+    } catch (error) {
+      throw new Error('Error al suscribirse')
+    }
   }
   return useMutation({
     mutationFn: subscribe,

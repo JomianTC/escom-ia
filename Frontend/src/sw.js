@@ -31,37 +31,35 @@ self.addEventListener('activate', async (event) => {
   return self.clients.claim()
 })
 
-// Revisando si tenemos los archivos en la cache
 self.addEventListener('fetch', (event) => {
   const request = event.request
-  // Ignorar las peticiones a los datos de Axios
-  if (request.url.includes('api') || request.url.includes('https://avataaars.io/')) {
+
+  // Ignorar las peticiones a los datos de Axios y avataaars.io
+  if (request.url.includes('https://avataaars.io/')) {
     return
   }
+
   // Indicamos que nosotros queremos dar respuesta a esa petición
   event.respondWith(
-    // Si tenemos una respuesta en la cache la devolvemos
+    // Intentar obtener la respuesta de la red
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    caches.match(request).then(async cacheRes => {
-      // Si no hay una respuesta en caché, buscarla en la red
-      if (!cacheRes) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        cacheRes = await fetch(request)
-        if (
-          request.method === 'GET' &&
-          (request.headers.get('accept').includes('text/html') ||
-            request.headers.get('accept').includes('image/') ||
-            request.headers.get('accept').includes('application/javascript') ||
-            request.headers.get('accept').includes('text/css'))
-        ) {
-          await caches.open(staticCacheName).then(cache => {
+    fetch(request)
+      .then(response => {
+        // Si la respuesta es válida, almacenarla en la caché y devolverla
+        if (request.method === 'GET' && response.status === 200) {
+          const clonedResponse = response.clone()
+          void caches.open(staticCacheName).then(cache => {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            void cache.put(request.url, cacheRes.clone())
+            void cache.put(request.url, clonedResponse)
           })
         }
-      }
-      return cacheRes
-    })
+        return response
+      })
+      .catch(async () => {
+        // Si la red falla, intentar obtener la respuesta de la caché
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        return await caches.match(request)
+      })
   )
 })
 self.addEventListener('notificationclick', (event) => {

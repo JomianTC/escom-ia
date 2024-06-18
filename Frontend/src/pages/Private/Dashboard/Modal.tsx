@@ -65,7 +65,7 @@ export function DeleteProfesorModal () {
             }
           }
         } ref={modalRef}>
-          <div className='bg-bg_300 p-4 rounded-lg text-text_100 flex flex-col gap-8' >
+          <div className='bg-bg_300 p-4 rounded-lg text-text_100 flex flex-col gap-8 modal__container' >
             <>
               <h2 className='font-semibold text text-2xl md:text-3xl  '>¿Seguro que quieres eliminar {mainText }?</h2>
               <div >

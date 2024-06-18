@@ -38,7 +38,9 @@ export function AddProfesorModal () {
   }, [isCreateTeacherModalOpen])
   return (
     <>
-      <button className='w-20 h-20 bg-primary_200 border-4 add__button rounded-full fixed bottom-8 right-10 opacity-80  flex items-center justify-center text-white font-bold text-2xl hover:opacity-100 hover:bg-primary_300 hover:text-black cursor-pointer hover:text-6xl' onClick={() => dispatch(openCreateTeacherModal())} ref={buttonRef}>+</button>
+      <button className='w-20 h-20 bg-primary_200 border-4 rounded-full fixed bottom-8 right-10 opacity-80  flex items-center justify-center text-white font-bold text-2xl hover:opacity-100 hover:bg-primary_300 hover:text-black cursor-pointer hover:text-6xl transition-all hover:scale-90' onClick={() => dispatch(openCreateTeacherModal())} ref={buttonRef}>
+        +
+      </button>
       {isCreateTeacherModalOpen && (
         <ModalLayout>
                 <div ref={modalRef}>

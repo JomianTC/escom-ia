@@ -15,8 +15,12 @@ import { DetailProfessor } from './components/DetailProfessor'
 
 export function Profesor () {
   const { data, isError, isLoading, isFetching, isRefetching } = useTeacher()
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  const { data: comments, hasNextPage, fetchNextPage } = useGetComments(!!data)
+  const {
+    data: comments
+    // hasNextPage,
+    // fetchNextPage
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  } = useGetComments(!!data)
   const { data: tags } = useTags()
   const { rol } = useAppSelector((state) => state.auth)
   const canComment = rol === LEVEL_ACCESS.STUDENT
@@ -31,7 +35,7 @@ export function Profesor () {
   const { reset } = useQueryErrorResetBoundary()
   const navigate = useNavigate()
 
-  const hasComments = comments?.pages[0].comentarios.length !== 0
+  // const hasComments = comments?.pages[0].comentarios.length !== 0
 
   useEffect(() => {
     if (isError) {
@@ -86,7 +90,7 @@ export function Profesor () {
                   <CommentBox key={uuid()} comment={comment} owner={false} />
                 ))
               ))}
-                {(hasComments)
+                {/* {(hasComments)
                   ? (<button onClick={async () => await fetchNextPage()} disabled={!hasNextPage}>More</button>)
                   : (
                     <>
@@ -94,7 +98,7 @@ export function Profesor () {
                       <p className='text-center text-4xl'>¡Se el primero en comentar!</p>
                     </>
                     )
-                }
+                } */}
         </div>
         </section>
       </div>

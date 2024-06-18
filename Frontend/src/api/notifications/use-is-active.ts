@@ -10,14 +10,20 @@ export function useIsActive () {
     queryKey: notificationsQueryKeys.detail(id ?? ''),
     queryFn: async () => {
       const token = getLocalStorage('token').value ?? ''
-      const response = await notificationClient.get(API_URLS.notificationRoutes.getProcedureNotification + id, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token ?? ''
+      try {
+        const response = await notificationClient.get(API_URLS.notificationRoutes.getProcedureNotification + id, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token ?? ''
+          }
+        })
+        const data = response.data
+        return data
+      } catch (error) {
+        return {
+          isActive: false
         }
-      })
-      const data = response.data
-      return data
+      }
     }
   })
 

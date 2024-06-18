@@ -58,7 +58,7 @@ export default function Modal ({ children, open = false, trigger }: ModalProps) 
         {trigger}
         <div id="crud-modal" tabIndex={-1} aria-hidden="true" className={`bg-red-300 flex justify-center items-center  ${!isOpen ? 'hidden' : 'h-screen w-screen bg-zinc-800/60 fixed top-0 left-0 open p-4 overflow-y-scroll z-[1000]'}`} ref={outsideContainerRef}>
           <div className="modal-content relative p-4
-                     w-full md:w-[460px]  sm:max-h-full bg-bg_300  rounded-xl text-primary_300 flex flex-col justify-center items-center z-[99999999]">
+                     w-full md:w-[460px]  sm:max-h-full bg-bg_300  rounded-xl text-primary_300 flex flex-col justify-center items-center z-[99999999] modal__container">
             {children}
           </div>
         </div>

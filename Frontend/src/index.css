@@ -1094,20 +1094,12 @@ input[type = 'text'].white {
     font-size: 0;
 }
 
-.add__button{
-    box-shadow: 0px 0px 20px 5px var(--accent_100),
-    0px 0px 10px 3px var(--accent_200),
-    0px 0px 5px 1px var(--accent_100);
-    transition: box-shadow 0.25s, transform 0.25s, opacity 0.25s;
-}
-
-.add__button:hover{
-    box-shadow: none;
-}
 
 .add__button:active,
 .add__button:focus,
-.add__button:focus-within{
+.add__button:focus-within,
+.add__button:hover
+{
     transform: scale(0.9);
     border-radius: 100%;
 }
@@ -1118,3 +1110,19 @@ ol {
     padding: 0;
     margin-right: 2px;
 }
+
+.modal__container{
+    opacity: 0;
+    transform: scale(0);
+    animation: popUpAppear 0.5s 0.5s forwards;
+    animation-delay: 0.030s;
+}
+
+@keyframes popUpAppear {
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+

@@ -16,8 +16,6 @@ function getTypeOfLink (link: string) {
   const pdf = /(pdf)/gi
   // Revisando si el link es un documento de word
   const doc = /doc/gi
-  console.log(allowedExtensions.exec(link))
-
   if (allowedExtensions.exec(link) != null) {
     return 'image'
   } else if (googleForms.exec(link) != null) {
@@ -40,8 +38,6 @@ const ICONS = {
 }
 
 export function Link ({ link, isMarkUpLink = false, contenido }: LinkProps) {
-  console.log(getTypeOfLink(link))
-
   const summaryText = getTypeOfLink(link)
   const [toLink, tiulo] = link.split(',')
 

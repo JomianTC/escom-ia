@@ -35,7 +35,7 @@ self.addEventListener('fetch', (event) => {
   const request = event.request
 
   // Ignorar las peticiones a los datos de Axios y avataaars.io
-  if (request.url.includes('https://avataaars.io/')) {
+  if (request.url.includes('https://avataaars.io/') || request.url.includes('api/notification')) {
     return
   }
 

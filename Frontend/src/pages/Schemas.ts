@@ -19,7 +19,8 @@ const passwordSchema = yup.string()
   .matches(/[!@#$%^&*(),.?":{}|<>]/, 'La contraseña debe contener al menos un caracter especial')
   .required('La contraseña es requerida')
 
-const nombresSchema = yup.string().min(2, 'El nombre debe contener mas de 2 carácteres ').required('El nombre es requerido')
+const nombresSchema = yup.string().matches(/^[A-Za-z\s]+$/, 'El nombre solo puede contener letras')
+  .min(2, 'El nombre debe contener mas de 2 carácteres ').required('El nombre es requerido')
 
 export const estudianteEsquemaRegistroFirstStep = yup.object().shape({
   foto_perfil: yup.mixed().test('fileSize', 'El archivo es muy grande', validateFileSize).optional().nullable(),

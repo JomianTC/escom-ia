@@ -8,19 +8,25 @@ export function useUnsubscribe () {
   const { id } = useParams()
   const queryClient = useQueryClient()
   const removeSubscription = async () => {
-    const response = await notificationClient.delete(API_URLS.notificationRoutes.deleteSubscription + id, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
-      }
-    })
-    return response.data
+    try {
+      const response = await notificationClient.delete(API_URLS.notificationRoutes.deleteSubscription + id, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + getLocalStorage('token').value ?? ''
+        }
+      })
+      return response.data
+    } catch (error) {
+      throw new Error('Error al desuscribirse')
+    }
   }
 
   return useMutation({
     mutationFn: removeSubscription,
-    onMutate: () => {
-      toast.info('Eliminando alertas...')
+    onMutate: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: notificationsQueryKeys.detail(id ?? '')
+      })
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({

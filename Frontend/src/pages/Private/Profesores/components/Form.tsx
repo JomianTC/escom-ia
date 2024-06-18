@@ -56,10 +56,12 @@ export function ProfesorForm ({ action = 'create', styles = '', data = defaultVa
         validationSchema={profesorEsquema}
       >
         {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit} className={`mt-0 w-full px-4 flex flex-col gap-4 ${isUpdating ? 'h-full' : 'max-h-96'}  overflow-y-scroll ${styles}`}>
+          <Form onSubmit={handleSubmit} className={`mt-0 w-full px-4 custom-scrollbar flex flex-col gap-4 ${isUpdating ? 'h-full' : 'max-h-96'}  overflow-y-scroll ${styles}`}>
             {teacherUpdate.isPending && <p>Actualizando...</p>}
                   {teacher.isPending && <p>Actualizando...</p>}
-                  { !isUpdating && <h1>Agrega un profesor</h1> }
+          {!isUpdating && <h1
+            className='font-bold text-2xl sm:text-5xl text-accent_100'>
+            Agrega un profesor</h1>}
             <MyTextInput label="Nombre" name="nombre" type="text" placeholder="Victoria Isabel Blas Pérez" />
             <div className='flex gap-6'>
               <label>

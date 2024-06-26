@@ -20,4 +20,4 @@ Desarrollado por:
 
 ## Estado del Proyecto
 
-Este proyecto está actualmente en desarrollo activo.
+Este Proyecto esta finalizado

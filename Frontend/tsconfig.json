@@ -1,0 +1,76 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable",
+      "WebWorker"
+    ],
+    "module": "ESNext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    /* Absolute Imports */
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@/components/*": [
+        "src/components/*"
+      ],
+      "@/pages/*": [
+        "src/pages/*"
+      ],
+      "@/api/*": [
+        "src/api/*"
+      ],
+      "@utils/*": [
+        "src/utilities/*"
+      ],
+      "@guards/*": [
+        "src/guards/*"
+      ],
+      "@hooks/*": [
+        "src/pages/hooks/*"
+      ],
+      "@layouts/*": [
+        "src/pages/layouts/*"
+      ],
+      "@models/*":[
+        "src/models/*"
+      ],
+      "@types/*":[
+        "src/types/*"
+      ],
+      "@store/*":[
+        "src/store/*"
+      ],
+      "@pages/private/*": [
+        "src/pages/Private/*"
+      ],
+    }
+  },
+  "include": [
+    "src",
+    "./.eslintrc.cjs"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+[
+    {
+      "id": "a1b2c3d4e5f6g7h8",
+      "nombre": "John Doe",
+      "area": "Physics",
+      "grado_academico": "PhD",
+      "email": "johndoe@example.com",
+      "contacto": "1234567890",
+      "foto_perfil": "http://example.com/johndoe.jpg"
+    },
+    {
+      "id": "i9j8h7g6f5e4d3c2b1",
+      "nombre": "Jane Smith",
+      "area": "Astrobiology",
+      "grado_academico": "MSc",
+      "email": "janesmith@example.com",
+      "contacto": "0987654321",
+      "foto_perfil": "http://example.com/janesmith.jpg"
+    },
+    {
+      "id": "k1l2m3n4o5p6q7r8",
+      "nombre": "Robert Johnson",
+      "area": "Computer Science",
+      "grado_academico": "BEng",
+      "email": "robertjohnson@example.com",
+      "contacto": "5432167890",
+      "foto_perfil": "http://example.com/robertjohnson.jpg"
+    },
+    {
+      "id": "s9r8q7p6o5n4m3l2k1",
+      "nombre": "Emily Brown",
+      "area": "Genetics",
+      "grado_academico": "PhD",
+      "email": "emilybrown@example.com",
+      "contacto": "0987612345",
+      "foto_perfil": "http://example.com/emilybrown.jpg"
+    },
+    {
+      "id": "t1u2v3w4x5y6z7a8",
+      "nombre": "Michael Davis",
+      "area": "Artificial Intelligence",
+      "grado_academico": "MEng",
+      "email": "michaeldavis@example.com",
+      "contacto": "9876543210",
+      "foto_perfil": "http://example.com/michaeldavis.jpg"
+    },
+    {
+      "id": "b1a2z3y4x5w6v7u8",
+      "nombre": "Sophia Wilson",
+      "area": "Quantum Mechanics",
+      "grado_academico": "PhD",
+      "email": "sophiawilson@example.com",
+      "contacto": "0123456789",
+      "foto_perfil": "http://example.com/sophiawilson.jpg"
+    },
+    {
+      "id": "c1d2e3f4g5h6i7j8",
+      "nombre": "David Thompson",
+      "area": "Astrophysics",
+      "grado_academico": "MSc",
+      "email": "davidthompson@example.com",
+      "contacto": "9876123450",
+      "foto_perfil": "http://example.com/davidthompson.jpg"
+    },
+    {
+      "id": "k9j8h7g6f5e4d3c2b1",
+      "nombre": "Olivia Johnson",
+      "area": "Neuroscience",
+      "grado_academico": "PhD",
+      "email": "oliviajohnson@example.com",
+      "contacto": "5432109876",
+      "foto_perfil": "http://example.com/oliviajohnson.jpg"
+    },
+    {
+      "id": "n1m2l3k4j5i6h7g8f9",
+      "nombre": "William Davis",
+      "area": "Robotics",
+      "grado_academico": "BEng",
+      "email": "williamdavis@example.com",
+      "contacto": "0123456789",
+      "foto_perfil": "http://example.com/williamdavis.jpg"
+    },
+    {
+      "id": "o9p8q7r6s5t4u3v2w1",
+      "nombre": "Isabella Thompson",
+      "area": "Genomics",
+      "grado_academico": "PhD",
+      "email": "isabellathompson@example.com",
+      "contacto": "9876543210",
+      "foto_perfil": "http://example.com/isabellathompson.jpg"
+    },
+    {
+      "id": "x1w2v3u4t5s6r7q8p9",
+      "nombre": "James Wilson",
+      "area": "Quantum Computing",
+      "grado_academico": "MSc",
+      "email": "jameswilson@example.com",
+      "contacto": "0987612345",
+      "foto_perfil": "http://example.com/jameswilson.jpg"
+    },
+    {
+      "id": "y9x8w7v6u5t4s3r2q1",
+      "nombre": "Mia Brown",
+      "area": "Biotechnology",
+      "grado_academico": "PhD",
+      "email": "miabrown@example.com",
+      "contacto": "5432167890",
+      "foto_perfil": "http://example.com/miabrown.jpg"
+    },
+    {
+      "id": "z1a2b3c4d5e6f7g8h9",
+      "nombre": "Benjamin Smith",
+      "area": "Nanotechnology",
+      "grado_academico": "MEng",
+      "email": "benjaminsmith@example.com",
+      "contacto": "0987654321",
+      "foto_perfil": "http://example.com/benjaminsmith.jpg"
+    },
+    {
+      "id": "i9h8g7f6e5d4c3b2a1",
+      "nombre": "Charlotte Johnson",
+      "area": "Cognitive Science",
+      "grado_academico": "PhD",
+      "email": "charlottejohnson@example.com",
+      "contacto": "1234567890",
+      "foto_perfil": "http://example.com/charlottejohnson.jpg"
+    },
+    {
+      "id": "j1k2l3m4n5o6p7q8r9",
+      "nombre": "Daniel Davis",
+      "area": "Bioinformatics",
+      "grado_academico": "MSc",
+      "email": "danieldavis@example.com",
+      "contacto": "0987612345",
+      "foto_perfil": "http://example.com/danieldavis.jpg"
+    },
+    {
+      "id": "s9r8q7p6o5n4m3l2k1",
+      "nombre": "Amelia Thompson",
+      "area": "Astronomy",
+      "grado_academico": "PhD",
+      "email": "ameliathompson@example.com",
+      "contacto": "5432167890",
+      "foto_perfil": "http://example.com/ameliathompson.jpg"
+    },
+    {
+      "id": "t1u2v3w4x5y6z7a8",
+      "nombre": "Ethan Wilson",
+      "area": "Machine Learning",
+      "grado_academico": "MEng",
+      "email": "ethanwilson@example.com",
+      "contacto": "0123456789",
+      "foto_perfil": "http://example.com/ethanwilson.jpg"
+    },
+    {
+      "id": "b1a2z3y4x5w6v7u8",
+      "nombre": "Oliver Brown",
+      "area": "Genetic Engineering",
+      "grado_academico": "PhD",
+      "email": "oliverbrown@example.com",
+      "contacto": "9876123450",
+      "foto_perfil": "http://example.com/oliverbrown.jpg"
+    },
+    {
+      "id": "c1d2e3f4g5h6i7j8",
+      "nombre": "Sophie Johnson",
+      "area": "Artificial Life",
+      "grado_academico": "BEng",
+      "email": "sophiejohnson@example.com",
+      "contacto": "5432109876",
+      "foto_perfil": "http://example.com/sophiejohnson.jpg"
+    },
+    {
+      "id": "k9j8h7g6f5e4d3c2b1",
+      "nombre": "Lucas Davis",
+      "area": "Biophysics",
+      "grado_academico": "PhD",
+      "email": "lucasdavis@example.com",
+      "contacto": "0123456789",
+      "foto_perfil": "http://example.com/lucasdavis.jpg"
+    },
+    {
+      "id": "n1m2l3k4j5i6h7g8f9",
+      "nombre": "Lily Thompson",
+      "area": "Genetic Algorithms",
+      "grado_academico": "MSc",
+      "email": "lilythompson@example.com",
+      "contacto": "9876543210",
+      "foto_perfil": "http://example.com/lilythompson.jpg"
+    },
+    {
+      "id": "o9p8q7r6s5t4u3v2w1",
+      "nombre": "Henry Wilson",
+      "area": "Quantum Biology",
+      "grado_academico": "PhD",
+      "email": "henrywilson@example.com",
+      "contacto": "0987612345",
+      "foto_perfil": "http://example.com/henrywilson.jpg"
+    },
+    {
+      "id": "x1w2v3u4t5s6r7q8p9",
+      "nombre": "Chloe Brown",
+      "area": "Bioengineering",
+      "grado_academico": "MEng",
+      "email": "chloebrown@example.com",
+      "contacto": "5432167890",
+      "foto_perfil": "http://example.com/chloebrown.jpg"
+    },
+    {
+      "id": "y9x8w7v6u5t4s3r2q1",
+      "nombre": "Sebastian Smith",
+      "area": "Nanomedicine",
+      "grado_academico": "PhD",
+      "email": "sebastiansmith@example.com",
+      "contacto": "0987654321",
+      "foto_perfil": "http://example.com/sebastiansmith.jpg"
+    },
+    {
+      "id": "z1a2b3c4d5e6f7g8h9",
+      "nombre": "Evelyn Johnson",
+      "area": "Artificial Neural Networks",
+      "grado_academico": "MSc",
+      "email": "evelynjohnson@example.com",
+      "contacto": "1234567890",
+      "foto_perfil": "http://example.com/evelynjohnson.jpg"
+    },
+    {
+      "id": "i9h8g7f6e5d4c3b2a1",
+      "nombre": "Alexander Davis",
+      "area": "Biocomputing",
+      "grado_academico": "PhD",
+      "email": "alexanderdavis@example.com",
+      "contacto": "0987612345",
+      "foto_perfil": "http://example.com/alexanderdavis.jpg"
+    },
+    {
+      "id": "j1k2l3m4n5o6p7q8r9",
+      "nombre": "Mila Thompson",
+      "area": "Astrochemistry",
+      "grado_academico": "BEng",
+      "email": "milathompson@example.com",
+      "contacto": "5432109876",
+      "foto_perfil": "http://example.com/milathompson.jpg"
+    }
+  ]

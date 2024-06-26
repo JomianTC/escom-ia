@@ -1,4 +1,4 @@
-<p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihatFXLOhC78cbbjcUq68r3fJBDgbgSNE5OM1C8ZCHn2B0UFAMiR3ykJ9OLFNh0V8emKotjAnLlv5Xw9Z6PFgScN6eN9lQ=w950-h996" width="600" alt="ESCOM ++ Logo" /><br><br>
+<p align="center"><img src="https://res.cloudinary.com/djmfuxcqb/image/upload/v1719367391/dkvxwokfbfqpz0zp8znw.png" width="600" alt="ESCOM ++ Logo" /><br><br>
 Creación de Aplicación Web Progresiva para la Comunidad Estudiantil en la ESCOM con Inteligencia Artificial en Trámites Escolares</p>
 
 ## Descripción
@@ -15,8 +15,8 @@ Este proyecto está licenciado bajo la [Licencia MIT](https://opensource.org/lic
 
 Desarrollado por: 
 
-- José Antonio Mora Ayala
-- Josehf Miguel Angel Torres Carrillo
+- José Antonio Mora Ayala - Frontend
+- Josehf Miguel Angel Torres Carrillo - Backend
 
 ## Estado del Proyecto
 

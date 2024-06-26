@@ -1,4 +1,4 @@
-<p align="center"><img src="https://lh3.googleusercontent.com/drive-viewer/AKGpihatFXLOhC78cbbjcUq68r3fJBDgbgSNE5OM1C8ZCHn2B0UFAMiR3ykJ9OLFNh0V8emKotjAnLlv5Xw9Z6PFgScN6eN9lQ=w950-h996" width="600" alt="ESCOM ++ Logo" /></p>
+<p align="center"><img src="https://res.cloudinary.com/djmfuxcqb/image/upload/v1719367391/dkvxwokfbfqpz0zp8znw.png" width="600" alt="ESCOM ++ Logo" width="600" alt="ESCOM ++ Logo" /></p>
 
 ## Descripción
 
@@ -25,6 +25,8 @@ docker compose up -d
 ```
 npm run start:dev
 ```
+## Contenedor IA
+La IA utilizada en este proyecto es gracias al proyecto [Gpt4Free](https://github.com/xtekky/gpt4free?tab=readme-ov-file#installation-guide-for-windows-exe) (**NO necesaria para el funcionamiento de la aplicación**) junto con la biblioteca [G4F](https://github.com/VictorMRojas/g4f-ts)
 
 ## Levantar el servicio de IA ( Docker )
 Ejecutar el siguiente comando en la terminal
@@ -41,11 +43,3 @@ aun que al ejecutar el comando la terminal diga localhost:8080, el puerto es el 
 docker run -p PUERTO:8080 -p 1337:1337 -p 7900:7900 --shm-size="2g" -v ${PWD}/hardir:/app/hardir hlohaus789/g4f:latest
 ```
 
----
----
-
-## TODO
-
-- Crear ruta para enviar email con enlace para reemplazar contraseña
-- Crear ruta para modificar la contraseña
-- Crear ruta para verificar la contraseña (Se puede usar el login???)

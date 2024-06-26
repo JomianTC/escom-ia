@@ -5,6 +5,9 @@
 # OS
 .DS_Store
 
+#Distribucion
+dist
+
 # environment variable files
 .env
 
